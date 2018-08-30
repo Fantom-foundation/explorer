@@ -1,0 +1,32 @@
+// CSS3 Grid column MIXIN
+
+@mixin grid($column){
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: $column;
+  grid-template-columns: $column;
+}
+@mixin grid-row-start($row) {
+  -ms-grid-row-start: $row;
+  grid-row-start: $row;
+}
+@mixin grid-row-end($row) {
+  -ms-grid-row-end: span $row;
+  grid-row-end: $row;
+}
+@mixin grid-column-start($column) {
+  -ms-grid-column-start: $column;
+  grid-column-start: $column;
+}
+@mixin grid-column-end($column){
+  grid-column-end: span $column;
+}
+@mixin  grid-gap($gap){
+   grid-gap: $gap;
+}
+@mixin  grid-row-gap($gap){
+  grid-row-gap: $gap;
+}
+@mixin  grid-column-gap($gap){
+   grid-column-gap: $gap;
+}
