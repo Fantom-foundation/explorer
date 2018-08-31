@@ -106,12 +106,12 @@ export default class FirstPage extends React.Component {
                                 </FormGroup>
 
                                 <Row>
-                                  <Col>
+                                  <Col sm={6}>
                                     <FormGroup>
                                       <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" />
                                     </FormGroup>
                                   </Col>
-                                  <Col>
+                                  <Col sm={6}>
                                     <FormGroup>
                                       <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" />
                                     </FormGroup>
