@@ -23,17 +23,20 @@ import Header from '../../components/Header';
 export default class FirstPage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      email: '',
+      password: '',
+      password_hint: '',
+      re_password: '',
     };
+    this.toggle = this.toggle.bind(this);
   }
 
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -41,9 +44,6 @@ export default class FirstPage extends React.Component {
     return (
       <div>
         <Header />
-
-
-
         <section style={{ padding: '118px 0', backgroundColor: 'rgba(17, 165, 244, 0.1)' }}>
           <Container className="bg-white theme-blue-shadow">
             <Row>
@@ -83,14 +83,12 @@ export default class FirstPage extends React.Component {
                       Confirm
                     </NavLink>
                   </NavItem>
-
                 </Nav>
                 <Progress type="theme-blue" value={33.33} />
               </Col>
             </Row>
             <Row>
               <Col>
-
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
@@ -121,7 +119,6 @@ export default class FirstPage extends React.Component {
                                   </Col>
                                 </Row>
                                 <FormGroup>
-
                                   <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" />
                                 </FormGroup>
                                 <Row>
@@ -254,7 +251,6 @@ export default class FirstPage extends React.Component {
 
 
                 </TabContent>
-
               </Col>
             </Row>
           </Container>
