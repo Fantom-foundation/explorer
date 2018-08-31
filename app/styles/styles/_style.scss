@@ -1,0 +1,42 @@
+*{
+    outline: 0px;
+}
+.logo
+{
+    max-height: 35px;
+}
+.container
+{
+    @media (min-width: 1200px){max-width: 1164px;}
+}
+.cs-container{max-width: 847px;width: 100%; margin: auto;}
+.forms-container{min-height: 455px;}
+.theme-blue-shadow{box-shadow: 0 0 8px 4px rgba(0, 177, 255, 0.1);}
+.progress-theme
+{
+    height: 7px;
+    background: {color: #f3ecf4;}
+    .progress-bar
+    {
+        background-image: linear-gradient(to right, #3e68ea, #5ebaf7);
+    }
+    &.r-y-g
+    {
+        background-image: linear-gradient(91deg, #ff0000, #e6ff00 53%, #00ff24);
+        position: relative;
+        &::before{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .progress-bar{
+            z-index: 99;
+        background-image: linear-gradient(91deg, #ff0000, #e6ff00 53%, #00ff24);
+        }
+    }
+}

@@ -1,26 +1,16 @@
-// MIXIN
-@import "mixins/font-face";
-@import "mixins/animation";
-@import "mixins/keyframes";
-@import "mixins/grid";
-@import "mixins/border-radius";
-@import "mixins/linear-gradient";
-@import "mixins/placeholder";
-@import "mixins/target-ie";
+@import 'styles/colors';
+
+@import 'styles/mixin';
+
+@import 'styles/nav';
+@import 'styles/button';
+@import 'styles/style';
 
 
-// SETTINGS
-@import "settings/settings.global";
+@import 'styles/form';
 
 
-
-
-// COMPONENTS
-@import "components/header";
-//
-// Build and include your project’s UI Compoments here.
-
-
-
-// PAGE SPACIFIC
-@import "page/layout";
+@import 'styles/overlay';
+@import 'styles/animations';
+@import 'styles/accordion';
+@import 'styles/footer';

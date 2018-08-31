@@ -1,8 +1,0 @@
-@mixin target-IE {
-  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    @content;
-  }
-  @supports (-ms-ime-align:auto) {
-    @content;
-  }
-}

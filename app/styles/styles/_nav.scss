@@ -1,0 +1,51 @@
+// color:map-get($color, black)
+
+//--Header
+nav
+{
+    &.navbar
+    {
+        min-height: 64px;
+        &.bg-dark { background: { color:map-get($color, black) !important; } }
+        &.navbar-dark
+        {
+            .navbar-brand
+            {
+                //  color:map-get($color, white);
+            }
+        }
+    }
+}
+
+//--Tab
+
+
+.tab-full
+{
+    .nav-item{
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+    }
+}
+.tab-theme 
+{
+    border: 0px;
+    .nav-item
+    {
+        .nav-link
+        {
+            border: 0px !important;
+            color:map-get($color, lightGrayText);
+            padding: {top: 29px;}
+            font: {
+                family:Roboto;
+                weight: 400;
+                size:20px;
+            }
+            &.active,&:hover{color:map-get($color, blue);}
+        }
+    }
+}

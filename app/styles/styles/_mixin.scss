@@ -1,0 +1,13 @@
+@mixin animation-call-one-line($Property)
+{
+    -webkit-animation: $Property;
+    -moz-animation: $Property;
+      -o-animation: $Property;
+         animation: $Property;
+}
+@mixin responsive-width($Width)
+{
+    -ms-flex: $Width !important;
+    flex: 0 0 $Width !important;
+    max-width: $Width !important;
+}
