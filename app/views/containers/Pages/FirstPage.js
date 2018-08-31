@@ -91,7 +91,7 @@ export default class FirstPage extends React.Component {
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
-                      <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '76px' }}>
+                      <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
                           <Row>
                             <Col sm="12" className="px-5 py-3">
@@ -163,10 +163,10 @@ export default class FirstPage extends React.Component {
 
                         <Row className="account-footer">
                           <Col>
-                            <p>This password encrypts your private kry. This does not act as a speed to generate your keys. You will need this password + Mnemonic to unlock your wallet</p>
-                            <ul>
+                            <p className="text-center">This password encrypts your private key. This does not act as a speed to generate your keys. You will need this password + Mnemonic to unlock your wallet</p>
+                            <ul className="text-center">
                               <li><span>How to Create a Wallet</span></li>
-                              <li><span>Getting Started</span></li>
+                              <li className="pl-3"><span>Getting Started</span></li>
                             </ul>
                           </Col>
                         </Row>
