@@ -26,6 +26,7 @@
             }
             color:#00b1ff;
             position: relative;
+            &:nth-child(1){&:before {display: none;}}
             &:before {
                 content: ".";
                 color: #000;
