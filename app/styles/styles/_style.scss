@@ -9,9 +9,14 @@
 {
     @media (min-width: 1200px){max-width: 1164px;}
 }
-.cs-container{max-width: 847px;width: 100%; margin: auto;}
+.cs-container{max-width: 847px;width: 100%; margin: auto;position: relative; padding-bottom: 60px;}
 .forms-container{min-height: 455px;}
-.theme-blue-shadow{box-shadow: 0 0 8px 4px rgba(0, 177, 255, 0.1);}
+.theme-blue-shadow {
+    box-shadow: 0 0 8px 4px rgba(0, 177, 255, 0.1);
+    &.inner{
+        box-shadow: 0 0 10px 0 rgba(0, 177, 255, 0.39);
+    }
+}
 .progress-theme
 {
     height: 7px;

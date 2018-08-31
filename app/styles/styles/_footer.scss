@@ -1,0 +1,47 @@
+.account-footer
+{
+    $fontSize:9px;
+    $fontFamily:SFCompactDisplay;
+    p
+    {
+        color: #9b9b9b;
+        font: {
+            size: $fontSize;
+            family: $fontFamily;
+        }
+        max-width: 514px;
+        margin: auto;
+    }
+    ul
+    {
+        padding: 0;
+        margin: 0;
+        li
+        {
+            display: inline-block;
+            font: {
+                size: $fontSize;
+                family: $fontFamily;
+                weight: 600;
+            }
+            color:#00b1ff;
+            position: relative;
+            &:nth-child(1){&:before {display: none;}}
+            &:before {
+                content: ".";
+                color: #000;
+                position: absolute;
+                left: 7px;
+                top: -2px;
+            }
+            span
+            {
+                // transition: .7s all;
+                &:hover
+                {
+                    opacity: .7;
+                }
+            }
+        }
+    }
+}

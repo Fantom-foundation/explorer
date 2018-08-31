@@ -45,6 +45,10 @@ nav
                 weight: 400;
                 size:20px;
             }
+            @media(max-width:767px){font: {size:16px;}}
+            @media(max-width:540px){font: {size:14px;}}
+            @media(max-width:480px){font: {size:12px;} padding: {left: 0;right: 0}}
+            @media(max-width:367px){font: {size:11px;} }
             &.active,&:hover{color:map-get($color, blue);}
         }
     }

@@ -4,9 +4,17 @@ import {
   Row,
   Col,
   TabContent, TabPane, Nav, NavItem, NavLink,
-  Progress,
+  // Progress,
   Button, Form, FormGroup, Label, Input, FormText,
 } from 'reactstrap';
+
+import arrowLeft from '../../../images/icons/arrow-left.svg';
+import arrowRight from '../../../images/icons/arrow-right.svg';
+import cross from '../../../images/icons/cross.svg';
+
+
+
+import { Progress } from '../../components/Core/Core';
 import classnames from 'classnames';
 import Header from '../../components/Header';
 export default class FirstPage extends React.Component {
@@ -49,7 +57,7 @@ export default class FirstPage extends React.Component {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: this.state.activeTab === '1' })}
-                      onClick={() => { this.toggle('2'); }}
+                      onClick={() => { this.toggle('1'); }}
                     >
                       Creat account
                     </NavLink>
@@ -58,7 +66,7 @@ export default class FirstPage extends React.Component {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: this.state.activeTab === '2' })}
-                      onClick={() => { this.toggle('3'); }}
+                      onClick={() => { this.toggle('2'); }}
                     >
                       Account information
                     </NavLink>
@@ -67,13 +75,13 @@ export default class FirstPage extends React.Component {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: this.state.activeTab === '3' })}
-                      onClick={() => { this.toggle('4'); }}
+                      onClick={() => { this.toggle('3'); }}
                     >
                       Confirm
                     </NavLink>
                   </NavItem>
                 </Nav>
-                <Progress className="progress-theme" value={33.33} />
+                <Progress type="theme-blue" value={33.33} />
               </Col>
             </Row>
             <Row>
@@ -81,48 +89,86 @@ export default class FirstPage extends React.Component {
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
-                      <Col sm="12" style={{paddingTop:'76px',paddingBottom:'76px'}}>
-                        <div className="cs-container forms-container theme-blue-shadow">
+                      <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
+                        <div className="cs-container forms-container theme-blue-shadow inner mb-4">
                           <Row>
                             <Col sm="12" className="px-5 py-3">
+
+
+
                               <Form>
                                 <FormGroup>
                                   {/* <Label for="exampleEmail">Email</Label> */}
                                   <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" />
                                   <p className="Form-Text error mt-3">You need to specify a valid account name</p>
                                 </FormGroup>
-        
+
                                 <Row>
-                                  <Col>
+                                  <Col sm={6}>
                                     <FormGroup>
                                       <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" />
                                     </FormGroup>
                                   </Col>
-                                  <Col>
+                                  <Col sm={6}>
                                     <FormGroup>
                                       <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" />
                                     </FormGroup>
                                   </Col>
                                 </Row>
                                 <FormGroup>
-          
                                   <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" />
                                 </FormGroup>
                                 <Row>
                                   <Col>
-                                    <Progress className="progress-theme r-y-g mb-3" value={33.33} />
+
+                                    <Progress type="theme-red-Yellow-green" value={40} />
                                   </Col>
                                 </Row>
                                 <Row>
                                   <Col md={6}>
-                                    <p className="Form-Text">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
+                                    <p className="Form-Text mt-3">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
                                   </Col>
                                 </Row>
-                                <Button>Submit</Button>
+
                               </Form>
+
+
+
+
+
                             </Col>
                           </Row>
+
+
+                          <ul className="form-footer-buttons">
+                            <li>
+                              <span style={{ backgroundImage: `url(${cross})` }}>Close</span>
+                            </li>
+                            <li>
+                              <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
+                            </li>
+                            <li>
+                              <span className="disabled" style={{ backgroundImage: `url(${arrowRight})` }}>Next</span>
+                            </li>
+                          </ul>
+
+
                         </div>
+
+
+
+
+                        <Row className="account-footer">
+                          <Col>
+                            <p className="text-center">This password encrypts your private key. This does not act as a speed to generate your keys. You will need this password + Mnemonic to unlock your wallet</p>
+                            <ul className="text-center">
+                              <li><span>How to Create a Wallet</span></li>
+                              <li className="pl-3"><span>Getting Started</span></li>
+                            </ul>
+                          </Col>
+                        </Row>
+
+
                       </Col>
                     </Row>
                   </TabPane>
@@ -131,7 +177,7 @@ export default class FirstPage extends React.Component {
                       <Col sm="6">
                         ijghyju
                           ryrty
-              </Col>
+                          </Col>
                     </Row>
                   </TabPane>
 
@@ -142,7 +188,9 @@ export default class FirstPage extends React.Component {
                           ryrty
                       </Col>
                     </Row>
-                  </TabPane> 
+                  </TabPane>
+
+
                 </TabContent>
               </Col>
             </Row>
