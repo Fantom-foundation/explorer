@@ -1,0 +1,11 @@
+.account-footer
+{
+    $fontSize:9px;
+    p
+    {
+        color: #9b9b9b;
+        font: {
+            size: $fontSize;
+        }
+    }
+}
