@@ -8,19 +8,16 @@ import {
   Button, Form, FormGroup, Label, Input, FormText,
 } from 'reactstrap';
 
-
-import identicon1 from '../../../images/identicon/ident-con-1.png';
 import arrowLeft from '../../../images/icons/arrow-left.svg';
 import arrowRight from '../../../images/icons/arrow-right.svg';
 import cross from '../../../images/icons/cross.svg';
-import refreshIcon from '../../../images/icons/refresh-icon.svg';
 
 
 
-import { Progress, Refresh } from '../../components/Core/Core';
+import { Progress } from '../../components/Core/Core';
 import classnames from 'classnames';
 import Header from '../../components/Header';
-export default class FirstPage extends React.Component {
+export default class SecondPage extends React.Component {
   constructor(props) {
     super(props);
 
@@ -140,67 +137,11 @@ export default class FirstPage extends React.Component {
 
 
 
-<Refresh className="text-center" animated />
 
 
- </Col>
-  </Row>
-  <Row className="mx-0">
-    <Col>
-<ul className="identicon m-0 p-0 text-right  ">
-  <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-   </ul>
-   </Col>
-   <Col className="identicon-refresh"> <img src={refreshIcon} alt="Refresh" />  </Col>
-   </Row>
+                            </Col>
+                          </Row>
+
 
                           <ul className="form-footer-buttons">
                             <li>
