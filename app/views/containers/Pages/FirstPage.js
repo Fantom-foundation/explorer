@@ -12,17 +12,20 @@ import Header from '../../components/Header';
 export default class FirstPage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      email: '',
+      password: '',
+      password_hint: '',
+      re_password: '',
     };
+    this.toggle = this.toggle.bind(this);
   }
 
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -30,9 +33,6 @@ export default class FirstPage extends React.Component {
     return (
       <div>
         <Header />
-
-
-
         <section style={{ padding: '118px 0', backgroundColor: 'rgba(17, 165, 244, 0.1)' }}>
           <Container className="bg-white theme-blue-shadow">
             <Row>
@@ -72,14 +72,12 @@ export default class FirstPage extends React.Component {
                       Confirm
                     </NavLink>
                   </NavItem>
-
                 </Nav>
                 <Progress className="progress-theme" value={33.33} />
               </Col>
             </Row>
             <Row>
               <Col>
-
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
@@ -87,57 +85,47 @@ export default class FirstPage extends React.Component {
                         <div className="cs-container forms-container theme-blue-shadow">
                           <Row>
                             <Col sm="12" className="px-5 py-3">
-
-
-
-<Form>
-        <FormGroup>
-          {/* <Label for="exampleEmail">Email</Label> */}
-          <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" />
-          <p className="Form-Text error mt-3">You need to specify a valid account name</p>
-        </FormGroup>
+                              <Form>
+                                <FormGroup>
+                                  {/* <Label for="exampleEmail">Email</Label> */}
+                                  <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" />
+                                  <p className="Form-Text error mt-3">You need to specify a valid account name</p>
+                                </FormGroup>
         
-   <Row>
-     <Col>
-     <FormGroup>
-          <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" />
-        </FormGroup>
-     </Col>
-     <Col>
-     <FormGroup>
-     <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" />
-        </FormGroup>
-     </Col>
-   </Row>
-   <FormGroup>
+                                <Row>
+                                  <Col>
+                                    <FormGroup>
+                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" />
+                                    </FormGroup>
+                                  </Col>
+                                  <Col>
+                                    <FormGroup>
+                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" />
+                                    </FormGroup>
+                                  </Col>
+                                </Row>
+                                <FormGroup>
           
-          <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" />
-        </FormGroup>
-   <Row>
-     <Col>
-     <Progress className="progress-theme r-y-g mb-3" value={33.33} />
-     </Col>
-   </Row>
-   <Row>
-     <Col md={6}>
-     <p className="Form-Text">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
-     </Col>
-   </Row>
-        <Button>Submit</Button>
-      </Form>
-
-
-
-
-
+                                  <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" />
+                                </FormGroup>
+                                <Row>
+                                  <Col>
+                                    <Progress className="progress-theme r-y-g mb-3" value={33.33} />
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col md={6}>
+                                    <p className="Form-Text">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
+                                  </Col>
+                                </Row>
+                                <Button>Submit</Button>
+                              </Form>
                             </Col>
                           </Row>
                         </div>
                       </Col>
                     </Row>
                   </TabPane>
-
-
                   <TabPane tabId="2">
                     <Row>
                       <Col sm="6">
@@ -154,11 +142,8 @@ export default class FirstPage extends React.Component {
                           ryrty
                       </Col>
                     </Row>
-                  </TabPane>
-
-                
+                  </TabPane> 
                 </TabContent>
-
               </Col>
             </Row>
           </Container>

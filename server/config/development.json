@@ -1,0 +1,8 @@
+{
+    "port": 3306,
+    "host": "localhost",
+    "dbName": "fantom-wallet",
+    "dbHost": "localhost",
+    "dbUser": "root",
+    "dbPassword": "password"
+   }
