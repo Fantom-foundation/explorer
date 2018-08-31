@@ -4,9 +4,10 @@ import {
   Row,
   Col,
   TabContent, TabPane, Nav, NavItem, NavLink,
-  Progress,
+  // Progress,
   Button, Form, FormGroup, Label, Input, FormText,
 } from 'reactstrap';
+import { Progress } from '../../components/Core/Core';
 import classnames from 'classnames';
 import Header from '../../components/Header';
 export default class FirstPage extends React.Component {
@@ -74,7 +75,7 @@ export default class FirstPage extends React.Component {
                   </NavItem>
 
                 </Nav>
-                <Progress className="progress-theme" value={33.33} />
+                <Progress type="theme-blue" value={33.33} />
               </Col>
             </Row>
             <Row>
@@ -115,15 +116,16 @@ export default class FirstPage extends React.Component {
         </FormGroup>
    <Row>
      <Col>
-     <Progress className="progress-theme r-y-g mb-3" value={33.33} />
+     
+     <Progress type="theme-red-Yellow-green" value={40} />
      </Col>
    </Row>
    <Row>
      <Col md={6}>
-     <p className="Form-Text">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
+     <p className="Form-Text mt-3">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
      </Col>
    </Row>
-        <Button>Submit</Button>
+       
       </Form>
 
 
