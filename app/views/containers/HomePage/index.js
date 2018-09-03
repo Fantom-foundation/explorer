@@ -4,7 +4,7 @@ import {
   Row,
   Col,
   TabContent, TabPane, Nav, NavItem, NavLink,
-  Form, FormGroup, Input,Button,
+  Form,Label, FormGroup, Input,Button,
 } from 'reactstrap';
 import classnames from 'classnames';
 import identicon1 from 'images/identicon/ident-con-1.png';
@@ -175,7 +175,7 @@ export default class FirstPage extends React.Component {
             <Row>
               <Col>
                 <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="2">
+                  <TabPane tabId="3">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
@@ -312,7 +312,7 @@ export default class FirstPage extends React.Component {
                     </Row>
                   </TabPane>
                   {/*===============================================================================================================*/}
-                  <TabPane tabId="1">
+                  <TabPane tabId="2">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
@@ -371,11 +371,52 @@ export default class FirstPage extends React.Component {
                     </Row>
                   </TabPane>
                   {/*===============================================================================================================*/}
-                  <TabPane tabId="3">
+                  <TabPane tabId="1">
                     <Row>
-                      <Col >
-                        ijghyju
-                          ryrty
+                      <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
+                      <div className="cs-container forms-container theme-blue-shadow inner mb-4">
+                          
+                          
+                          <Row className="mx-0">
+                     <Col >
+
+<Row>
+<Col>
+
+<h2 className="text-center">Enter Your Mnemonic</h2>
+
+<p className="text text-center">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or 
+you accidentally visit a different website, your funds will be stolen. Please consider:</p>
+
+<ul>
+    <li>MetaMask or A Hardware Wallet or Running MEW Offline & Locally</li>
+    <li>Learning How to Protect Yourself and Your Funds</li>
+</ul>
+
+
+<p className="text text-center">If you must, please double-check the URL & SSL cert. It should say https://fantom.foundation/ & 
+MYFANTOMWALLET INC in your URL bar.</p>
+</Col>
+</Row>
+
+<Row>
+  <Col>
+<Form>
+<FormGroup>
+          <Label for="exampleText">Text Area</Label>
+          <Input type="textarea" name="text" id="exampleText" />
+        </FormGroup>
+        <center><Button color="primary">Unlock</Button></center>
+</Form>
+
+
+</Col>
+</Row>
+</Col>
+</Row>
+
+                          <FooterButtons />
+                          </div>
                           <AccountFooter />
                       </Col>
                     </Row>
