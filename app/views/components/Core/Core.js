@@ -1,4 +1,5 @@
 import React from 'react';
+import refreshImage from '../../../images/icons/refresh.svg';
 export const Progress = (props) => {
     let barWidth = 0;
     if (props.type === 'theme-blue') { barWidth = props.value + '%'; }
@@ -11,4 +12,12 @@ export const Progress = (props) => {
             <div className="bar" style={{ width: barWidth, }} ></div>
         </div>
     );
+}
+
+export const Refresh = (props) => {
+return(
+    <div className={props.className}>
+        <img src={refreshImage} className={`${props.animated &&  'rotation anti-clock'}`} />
+    </div>
+);
 }

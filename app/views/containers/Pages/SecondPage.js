@@ -8,81 +8,39 @@ import {
   Button, Form, FormGroup, Label, Input, FormText,
 } from 'reactstrap';
 
-
-import identicon1 from '../../../images/identicon/ident-con-1.png';
 import arrowLeft from '../../../images/icons/arrow-left.svg';
 import arrowRight from '../../../images/icons/arrow-right.svg';
 import cross from '../../../images/icons/cross.svg';
-import refreshIcon from '../../../images/icons/refresh-icon.svg';
 
 
 
-import { Progress, Refresh } from '../../components/Core/Core';
+import { Progress } from '../../components/Core/Core';
 import classnames from 'classnames';
 import Header from '../../components/Header';
-export default class FirstPage extends React.Component {
+export default class SecondPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeTab: '1',
-      email: '',
-      password: '',
-      password_hint: '',
-      repassword: '',
-    };
+
     this.toggle = this.toggle.bind(this);
+    this.state = {
+      activeTab: '1'
+    };
   }
 
-  onUpdate = (key, value) => {
-    this.setState({ [key]: value });
-  }
-  handleClick = (event) => {
-    debugger;
-    event.preventDefault();
-    const payload = {
-      email: this.state.email,
-      password: this.state.password,
-      repassword: this.state.repassword,
-      password_hint: this.state.password_hint,
-    };
-    const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
-    const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
-    fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then((res) => res.json())
-    .then((res) => {
-      if (res) {
-        console.log('res!!', res);
-        resetFields();
-      } else {
-        console.log('error', error);
-      }
-    });
-  }
-resetFields = () => {
-  this.setState({
-    email: '',
-    password: '',
-    repassword: '',
-    password_hint: '',
-  })
-}
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab,
+        activeTab: tab
       });
     }
   }
-
   render() {
     return (
       <div>
         <Header />
+
+
+
         <section style={{ padding: '118px 0', backgroundColor: 'rgba(17, 165, 244, 0.1)' }}>
           <Container className="bg-white theme-blue-shadow">
             <Row>
@@ -122,12 +80,14 @@ resetFields = () => {
                       Confirm
                     </NavLink>
                   </NavItem>
+
                 </Nav>
                 <Progress type="theme-blue" value={33.33} />
               </Col>
             </Row>
             <Row>
               <Col>
+
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
@@ -138,30 +98,28 @@ resetFields = () => {
 
 
 
-                              <Form onSubmit={(event) => this.handleClick(event)}>
+                              <Form>
                                 <FormGroup>
                                   {/* <Label for="exampleEmail">Email</Label> */}
-                                  <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" onChange={(e) => this.onUpdate('email', e.currentTarget.value)}/>
+                                  <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" />
                                   <p className="Form-Text error mt-3">You need to specify a valid account name</p>
                                 </FormGroup>
 
                                 <Row>
                                   <Col sm={6}>
                                     <FormGroup>
-                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" 
-                                      onChange={(e) => this.onUpdate('password', e.currentTarget.value)}/>
+                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" />
                                     </FormGroup>
                                   </Col>
                                   <Col sm={6}>
                                     <FormGroup>
-                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" 
-                                      onChange={(e) => this.onUpdate('repassword', e.currentTarget.value)}/>
+                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" />
                                     </FormGroup>
                                   </Col>
                                 </Row>
                                 <FormGroup>
-                                  <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" 
-                                  onChange={(e) => this.onUpdate('password_hint', e.currentTarget.value)}/>
+
+                                  <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" />
                                 </FormGroup>
                                 <Row>
                                   <Col>
@@ -179,67 +137,11 @@ resetFields = () => {
 
 
 
-<Refresh className="text-center" animated />
 
 
- </Col>
-  </Row>
-  <Row className="mx-0">
-    <Col>
-<ul className="identicon m-0 p-0 text-right  ">
-  <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-       <li>
-       <label class="form-radio-label">
-                <input name="name" class="form-radio-field" type="radio" value="vagatarian food" />
-                <i class="form-radio-button"></i>
-                <img src={identicon1} />
-            </label>
-        </li>
-   </ul>
-   </Col>
-   <Col className="identicon-refresh"> <img src={refreshIcon} alt="Refresh" />  </Col>
-   </Row>
+                            </Col>
+                          </Row>
+
 
                           <ul className="form-footer-buttons">
                             <li>
@@ -249,7 +151,7 @@ resetFields = () => {
                               <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
                             </li>
                             <li>
-                              <span className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.handleClick(event)}>Next</span>
+                              <span className="disabled" style={{ backgroundImage: `url(${arrowRight})` }}>Next</span>
                             </li>
                           </ul>
 
@@ -293,6 +195,7 @@ resetFields = () => {
 
 
                 </TabContent>
+
               </Col>
             </Row>
           </Container>
