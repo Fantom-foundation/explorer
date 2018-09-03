@@ -1,0 +1,95 @@
+
+.person-info
+{
+    .person-image
+    {
+        width: 50.76px;
+        height: 50.76px;
+        margin: { right: 27.7px; }
+    }
+    .person-name
+    {
+        font: {
+            family: Roboto;
+            size:19.04px;
+        }
+    }
+    &.large{
+        .person-image
+        {
+            width: 67px;
+            height: 67px;
+            margin: { right: 21px; }
+        }
+        .person-name
+        {
+            font: { size:19.04px; }
+        }
+    }
+}
+
+.person-copy-info
+{
+    $font-size:15.23px;
+    $font-family:SFCompactDisplay;
+    div
+    {
+        padding:  5px 28px;
+        .info-title{
+            font: {
+                family:$font-family;
+                size:$font-size;
+            }
+            color: #000;
+        }
+        &.info-description-box
+        {
+            
+            position: relative;
+           
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            span{
+                font: {
+                    family:$font-family;
+                    size:$font-size;
+                }
+                word-break: break-all;
+                -ms-flex-preferred-size: 0;
+                flex-basis: 0;
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                max-width: 100%;
+                position: relative;
+                z-index: 2 ;
+                &:nth-child(1)
+                {
+                    @include responsive-width(19px);
+                }
+                .copy
+                {
+                    height:22px;
+                    cursor: pointer;
+                    transition: .2s all;
+                    &:hover{
+                        opacity: .5;
+                    }
+                }
+            }
+            z-index: 2;
+            &:before{
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                content: "";
+                background: {color:#D8D8D8;}
+                opacity: .17;
+                z-index: 0;
+            }
+        }
+    }
+}

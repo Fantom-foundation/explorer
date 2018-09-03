@@ -4,7 +4,7 @@ import {
   Row,
   Col,
   TabContent, TabPane, Nav, NavItem, NavLink,
-  Form, FormGroup, Input,
+  Form, FormGroup, Input,Button,
 } from 'reactstrap';
 import classnames from 'classnames';
 import identicon1 from 'images/identicon/ident-con-1.png';
@@ -14,8 +14,12 @@ import cross from 'images/icons/cross.svg';
 import refreshIcon from 'images/icons/refresh-icon.svg';
 import { Progress, Refresh } from 'views/components/core/core';
 import Header from 'views/components/header';
+import AccountFooter from 'views/components/footer/account-footer';
+import FooterButtons from 'views/components/footer/footer-buttons';
 
-//import TempQR from '../../components/TempComponents/qr';
+import copyImage from 'images/icons/copy.svg'
+
+import TempQR from '../../components/temp-components/qr';
 
 
 export default class FirstPage extends React.Component {
@@ -256,27 +260,9 @@ export default class FirstPage extends React.Component {
                             <Col className="identicon-refresh"> <img src={refreshIcon} alt="Refresh" />  </Col>
                           </Row>
 
-                          <ul className="form-footer-buttons">
-                            <li>
-                              <span style={{ backgroundImage: `url(${cross})` }}>Close</span>
-                            </li>
-                            <li>
-                              <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
-                            </li>
-                            <li>
-                              <span aria-hidden className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.handleClick(event)}>Next</span>
-                            </li>
-                          </ul>
+                      <FooterButtons />
                         </div>
-                        <Row className="account-footer">
-                          <Col>
-                            <p className="text-center">This password encrypts your private key. This does not act as a speed to generate your keys. You will need this password + Mnemonic to unlock your wallet</p>
-                            <ul className="text-center">
-                              <li><span>How to Create a Wallet</span></li>
-                              <li className="pl-3"><span>Getting Started</span></li>
-                            </ul>
-                          </Col>
-                        </Row>
+                       <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>
@@ -289,19 +275,53 @@ export default class FirstPage extends React.Component {
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
                               <Row>
                                 <Col>
-                           
-                                  <img src={identicon1} />
-                                  John Doe
+                                  <div className="person-info small">
+                                    <div className="d-inline-block align-top"><img src={identicon1} className="person-image theme-blue-shadow" /></div>
+                                    <div className="d-inline-block align-top"><h2 className="person-name">John Doe</h2>
+                                    </div>
+                                  </div>
                                 </Col>
+                                <Col className="text-right">
+                                  {/* -------qr------- */}
+                                  <TempQR />
+                                  {/* -------qr------- */}
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col className="person-copy-info">
+                                  <div>
+                                    <h2 className="info-title mb-0">Your Address</h2>
+                                  </div>
+                                  <div className="info-description-box">
+                                  <span className="mr-3"><img src={copyImage} className="copy mr-3" /></span>
+                                  <span >0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
+                                  </div>
+                                  <div>
+                                    <h2 className="info-title mb-0">Owner Recovery Phrase</h2>
+                                  </div>
+                                  <div className="info-description-box ">
+                                  <span  className="mr-3"><img src={copyImage} className="copy" /></span>
+                                  <span >unmoved skewed primary pointing pep prescribe on stage eject unbiased skeleton robot click </span>
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row className="my-3 ">
+                                <Col className="text-center">
+                                  <Button color="primary">Print Phrase</Button>
+                                </Col>
+                              </Row>
+                              <Row>
                                 <Col>
-                                  {/* -------qr------- */}
-                                  {/* <TempQR /> */}
-                                  {/* -------qr------- */}
+                                <p className="text mb-3">Please back up the recovery phase now. Make sure to keep it private and secure, it allows full and unlimited access to your account.</p>
+
+                                <p className="text small mb-0">Type ‘’ I have written down the phrase’’  below to confirm it is backed up.</p>
                                 </Col>
                               </Row>
                             </Col>
                           </Row>
+                         <FooterButtons />
                         </div>
+                        <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>
@@ -311,6 +331,7 @@ export default class FirstPage extends React.Component {
                       <Col >
                         ijghyju
                           ryrty
+                          <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>

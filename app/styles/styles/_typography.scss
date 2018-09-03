@@ -1,0 +1,11 @@
+$font-family:SFCompactDisplay;
+$font-size:11px;
+$font-size-small:9px;
+.text
+{
+    font: {
+        family: $font-family;
+        size: $font-size;
+    }
+    &.small { font: { size: $font-size-small; }}
+}

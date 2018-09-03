@@ -1,6 +1,6 @@
 import React from 'react';
-import Logo from '../../images/Logo/logo.png';
-import SettingIcon from '../../images/icons/setting.svg';
+import Logo from 'images/logo/logo.png';
+import SettingIcon from 'images/icons/setting.svg';
 
 
 import {
