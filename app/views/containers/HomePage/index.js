@@ -4,7 +4,7 @@ import {
   Row,
   Col,
   TabContent, TabPane, Nav, NavItem, NavLink,
-  Form,Label, FormGroup, Input,Button,
+  Form, FormGroup, Input, Button,
 } from 'reactstrap';
 import classnames from 'classnames';
 import identicon1 from 'images/identicon/ident-con-1.png';
@@ -129,7 +129,7 @@ export default class FirstPage extends React.Component {
     return (
       <div>
         <Header />
-        <section style={{ padding: '118px 0', backgroundColor: 'rgba(17, 165, 244, 0.1)' }}>
+        <section style={{ padding: '118px 0' }}>
           <Container className="bg-white theme-blue-shadow">
             <Row>
               <Col className="px-0">
@@ -182,6 +182,31 @@ export default class FirstPage extends React.Component {
                           <Row className="mx-0">
                             <Col sm="12" className="px-5 py-3">
                               <Form onSubmit={(event) => this.handleClick(event)}>
+
+
+{/*==========================New Form Start=============================*/}
+
+
+<div class="form-element form-input">
+            <input id="test1" class="form-element-field" placeholder="Please fill in your full name" type="input" required="" />
+            <div class="form-element-bar"></div>
+            <label class="form-element-label" for="test1">Name</label>
+        </div>
+
+
+                           <div class="form-element form-input form-has-error">
+            <input id="test" class="form-element-field" placeholder=" " type="text" required=""  />
+            <div class="form-element-bar"></div>
+            <label class="form-element-label" for="test">Your age</label>
+            <small class="form-element-hint">You are way to young, sorry</small>
+        </div>
+
+
+{/*==========================New Form Ens=============================*/}
+
+
+
+
                                 <FormGroup>
                                   <Input
                                     type="text"
@@ -196,6 +221,7 @@ export default class FirstPage extends React.Component {
                                 </FormGroup>
                                 <Row>
                                   <Col sm={6}>
+       
                                     <FormGroup>
                                       <Input
                                         type="password"
@@ -305,9 +331,9 @@ export default class FirstPage extends React.Component {
                             <Col className="identicon-refresh"> <img src={refreshIcon} alt="Refresh" />  </Col>
                           </Row>
 
-                      <FooterButtons />
+                          <FooterButtons />
                         </div>
-                       <AccountFooter />
+                        <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>
@@ -338,15 +364,15 @@ export default class FirstPage extends React.Component {
                                     <h2 className="info-title mb-0">Your Address</h2>
                                   </div>
                                   <div className="info-description-box">
-                                  <span className="mr-3"><img src={copyImage} className="copy mr-3" /></span>
-                                  <span >0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
+                                    <span className="mr-3"><img src={copyImage} className="copy mr-3" /></span>
+                                    <span >0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
                                   </div>
                                   <div>
                                     <h2 className="info-title mb-0">Owner Recovery Phrase</h2>
                                   </div>
                                   <div className="info-description-box ">
-                                  <span  className="mr-3"><img src={copyImage} className="copy" /></span>
-                                  <span >unmoved skewed primary pointing pep prescribe on stage eject unbiased skeleton robot click </span>
+                                    <span className="mr-3"><img src={copyImage} className="copy" /></span>
+                                    <span >unmoved skewed primary pointing pep prescribe on stage eject unbiased skeleton robot click </span>
                                   </div>
                                 </Col>
                               </Row>
@@ -357,14 +383,14 @@ export default class FirstPage extends React.Component {
                               </Row>
                               <Row>
                                 <Col>
-                                <p className="text mb-3">Please back up the recovery phase now. Make sure to keep it private and secure, it allows full and unlimited access to your account.</p>
+                                  <p className="text mb-3 black-text">Please back up the recovery phase now. Make sure to keep it private and secure, it allows full and unlimited access to your account.</p>
 
-                                <p className="text small mb-0">Type ‘’ I have written down the phrase’’  below to confirm it is backed up.</p>
+                                  <p className="text small mb-0 black-text">Type ‘’ I have written down the phrase’’  below to confirm it is backed up.</p>
                                 </Col>
                               </Row>
                             </Col>
                           </Row>
-                         <FooterButtons />
+                          {/* <FooterButtons /> */}
                         </div>
                         <AccountFooter />
                       </Col>
@@ -373,51 +399,52 @@ export default class FirstPage extends React.Component {
                   {/*===============================================================================================================*/}
                   <TabPane tabId="1">
                     <Row>
-                      <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-                      <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-                          
-                          
+                      <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
+                        <div className="cs-container forms-container theme-blue-shadow inner mb-4">
+
+
                           <Row className="mx-0">
-                     <Col >
+                            <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
 
-<Row>
-<Col>
+<div className="m-auto" style={{maxWidth:'488px'}}>
+                              <Row>
+                                <Col>
 
-<h2 className="text-center">Enter Your Mnemonic</h2>
+                                  <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
 
-<p className="text text-center">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or 
-you accidentally visit a different website, your funds will be stolen. Please consider:</p>
+                                  <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
+<div className="text-center">
+                                  <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
+                                    <li ><a href="#">MetaMask</a> or <a href="#">A Hardware Wallet</a> or <a href="#">Running MEW Offline & Locally</a></li>
+                                    <li ><a href="#">Learning How to Protect Yourself and Your Funds</a></li>
+                                  </ul>
+</div>
 
-<ul>
-    <li>MetaMask or A Hardware Wallet or Running MEW Offline & Locally</li>
-    <li>Learning How to Protect Yourself and Your Funds</li>
-</ul>
+                                  <p className="text text-center black-text">If you must, please double-check the URL & SSL cert. It should say <a href="https://fantom.foundation/" target="_blank">https://fantom.foundation/</a> & MYFANTOMWALLET INC in your URL bar.</p>
+                                </Col>
+                              </Row>
 
-
-<p className="text text-center">If you must, please double-check the URL & SSL cert. It should say https://fantom.foundation/ & 
-MYFANTOMWALLET INC in your URL bar.</p>
-</Col>
-</Row>
-
-<Row>
-  <Col>
-<Form>
-<FormGroup>
-          <Label for="exampleText">Text Area</Label>
-          <Input type="textarea" name="text" id="exampleText" />
-        </FormGroup>
-        <center><Button color="primary">Unlock</Button></center>
-</Form>
+                              <Row>
+                                <Col>
+                                  <Form>
+                                    <FormGroup>
+                                      <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" />
+                                    </FormGroup>
+                                    <center><Button color="primary">Unlock</Button></center>
+                                  </Form>
 
 
-</Col>
-</Row>
-</Col>
-</Row>
+                                </Col>
+                              </Row>
+
+                              </div>
+
+                            </Col>
+                          </Row>
 
                           <FooterButtons />
-                          </div>
-                          <AccountFooter />
+                        </div>
+                        <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>

@@ -1,6 +1,15 @@
 *{
     outline: 0px;
 }
+body
+{
+    background: {
+        image:url(../images/backgrounds/pattern.svg);
+        size: cover;
+        position: center;
+        color:#F5F8FA;
+    }
+}
 .logo
 {
     max-height: 35px;
