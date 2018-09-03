@@ -3,8 +3,9 @@
     li
     {
         display: inline-block;
-        margin-left: 1rem;
-        &:nth-child(1){margin-left: 0;}
+        // margin-left: 1rem;
+        margin-left: 12px;
+        // &:nth-child(1){margin-left: 0;}
         label
         {
             img
@@ -12,6 +13,7 @@
                 width: 40px;
                 height: 40px;
                 box-shadow: 0 0 4px 0 rgba(0, 177, 255, 0.41);
+                margin: {left: 2px;}
             }
         }
     }
@@ -19,9 +21,9 @@
 
 .identicon-refresh
 {
-    -ms-flex: 0 0 150px;
-    flex: 0 0 150px;
-    max-width:150px;
+    -ms-flex: 0 0 55px;
+    flex: 0 0 55px;
+    max-width:55px;
     img{
         width:15.9px;
         height:15.9px;
