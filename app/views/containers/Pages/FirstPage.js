@@ -25,11 +25,49 @@ export default class FirstPage extends React.Component {
       email: '',
       password: '',
       password_hint: '',
-      re_password: '',
+      repassword: '',
     };
     this.toggle = this.toggle.bind(this);
   }
 
+  onUpdate = (key, value) => {
+    this.setState({ [key]: value });
+  }
+  handleClick = (event) => {
+    debugger;
+    event.preventDefault();
+    const payload = {
+      email: this.state.email,
+      password: this.state.password,
+      repassword: this.state.repassword,
+      password_hint: this.state.password_hint,
+    };
+    const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
+    const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
+    fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then((res) => res.json())
+    .then((res) => {
+      if (res) {
+        console.log('res!!', res);
+        resetFields();
+      } else {
+        console.log('error', error);
+      }
+    });
+  }
+resetFields = () => {
+  this.setState({
+    email: '',
+    password: '',
+    repassword: '',
+    password_hint: '',
+  })
+}
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -37,6 +75,7 @@ export default class FirstPage extends React.Component {
       });
     }
   }
+
   render() {
     return (
       <div>
@@ -96,27 +135,30 @@ export default class FirstPage extends React.Component {
 
 
 
-                              <Form>
+                              <Form onSubmit={(event) => this.handleClick(event)}>
                                 <FormGroup>
                                   {/* <Label for="exampleEmail">Email</Label> */}
-                                  <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" />
+                                  <Input type="text" name="text" className="theme-blue" id="exampleEmail" placeholder="Account name" onChange={(e) => this.onUpdate('email', e.currentTarget.value)}/>
                                   <p className="Form-Text error mt-3">You need to specify a valid account name</p>
                                 </FormGroup>
 
                                 <Row>
                                   <Col sm={6}>
                                     <FormGroup>
-                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" />
+                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password" 
+                                      onChange={(e) => this.onUpdate('password', e.currentTarget.value)}/>
                                     </FormGroup>
                                   </Col>
                                   <Col sm={6}>
                                     <FormGroup>
-                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" />
+                                      <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Re- enter Password" 
+                                      onChange={(e) => this.onUpdate('repassword', e.currentTarget.value)}/>
                                     </FormGroup>
                                   </Col>
                                 </Row>
                                 <FormGroup>
-                                  <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" />
+                                  <Input type="password" name="password" className="theme-blue" id="exampleEmail" placeholder="Password hint" 
+                                  onChange={(e) => this.onUpdate('password_hint', e.currentTarget.value)}/>
                                 </FormGroup>
                                 <Row>
                                   <Col>
@@ -148,7 +190,7 @@ export default class FirstPage extends React.Component {
                               <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
                             </li>
                             <li>
-                              <span className="disabled" style={{ backgroundImage: `url(${arrowRight})` }}>Next</span>
+                              <span className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.handleClick(event)}>Next</span>
                             </li>
                           </ul>
 
