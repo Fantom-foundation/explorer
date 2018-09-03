@@ -8,9 +8,7 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import identicon1 from 'images/identicon/ident-con-1.png';
-import arrowLeft from 'images/icons/arrow-left.svg';
-import arrowRight from 'images/icons/arrow-right.svg';
-import cross from 'images/icons/cross.svg';
+
 import refreshIcon from 'images/icons/refresh-icon.svg';
 import { Progress, Refresh } from 'views/components/core/core';
 import Header from 'views/components/header';
