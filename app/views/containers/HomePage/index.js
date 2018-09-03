@@ -31,6 +31,9 @@ export default class FirstPage extends React.Component {
       password: '',
       password_hint: '',
       repassword: '',
+      emailErrorText: '',
+      passErrorText: '',
+      repassErrorText: '',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -74,7 +77,47 @@ export default class FirstPage extends React.Component {
   }
   validateData = (event, name) => {
     event.preventDefault();
-    debugger;
+    if (name === 'email') {
+      this.validEmail();
+    } else if (name === 'password') {
+      this.validPass();
+    } else if (name === 'repassword') {
+      this.validRepass();
+    }
+  }
+  validPass = () => {
+    const passObj = {};
+    if (this.state.password === '') {
+      passObj.passErrorText = 'Password field can\'t be empty';
+    } else if (this.state.password.length < 8) {
+      passObj.passErrorText = 'Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.';
+    } else {
+      passObj.passErrorText = '';
+    }
+    this.setState(passObj);
+  }
+  validEmail = () => {
+    const obj = {};
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (this.state.email === '') {
+      obj.emailErrorText = 'Account Name field can\'t be empty';
+    } else if (re.test(String(this.state.email).toLowerCase())) {
+      obj.emailErrorText = '';
+    } else {
+      obj.emailErrorText = 'You need to specify a valid account name';
+    }
+    this.setState(obj);
+  }
+  validRepass = () => {
+    const obj = {};
+    if (this.state.repassword === '') {
+      obj.repassErrorText = 'Re-enter password field can\'t be empty';
+    } else if (this.state.repassword !== this.state.password) {
+      obj.repassErrorText = 'Password and Re-enter password must be same';
+    } else {
+      obj.repassErrorText = '';
+    }
+    this.setState(obj);
   }
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -151,7 +194,7 @@ export default class FirstPage extends React.Component {
                                     onChange={(e) => this.onUpdate('email', e.currentTarget.value)}
                                     onBlur={(event) => this.validateData(event, 'email')}
                                   />
-                                  <p className="Form-Text error mt-3">You need to specify a valid account name</p>
+                                  {this.state.emailErrorText !== '' ? <p className="Form-Text error mt-3"> {this.state.emailErrorText} </p> : ''}
                                 </FormGroup>
                                 <Row>
                                   <Col sm={6}>
@@ -162,8 +205,10 @@ export default class FirstPage extends React.Component {
                                         className="theme-blue"
                                         id="exampleEmail"
                                         placeholder="Password"
+                                        onBlur={(event) => this.validateData(event, 'password')}
                                         onChange={(e) => this.onUpdate('password', e.currentTarget.value)}
                                       />
+                                      {this.state.passErrorText !== '' ? <p className="Form-Text error mt-3"> {this.state.passErrorText} </p> : ''}
                                     </FormGroup>
                                   </Col>
                                   <Col sm={6}>
@@ -174,8 +219,10 @@ export default class FirstPage extends React.Component {
                                         className="theme-blue"
                                         id="exampleEmail"
                                         placeholder="Re- enter Password"
+                                        onBlur={(event) => this.validateData(event, 'repassword')}
                                         onChange={(e) => this.onUpdate('repassword', e.currentTarget.value)}
                                       />
+                                      {this.state.repassErrorText !== '' ? <p className="Form-Text error mt-3"> {this.state.repassErrorText} </p> : ''}
                                     </FormGroup>
                                   </Col>
                                 </Row>
