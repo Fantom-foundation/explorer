@@ -10,14 +10,10 @@ body
         color:#F5F8FA;
     }
 }
-.logo
-{
-    max-height: 35px;
-}
-.container
-{
-    @media (min-width: 1200px){max-width: 1164px;}
-}
+.bg-primary{background: { color:map-get($color, blue) !important; }}
+.bg-gray{background: { color:#f5f8fa !important; }}
+.logo { max-height: 35px; }
+.container { @media (min-width: 1200px){max-width: 1164px;} }
 .cs-container{max-width: 847px;width: 100%; margin: auto;position: relative; padding-bottom: 75px;}
 .forms-container{min-height: 455px;}
 .theme-blue-shadow {
@@ -57,3 +53,4 @@ body
 
 
 
+.hide-at-991 { @media(max-width:991px) {display: none; } }

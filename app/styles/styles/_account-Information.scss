@@ -1,4 +1,4 @@
-
+$font-family:SFCompactDisplay;
 .person-info
 {
     .person-image
@@ -25,13 +25,56 @@
         {
             font: { size:19.04px; }
         }
+
+        @media(max-width:991px)
+        {
+            .person-basic-info
+            {
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-wrap: wrap;
+                flex-wrap: wrap;
+                margin-right: -15px;
+                margin-left: -15px;
+                .block
+                {
+                    -ms-flex-preferred-size: 0;
+                    flex-basis: 0;
+                    -ms-flex-positive: 1;
+                    flex-grow: 1;
+                    max-width: 100%;
+                    &:nth-child(1) { @include responsive-width(88px)}
+                }
+            }
+        }
+        .person-copy-info
+        {$font-size:20px;
+            div
+            {
+                &.info-description-box
+                {
+                    font: {
+                        family:$font-family;
+                        size:$font-size;
+                    }
+                    &:before{display: none;}
+                }
+            }
+        }
+
+
+        /*--Account section--*/
+
+
+
+
     }
 }
 
 .person-copy-info
 {
     $font-size:15.23px;
-    $font-family:SFCompactDisplay;
+    
     div
     {
         padding:  5px 28px;
@@ -44,9 +87,7 @@
         }
         &.info-description-box
         {
-            
             position: relative;
-           
             display: -ms-flexbox;
             display: flex;
             -ms-flex-wrap: wrap;
@@ -64,10 +105,7 @@
                 max-width: 100%;
                 position: relative;
                 z-index: 2 ;
-                &:nth-child(1)
-                {
-                    @include responsive-width(19px);
-                }
+                &:nth-child(1) { @include responsive-width(19px); }
                 .copy
                 {
                     height:22px;
@@ -91,5 +129,68 @@
                 z-index: 0;
             }
         }
+    }
+}
+.account-management-header
+{
+    font: {
+        family: Roboto;
+        size:18px;
+    }
+    @media (max-width:532px){font: { size:14px; }}
+    @media (max-width:420px){font: { size:12px; } .col{padding: 0px}}
+    @media (max-width:330px){font: { size:11px; } }
+
+}
+.ftm-block
+{
+    min-height: 83px;
+    max-width: 288px;
+    font: { family:Helvetica;}
+    h2{font: { size:23px;} margin: {bottom:9px}}
+    h3{font: { size:10px;} margin: {bottom:3px}}
+    .medium-text{font: { size:15px;}}
+} 
+.gray-column
+{
+    &.large
+    {
+        padding: {
+            top:30px ;
+            left:32px ;
+            right:40px ;
+            bottom:42px ;
+        }
+    &.qr{@media(max-width: 991px){text-align: center !important; padding-top: 0px !important;}}
+    }
+    &.small
+    {
+        padding: {
+            top:14px ;
+            left:32px ;
+            right:62.9px ;
+            bottom:14px ;
+        }
+        @media(max-width:991px) {padding: { right:32px} }
+    }
+}
+.blank-88 { @include responsive-width(88px); }
+.blank-184 { @include responsive-width(184px); }
+
+.transactions-details
+{
+    font: {
+        family: Roboto;
+        size:12px;
+    }
+    h4
+    {
+        font: {
+        family: Roboto;
+        size:12px;
+        }
+    }
+    .col{
+    @media(max-width: 576px){@include responsive-width(100%);}
     }
 }

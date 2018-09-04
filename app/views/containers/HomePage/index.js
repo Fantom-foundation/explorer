@@ -7,7 +7,7 @@ import {
   Form, FormGroup, Input, Button,
 } from 'reactstrap';
 import classnames from 'classnames';
-import identicon1 from 'images/identicon/ident-con-1.png';
+import identicon1 from 'images/icons/arrows-left-right.svg';
 import refreshIcon from 'images/icons/refresh-icon.svg';
 import { Progress, Refresh } from 'views/components/core/core';
 import Header from 'views/components/header';
