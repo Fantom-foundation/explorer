@@ -30,5 +30,8 @@ module.exports = db.define('users', {
   password_hint: {
     type: Sequelize.STRING,
   },
+  icon: {
+    type: Sequelize.STRING,
+  },
 });
 

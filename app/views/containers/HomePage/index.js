@@ -7,6 +7,7 @@ import {
   Form, FormGroup, Input,
 } from 'reactstrap';
 import classnames from 'classnames';
+import QRCode from 'qrcode.react';
 import identicon1 from 'images/identicon/ident-con-1.png';
 import arrowLeft from 'images/icons/arrow-left.svg';
 import arrowRight from 'images/icons/arrow-right.svg';
@@ -14,6 +15,8 @@ import cross from 'images/icons/cross.svg';
 import refreshIcon from 'images/icons/refresh-icon.svg';
 import { Progress, Refresh } from 'views/components/core/core';
 import Header from 'views/components/header';
+import { Identicons } from 'views/containers/homepage/identicons';
+import DisplayIdenticons from 'views/containers/homepage/display-identicons';
 
 //import TempQR from '../../components/TempComponents/qr';
 
@@ -30,12 +33,15 @@ export default class FirstPage extends React.Component {
       emailErrorText: '',
       passErrorText: '',
       repassErrorText: '',
+      data: [],
+      date: new Date().getTime(),
+      isUpdated: false,
     };
     this.toggle = this.toggle.bind(this);
   }
-
   onUpdate = (key, value) => {
-    this.setState({ [key]: value });
+    this.setState({ [key]: value,
+    });
   }
   handleClick = (event) => {
     event.preventDefault();
@@ -79,6 +85,8 @@ export default class FirstPage extends React.Component {
       this.validPass();
     } else if (name === 'repassword') {
       this.validRepass();
+    } else if (name === 'password_hint') {
+      this.validPasswordHint();
     }
   }
   validPass = () => {
@@ -122,8 +130,16 @@ export default class FirstPage extends React.Component {
       });
     }
   }
-
+  refreshData = () => {
+    const newDate = new Date().getTime();
+    this.setState({ date: newDate });
+  }
   render() {
+    let items = [];
+    for(let i = 0; i < 6; i++) {
+      const item = <DisplayIdenticons index={i} date={this.state.date} />;
+      items.push(item);
+    }
     return (
       <div>
         <Header />
@@ -214,7 +230,7 @@ export default class FirstPage extends React.Component {
                                         name="password"
                                         className="theme-blue"
                                         id="exampleEmail"
-                                        placeholder="Re- enter Password"
+                                        placeholder="Re-enter Password"
                                         onBlur={(event) => this.validateData(event, 'repassword')}
                                         onChange={(e) => this.onUpdate('repassword', e.currentTarget.value)}
                                       />
@@ -229,6 +245,7 @@ export default class FirstPage extends React.Component {
                                     className="theme-blue"
                                     id="exampleEmail"
                                     placeholder="Password hint"
+                                    onBlur={(event) => this.validateData(event, 'password_hint')}
                                     onChange={(e) => this.onUpdate('password_hint', e.currentTarget.value)}
                                   />
                                 </FormGroup>
@@ -243,66 +260,10 @@ export default class FirstPage extends React.Component {
                                   </Col>
                                 </Row>
                               </Form>
-                              <Refresh className="text-center" animated />
                             </Col>
                           </Row>
-                          <Row className="m-auto" style={{ maxWidth: '635px' }}>
-                            <Col>
-                              <ul className="identicon m-0 p-0   ">
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input nameName="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                                <li>
-                                  <label className="form-radio-label">
-                                    <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
-                                    <i className="form-radio-button"></i>
-                                    <img src={identicon1} />
-                                  </label>
-                                </li>
-                              </ul>
-                            </Col>
-                            <Col className="identicon-refresh"> <img src={refreshIcon} alt="Refresh" />  </Col>
-                          </Row>
-
+                          {items}
+                          <Col className="identicon-refresh"> <img aria-hidden src={refreshIcon} alt="Refresh" onClick={this.refreshData} /> </Col>
                           <ul className="form-footer-buttons">
                             <li>
                               <span style={{ backgroundImage: `url(${cross})` }}>Close</span>
@@ -336,8 +297,8 @@ export default class FirstPage extends React.Component {
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
                               <Row>
                                 <Col>
-                           
-                                  <img src={identicon1} />
+
+                                  <Identicons id='1234556677654' width={40} size={5} />
                                   John Doe
                                 </Col>
                                 <Col>
