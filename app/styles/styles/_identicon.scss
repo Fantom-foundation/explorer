@@ -25,7 +25,27 @@
     flex: 0 0 55px;
     max-width:55px;
     img{
+        cursor: pointer;
         width:15.9px;
         height:15.9px;
+    }
+}
+
+.identicon-boxes-container
+{
+    width: 40px;
+    height: 40px;
+    margin: {left: 2px;}
+    overflow: hidden;
+    position: relative;
+    &:before
+    {
+        position: absolute;
+        content: "";
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+        box-shadow: inset 0px 0px 0px 4px white;
     }
 }

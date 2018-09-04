@@ -41,7 +41,8 @@ export default class FirstPage extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
   onUpdate = (key, value) => {
-    this.setState({ [key]: value,
+    this.setState({
+      [key]: value,
     });
   }
   handleClick = (event) => {
@@ -144,7 +145,7 @@ export default class FirstPage extends React.Component {
     this.setState({ mnemonic });
   }
   render() {
-    
+
     return (
       <div>
         <Header />
@@ -194,7 +195,7 @@ export default class FirstPage extends React.Component {
             <Row>
               <Col>
                 <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="3">
+                  <TabPane tabId="1">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
@@ -206,27 +207,44 @@ export default class FirstPage extends React.Component {
                                 {/*==========================New Form Start=============================*/}
 
 
-                                <div class="form-element form-input">
-  <input id="test1" class="form-element-field" placeholder="Please fill in your full name" type="input" required="" />
-  <div class="form-element-bar"></div>
-  <label class="form-element-label" for="test1">Name</label>
+<div className="form-element form-input">
+    <input id="AccountName" className="form-element-field" placeholder=" " type="text" required="" />
+    <div className="form-element-bar"></div>
+    <label className="form-element-label" for="AccountName">Account Name</label>
+    <small className="form-element-hint">You need to specify a valid account name</small>
 </div>
 
-
-                                <div class="form-element form-input form-has-error">
-                             <input id="test" class="form-element-field" placeholder=" " type="text" required=""  />
-                             <div class="form-element-bar"></div>
-                             <label class="form-element-label" for="test">Your age</label>
-                             <small class="form-element-hint">You are way to young, sorry</small>
-                           </div>
-
+<Row>
+    <Col sm={6}>
+    <div className="form-element form-input">
+        <input id="Password" className="form-element-field" placeholder=" " type="text" required="" />
+        <div className="form-element-bar"></div>
+        <label className="form-element-label" for="Password">Password</label>
+        <small className="form-element-hint">You need to specify a valid account name</small>
+    </div>
+    </Col>
+    <Col sm={6}>
+    <div className="form-element form-input">
+        <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="text" required="" />
+        <div className="form-element-bar"></div>
+        <label className="form-element-label" for="Re-enterPassword">Re- enter Password</label>
+        <small className="form-element-hint">You need to specify a valid account name</small>
+    </div>
+    </Col>
+</Row>
+<div className="form-element form-input">
+    <input id="PasswordHint" className="form-element-field" placeholder=" " type="text" required="" />
+    <div className="form-element-bar"></div>
+    <label className="form-element-label" for="PasswordHint">Password hint</label>
+    <small className="form-element-hint">You need to specify a valid account name</small>
+</div>
 
                                 {/*==========================New Form Ens=============================*/}
 
 
 
 
-                                <FormGroup>
+                                {/* <FormGroup>
                                   <Input
                                     type="text"
                                     name="email"
@@ -240,7 +258,7 @@ export default class FirstPage extends React.Component {
                                 </FormGroup>
                                 <Row>
                                   <Col sm={6}>
-       
+
                                     <FormGroup>
                                       <Input
                                         type="password"
@@ -279,8 +297,8 @@ export default class FirstPage extends React.Component {
                                     onBlur={(event) => this.validateData(event, 'password_hint')}
                                     onChange={(e) => this.onUpdate('password_hint', e.currentTarget.value)}
                                   />
-                                </FormGroup>
-                                <Row>
+                                </FormGroup> */}
+                                <Row className="mt-3">
                                   <Col>
                                     <Progress type="theme-red-Yellow-green" value={40} />
                                   </Col>
@@ -294,7 +312,7 @@ export default class FirstPage extends React.Component {
                             </Col>
                           </Row>
                           <DisplayIdenticons date={this.state.date} />
-                          
+
                           <FooterButtons />
                         </div>
                         <AccountFooter />
@@ -308,7 +326,7 @@ export default class FirstPage extends React.Component {
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
                           <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
-                              
+
                               <AccountInfo mnemonic={this.state.mnemonic} ref={el => (this.componentRef = el)} />
                               <Row className="my-3 ">
                                 <Col className="text-center">
@@ -335,7 +353,7 @@ export default class FirstPage extends React.Component {
                     </Row>
                   </TabPane>
                   {/*===============================================================================================================*/}
-                  <TabPane tabId="1">
+                  <TabPane tabId="3">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
@@ -344,38 +362,38 @@ export default class FirstPage extends React.Component {
                           <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
 
-                              <div className="m-auto" style={{maxWidth:'488px'}}>
-  <Row>
-                                <Col>
+                              <div className="m-auto" style={{ maxWidth: '488px' }}>
+                                <Row>
+                                  <Col>
 
-                                  <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
+                                    <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
 
-                                  <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
-                                  <div className="text-center">
-  <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
-                                    <li ><a href="#">MetaMask</a> or <a href="#">A Hardware Wallet</a> or <a href="#">Running MEW Offline & Locally</a></li>
-                                    <li ><a href="#">Learning How to Protect Yourself and Your Funds</a></li>
-                                  </ul>
-</div>
+                                    <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
+                                    <div className="text-center">
+                                      <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
+                                        <li ><a href="#">MetaMask</a> or <a href="#">A Hardware Wallet</a> or <a href="#">Running MEW Offline & Locally</a></li>
+                                        <li ><a href="#">Learning How to Protect Yourself and Your Funds</a></li>
+                                      </ul>
+                                    </div>
 
-                                  <p className="text text-center black-text">If you must, please double-check the URL & SSL cert. It should say <a href="https://fantom.foundation/" target="_blank">https://fantom.foundation/</a> & MYFANTOMWALLET INC in your URL bar.</p>
-                                </Col>
-                              </Row>
+                                    <p className="text text-center black-text">If you must, please double-check the URL & SSL cert. It should say <a href="https://fantom.foundation/" target="_blank">https://fantom.foundation/</a> & MYFANTOMWALLET INC in your URL bar.</p>
+                                  </Col>
+                                </Row>
 
-  <Row>
-                                <Col>
-                                  <Form>
-                                    <FormGroup>
-                                      <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" />
-                                    </FormGroup>
-                                    <center><Button color="primary">Unlock</Button></center>
-                                  </Form>
+                                <Row>
+                                  <Col>
+                                    <Form>
+                                      <FormGroup>
+                                        <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" />
+                                      </FormGroup>
+                                      <center><Button color="primary">Unlock</Button></center>
+                                    </Form>
 
 
-                                </Col>
-                              </Row>
+                                  </Col>
+                                </Row>
 
-</div>
+                              </div>
 
                             </Col>
                           </Row>

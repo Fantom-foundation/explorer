@@ -10,7 +10,7 @@ export default class IdenticonsIcon extends React.Component {
         <label className="form-radio-label">
           <input name="name" className="form-radio-field" type="radio" value="vagatarian food" />
           <i className="form-radio-button"></i>
-          <div className="d-inline-block" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
+          <div className="d-inline-block theme-blue-shadow identicon-boxes-container" >
             <Identicons id={index + date} width={40} size={3} />
           </div>
         </label>
