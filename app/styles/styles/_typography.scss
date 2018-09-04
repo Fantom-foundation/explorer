@@ -1,0 +1,26 @@
+$font-family:SFCompactDisplay;
+$title-font-size-large:28px;
+$title-font-size-large-576:24px;
+$text-font-size:11px;
+$text-font-size-small:9px;
+.black-text{color:#000;}
+.title
+{
+    font: {
+        family: $font-family;
+        weight:500;
+    }
+    &.large {
+        font: { size: $title-font-size-large; }
+        @media(max-width: 576px) { font: { size: $title-font-size-large-576; }}
+    }
+}
+.text
+{
+    font: {
+        family: $font-family;
+        size: $text-font-size;
+    }
+    &.small { font: { size: $text-font-size-small; }}
+    &.w-thin{font: { weight:300; }}
+}

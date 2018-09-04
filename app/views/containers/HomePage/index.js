@@ -4,21 +4,23 @@ import {
   Row,
   Col,
   TabContent, TabPane, Nav, NavItem, NavLink,
-  Form, FormGroup, Input,
+  Form, FormGroup, Input, Button,
 } from 'reactstrap';
 import classnames from 'classnames';
 import QRCode from 'qrcode.react';
 import identicon1 from 'images/identicon/ident-con-1.png';
-import arrowLeft from 'images/icons/arrow-left.svg';
-import arrowRight from 'images/icons/arrow-right.svg';
-import cross from 'images/icons/cross.svg';
+
 import refreshIcon from 'images/icons/refresh-icon.svg';
 import { Progress, Refresh } from 'views/components/core/core';
 import Header from 'views/components/header';
 import { Identicons } from 'views/containers/homepage/identicons';
 import DisplayIdenticons from 'views/containers/homepage/display-identicons';
+import AccountFooter from 'views/components/footer/account-footer';
+import FooterButtons from 'views/components/footer/footer-buttons';
 
-//import TempQR from '../../components/TempComponents/qr';
+import copyImage from 'images/icons/copy.svg'
+
+import TempQR from '../../components/temp-components/qr';
 
 
 export default class FirstPage extends React.Component {
@@ -143,7 +145,7 @@ export default class FirstPage extends React.Component {
     return (
       <div>
         <Header />
-        <section style={{ padding: '118px 0', backgroundColor: 'rgba(17, 165, 244, 0.1)' }}>
+        <section style={{ padding: '118px 0' }}>
           <Container className="bg-white theme-blue-shadow">
             <Row>
               <Col className="px-0">
@@ -189,13 +191,38 @@ export default class FirstPage extends React.Component {
             <Row>
               <Col>
                 <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="2">
+                  <TabPane tabId="3">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
                           <Row className="mx-0">
                             <Col sm="12" className="px-5 py-3">
                               <Form onSubmit={(event) => this.handleClick(event)}>
+
+
+{/*==========================New Form Start=============================*/}
+
+
+<div class="form-element form-input">
+            <input id="test1" class="form-element-field" placeholder="Please fill in your full name" type="input" required="" />
+            <div class="form-element-bar"></div>
+            <label class="form-element-label" for="test1">Name</label>
+        </div>
+
+
+                           <div class="form-element form-input form-has-error">
+            <input id="test" class="form-element-field" placeholder=" " type="text" required=""  />
+            <div class="form-element-bar"></div>
+            <label class="form-element-label" for="test">Your age</label>
+            <small class="form-element-hint">You are way to young, sorry</small>
+        </div>
+
+
+{/*==========================New Form Ens=============================*/}
+
+
+
+
                                 <FormGroup>
                                   <Input
                                     type="text"
@@ -210,6 +237,7 @@ export default class FirstPage extends React.Component {
                                 </FormGroup>
                                 <Row>
                                   <Col sm={6}>
+       
                                     <FormGroup>
                                       <Input
                                         type="password"
@@ -264,32 +292,14 @@ export default class FirstPage extends React.Component {
                           </Row>
                           {items}
                           <Col className="identicon-refresh"> <img aria-hidden src={refreshIcon} alt="Refresh" onClick={this.refreshData} /> </Col>
-                          <ul className="form-footer-buttons">
-                            <li>
-                              <span style={{ backgroundImage: `url(${cross})` }}>Close</span>
-                            </li>
-                            <li>
-                              <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
-                            </li>
-                            <li>
-                              <span aria-hidden className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.handleClick(event)}>Next</span>
-                            </li>
-                          </ul>
+                          <FooterButtons />
                         </div>
-                        <Row className="account-footer">
-                          <Col>
-                            <p className="text-center">This password encrypts your private key. This does not act as a speed to generate your keys. You will need this password + Mnemonic to unlock your wallet</p>
-                            <ul className="text-center">
-                              <li><span>How to Create a Wallet</span></li>
-                              <li className="pl-3"><span>Getting Started</span></li>
-                            </ul>
-                          </Col>
-                        </Row>
+                        <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>
                   {/*===============================================================================================================*/}
-                  <TabPane tabId="1">
+                  <TabPane tabId="2">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
@@ -297,28 +307,105 @@ export default class FirstPage extends React.Component {
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
                               <Row>
                                 <Col>
-
-                                  <Identicons id='1234556677654' width={40} size={5} />
-                                  John Doe
+                                  <div className="person-info small">
+                                    <div className="d-inline-block align-top"><img src={identicon1} className="person-image theme-blue-shadow" /></div>
+                                    <div className="d-inline-block align-top"><h2 className="person-name">John Doe</h2>
+                                    </div>
+                                  </div>
                                 </Col>
+                                <Col className="text-right">
+                                  {/* -------qr------- */}
+                                  <TempQR />
+                                  {/* -------qr------- */}
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col className="person-copy-info">
+                                  <div>
+                                    <h2 className="info-title mb-0">Your Address</h2>
+                                  </div>
+                                  <div className="info-description-box">
+                                    <span className="mr-3"><img src={copyImage} className="copy mr-3" /></span>
+                                    <span >0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
+                                  </div>
+                                  <div>
+                                    <h2 className="info-title mb-0">Owner Recovery Phrase</h2>
+                                  </div>
+                                  <div className="info-description-box ">
+                                    <span className="mr-3"><img src={copyImage} className="copy" /></span>
+                                    <span >unmoved skewed primary pointing pep prescribe on stage eject unbiased skeleton robot click </span>
+                                  </div>
+                                </Col>
+                              </Row>
+                              <Row className="my-3 ">
+                                <Col className="text-center">
+                                  <Button color="primary">Print Phrase</Button>
+                                </Col>
+                              </Row>
+                              <Row>
                                 <Col>
-                                  {/* -------qr------- */}
-                                  {/* <TempQR /> */}
-                                  {/* -------qr------- */}
+                                  <p className="text mb-3 black-text">Please back up the recovery phase now. Make sure to keep it private and secure, it allows full and unlimited access to your account.</p>
+
+                                  <p className="text small mb-0 black-text">Type ‘’ I have written down the phrase’’  below to confirm it is backed up.</p>
                                 </Col>
                               </Row>
                             </Col>
                           </Row>
+                          {/* <FooterButtons /> */}
                         </div>
+                        <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>
                   {/*===============================================================================================================*/}
-                  <TabPane tabId="3">
+                  <TabPane tabId="1">
                     <Row>
-                      <Col >
-                        ijghyju
-                          ryrty
+                      <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
+                        <div className="cs-container forms-container theme-blue-shadow inner mb-4">
+
+
+                          <Row className="mx-0">
+                            <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
+
+<div className="m-auto" style={{maxWidth:'488px'}}>
+                              <Row>
+                                <Col>
+
+                                  <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
+
+                                  <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
+<div className="text-center">
+                                  <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
+                                    <li ><a href="#">MetaMask</a> or <a href="#">A Hardware Wallet</a> or <a href="#">Running MEW Offline & Locally</a></li>
+                                    <li ><a href="#">Learning How to Protect Yourself and Your Funds</a></li>
+                                  </ul>
+</div>
+
+                                  <p className="text text-center black-text">If you must, please double-check the URL & SSL cert. It should say <a href="https://fantom.foundation/" target="_blank">https://fantom.foundation/</a> & MYFANTOMWALLET INC in your URL bar.</p>
+                                </Col>
+                              </Row>
+
+                              <Row>
+                                <Col>
+                                  <Form>
+                                    <FormGroup>
+                                      <Input type="textarea" name="text" id="exampleText" placeholder="Enter Mnemonic Phrase" />
+                                    </FormGroup>
+                                    <center><Button color="primary">Unlock</Button></center>
+                                  </Form>
+
+
+                                </Col>
+                              </Row>
+
+                              </div>
+
+                            </Col>
+                          </Row>
+
+                          <FooterButtons />
+                        </div>
+                        <AccountFooter />
                       </Col>
                     </Row>
                   </TabPane>
