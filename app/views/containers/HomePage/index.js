@@ -204,7 +204,7 @@ export default class FirstPage extends React.Component {
             <Row>
               <Col>
                 <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="3">
+                  <TabPane tabId="1">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
@@ -216,27 +216,44 @@ export default class FirstPage extends React.Component {
                                 {/*==========================New Form Start=============================*/}
 
 
-                                <div className="form-element form-input">
-                                  <input id="test1" className="form-element-field" placeholder="Please fill in your full name" type="input" required="" />
-                                  <div className="form-element-bar"></div>
-                                  <label className="form-element-label" for="test1">Name</label>
-                                </div>
+<div className="form-element form-input">
+    <input id="AccountName" className="form-element-field" placeholder=" " type="text" required="" />
+    <div className="form-element-bar"></div>
+    <label className="form-element-label" for="AccountName">Account Name</label>
+    <small className="form-element-hint">You need to specify a valid account name</small>
+</div>
 
-
-                                <div className="form-element form-input form-has-error">
-                                  <input id="test" className="form-element-field" placeholder=" " type="text" required="" />
-                                  <div className="form-element-bar"></div>
-                                  <label className="form-element-label" for="test">Your age</label>
-                                  <small className="form-element-hint">You are way to young, sorry</small>
-                                </div>
-
+<Row>
+    <Col sm={6}>
+    <div className="form-element form-input">
+        <input id="Password" className="form-element-field" placeholder=" " type="text" required="" />
+        <div className="form-element-bar"></div>
+        <label className="form-element-label" for="Password">Password</label>
+        <small className="form-element-hint">You need to specify a valid account name</small>
+    </div>
+    </Col>
+    <Col sm={6}>
+    <div className="form-element form-input">
+        <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="text" required="" />
+        <div className="form-element-bar"></div>
+        <label className="form-element-label" for="Re-enterPassword">Re- enter Password</label>
+        <small className="form-element-hint">You need to specify a valid account name</small>
+    </div>
+    </Col>
+</Row>
+<div className="form-element form-input">
+    <input id="PasswordHint" className="form-element-field" placeholder=" " type="text" required="" />
+    <div className="form-element-bar"></div>
+    <label className="form-element-label" for="PasswordHint">Password hint</label>
+    <small className="form-element-hint">You need to specify a valid account name</small>
+</div>
 
                                 {/*==========================New Form Ens=============================*/}
 
 
 
 
-                                <FormGroup>
+                                {/* <FormGroup>
                                   <Input
                                     type="text"
                                     name="email"
@@ -293,8 +310,8 @@ export default class FirstPage extends React.Component {
                                     onBlur={(event) => this.validateData(event, 'password_hint')}
                                     onChange={(e) => this.onUpdate('password_hint', e.currentTarget.value)}
                                   />
-                                </FormGroup>
-                                <Row>
+                                </FormGroup> */}
+                                <Row className="mt-3">
                                   <Col>
                                     <Progress type="theme-red-Yellow-green" value={40} />
                                   </Col>
@@ -348,7 +365,7 @@ export default class FirstPage extends React.Component {
                     </Row>
                   </TabPane>
                   {/*===============================================================================================================*/}
-                  <TabPane tabId="1">
+                  <TabPane tabId="3">
                     <Row>
                       <Col sm="12" style={{ paddingTop: '52px', paddingBottom: '52px' }}>
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
