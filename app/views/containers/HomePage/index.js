@@ -7,20 +7,18 @@ import {
   Form, FormGroup, Input, Button,
 } from 'reactstrap';
 import classnames from 'classnames';
-import QRCode from 'qrcode.react';
 import identicon1 from 'images/identicon/ident-con-1.png';
-
 import refreshIcon from 'images/icons/refresh-icon.svg';
 import { Progress, Refresh } from 'views/components/core/core';
 import Header from 'views/components/header';
-import { Identicons } from 'views/containers/homepage/identicons';
 import DisplayIdenticons from 'views/containers/homepage/display-identicons';
 import AccountFooter from 'views/components/footer/account-footer';
 import FooterButtons from 'views/components/footer/footer-buttons';
-
-import copyImage from 'images/icons/copy.svg'
-
-import TempQR from '../../components/temp-components/qr';
+import copyImage from 'images/icons/copy.svg';
+import bip39 from 'bip39';
+import ReactToPrint from "react-to-print";
+import TempQR from 'views/components/temp-components/qr';
+import AccountInfo from 'views/containers/homepage/account-info';
 
 
 export default class FirstPage extends React.Component {
@@ -38,6 +36,7 @@ export default class FirstPage extends React.Component {
       data: [],
       date: new Date().getTime(),
       isUpdated: false,
+      mnemonic: '',
     };
     this.toggle = this.toggle.bind(this);
   }
@@ -131,17 +130,21 @@ export default class FirstPage extends React.Component {
         activeTab: tab,
       });
     }
+    if (tab === '2') {
+      this.getMnemonic();
+    }
   }
   refreshData = () => {
     const newDate = new Date().getTime();
     this.setState({ date: newDate });
   }
+  getMnemonic = () => {
+    const mnemonic = bip39.generateMnemonic();
+    bip39.mnemonicToSeedHex(mnemonic);
+    this.setState({ mnemonic });
+  }
   render() {
-    let items = [];
-    for(let i = 0; i < 6; i++) {
-      const item = <DisplayIdenticons index={i} date={this.state.date} />;
-      items.push(item);
-    }
+    
     return (
       <div>
         <Header />
@@ -200,25 +203,25 @@ export default class FirstPage extends React.Component {
                               <Form onSubmit={(event) => this.handleClick(event)}>
 
 
-{/*==========================New Form Start=============================*/}
+                                {/*==========================New Form Start=============================*/}
 
 
-<div class="form-element form-input">
-            <input id="test1" class="form-element-field" placeholder="Please fill in your full name" type="input" required="" />
-            <div class="form-element-bar"></div>
-            <label class="form-element-label" for="test1">Name</label>
-        </div>
+                                <div class="form-element form-input">
+  <input id="test1" class="form-element-field" placeholder="Please fill in your full name" type="input" required="" />
+  <div class="form-element-bar"></div>
+  <label class="form-element-label" for="test1">Name</label>
+</div>
 
 
-                           <div class="form-element form-input form-has-error">
-            <input id="test" class="form-element-field" placeholder=" " type="text" required=""  />
-            <div class="form-element-bar"></div>
-            <label class="form-element-label" for="test">Your age</label>
-            <small class="form-element-hint">You are way to young, sorry</small>
-        </div>
+                                <div class="form-element form-input form-has-error">
+                             <input id="test" class="form-element-field" placeholder=" " type="text" required=""  />
+                             <div class="form-element-bar"></div>
+                             <label class="form-element-label" for="test">Your age</label>
+                             <small class="form-element-hint">You are way to young, sorry</small>
+                           </div>
 
 
-{/*==========================New Form Ens=============================*/}
+                                {/*==========================New Form Ens=============================*/}
 
 
 
@@ -290,8 +293,8 @@ export default class FirstPage extends React.Component {
                               </Form>
                             </Col>
                           </Row>
-                          {items}
-                          <Col className="identicon-refresh"> <img aria-hidden src={refreshIcon} alt="Refresh" onClick={this.refreshData} /> </Col>
+                          <DisplayIdenticons date={this.state.date} />
+                          
                           <FooterButtons />
                         </div>
                         <AccountFooter />
@@ -305,41 +308,15 @@ export default class FirstPage extends React.Component {
                         <div className="cs-container forms-container theme-blue-shadow inner mb-4">
                           <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
-                              <Row>
-                                <Col>
-                                  <div className="person-info small">
-                                    <div className="d-inline-block align-top"><img src={identicon1} className="person-image theme-blue-shadow" /></div>
-                                    <div className="d-inline-block align-top"><h2 className="person-name">John Doe</h2>
-                                    </div>
-                                  </div>
-                                </Col>
-                                <Col className="text-right">
-                                  {/* -------qr------- */}
-                                  <TempQR />
-                                  {/* -------qr------- */}
-                                </Col>
-                              </Row>
-                              <Row>
-                                <Col className="person-copy-info">
-                                  <div>
-                                    <h2 className="info-title mb-0">Your Address</h2>
-                                  </div>
-                                  <div className="info-description-box">
-                                    <span className="mr-3"><img src={copyImage} className="copy mr-3" /></span>
-                                    <span >0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
-                                  </div>
-                                  <div>
-                                    <h2 className="info-title mb-0">Owner Recovery Phrase</h2>
-                                  </div>
-                                  <div className="info-description-box ">
-                                    <span className="mr-3"><img src={copyImage} className="copy" /></span>
-                                    <span >unmoved skewed primary pointing pep prescribe on stage eject unbiased skeleton robot click </span>
-                                  </div>
-                                </Col>
-                              </Row>
+                              
+                              <AccountInfo mnemonic={this.state.mnemonic} ref={el => (this.componentRef = el)} />
                               <Row className="my-3 ">
                                 <Col className="text-center">
-                                  <Button color="primary">Print Phrase</Button>
+                                  <ReactToPrint
+                                    trigger={() => <Button color="primary">Print Phrase</Button>}
+                                    content={() => this.componentRef}
+                                  />
+                                  {/* <Button color="primary">Print Phrase</Button> */}
                                 </Col>
                               </Row>
                               <Row>
@@ -367,15 +344,15 @@ export default class FirstPage extends React.Component {
                           <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px' }}>
 
-<div className="m-auto" style={{maxWidth:'488px'}}>
-                              <Row>
+                              <div className="m-auto" style={{maxWidth:'488px'}}>
+  <Row>
                                 <Col>
 
                                   <h2 className="title large text-center black-text">Enter Your Mnemonic</h2>
 
                                   <p className="text text-center black-text">Entering your Mnemonic phrase on a website is dangerous. If our website is compromised or you accidentally visit a different website, your funds will be stolen. Please consider:</p>
-<div className="text-center">
-                                  <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
+                                  <div className="text-center">
+  <ul className="text w-thin text-left d-inline-block pl-4 px-sm-0">
                                     <li ><a href="#">MetaMask</a> or <a href="#">A Hardware Wallet</a> or <a href="#">Running MEW Offline & Locally</a></li>
                                     <li ><a href="#">Learning How to Protect Yourself and Your Funds</a></li>
                                   </ul>
@@ -385,7 +362,7 @@ export default class FirstPage extends React.Component {
                                 </Col>
                               </Row>
 
-                              <Row>
+  <Row>
                                 <Col>
                                   <Form>
                                     <FormGroup>
@@ -398,7 +375,7 @@ export default class FirstPage extends React.Component {
                                 </Col>
                               </Row>
 
-                              </div>
+</div>
 
                             </Col>
                           </Row>
