@@ -194,3 +194,47 @@ $font-family:SFCompactDisplay;
     @media(max-width: 576px){@include responsive-width(100%);}
     }
 }
+
+.accounts-title{}
+.accounts
+{
+    .accounts-column
+    {
+        @media (max-width:991px){@include responsive-width(100%); margin-left:0 !important; margin-right:0 !important;}
+    }
+    .account-logo
+    {
+        @include responsive-width(87px);
+        @media (max-width:576px) { @include responsive-width(65px); }
+        text-align: center;
+        img
+        {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            @media (max-width:576px) { height: 70%; width: auto; }
+        }
+    }
+    .account-number
+    {
+        max-width: 267px;
+        @media (max-width:576px) {
+            max-width: 204px;
+            font: { size:14px !important; }
+            img { height: 14px !important; }
+            
+        }
+        img
+        {
+            height: 17.4px;
+            vertical-align: baseline;
+        }
+    }
+    h2{
+        font: {
+            family: Roboto;
+            size: 20px;
+        }
+        @media (max-width:576px) {font: { size: 16px; }}
+    }
+}

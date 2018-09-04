@@ -13,6 +13,7 @@ $text-font-size-small:9px;
         family: $font-family;
         weight:500;
     }
+    &.roboto { font: { family: Roboto;} }
     &.large {
         font: { size: $title-font-size-large; }
         @media(max-width: 576px) { font: { size: $title-font-size-large-576; }}

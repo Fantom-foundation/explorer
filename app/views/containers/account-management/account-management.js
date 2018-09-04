@@ -12,6 +12,10 @@ import arrowLeftRight from 'images/icons/arrows-left-right.svg';
 import Header from 'views/components/header';
 import bip39 from 'bip39';
 
+import ethereumLogo from 'images/logo/ethereum-logo.svg';
+import bitcoinLogo from 'images/logo/bitcoin-logo.svg';
+import litecoinBlackLogo from 'images/logo/litecoin-black-logo.svg';
+import litecoinLogo from 'images/logo/litecoin-logo.svg';
 import TempQR from 'views/components/temp-components/qr';
 
 export default class FirstPage extends React.Component {
@@ -220,7 +224,7 @@ export default class FirstPage extends React.Component {
                           <Col><h4 className=" text-right text-primary"><span>23 mins 42 secs ago</span></h4></Col>
                         </Row>
                         <Row>
-                          <Col  className="blank-184"><h4 className="text-gray text-ellipsis  w-148"><span >From <a href="#">0x04041d6a6bbbc2</a></span></h4></Col>
+                          <Col className="blank-184"><h4 className="text-gray text-ellipsis  w-148"><span >From <a href="#">0x04041d6a6bbbc2</a></span></h4></Col>
                           <Col ><h4 className="text-gray text-ellipsis  w-185"><span>to <a href="#">0xf4a2eff88a408ff4c4550148</a></span></h4></Col>
                         </Row>
                         <Row>
@@ -232,8 +236,56 @@ export default class FirstPage extends React.Component {
                 </Row>
 
                 {/*===============Transactions Loop End=======================*/}
-            
 
+                <Row className="mt-5">
+                  <Col>
+                    <h2 className="title large roboto"><span>Accounts</span></h2>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Row className="accounts">
+                      <Col className="bg-gray mr-2 mb-3 accounts-column">
+                        <Row className="py-4">
+                          <Col className="account-logo px-0" ><img src={ethereumLogo} /></Col>
+                          <Col className="pl-0">
+                          <h2 className="black-text"><span>Ethereum Account</span></h2>
+                          <p className="account-number text text-primary large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXXXXX</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col className="bg-gray ml-2 mb-3 accounts-column">
+                        <Row className="py-4">
+                          <Col className="account-logo px-0" ><img src={bitcoinLogo} /></Col>
+                          <Col className="pl-0">
+                          <h2 className="black-text"><span>Bitcoin Account</span></h2>
+                          <p className="account-number text text-primary  large mb-0 text-ellipsis"><img src={copyImage}/> 0x59d50B3XXXXXXXXXXXXXX</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    <Row className="accounts">
+                      <Col className="bg-gray mr-2 mb-3 accounts-column">
+                        <Row className="py-4">
+                          <Col className="account-logo px-0" ><img src={litecoinBlackLogo} /></Col>
+                          <Col className="pl-0">
+                          <h2 className="black-text"><span>Another Account</span></h2>
+                          <p className="account-number text text-primary  large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXX</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col className="bg-gray ml-2 mb-3 accounts-column">
+                        <Row className="py-4">
+                          <Col className="account-logo px-0" ><img src={litecoinLogo} /></Col>
+                          <Col className="pl-0">
+                          <h2 className="black-text"><span>Litecoin Account</span></h2>
+                          <p className="account-number text text-primary large mb-0 text-ellipsis"><img src={copyImage} /> 0x59d50B3XXXXXXXXXXXXXX</p>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
 
               </Col>
             </Row>
