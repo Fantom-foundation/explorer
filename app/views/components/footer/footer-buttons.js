@@ -17,7 +17,7 @@ export default class FooterButtons extends React.Component{
               <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
             </li>
             <li>
-              <span aria-hidden className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.handleClick(event)}>Next</span>
+              <span aria-hidden className="disabled" style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.props.handleClick(event)}>Next</span>
             </li>
           </ul>
 

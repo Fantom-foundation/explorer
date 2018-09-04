@@ -24,6 +24,9 @@ module.exports = db.define('users', {
     type: Sequelize.STRING, // Type of column
     unique: true, // unique constraint
   },
+  account_name: {
+    type: Sequelize.STRING,
+  },
   password: {
     type: Sequelize.STRING,
   },
