@@ -3,8 +3,10 @@ import {
     Row,
     Col,
 } from 'reactstrap';
-import identicon1 from 'images/identicon/ident-con-1.png';
-import TempQR from 'views/components/temp-components/qr';
+import { Identicons } from 'views/containers/identicons/identicons';
+//import identicon1 from 'images/identicon/ident-con-1.png';
+import QRCode from 'qrcode.react';
+// import TempQR from 'views/components/temp-components/qr';
 import copyImage from 'images/icons/copy.svg';
 
 export default class AccountInfo extends React.Component {
@@ -14,15 +16,16 @@ export default class AccountInfo extends React.Component {
         <Row>
           <Col>
             <div className="person-info small">
-              <div className="d-inline-block align-top"><img src={identicon1} className="person-image theme-blue-shadow" /></div>
+              <div className="d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
+                {/* <img src={identicon1} className="person-image theme-blue-shadow" /> */}
+                <Identicons id={this.props.mnemonic} className="person-image theme-blue-shadow" width={40} size={3} />
+              </div>
               <div className="d-inline-block align-top"><h2 className="person-name">John Doe</h2>
               </div>
             </div>
           </Col>
           <Col className="text-right">
-            {/* -------qr------- */}
-            <TempQR />
-            {/* -------qr------- */}
+            <QRCode value="http://facebook.github.io/react/" />
           </Col>
         </Row>
         <Row>
