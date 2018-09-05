@@ -46,11 +46,11 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-style';
 
-const persistedState = loadState();
+//const persistedState = loadState();
 // Create redux store with history
-//const initialState = {};
+const initialState = {};
 const history = createHistory();
-const store = configureStore(persistedState, history);
+const store = configureStore(initialState, history);
 store.subscribe(() => {
   saveState(store.getState());
 });

@@ -8,7 +8,8 @@ import { isAbsolute } from 'path';
 
 export default class FooterButtons extends React.Component {
   render() {
-    console.log('pppp', this.props);
+    console.log('pppp@@@', this.props);
+    console.log('this.props.isActive', this.props.isEnabled);
     return (
       <ul className="form-footer-buttons">
         <li>
@@ -18,7 +19,7 @@ export default class FooterButtons extends React.Component {
           <span style={{ backgroundImage: `url(${arrowLeft})` }}>Back</span>
         </li>
         <li>
-          <span aria-hidden className={`${this.props.isActive ? '' : 'disabled'}`} style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.props.handleClick(event, this.props.isActive)}>Next</span>
+          <span aria-hidden className={`${this.props.isEnabled ? '' : 'disabled'}`} style={{ backgroundImage: `url(${arrowRight})` }} onClick={(event) => this.props.handleClick(event, this.props.isActive)}>Next</span>
         </li>
       </ul>
 

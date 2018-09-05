@@ -12,7 +12,7 @@ const selectLoginUser = (state) => state.get('currentUserDetails');
 const getUserDetails = () => createSelector(
   selectLoginUser,
   (loginState) => {
-    debugger;
+  // debugger;
     const userDetails = loginState.get('userDetails');
     let user = '';
     let icon = '';
@@ -23,7 +23,8 @@ const getUserDetails = () => createSelector(
     let hexPrivateKey = '';
     let masterPrivateKey = '';
     if (userDetails) {
-      debugger;
+     //debugger;
+     console.log('userDetails Value', userDetails);
       user = userDetails.user;
       icon = userDetails.icon;
       address = userDetails.address;
@@ -39,24 +40,24 @@ const getUserDetails = () => createSelector(
     if (icon === undefined) {
       icon = userDetails.get('icon');
     }
-    // if (address === undefined) {
-    //   address = userDetails.get('address');
-    // }
-    // if (seed === undefined) {
-    //   seed = userDetails.get('seed');
-    // }
-    // if (mnemonic === undefined) {
-    //   mnemonic = userDetails.get('mnemonic');
-    // }
-    // if (pubKey === undefined) {
-    //   pubKey = userDetails.get('pubKey');
-    // }
-    // if (hexPrivateKey === undefined) {
-    //   hexPrivateKey = userDetails.get('hexPrivateKey');
-    // }
-    // if (masterPrivateKey === undefined) {
-    //   masterPrivateKey = userDetails.get('masterPrivateKey');
-    // }
+    if (address === undefined) {
+      address = userDetails.get('address');
+    }
+    if (seed === undefined) {
+      seed = userDetails.get('seed');
+    }
+    if (mnemonic === undefined) {
+      mnemonic = userDetails.get('mnemonic');
+    }
+    if (pubKey === undefined) {
+      pubKey = userDetails.get('pubKey');
+    }
+    if (hexPrivateKey === undefined) {
+      hexPrivateKey = userDetails.get('hexPrivateKey');
+    }
+    if (masterPrivateKey === undefined) {
+      masterPrivateKey = userDetails.get('masterPrivateKey');
+    }
     return { user, icon, address, seed, mnemonic, pubKey, hexPrivateKey, masterPrivateKey };
   }
 );
