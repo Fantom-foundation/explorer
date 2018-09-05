@@ -1,0 +1,26 @@
+<svg id="Ethereum_logo" xmlns="http://www.w3.org/2000/svg" width="29.829" height="48.578" viewBox="0 0 29.829 48.578">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: #010101;
+      }
+
+      .cls-1 {
+        opacity: 0.6;
+      }
+
+      .cls-2 {
+        opacity: 0.45;
+      }
+
+      .cls-3 {
+        opacity: 0.8;
+      }
+    </style>
+  </defs>
+  <path id="path3078" class="cls-1" d="M14.91,0,0,6.777,14.91,15.59,29.82,6.777Z" transform="translate(0 17.963)"/>
+  <path id="path3094" class="cls-2" d="M0,24.74l14.91,8.813V0Z" transform="translate(0)"/>
+  <path id="path3110" class="cls-3" d="M0,0V33.553L14.91,24.74Z" transform="translate(14.91)"/>
+  <path id="path3126" class="cls-2" d="M0,0,14.91,21.011V8.809Z" transform="translate(0 27.567)"/>
+  <path id="path3142" class="cls-3" d="M0,8.809v12.2L14.919,0Z" transform="translate(14.91 27.567)"/>
+</svg>

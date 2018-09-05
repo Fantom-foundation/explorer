@@ -44,6 +44,7 @@ class HomePage extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
   }
+  
   componentWillMount() {
     if (this.state.activeTab === '2') {
       this.getMnemonic();
