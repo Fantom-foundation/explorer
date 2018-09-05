@@ -3,6 +3,7 @@ import { Identicons } from 'views/containers/identicons/identicons';
 
 export default class IdenticonsIcon extends React.Component {
   render() {
+    console.log('this.props', this.props);
     const index = this.props.index.toString();
     const date = this.props.date.toString();
     let identiconsId = index + date;

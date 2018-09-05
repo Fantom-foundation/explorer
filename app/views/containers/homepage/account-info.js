@@ -4,13 +4,12 @@ import {
     Col,
 } from 'reactstrap';
 import { Identicons } from 'views/containers/identicons/identicons';
-//import identicon1 from 'images/identicon/ident-con-1.png';
 import QRCode from 'qrcode.react';
-// import TempQR from 'views/components/temp-components/qr';
 import copyImage from 'images/icons/copy.svg';
 
 export default class AccountInfo extends React.Component {
   render() {
+    const userDetails = this.props.userDetails;
     return (
       <span>
         <Row>
@@ -18,9 +17,9 @@ export default class AccountInfo extends React.Component {
             <div className="person-info small">
               <div className="d-inline-block align-top" style={{ width: '40px', height: '45px', overflow: 'hidden' }}>
                 {/* <img src={identicon1} className="person-image theme-blue-shadow" /> */}
-                <Identicons id={this.props.mnemonic} className="person-image theme-blue-shadow" width={40} size={3} />
+                <Identicons id={userDetails.icon} className="person-image theme-blue-shadow" width={40} size={3} />
               </div>
-              <div className="d-inline-block align-top"><h2 className="person-name">John Doe</h2>
+              <div className="d-inline-block align-top"><h2 className="person-name">{userDetails.user}</h2>
               </div>
             </div>
           </Col>
@@ -37,7 +36,7 @@ export default class AccountInfo extends React.Component {
               <span className="mr-3">
                 <img src={copyImage} className="copy mr-3" />
               </span>
-              <span >0x59d50B3XXXXXXXXXXXXXXXXXXXCBE154D</span>
+              <span >{this.props.address}</span>
             </div>
             <div>
               <h2 className="info-title mb-0">Owner Recovery Phrase</h2>

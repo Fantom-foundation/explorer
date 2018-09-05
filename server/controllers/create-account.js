@@ -5,6 +5,8 @@
 const User = require('../models/users');
 const bcrypt = require('bcrypt-nodejs');
 const utils = require('../utilities/utils');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 module.exports = function (app) {
   /**
  * Post API which create account
@@ -13,9 +15,10 @@ module.exports = function (app) {
     console.log('req!!!!', req);
     utils.validateRequiredKeys(req.body,
       [
-        { key: 'email', name: 'Email' },
+        { key: 'user', name: 'Email or Account Name' },
         { key: 'password', name: 'Password' },
         { key: 'password_hint', name: 'Password_Hint' },
+        { key: 'icon', name: 'icon' },
       ],
       (errorField) => {
         let emailToken = bcrypt.hashSync(req.body.email);
@@ -28,29 +31,30 @@ module.exports = function (app) {
         if (!errorField) {
           User.findOne({
             where: {
-              email: req.body.email,
+              [Op.or]: [{ account_name: req.body.user }, { email: req.body.user }],
             },
           }).then((userFromRepo) => {
-            console.log('userFromRepo2323', userFromRepo);
             if (userFromRepo) {
               res.statusCode = 202;
               res.json({
                 status: 202,
-                message: 'Email Already Exist',
+                message: 'User Already Exist',
               });
               res.end();
             } else {
               const passwordHash = bcrypt.hashSync(req.body.password);
-              if (req.body.password === req.body.repassword) {
+              if (req.body.user.includes('@')) {
                 User.create({
-                  email: req.body.email,
+                  email: req.body.user,
                   password: passwordHash,
                   password_hint: req.body.password_hint,
+                  icon: req.body.icon,
                 }).then((result) => {
                   if (result) {
                     res.statusCode = 200;
                     res.json({
                       status: 200,
+                      result,
                       message: 'Account Created successfully',
                     });
                     res.end();
@@ -59,19 +63,32 @@ module.exports = function (app) {
                   console.log('error !!', error);
                 });
               } else {
-                res.statusCode = 201;
-                res.json({
-                  status: 201,
-                  message: 'Password and Re-enter password must be same',
+                User.create({
+                  account_name: req.body.user,
+                  password: passwordHash,
+                  password_hint: req.body.password_hint,
+                  icon: req.body.icon,
+                }).then((result) => {
+                  console.log('result!!', result);
+                  if (result) {
+                    res.statusCode = 200;
+                    res.json({
+                      status: 200,
+                      result,
+                      message: 'Account Created successfully',
+                    });
+                    res.end();
+                  }
+                }).catch((error) => {
+                  console.log('error !!', error);
                 });
-                res.end();
               }
             }
           });
         } else {
-          res.statusCode = 202;
+          res.statusCode = 203;
           res.json({
-            status: 202,
+            status: 203,
             message: errorField,
           });
           res.end();

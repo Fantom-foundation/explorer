@@ -7,25 +7,26 @@ import {
   Form, FormGroup, Input, Button,
 } from 'reactstrap';
 import classnames from 'classnames';
-// import identicon1 from 'images/identicon/ident-con-1.png';
-// import refreshIcon from 'images/icons/refresh-icon.svg';
-import { Progress, Refresh } from 'views/components/core/core';
+import { Progress } from 'views/components/core/core';
 import Header from 'views/components/header';
-import DisplayIdenticons from 'views/containers/identicons/index';
 import AccountFooter from 'views/components/footer/account-footer';
 import FooterButtons from 'views/components/footer/footer-buttons';
-// import copyImage from 'images/icons/copy.svg';
 import bip39 from 'bip39';
-import ReactToPrint from "react-to-print";
-//import TempQR from 'views/components/temp-components/qr';
+import ReactToPrint from 'react-to-print';
 import AccountInfo from 'views/containers/homepage/account-info';
+import Hdkey from 'hdkey';
+import EthUtil from 'ethereumjs-util';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+import { setUserDetails, updateUserDetails } from 'views/controllers/user-details/action';
+import { getUserDetails } from 'views/controllers/user-details/selector';
+import CreateAccount from 'views/containers/tabs/create-account/index';
 
-
-export default class FirstPage extends React.Component {
+class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '1',
+      activeTab: this.props.userDetails.icon ? '2' : '1',
       email: '',
       password: '',
       password_hint: '',
@@ -36,46 +37,69 @@ export default class FirstPage extends React.Component {
       data: [],
       date: new Date().getTime(),
       isUpdated: false,
-      mnemonic: '',
+      mnemonic:'',
       identiconsId: '',
+      address: '',
+      progressValue: this.props.userDetails.icon ? 66.66 : 33.33,
     };
     this.toggle = this.toggle.bind(this);
+  }
+  componentWillMount() {
+    this.getMnemonic();
   }
   onUpdate = (key, value) => {
     this.setState({
       [key]: value,
     });
   }
-  handleClick = (event) => {
+  handleClick = (event, isActive) => {
     event.preventDefault();
-    const payload = {
-      email: this.state.email,
-      password: this.state.password,
-      repassword: this.state.repassword,
-      password_hint: this.state.password_hint,
-      icon: this.state.identiconsId,
-    };
-    const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
-    const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
-    fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then((res) => res.json())
-      .then((res) => {
-        debugger;
-        if (res.status === 200) {
-          console.log('res!!', res);
-          this.resetFields();
-        } else {
-          console.log('error', res);
-        }
-      });
+    if (isActive) {
+      const payload = {
+        user: this.state.email,
+        password: this.state.password,
+        repassword: this.state.repassword,
+        password_hint: this.state.password_hint,
+        icon: this.state.identiconsId,
+      };
+      const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
+      const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
+      fetch(`${hyperText}://${window.location.hostname}${hostname}/api/create-account`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      }).then((res) => res.json())
+        .then((res) => {
+          if (res.status === 200) {
+            console.log('res!!', res);
+            const object = {
+              user: '',
+              icon: '',
+              address: '', 
+              seed: '', 
+              mnemonic: '', 
+              pubKey: '', 
+              hexPrivateKey: '', 
+              masterPrivateKey: '',
+            };
+            if (res.result.email) {
+              object.user = res.result.email;
+            } else {
+              object.user = res.result.account_name;
+            }
+            object.icon = res.result.icon;
+            this.props.setUserDetails(object);
+            this.toggle('2');
+            this.resetFields();
+          } else {
+            console.log('error', res);
+          }
+        });
+    }
   }
   resetFields = () => {
-    debugger;
     this.setState({
       email: '',
       password: '',
@@ -93,12 +117,36 @@ export default class FirstPage extends React.Component {
     if (name === 'email') {
       if (this.state.email.includes('@')) {
         this.validEmail();
+      } else {
+        this.validAccountName();
       }
     } else if (name === 'password') {
       this.validPass();
     } else if (name === 'repassword') {
       this.validRepass();
     }
+  }
+
+  validAccountName = () => {
+    const payload = {
+      user: this.state.email,
+    };
+    const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
+    const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
+    fetch(`${hyperText}://${window.location.hostname}${hostname}/api/validate-name`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    }).then((res) => res.json())
+      .then((res) => {
+        if (res.status === 202) {
+          this.setState({ emailErrorText: 'Account name already exist' });
+        } else {
+          this.setState({ emailErrorText: '' });
+        }
+      });
   }
   validPass = () => {
     const passObj = {};
@@ -117,7 +165,8 @@ export default class FirstPage extends React.Component {
     if (this.state.email === '') {
       obj.emailErrorText = 'Account Name field can\'t be empty';
     } else if (re.test(String(this.state.email).toLowerCase())) {
-      obj.emailErrorText = '';
+      this.validAccountName();
+      //obj.emailErrorText = '';
     } else {
       obj.emailErrorText = 'You need to specify a valid account name';
     }
@@ -142,6 +191,7 @@ export default class FirstPage extends React.Component {
     }
     if (tab === '2') {
       this.getMnemonic();
+      this.setState({ progressValue: 66.66 });
     }
   }
   refreshData = () => {
@@ -151,10 +201,38 @@ export default class FirstPage extends React.Component {
   getMnemonic = () => {
     const mnemonic = bip39.generateMnemonic();
     bip39.mnemonicToSeedHex(mnemonic);
+    const seed = bip39.mnemonicToSeed(mnemonic);
     this.setState({ mnemonic });
+    this.walletSetup(seed, mnemonic);
   }
-  render() {
+  walletSetup(seed, mnemonic) {
+    const root = Hdkey.fromMasterSeed(seed);
+    const masterPrivateKey = root.privateKey.toString('hex');
+    const addrNode = root.derive("m/44'/60'/0'/0/0");
+    const pubKey = EthUtil.privateToPublic(addrNode._privateKey);
+    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    const address = EthUtil.toChecksumAddress(addr);
+    const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey);
+    const object = {
+      user: this.props.userDetails.user,
+      icon: this.props.userDetails.icon,
+      seed,
+      address,
+      mnemonic,
+      pubKey,
+      hexPrivateKey,
+      masterPrivateKey,
+    };
+    this.props.setUserDetails(object);
+    this.setState({ address });
+    return { address, mnemonic };
+  }
 
+  render() {
+    let isActive = false;
+    if (this.state.email !== '' && this.state.password !== '' && this.state.repassword !== '' && this.state.identiconsId !== '') {
+      isActive = true;
+    }
     return (
       <div>
         <Header />
@@ -174,7 +252,6 @@ export default class FirstPage extends React.Component {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: this.state.activeTab === '1' })}
-                      onClick={() => { this.toggle('1'); }}
                     >
                       Creat account
                     </NavLink>
@@ -183,7 +260,6 @@ export default class FirstPage extends React.Component {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: this.state.activeTab === '2' })}
-                      onClick={() => { this.toggle('2'); }}
                     >
                       Account information
                     </NavLink>
@@ -192,144 +268,27 @@ export default class FirstPage extends React.Component {
                   <NavItem>
                     <NavLink
                       className={classnames({ active: this.state.activeTab === '3' })}
-                      onClick={() => { this.toggle('3'); }}
                     >
                       Confirm
                     </NavLink>
                   </NavItem>
                 </Nav>
-                <Progress type="theme-blue" value={33.33} />
+                <Progress type="theme-blue" value={this.state.progressValue} />
               </Col>
             </Row>
             <Row>
               <Col>
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
-                    <Row>
-                      <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-                        <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-                          <Row className="mx-0">
-                            <Col sm="12" className="px-5 py-3">
-                              <Form onSubmit={(event) => this.handleClick(event)}>
-
-
-                                {/*==========================New Form Start=============================*/}
-
-
-<div className="form-element form-input">
-    <input id="AccountName" className="form-element-field" placeholder=" " type="text" required="" />
-    <div className="form-element-bar"></div>
-    <label className="form-element-label" for="AccountName">Account Name</label>
-    <small className="form-element-hint">You need to specify a valid account name</small>
-</div>
-
-<Row>
-    <Col sm={6}>
-    <div className="form-element form-input">
-        <input id="Password" className="form-element-field" placeholder=" " type="text" required="" />
-        <div className="form-element-bar"></div>
-        <label className="form-element-label" for="Password">Password</label>
-        <small className="form-element-hint">You need to specify a valid account name</small>
-    </div>
-    </Col>
-    <Col sm={6}>
-    <div className="form-element form-input">
-        <input id="Re-enterPassword" className="form-element-field" placeholder=" " type="text" required="" />
-        <div className="form-element-bar"></div>
-        <label className="form-element-label" for="Re-enterPassword">Re- enter Password</label>
-        <small className="form-element-hint">You need to specify a valid account name</small>
-    </div>
-    </Col>
-</Row>
-<div className="form-element form-input">
-    <input id="PasswordHint" className="form-element-field" placeholder=" " type="text" required="" />
-    <div className="form-element-bar"></div>
-    <label className="form-element-label" for="PasswordHint">Password hint</label>
-    <small className="form-element-hint">You need to specify a valid account name</small>
-</div>
-
-                                {/*==========================New Form Ens=============================*/}
-
-
-
-
-                                {/* <FormGroup>
-                                  <Input
-                                    type="text"
-                                    name="email"
-                                    className="theme-blue"
-                                    id="exampleEmail"
-                                    placeholder="Account name"
-                                    value={this.state.email}
-                                    onChange={(e) => this.onUpdate('email', e.currentTarget.value)}
-                                    onBlur={(event) => this.validateData(event, 'email')}
-                                  />
-                                  {this.state.emailErrorText !== '' ? <p className="Form-Text error mt-3"> {this.state.emailErrorText} </p> : ''}
-                                </FormGroup>
-                                <Row>
-                                  <Col sm={6}>
-
-                                    <FormGroup>
-                                      <Input
-                                        type="password"
-                                        name="password"
-                                        className="theme-blue"
-                                        id="exampleEmail"
-                                        placeholder="Password"
-                                        value={this.state.password}
-                                        onBlur={(event) => this.validateData(event, 'password')}
-                                        onChange={(e) => this.onUpdate('password', e.currentTarget.value)}
-                                      />
-                                      {this.state.passErrorText !== '' ? <p className="Form-Text error mt-3"> {this.state.passErrorText} </p> : ''}
-                                    </FormGroup>
-                                  </Col>
-                                  <Col sm={6}>
-                                    <FormGroup>
-                                      <Input
-                                        type="password"
-                                        name="password"
-                                        className="theme-blue"
-                                        id="exampleEmail"
-                                        placeholder="Re-enter Password"
-                                        value={this.state.repassword}
-                                        onBlur={(event) => this.validateData(event, 'repassword')}
-                                        onChange={(e) => this.onUpdate('repassword', e.currentTarget.value)}
-                                      />
-                                      {this.state.repassErrorText !== '' ? <p className="Form-Text error mt-3"> {this.state.repassErrorText} </p> : ''}
-                                    </FormGroup>
-                                  </Col>
-                                </Row>
-                                <FormGroup>
-                                  <Input
-                                    type="password"
-                                    name="password"
-                                    className="theme-blue"
-                                    id="exampleEmail"
-                                    placeholder="Password hint"
-                                    value={this.state.password_hint}
-                                    onBlur={(event) => this.validateData(event, 'password_hint')}
-                                    onChange={(e) => this.onUpdate('password_hint', e.currentTarget.value)}
-                                  />
-                                </FormGroup> */}
-                                <Row className="mt-3">
-                                  <Col>
-                                    <Progress type="theme-red-Yellow-green" value={40} />
-                                  </Col>
-                                </Row>
-                                <Row>
-                                  <Col md={6}>
-                                    <p className="Form-Text mt-3">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
-                                  </Col>
-                                </Row>
-                              </Form>
-                            </Col>
-                          </Row>
-                          <DisplayIdenticons date={this.state.date} refreshData={this.refreshData} getRadioData={this.getRadioData} />
-                          <FooterButtons handleClick={this.handleClick} />
-                        </div>
-                        <AccountFooter />
-                      </Col>
-                    </Row>
+                    <CreateAccount
+                      onUpdate={this.onUpdate}
+                      validateData={this.validateData}
+                      refreshData={this.refreshData}
+                      handleClick={this.handleClick}
+                      getRadioData={this.getRadioData}
+                      isActive={isActive}
+                      {...this.state}
+                    />
                   </TabPane>
                   {/*===============================================================================================================*/}
                   <TabPane tabId="2">
@@ -339,7 +298,7 @@ export default class FirstPage extends React.Component {
                           <Row className="mx-0">
                             <Col style={{ paddingTop: '46px', paddingBottom: '46px', paddingLeft: '66px', paddingRight: '69px' }}>
 
-                              <AccountInfo mnemonic={this.state.mnemonic} ref={el => (this.componentRef = el)} />
+                              <AccountInfo mnemonic={this.state.mnemonic} {...this.props} address={this.state.address} ref={el => (this.componentRef = el)} />
                               <Row className="my-3 ">
                                 <Col className="text-center">
                                   <ReactToPrint
@@ -426,3 +385,17 @@ export default class FirstPage extends React.Component {
     );
   }
 }
+const mapStateToProps = createSelector(
+  getUserDetails(),
+  (userDetails) => ({ userDetails }),
+);
+
+const mapDispatchToProps = {
+  setUserDetails,
+  updateUserDetails,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(HomePage);
