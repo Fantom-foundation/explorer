@@ -21,11 +21,14 @@ const initialState = fromJS({
 });
 
 function loginReducer(state = initialState, action) {
+  debugger;
   switch (action.type) {
     case SET_USER_DETAILS:
       return state.set('userDetails', action.userDetails);
     case UPDATE_USER_DETAILS:
+    debugger;
       const value = state.get('userDetails');
+      console.log('Value is', value);
       const updatedValue = {
         ...value,
         ...action.details,

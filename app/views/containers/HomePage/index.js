@@ -45,7 +45,9 @@ class HomePage extends React.Component {
     this.toggle = this.toggle.bind(this);
   }
   componentWillMount() {
-    this.getMnemonic();
+    if (this.state.activeTab === '2') {
+      this.getMnemonic();
+    }
   }
   onUpdate = (key, value) => {
     this.setState({
@@ -77,12 +79,12 @@ class HomePage extends React.Component {
             const object = {
               user: '',
               icon: '',
-              address: '', 
-              seed: '', 
-              mnemonic: '', 
-              pubKey: '', 
-              hexPrivateKey: '', 
-              masterPrivateKey: '',
+              // address: '', 
+              // seed: '', 
+              // mnemonic: '', 
+              // pubKey: '', 
+              // hexPrivateKey: '', 
+              // masterPrivateKey: '',
             };
             if (res.result.email) {
               object.user = res.result.email;
@@ -199,6 +201,7 @@ class HomePage extends React.Component {
     this.setState({ date: newDate });
   }
   getMnemonic = () => {
+    debugger;
     const mnemonic = bip39.generateMnemonic();
     bip39.mnemonicToSeedHex(mnemonic);
     const seed = bip39.mnemonicToSeed(mnemonic);
@@ -214,8 +217,8 @@ class HomePage extends React.Component {
     const address = EthUtil.toChecksumAddress(addr);
     const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey);
     const object = {
-      user: this.props.userDetails.user,
-      icon: this.props.userDetails.icon,
+     // user: this.props.userDetails.user,
+     // icon: this.props.userDetails.icon,
       seed,
       address,
       mnemonic,
@@ -223,9 +226,9 @@ class HomePage extends React.Component {
       hexPrivateKey,
       masterPrivateKey,
     };
-    this.props.setUserDetails(object);
+    debugger;
+    this.props.updateUserDetails(object);
     this.setState({ address });
-    return { address, mnemonic };
   }
 
   render() {
