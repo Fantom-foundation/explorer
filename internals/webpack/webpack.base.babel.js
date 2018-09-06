@@ -97,6 +97,7 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
@@ -110,6 +111,13 @@ module.exports = (options) => ({
       'jsnext:main',
       'main',
     ],
+  },
+  node: {
+    fs: 'empty',
+    dgram: 'empty',
+    pg: 'empty',
+    child_process: 'empty',
+    // module: 'empty',
   },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window

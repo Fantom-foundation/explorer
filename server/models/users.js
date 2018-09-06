@@ -24,16 +24,24 @@ module.exports = db.define('users', {
     type: Sequelize.STRING, // Type of column
     unique: true, // unique constraint
   },
-  account_name: {
-    type: Sequelize.STRING,
+  email_token: {
+    type: Sequelize.STRING, // Type of column
+  },
+  api_key: {
+    type: Sequelize.STRING, // Type of column
+  },
+  isVerified: {
+    type: Sequelize.BOOLEAN,
+  },
+  token_date: {
+    type: Sequelize.DATE,
+    allowNull: false,
+    defaultValue: Sequelize.NOW,
   },
   password: {
     type: Sequelize.STRING,
   },
   password_hint: {
-    type: Sequelize.STRING,
-  },
-  icon: {
     type: Sequelize.STRING,
   },
 });

@@ -4,19 +4,24 @@ const db = config.dbName; // Database Name
 const user = config.dbUser; // Database Username
 const password = config.dbPassword; // Database Password
 const dbport = config.port; // hosting address of server
+const host = config.host;
 console.log(db, user, password);
 const sequelize = new Sequelize(db, user, password, {
-  port: dbport,
-  dialect: 'mysql', // Type of database, because Sequelize also support MySQL
-  logging: false, // Change to true if wants to see log of database
-
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000,
-  },
+host,
+port: dbport,
+dialect: 'mysql', // Type of database, because Sequelize also support Postgres
+logging: false, // Change to true if wants to see log of database
+dialectOptions: {
+ssl: 'Amazon RDS',
+},
+pool: {
+ max: 5,
+ min: 0,
+ idle: 10000,
+},
 
 });
+
 
 /**
 * Making connection
@@ -24,12 +29,12 @@ const sequelize = new Sequelize(db, user, password, {
 sequelize
 .authenticate()
 .then(() => {
-  sequelize.sync();
-  console.log(`Connection has been established successfully to ${db}`);
-  return null;
+ sequelize.sync();
+ console.log(`Connection has been established successfully to ${db}`);
+ return null;
 })
 .catch((err) => {
-  console.error(`Unable to connect to the ${db}:`, err);
+ console.error(`Unable to connect to the ${db}:`, err);
 });
 
 module.exports = sequelize;
