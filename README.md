@@ -34,8 +34,6 @@ $ npm start
 
 ## Development Pipeline
 
-![](http://i.imgur.com/KcTpwjI.jpg)
-
 For each feature/task, create a new branch as follows:
 
 1. Sync from `development` branch.
