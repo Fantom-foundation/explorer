@@ -7,7 +7,7 @@ const EmailHelper = require('../send-email');
 const bcrypt = require('bcrypt-nodejs');
 const utils = require('../utilities/utils');
 //const Sequelize = require('sequelize');
-const rand = require('generate-key');
+// const rand = require('generate-key');
 //const Op = Sequelize.Op;
 module.exports = function (app) {
   /**
@@ -44,9 +44,10 @@ module.exports = function (app) {
               res.end();
             } else {
               const passwordHash = bcrypt.hashSync(req.body.password);
-              const key = rand.generateKey();
+              const timeStamp = new Date().getTime();
+              const key = emailToken + timeStamp;
+              console.log('Key!!!', key);
               if (req.body.password === req.body.repassword) {
-                console.log('email !!', req.body.email);
                 User.create({
                   email: req.body.email,
                   password: passwordHash,

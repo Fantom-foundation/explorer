@@ -12,21 +12,20 @@ export default class VerifyEmail extends React.Component {
     const emailTokenPromise = verifyEmailTokenApi({ ...this.props });
     emailTokenPromise.then((result) => {
         if (result.text === 'success') {
-            setTimeout(() => {
-                this.props.history.push('/login');
-            }, 5000);
+          this.props.history.push('/login');
+            // setTimeout(() => {
+            //     this.props.history.push('/login');
+            // }, 5000);
         }
       this.setState(result);
     });
   }
   render() {
-      if (this.state.text === 'reject') {
-          return (
-               <div><p>Verify Your Email Again</p></div>
-          );
+      if (this.state.text === 'success') {
+          return null;
       }
     return (
-      <div><p>Welcome Fantom</p></div>
+      <div><p>Verify Your Email Again</p></div>
 
     );
   }

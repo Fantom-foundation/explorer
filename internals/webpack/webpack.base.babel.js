@@ -87,7 +87,8 @@ module.exports = (options) => ({
       // make fetch available
       fetch: 'exports-loader?self.fetch!whatwg-fetch',
     }),
-
+    new webpack.ContextReplacementPlugin(/protobufjs/, /^$/),
+    
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically
     // drop any unreachable code.
@@ -97,7 +98,6 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
-
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
@@ -117,6 +117,7 @@ module.exports = (options) => ({
     dgram: 'empty',
     pg: 'empty',
     child_process: 'empty',
+    defaultable: 'empty',
     // module: 'empty',
   },
   devtool: options.devtool,
