@@ -7,7 +7,7 @@ body
         image:url(../images/backgrounds/pattern.svg);
         size: cover;
         position: center;
-        color:grey;
+        color:white;
     }
 }
 .bg-primary{background: { color:map-get($color, blue) !important; }}

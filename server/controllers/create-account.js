@@ -6,8 +6,9 @@ const User = require('../models/users');
 const EmailHelper = require('../send-email');
 const bcrypt = require('bcrypt-nodejs');
 const utils = require('../utilities/utils');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
+//const Sequelize = require('sequelize');
+const rand = require('generate-key');
+//const Op = Sequelize.Op;
 module.exports = function (app) {
   /**
  * Post API which create account
@@ -17,7 +18,7 @@ module.exports = function (app) {
       [
         { key: 'email', name: 'Email' },
         { key: 'password', name: 'Password' },
-        { key: 'password_hint', name: 'Password_Hint' },
+        // { key: 'password_hint', name: 'Password_Hint' },
       ],
       (errorField) => {
         console.log('Error!!!!Field', errorField);
@@ -43,12 +44,15 @@ module.exports = function (app) {
               res.end();
             } else {
               const passwordHash = bcrypt.hashSync(req.body.password);
+              const key = rand.generateKey();
               if (req.body.password === req.body.repassword) {
+                console.log('email !!', req.body.email);
                 User.create({
                   email: req.body.email,
                   password: passwordHash,
-                  password_hint: req.body.password_hint,
+                  // password_hint: req.body.password_hint,
                   email_token: emailToken,
+                  api_key: key,
                 }).then((result) => {
                   if (result) {
                     EmailHelper.sendMail(req.body.email, registrationUrl);

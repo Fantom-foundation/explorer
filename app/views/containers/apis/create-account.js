@@ -1,11 +1,9 @@
-export function createAccountApi(email, password, repassword, password_hint, identiconsId, props) {
+export function createAccountApi(email, password, repassword) {
   const obj = {};
   const payload = {
-    user: email,
+    email,
     password,
     repassword,
-    password_hint,
-    icon: identiconsId,
   };
   const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
   const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
@@ -25,24 +23,25 @@ export function createAccountApi(email, password, repassword, password_hint, ide
         .then((res) => {
           if (res.status === 200) {
             console.log('res!!', res);
-            const object = {
-              user: '',
-              icon: '',
-              address: '',
-              seed: '',
-              mnemonic: '',
-              pubKey: '',
-              hexPrivateKey: '',
-              masterPrivateKey: '',
-            };
-            if (res.result.email) {
-              object.user = res.result.email;
-            } else {
-              object.user = res.result.account_name;
-            }
-            object.icon = res.result.icon;
-            props.setUserDetails(object);
+            // const object = {
+            //   user: '',
+            //   icon: '',
+            //   address: '',
+            //   seed: '',
+            //   mnemonic: '',
+            //   pubKey: '',
+            //   hexPrivateKey: '',
+            //   masterPrivateKey: '',
+            // };
+            // if (res.result.email) {
+            //   object.user = res.result.email;
+            // } else {
+            //   object.user = res.result.account_name;
+            // }
+            // object.icon = res.result.icon;
+            // props.setUserDetails(object);
             obj.status = true;
+            obj.emailToken = res.result.email_token;
             resolve(obj);
           }
         })

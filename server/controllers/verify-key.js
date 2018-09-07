@@ -6,16 +6,16 @@ const User = require('../models/users');
 const utils = require('../utilities/utils');
 const tokenExpirationTime = 28800000;
 module.exports = function (app) {
-  app.post('/api/verify-token', (req, res, next) => {
+  app.post('/api/verify-key', (req, res, next) => {
     utils.validateRequiredKeys(req.body,
       [
-        { key: 'email_token', name: 'Email Token' },
+        { key: 'api_key', name: 'API Key' },
       ],
       (errorField) => {
         if (!errorField) {
           User.findOne({
             where: {
-              email_token: req.body.email_token,
+              api_key: req.body.api_key,
             },
           })
             .then((userFromRepo) => {
@@ -23,7 +23,7 @@ module.exports = function (app) {
                 res.statusCode = 401;
                 res.json({
                   status: 401,
-                  message: 'Invalid token',
+                  message: 'Invalid Key',
                 });
                 res.end();
                 return;
@@ -42,24 +42,24 @@ module.exports = function (app) {
                 //   res.end();
                 // } else {
                   User.update({
-                    isVerified: true,
-                    email_token: null,
+                    isKeyVerified: true,
+                    // email_token: null,
                   }, {
                       where: {
-                        email_token: req.body.email_token,
+                        api_key: req.body.api_key,
                       },
                     })
                     .then((result) => {
                       if (result) {
                         res.json({
                           status: 200,
-                          message: ' Email verified successfully ',
+                          message: ' API key verified successfully ',
                           result: userFromRepo,
                         });
                       } else {
                         res.json({
                           status: 202,
-                          message: ' Email verification unsuccessfully',
+                          message: ' API key verification unsuccessfully',
                         });
                       }
                     })

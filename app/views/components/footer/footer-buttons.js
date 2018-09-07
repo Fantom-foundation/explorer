@@ -8,8 +8,6 @@ import { isAbsolute } from 'path';
 
 export default class FooterButtons extends React.Component {
   render() {
-    console.log('pppp@@@', this.props);
-    console.log('this.props.isActive', this.props.isEnabled);
     return (
       <ul className="form-footer-buttons">
         <li>

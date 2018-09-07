@@ -1,14 +1,14 @@
-export function validateNameApi(email) {
+export function validateEmailApi(email) {
   const obj = {};
   const payload = {
-    user: email,
+    email,
   };
   const hostname = window.location.hostname === 'localhost' ? ':3000' : '';
   const hyperText = window.location.hostname === 'localhost' ? 'http' : 'https';
 
   const promise = new Promise((resolve, reject) => {
     fetch(
-            `${hyperText}://${window.location.hostname}${hostname}/api/validate-name`,
+            `${hyperText}://${window.location.hostname}${hostname}/api/validate-email`,
       {
         method: 'POST',
         headers: {
@@ -21,10 +21,11 @@ export function validateNameApi(email) {
             .then((res) => {
               if (res.status === 202) {
                 console.log('res!!', res);
-                obj.emailErrorText = 'Account name already exist';
+                obj.emailErrorText = 'Email already exist';
                 resolve(obj);
               } else {
                 obj.emailErrorText = '';
+                resolve(obj);
               }
             })
             .catch((err) => {

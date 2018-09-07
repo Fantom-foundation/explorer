@@ -11,17 +11,17 @@ module.exports = function (app) {
   /**
  * Post API which create account
  */
-  app.post('/api/validate-name', (req, res) => {
+  app.post('/api/validate-email', (req, res) => {
     console.log('req!!!!', req);
     utils.validateRequiredKeys(req.body,
       [
-        { key: 'user', name: 'Email or Account Name' },
+        { key: 'email', name: 'Email' },
       ],
       (errorField) => {
         if (!errorField) {
           User.findOne({
             where: {
-              [Op.or]: [{ account_name: req.body.user }, { email: req.body.user }],
+              email: req.body.email,
             },
           }).then((userFromRepo) => {
             console.log('userFromRepo2323', userFromRepo);

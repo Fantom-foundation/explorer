@@ -6,7 +6,7 @@ import {
   TabContent,
 } from 'reactstrap';
 import { createAccountApi } from 'views/containers/apis/create-account';
-import { validateNameApi } from 'views/containers/apis/validate-name';
+import { validateEmailApi } from 'views/containers/apis/validate-email';
 import Navbars from 'views/containers/navbars/index';
 import Confirm from 'views/containers/tabs/confirm/index';
 import Header from 'views/components/header';
@@ -104,7 +104,7 @@ class HomePage extends React.Component {
   }
 
   validAccountName = () => {
-    const validateNameApiPromise = validateNameApi(this.state.email);
+    const validateNameApiPromise = validateEmailApi(this.state.email);
     validateNameApiPromise.then((result) => {
       this.setState(result);
     }).catch((error) => {
