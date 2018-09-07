@@ -1,7 +1,7 @@
 {
     "port": 3306,
-    "host": "fantomwebdb.cc9igbadbqr9.us-east-2.rds.amazonaws.com",
-    "dbName": "fantomwebdb",
+    "host": "localhost",
+    "dbName": "fantom-wallet",
     "dbUser": "root",
-    "dbPassword": "webdb123"
+    "dbPassword": "password"
    }
