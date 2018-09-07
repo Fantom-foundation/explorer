@@ -11,7 +11,6 @@ export default class VerifyEmail extends React.Component {
   componentWillMount() {
     const emailTokenPromise = verifyEmailTokenApi({ ...this.props });
     emailTokenPromise.then((result) => {
-        debugger;
         if (result.text === 'success') {
             setTimeout(() => {
                 this.props.history.push('/login');

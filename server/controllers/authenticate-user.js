@@ -41,11 +41,11 @@ module.exports = function (app) {
                   user: userFromRepo,
                 });
               } else {
-                console.log('Invalid password : ');
+                console.log('Email or Password Invalid');
                 res.statusCode = 201;
                 res.json({
                   status: 201,
-                  message: ' Invalid password ',
+                  message: ' Email or Password Invalid ',
                 });
                 res.end();
               }

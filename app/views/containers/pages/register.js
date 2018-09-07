@@ -6,7 +6,6 @@ import {
     Button,
   } from 'reactstrap';
 import Alert from 'react-s-alert';
-import AccountFooter from 'views/components/footer/account-footer';
 import { validateEmailApi } from 'views/containers/apis/validate-email';
 import { createAccountApi } from 'views/containers/apis/create-account';
 
@@ -14,7 +13,6 @@ export default class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '1',
       email: '',
       password: '',
       repassword: '',
@@ -114,7 +112,7 @@ export default class Register extends React.Component {
 
   render() {
     let isActive = false;
-    if (this.state.email !== '' && this.state.password !== '' && this.state.repassword !== '' && this.state.identiconsId !== '') {
+    if (this.state.email !== '' && this.state.password !== '' && this.state.repassword !== '') {
       isActive = true;
     }
     return (
@@ -186,7 +184,6 @@ export default class Register extends React.Component {
             </Row>
             <Button style={{ marginLeft: '350px' }} value={40} onClick={(event) => this.handleClick(event, isActive)}>Register</Button>
           </div>
-          <AccountFooter />
         </Col>
       </Row>
     );

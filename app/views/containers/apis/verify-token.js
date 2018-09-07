@@ -1,7 +1,6 @@
 import Alert from 'react-s-alert';
 
 export function verifyEmailTokenApi(props) {
-    debugger;
  const object = {};
  const searchToken = props.location.search;
  const payload = {
@@ -19,7 +18,6 @@ export function verifyEmailTokenApi(props) {
    })
          .then((res) => res.json())
          .then((res) => {
-             debugger;
            if (res.status === 200) {
              //object.isVerified = true;
              object.text = 'success';
