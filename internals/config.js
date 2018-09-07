@@ -33,6 +33,7 @@ const ReactBoilerplate = {
         'generate',
         'defaultable',
         './locale',
+        'node',
       ],
 
       /**
