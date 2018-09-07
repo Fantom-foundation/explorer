@@ -19,6 +19,7 @@ module.exports = function (app) {
             },
           })
             .then((userFromRepo) => {
+              console.log('userFromRepo!!', userFromRepo);
               if (!userFromRepo) {
                 res.statusCode = 401;
                 res.json({
@@ -53,13 +54,13 @@ module.exports = function (app) {
                       if (result) {
                         res.json({
                           status: 200,
-                          message: ' Email verified successfully ',
+                          message: ' Email Token verified successfully ',
                           result: userFromRepo,
                         });
                       } else {
                         res.json({
                           status: 202,
-                          message: ' Email verification unsuccessfully',
+                          message: ' Email Token verification unsuccessfully',
                         });
                       }
                     })
