@@ -3,6 +3,7 @@ const logger = require('./logger');
 const db = require('./config/db');
 const argv = require('./argv');
 const port = require('./port');
+var url = require('url');
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
@@ -23,8 +24,18 @@ app.use((req, res, next) => {
   );
   next();
 });
+// app.get('/api/account-api', (req, res) => {
+//   console.log('res', res);
+//   console.log('!!!!!!!req', req.url);
+//   var q = url.parse("https://api.etherscan.io/api?module=account&action=balance&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&tag=latest&apikey=YourApiKeyToken", true).query;
+//   console.log('Query', q, q.address);
+//   res.json({ q });
+// // var txt = q.year + " " + q.month;
+//   res.end();
+// });
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
+app.use(require(`${__dirname}/public`));
 
 // In production we need to pass these values in instead of relying on webpack
 setup(app, {
@@ -32,6 +43,7 @@ setup(app, {
   publicPath: '/',
 });
 fs.readdirSync(`${__dirname}/controllers`).forEach((file) => {
+
   console.log(file, 'filefilefilefile');
   if (file.substr(-3) === '.js') {
     const pathToController = `${__dirname}/controllers/${file}`;
@@ -41,6 +53,7 @@ fs.readdirSync(`${__dirname}/controllers`).forEach((file) => {
   }
   db.sync();
 });
+
 
 app.post('/api/hello', (req, res) => {
   res.send({ message: 'Hello From Express' });
