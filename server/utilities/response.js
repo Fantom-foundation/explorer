@@ -1,8 +1,9 @@
 module.exports.sendSuccess = function (data, res) {
   res.statusCode = 200;
+  const statusData = 1;
   res.json({
-    status: 1,
-    result: data,
+    status: statusData.toString(),
+    result: data.toString(),
     message: ' OK ',
   });
   res.end();
@@ -10,19 +11,21 @@ module.exports.sendSuccess = function (data, res) {
 
 module.exports.sendError = function (data, res) {
   res.statusCode = 500;
+  const statusData = 1;
   res.json({
-    status: 1,
+    status: statusData.toString(),
     message: ' OK ',
-    result: data,
+    result: data.toString(),
   });
   res.end();
 };
 module.exports.apiError = function (data, res) {
   res.statusCode = 404;
+  const statusData = 0;
   res.json({
-    status: 0,
+    status: statusData.toString(),
     message: ' NOTOK ',
-    result: data,
+    result: data.toString(),
   });
   res.end();
 };
