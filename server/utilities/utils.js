@@ -64,6 +64,7 @@ module.exports.validateRequiredKeys = function(body, fields, callback) {
     name = fields[i].name;
     errorField = '';
     value = body[key] + '';
+    console.log('value!!!!!!!', value);
     // if request body does not contain respective field then throw error
     if (!value || value.replace(/\s+/g, '') === '') {
       errorField = `${name} is required.`;
@@ -141,6 +142,68 @@ function validatePassword(password) {
   //var re = /(?=^.{8,15}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?/&gt;.&lt;,])(?!.*\s).*$/;
   // console.log('&&&&****', password.length);
   if (password.length >= 8) {
+    return true;
+  }
+  return false;
+}
+
+
+module.exports.validateUrlKeys = function(query, fields, callback) {
+  let key = '';
+  let name = '';
+  let errorField = '';
+  let value = '';
+
+  // Traversing through the required fields
+  for (let i = 0; i < fields.length; i += 1) {
+    key = fields[i].key;
+    name = fields[i].name;
+    errorField = '';
+    value = query[key] + '';
+    // if request body does not contain respective field then throw error
+    if (!value || value.replace(/\s+/g, '') === '') {
+      errorField = `${name} is required.`;
+      // console.log('validate function call errorField', key, errorField);
+      break;
+    } else if (key === 'address' && !validateAddress(value)) {
+      // if (body['player_name'] === body['email']) {
+      //   errorField = '';
+      // } else {
+      //   errorField = 'Wrong email address.';
+      // }
+      errorField = 'Wrong address.';
+      break;
+    } else if (
+      (key === 'module') &&
+      !validateModule(value)
+    ) {
+      errorField =
+        'Module not found';
+      // console.log('%%%', errorField);
+      break;
+    } else if ((key === 'apikey') && !validateApiKey(value)) {
+      errorField = 'Api key not found';
+      break;
+    }
+  }
+  // // console.log(" validate function call errorField",key, errorField);
+  callback(errorField);
+};
+
+function validateAddress(address) {
+  if (address.length === 42) {
+    return true;
+  }
+  return false;
+}
+function validateModule(module) {
+  if (module === 'account' || module === 'transaction') {
+    return true;
+  }
+  return false;
+}
+function validateApiKey(value) {
+  if (value === 'YourApiKeyToken') {
     return true;
   }
   return false;
