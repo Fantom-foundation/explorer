@@ -1,6 +1,7 @@
 var express = require('express'), router = express.Router();
 const utils = require('../utilities/utils');
 const url = require('url');
+const response = require('../utilities/response');
 const userAccount = require('./mock-data');
 
 router.get('/account-api', function(req, res) {
@@ -18,22 +19,23 @@ router.get('/account-api', function(req, res) {
           console.log('####user', user);
           if (user.address === req.query.address) {
             console.log('Balance is!!', user.balance);
-            res.json({
-              status: 200,
-              user: user.balance,
-              message: ' User successfully authenticated ',
-            });
-            res.end();
+            response.sendSuccess(user.balance, res);
+            // res.json({
+            //   status: 200,
+            //   user: user.balance,
+            //   message: ' User successfully authenticated ',
+            // });
+            // res.end();
           }
         }
       } else {
-        console.log('wrong password');
-        res.statusCode = 202;
-        res.json({
-          status: 202,
-          message: errorField,
-        });
-        res.end();
+        response.sendError(0, res);
+        // res.statusCode = 202;
+        // res.json({
+        //   status: 202,
+        //   message: errorField,
+        // });
+        // res.end();
       }
     });
 });
