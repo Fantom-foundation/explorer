@@ -3,7 +3,7 @@ module.exports.sendSuccess = function (data, res) {
   const statusData = 1;
   res.json({
     status: statusData.toString(),
-    result: data.toString(),
+    result: data,
     message: ' OK ',
   });
   res.end();
