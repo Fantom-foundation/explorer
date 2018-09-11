@@ -1,6 +1,8 @@
 var express = require('express'), router = express.Router();
 
-router.use('/api', require('./transaction-list-api'));
+router.use('/public/api', require('./transactions'));
+router.use('/public/api', require('./transaction_hash'));
+router.use('/public/api', require('./balance'));
 
 router.get('/public/api', function(req, res) {
     console.log('/public/api')

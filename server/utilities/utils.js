@@ -184,11 +184,19 @@ module.exports.validateUrlKeys = function(query, fields, callback) {
     } else if ((key === 'apikey') && !validateApiKey(value)) {
       errorField = 'Api key not found';
       break;
+    } else if ((key === 'Tx_hash') && !validateHash(value)) {
+      errorField = 'Invalid hash..';
+      break;
     }
   }
   // // console.log(" validate function call errorField",key, errorField);
   callback(errorField);
 };
+
+function validateHash(hash) {
+  var re = /^0x([A-Fa-f0-9]{64})$/;
+  return re.test(String(hash));
+}
 
 function validateAddress(address) {
   if (address.length === 42) {
