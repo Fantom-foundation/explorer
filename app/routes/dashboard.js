@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import HomePage from 'views/containers/homepage/Loadable';
+import HomePage from 'views/containers/home/';
 import VerifyEmail from 'views/containers/pages/verify-email';
 import Register from 'views/containers/pages/register';
 import Login from 'views/containers/pages/login';

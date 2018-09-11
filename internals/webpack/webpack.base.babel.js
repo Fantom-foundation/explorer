@@ -4,6 +4,9 @@
 
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const extractCSS = new ExtractTextPlugin('stylesheets/style-sass.css');
+const extractSASS = new ExtractTextPlugin('stylesheets/style-global.css');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -33,13 +36,19 @@ module.exports = (options) => ({
         // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.scss$/,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader', 'sass-loader'],
+        use: extractSASS.extract({
+          fallback: 'style-loader',
+          use: ['css-loader', 'sass-loader'],
+        }),
       },
       {
         // Preprocess 3rd party .css files located in node_modules
         test: /\.css$/,
         include: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: extractCSS.extract({
+          fallback: 'style-loader',
+          use: 'css-loader',
+        }),
       },
       {
         test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
@@ -87,7 +96,7 @@ module.exports = (options) => ({
       // make fetch available
       fetch: 'exports-loader?self.fetch!whatwg-fetch',
     }),
-    new webpack.ContextReplacementPlugin(/protobufjs/, /^$/),
+    // new webpack.ContextReplacementPlugin(/protobufjs/, /^$/),
     
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically
@@ -98,6 +107,8 @@ module.exports = (options) => ({
       },
     }),
     new webpack.NamedModulesPlugin(),
+    extractCSS,
+    extractSASS,
   ]),
   resolve: {
     modules: ['app', 'node_modules'],
@@ -112,14 +123,14 @@ module.exports = (options) => ({
       'main',
     ],
   },
-  node: {
-    fs: 'empty',
-    dgram: 'empty',
-    pg: 'empty',
-    child_process: 'empty',
-    defaultable: 'empty',
-    // module: 'empty',
-  },
+  // node: {
+  //   fs: 'empty',
+  //   dgram: 'empty',
+  //   pg: 'empty',
+  //   child_process: 'empty',
+  //   defaultable: 'empty',
+  //   // module: 'empty',
+  // },
   devtool: options.devtool,
   target: 'web', // Make web variables accessible to webpack, e.g. window
   performance: options.performance || {},

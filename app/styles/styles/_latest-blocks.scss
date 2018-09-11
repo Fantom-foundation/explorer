@@ -1,0 +1,35 @@
+#latest-blocks
+{
+    padding: {top:76px; bottom:88px;}
+    @media(min-width:768px)
+    {
+        .left{margin-right: 20px;}
+        .right{margin-left: 20px;}
+    }
+    .left,.right
+    {
+        @media (max-width:767px){ @include responsive-width(100%); }
+    }
+    .header
+    {
+        .title
+        {
+            font: {
+                family: Roboto;
+                size: 30px;
+            }
+        }
+        .link-column
+        {
+            @include responsive-width(100px);
+            .link{}
+        }
+    }
+    .blocks
+    {
+        font: {
+            family: Roboto;
+            size: 12px;
+        }
+    }
+}

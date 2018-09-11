@@ -11,9 +11,9 @@ host,
 port: dbport,
 dialect: 'mysql', // Type of database, because Sequelize also support Postgres
 logging: false, // Change to true if wants to see log of database
-dialectOptions: {
-ssl: 'Amazon RDS',
-},
+// dialectOptions: {
+// ssl: 'Amazon RDS',
+// },
 pool: {
 max: 5,
 min: 0,
