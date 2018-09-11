@@ -1,7 +1,7 @@
 let express = require('express'), router = express.Router();
-const utils = require('../utilities/utils');
+const utils = require('./utils');
 const url = require('url');
-const response = require('../utilities/response');
+const response = require('./response');
 const userAccount = require('./transaction-mock-data');
 
 

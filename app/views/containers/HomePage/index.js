@@ -197,7 +197,7 @@ class HomePage extends React.Component {
       <div>
         <Header />
         <section style={{ padding: '118px 0' }}>
-          <Container className="bg-white theme-blue-shadow">
+          {/* <Container className="bg-white theme-blue-shadow">
             <Navbars {...this.state} />
             <Row>
               <Col>
@@ -216,7 +216,7 @@ class HomePage extends React.Component {
                 </TabContent>
               </Col>
             </Row>
-          </Container>
+          </Container> */}
         </section>
       </div>
     );
