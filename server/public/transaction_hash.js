@@ -5,22 +5,36 @@ const response = require('./response');
 const userAccount = require('./transaction-mock-data');
 
 
-router.get('/transaction/:Tx_hash', (req, res) => {
-  utils.validateUrlKeys(req.params,
+router.get('/transaction_hash', (req, res) => {
+  console.log('req.params', req.query);
+  utils.validateUrlKeys(req.query,
     [
-      { key: 'Tx_hash', name: 'TX_HASH' },
+      { key: 'module', name: 'Module' },
+      { key: 'apikey', name: 'APIKEY' },
+      { key: 'txhash', name: 'TXHASH' },
     ],
     (errorField) => {
+      console.log('@@@', req.query, errorField);
       if (!errorField) {
-        const array = [];
-        for (const user of userAccount) {
-          if (user.hash === req.params.Tx_hash) {
-            array.push(user);
+        console.log('!!!', req.query);
+        const apiKeyPromise = utils.validateApiKey(req.query.apikey);
+        apiKeyPromise.then((result) => {
+          if (result.status) {
+            const array = [];
+            for (const user of userAccount) {
+              if (user.hash === req.query.txhash) {
+                array.push(user);
+              }
+            }
+            response.sendSuccess(array, res);
+          } else {
+            response.sendError('Invalid Api Key', res);
           }
-        }
-        response.sendSuccess(array, res);
+        }).catch((error) => {
+          console.log('@@@error', error);
+        });
       } else {
-        response.sendError(0, res);
+        response.sendError(errorField, res);
       }
     });
 });

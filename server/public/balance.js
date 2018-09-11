@@ -12,22 +12,23 @@ router.get('/balance', function(req, res) {
     ],
     (errorField) => {
       if (!errorField) {
-        const apiKeyPromise = utils.validateApiKey(req.query.apiKey);
+        const apiKeyPromise = utils.validateApiKey(req.query.apikey);
         apiKeyPromise.then((result) => {
-        if (result.status) {
-          for(const user of userAccount) {
-            if (user.address === req.query.address) {
-              response.sendSuccess(user.balance.toString(), res);
+          if (result.status) {
+            for(const user of userAccount) {
+              if (user.address === req.query.address) {
+                response.sendSuccess(user.balance.toString(), res);
+              }
             }
+          } else {
+            response.sendError('Invalid Api Key', res);
           }
-        } else {
-          response.sendError(0, res);
-        }
-        }
-      }).catch((error) => {
-        console.log('@@@error', error);
-      });
-       
+        }).catch((error) => {
+          console.log('@@@error', error);
+        });
+      } else {
+        response.sendError(errorField, res);
+      }
     });
 });
 module.exports = router;

@@ -27,6 +27,9 @@ module.exports.validateUrlKeys = function(query, fields, callback) {
       errorField =
           'Module not found';
       break;
+    } else if ((key === 'apikey' && !validateApi(value))) {
+      errorField = 'Api key required';
+      break;
     } else if ((key === 'Tx_hash') && !validateHash(value)) {
       errorField = 'Invalid hash..';
       break;
@@ -35,7 +38,14 @@ module.exports.validateUrlKeys = function(query, fields, callback) {
     // // console.log(" validate function call errorField",key, errorField);
   callback(errorField);
 };
-
+function validateApi(value) {
+  console.log('@@@', value);
+  console.log('###', typeof value);
+  if (value !== '' && value !== 'undefined' && value !== null) {
+    return true;
+  }
+  return false;
+}
 function validateHash(hash) {
   const re = /^0x([A-Fa-f0-9]{64})$/;
   return re.test(String(hash));

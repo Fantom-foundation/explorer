@@ -57,11 +57,13 @@ module.exports = function (app) {
                           message: ' Email Token verified successfully ',
                           result: userFromRepo,
                         });
+                        res.end();
                       } else {
                         res.json({
                           status: 202,
                           message: ' Email Token verification unsuccessfully',
                         });
+                        res.end();
                       }
                     })
                     .catch((error) => {

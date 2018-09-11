@@ -23,6 +23,7 @@ module.exports = function (app) {
       (errorField) => {
         console.log('Error!!!!Field', errorField);
         let emailToken = bcrypt.hashSync(req.body.email);
+        const apiKey = bcrypt.hashSync(req.body.email);
         emailToken = `?${emailToken}`;
         const hostname = req.body.hostName;
         const port = hostname === 'localhost' ? ':3000' : '';
@@ -45,7 +46,7 @@ module.exports = function (app) {
             } else {
               const passwordHash = bcrypt.hashSync(req.body.password);
               const timeStamp = new Date().getTime();
-              const key = emailToken + timeStamp;
+              const key = apiKey + timeStamp;
               console.log('Key!!!', key);
               if (req.body.password === req.body.repassword) {
                 User.create({
