@@ -13,6 +13,7 @@ import { Title } from '../../components/coreComponent';
 import logoIcon from 'images/Logo/Fantom-Logo-icon.svg';
 import _ from 'lodash';
 import StartWhite from 'images/temp/stats-white.png';
+import blockIcon from 'images/icons/block-icon.svg';
 //const helper = new ValidateHelper();
 export default class HomePage extends Component {
 
@@ -82,21 +83,27 @@ export default class HomePage extends Component {
                                 </Row>
                                 <Row className="blocks">
                                     {_.times(5, (i) =>
-
                                         <Col key={i} xs={12} className="bg-white  mb-3">
-                                            <p>
-                                                <span className="text-black">TX#</span>
-                                                <span className="text-primary">0X42BB307E4C04F0BF13B7952</span>
-                                            </p>           23 mins 42 secs
-                                        <p>
-                                                <span className="text-gray">From</span>
-                                                <span className="text-primary">0x04041d6a6bbbc2…</span>
+                                            <Row>
+                                                <Col className="pr-0">
+                                                    <p>
+                                                        <span className="text-black">TX#</span>&nbsp;
+                                                        <span className="text-primary">0X42BB307E4C04F0BF13B7952</span>
+                                                    </p>
+                                                </Col>
+                                                <Col className="time-date-col pl-0">
+                                                    <p><span className="text-primary">23 mins 42 secs</span></p>
+                                                </Col>
+                                            </Row>
+                                            <p className="pb-2 mb-1">
+                                                <span className="text-gray">From</span>&nbsp;
+                                                <span className="text-primary">0x04041d6a6bbbc2…</span>&nbsp;
 
-                                                <span className="text-gray">to</span>
+                                                <span className="text-gray">to</span>&nbsp;
                                                 <span className="text-primary">0xf4a2eff88a408ff4c4550148…</span>
                                             </p>
-                                            <p>
-                                                <span className="text-gray">Amount 2.9999</span>
+                                            <p className="mb-0">
+                                                <span className="text-gray">Amount 2.9999</span>&nbsp;
                                                 <span className="text-primary">Fantom</span>
                                             </p>
                                         </Col>
@@ -113,21 +120,25 @@ export default class HomePage extends Component {
                                 </Row>
                                 <Row className="blocks">
                                     {_.times(5, (i) =>
-                                        <Col xs={12} className="bg-white  mb-3">
-                                            <p className="text-black">062791</p>
-
-                                            23 mins 42 secs ago
-     
+                                        <Col xs={12} className="bg-white mb-3">
+                                            <Row>
+                                                <Col className="pr-0">
+                                                    <p className="text-black"><img src={blockIcon} className="block-icon" />062791</p>
+                                                </Col>
+                                                <Col className="time-date-col pl-0">
+                                                    <p><span className="text-primary">23 mins 42 secs</span></p>
+                                                </Col>
+                                            </Row>
                                             <p>
-                                                <span className="text-gray">Hash</span>
+                                                <span className="text-gray">Hash</span>&nbsp;
                                                 <span className="text-primary">0X42BB307E4C04F0BF13B7952</span>
                                             </p>
                                             <p>
-                                                <span className="text-gray">Mined by</span>
+                                                <span className="text-gray">Mined by</span>&nbsp;
                                                 <span className="text-primary">John Doe</span>
                                             </p>
-                                            <p>
-                                                <span className="text-gray">Txns</span>
+                                            <p className="mb-0">
+                                                <span className="text-gray">Txns</span>&nbsp;
                                                 <span className="text-primary">30</span>
                                             </p>
                                         </Col>
