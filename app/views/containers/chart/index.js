@@ -146,7 +146,7 @@ const options = {
     enabled: true,
     callbacks: {
                         label: function (tooltipItem, data) {
-                            var amount = new Date();
+                            var amount = tooltipItem.yLabel + ' ' + 'USD';
                             return amount
                         }
 },
