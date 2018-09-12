@@ -6,14 +6,15 @@ import {
 } from 'reactstrap';
 import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
-import { createSelector } from 'reselect';
-import { setUserDetails, updateUserDetails } from 'views/controllers/user-details/action';
-import { getUserDetails } from 'views/controllers/user-details/selector';
-import { Title } from '../../components/coreComponent';
+// import { createSelector } from 'reselect';
+// import { setUserDetails, updateUserDetails } from 'views/controllers/user-details/action';
+// import { getUserDetails } from 'views/controllers/user-details/selector';
+import { Title } from 'views/components/coreComponent/index';
 import logoIcon from 'images/Logo/Fantom-Logo-icon.svg';
 import _ from 'lodash';
 import StartWhite from 'images/temp/stats-white.png';
 import blockIcon from 'images/icons/block-icon.svg';
+import Chart from 'views/containers/chart/index';
 //const helper = new ValidateHelper();
 export default class HomePage extends Component {
 
@@ -68,7 +69,8 @@ export default class HomePage extends Component {
                         </Row>
                         <Row>
                             <Col>
-                                <img src={StartWhite} className="w-100" />
+                            <Chart />
+                                {/* <img src={StartWhite} className="w-100" /> */}
                             </Col>
                         </Row>
                     </Container>
@@ -154,14 +156,14 @@ export default class HomePage extends Component {
         );
     }
 }
-const mapStateToProps = createSelector(
-    getUserDetails(),
-    (userDetails) => ({ userDetails }),
-);
-const mapDispatchToProps = {
-    setUserDetails,
-    updateUserDetails,
-};
+// const mapStateToProps = createSelector(
+//     getUserDetails(),
+//     (userDetails) => ({ userDetails }),
+// );
+// const mapDispatchToProps = {
+//     setUserDetails,
+//     updateUserDetails,
+// };
 // export default connect(
 //   mapStateToProps,
 //   mapDispatchToProps,
