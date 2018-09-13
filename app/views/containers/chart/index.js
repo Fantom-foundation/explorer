@@ -8,7 +8,7 @@ const data = {
     {
       fill: false,
       lineTension: 0.9,
-     // backgroundColor: 'rgba(255,0,0)',
+      backgroundColor: 'rgba(189, 16, 224)',
       borderColor: 'rgba(189, 16, 224,1)',
       borderCapStyle: 'butt',
       borderDash: [],
@@ -16,11 +16,11 @@ const data = {
       borderJoinStyle: 'miter',
       pointBorderColor: 'rgba(189, 16, 224,1)',
       name: 'Market Cap',
-      // pointBackgroundColor: '#bd10e0',
-      // pointBorderWidth: 1,
-      // pointHoverRadius: 7,
-     // pointHoverBackgroundColor: 'rgba(189, 16, 224,1)',
-     // pointHoverBorderColor: 'rgba(189, 16, 224,1)',
+      pointBackgroundColor: 'rgba(189, 16, 224,1)',
+      pointBorderWidth: 1,
+      pointHoverRadius: 7,
+      pointHoverBackgroundColor: 'rgba(189, 16, 224,1)',
+      pointHoverBorderColor: 'rgba(189, 16, 224,1)',
      // pointHoverBorderWidth: 2,
      // pointRadius: 1,
       // pointHitRadius: 1,
@@ -29,7 +29,7 @@ const data = {
     {
       fill: false,
       lineTension: 0.1,
-      // backgroundColor: 'rgba(0,0,255)',
+      backgroundColor: 'rgba(3, 155, 229,1)',
       borderColor: 'rgba(3, 155, 229,1)',
       borderCapStyle: 'butt',
       borderDash: [],
@@ -37,11 +37,11 @@ const data = {
       borderJoinStyle: 'miter',
       pointBorderColor: 'rgba(0,0,255,1)',
       name: 'Price(USD)',
-      // pointBackgroundColor: '#fff',
-      // pointBorderWidth: 1,
-      // pointHoverRadius: 5,
-      // pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      // pointHoverBorderColor: 'rgba(255,0,0,1)',
+      pointBackgroundColor: 'rgba(3, 155, 229,1)',
+      pointBorderWidth: 1,
+      pointHoverRadius: 5,
+      pointHoverBackgroundColor: 'rgba(3, 155, 229,1)',
+      pointHoverBorderColor: 'rgba(3, 155, 229,1)',
       // pointHoverBorderWidth: 2,
       // pointRadius: 1,
       // pointHitRadius: 20,
@@ -56,25 +56,13 @@ const options = {
   },
   scales: {
     yAxes: [{
-      crosshair: {
-        width: 0.5,
-        zIndex: 50,
-        color: 'rgba(3, 155, 229,1)',
-        snap: false,
-        label: {
-          enabled: true,
-
-          color: 'red',
-          format: '{value:.2f}',
-        },
-      },
       ticks: {
         fontSize: 18,
         fontFamily: 'Gotham-Medium',
       // fontColor: 'rgb()',
         maxRotation: 0.00001,
         padding: 10,
-        // labelOffset: 20,
+        //labelOffset: 20,
         callback(value, index) {
           console.log(value, index, 'value');
           if (value === 0) { return '0'; }
@@ -92,7 +80,7 @@ const options = {
           }
         },
       },
-      beginAtZero: true,
+      beginAtZero: false,
       gridLines: {
         drawTicks: true,
         color: 'grey',
@@ -109,9 +97,9 @@ const options = {
        // fontSize: 18,
         // fontFamily: 'Gotham-Medium',
         // fontColor: colorMap['primaryBlue'],
-        maxRotation: 0.00001,
+       // maxRotation: 0.00001,
         padding: 10,
-        labelOffset: 60,
+        labelOffset: 55,
       //   callback(value, index) {
       //      if (index % 2 == 0) return '';
       //      return value;
@@ -134,8 +122,8 @@ const options = {
   },
   tooltips: {
     mode: 'index',
-    backgroundColor: 'rgba(195, 195, 195)',
-    borderColor: 'rgb(0, 0, 0)',
+    backgroundColor: 'rgba(24,21,26, 0.8)',
+    borderColor: 'rgb(24,21,26, 0.5)',
     borderWidth: 0.3,
     cornerRadius: 0,
     caretSize: 0,
@@ -143,21 +131,17 @@ const options = {
     intersect: true,
     axis: 'y',
     yPadding: 25,
-    titleFontColor: 'rgba(0, 0, 0, 0.87)',
-    titleFontSize: 10,
+    //displayColors: false,
+    titleFontColor: 'rgba(255,255,255, 0.87)',
+    //titleFontSize: 25,
     titleFontFamily: 'Roboto',
     bodyFontFamily: 'Roboto',
+    bodyFontSize: 15,
     enabled: true,
-    crosshair: {
-      enabled: true,
-      width: 0.5,
-        zIndex: 50,
-        color: 'red',
-    },
     callbacks: {
       label(tooltipItem, data) {
         const name = data.datasets[tooltipItem.datasetIndex].name;
-        const marketCap = `${name}: ${tooltipItem.yLabel} ` + `${name === 'Market Cap' ? 'USD' : ''}`;
+        const marketCap = '  ' + `${name}: ${tooltipItem.yLabel} ` + `${name === 'Market Cap' ? 'USD' : ''}`;
         return marketCap;
       },
     },
