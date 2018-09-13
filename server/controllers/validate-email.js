@@ -24,7 +24,6 @@ module.exports = function (app) {
               email: req.body.email,
             },
           }).then((userFromRepo) => {
-            console.log('userFromRepo2323', userFromRepo);
             if (userFromRepo) {
               res.statusCode = 202;
               res.json({

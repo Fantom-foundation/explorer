@@ -21,7 +21,6 @@ module.exports = function (app) {
         // { key: 'password_hint', name: 'Password_Hint' },
       ],
       (errorField) => {
-        console.log('Error!!!!Field', errorField);
         let emailToken = bcrypt.hashSync(req.body.email);
         emailToken = `?${emailToken}`;
         const hostname = req.body.hostName;
