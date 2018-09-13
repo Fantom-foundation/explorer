@@ -27,24 +27,21 @@ module.exports = db.define('users', {
   email_token: {
     type: Sequelize.STRING, // Type of column
   },
-  api_key: {
-    type: Sequelize.STRING, // Type of column
-  },
-  isVerified: {
+  // api_key: {
+  //   type: Sequelize.STRING, // Type of column
+  // },
+  isTokenVerified: {
     type: Sequelize.BOOLEAN,
   },
-  isKeyVerified: {
-    type: Sequelize.BOOLEAN,
-  },
-  token_date: {
+  // isKeyVerified: {
+  //   type: Sequelize.BOOLEAN,
+  // },
+  expire_date: {
     type: Sequelize.DATE,
     allowNull: false,
     defaultValue: Sequelize.NOW,
   },
   password: {
-    type: Sequelize.STRING,
-  },
-  password_hint: {
     type: Sequelize.STRING,
   },
 });

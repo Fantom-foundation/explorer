@@ -54,7 +54,7 @@ module.exports = function (app) {
                   password: passwordHash,
                   // password_hint: req.body.password_hint,
                   email_token: emailToken,
-                  api_key: key,
+                 // api_key: key,
                 }).then((result) => {
                   if (result) {
                     EmailHelper.sendMail(req.body.email, registrationUrl);
