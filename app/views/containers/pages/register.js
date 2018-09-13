@@ -6,6 +6,7 @@ import {
     Button,
   } from 'reactstrap';
 import Alert from 'react-s-alert';
+import { Title } from 'views/components/coreComponent/index';
 import { validateEmailApi } from 'views/containers/apis/validate-email';
 import { createAccountApi } from 'views/containers/apis/create-account';
 
@@ -117,12 +118,13 @@ export default class Register extends React.Component {
     }
     return (
       <Row>
-        <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-          <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-            <Row className="mx-0">
-              <Col sm="12" className="px-5 py-3">
+        <Col sm="12" style={{ paddingTop: '86px', minHeight: '100vh', backgroundColor: 'black' }}>
+          <div style={{ width: '100%', maxWidth: '500px', margin: 'auto' }}>
+            <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '86px'}}>
+              <Col className="px-5 py-3">
                 <Form onSubmit={(event) => this.props.handleClick(event, isActive)}>
-                  <div className="form-element form-input">
+                <Title h2 style={{ fontWeight: 100 }}>Sign Up <strong>FORM</strong></Title>
+                   <div className="form-element form-input">
                     <input
                       id="Email"
                       className="form-element-field"
@@ -137,9 +139,6 @@ export default class Register extends React.Component {
                     <label className="form-element-label" for="AccountName">Email</label>
                     {this.state.emailErrorText !== '' ? <small className="form-element-hint">{this.state.emailErrorText}</small> : ''}
                   </div>
-
-                  <Row>
-                    <Col sm={12}>
                       <div className="form-element form-input">
                         <input
                           id="Password"
@@ -154,9 +153,7 @@ export default class Register extends React.Component {
                         <div className="form-element-bar"></div>
                         <label className="form-element-label" for="Password">Password</label>
                         {this.state.passErrorText !== '' ? <small className="form-element-hint">{this.state.passErrorText}</small> : ''}
-                      </div>
-                    </Col>
-                    <Col sm={12}>
+                      </div> 
                       <div className="form-element form-input">
                         <input
                           id="Re-enterPassword"
@@ -172,17 +169,17 @@ export default class Register extends React.Component {
                         <label className="form-element-label" for="Re-enterPassword">Re- enter Password</label>
                         {this.state.repassErrorText !== '' ? <small className="form-element-hint">{this.state.repassErrorText}</small> : ''}
                       </div>
-                    </Col>
-                  </Row>
+                    
                   <Row>
-                    <Col md={12}>
-                      <p className="Form-Text mt-3">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
+                    <Col>
+                      <p className="Form-Text">Make your password with 8 characters or more. It can be any combination of letters, numbers, and symbols.</p>
                     </Col>
                   </Row>
+                  <Button style={{ marginLeft: '100px', backgroundColor: 'black', width: '200px' }} value={40} onClick={(event) => this.handleClick(event, isActive)}>Register</Button>
                 </Form>
               </Col>
             </Row>
-            <Button style={{ marginLeft: '350px' }} value={40} onClick={(event) => this.handleClick(event, isActive)}>Register</Button>
+           
           </div>
         </Col>
       </Row>
