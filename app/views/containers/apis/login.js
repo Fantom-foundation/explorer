@@ -1,5 +1,5 @@
 import Alert from 'react-s-alert';
-export function loginApi(email, password) {
+export function loginApi(email, password, props) {
   const obj = {};
   if (email === '' || password === '') {
     Alert.error('Fields cann\'t be empty', {
@@ -50,12 +50,17 @@ export function loginApi(email, password) {
               timeout: 2000,
             });
           } else if (res.status === 200) {
+            const userDetails = {
+              id: res.user.id,
+              email: res.user.email,
+            };
+            props.setUserDetails(userDetails);
+            localStorage.setItem('isLoggedIn', true);
             obj.status = true;
             resolve(obj);
-            Alert.success(res.message, {
-              position: 'top',
-              timeout: 2000,
-            });
+            setTimeout(() => {
+              props.history.push('/');
+            }, 1000);
           }
         })
         .catch((err) => {

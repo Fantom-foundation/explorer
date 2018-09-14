@@ -64,7 +64,6 @@ const options = {
         padding: 10,
         //labelOffset: 20,
         callback(value, index) {
-          console.log(value, index, 'value');
           if (value === 0) { return '0'; }
           if (value === 20) {
             return '25';

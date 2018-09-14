@@ -1,16 +1,8 @@
 import * as types from 'views/controllers/constants';
 
-export function setUserDetails({ user, icon, address, seed, mnemonic, pubKey, hexPrivateKey, masterPrivateKey }) {
+export function setUserDetails({ id, email }) {
   return {
     type: types.SET_USER_DETAILS,
-    userDetails: { user, icon, address, seed, mnemonic, pubKey, hexPrivateKey, masterPrivateKey },
-  };
-}
-
-
-export function updateUserDetails({ address, seed, mnemonic, pubKey, hexPrivateKey, masterPrivateKey }) {
-  return {
-    type: types.UPDATE_USER_DETAILS,
-    userDetails: { address, seed, mnemonic, pubKey, hexPrivateKey, masterPrivateKey },
+    userDetails: { id, email },
   };
 }

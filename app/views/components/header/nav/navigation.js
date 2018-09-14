@@ -50,7 +50,7 @@ export default class Navigation extends React.Component {
                 <NavLink href="#">Addresses</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">Login</NavLink>
+                <NavLink href="/login">Login</NavLink>
               </NavItem>
             </Nav>
           </Collapse>

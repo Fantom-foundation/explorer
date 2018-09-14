@@ -14,51 +14,21 @@ const getUserDetails = () => createSelector(
   (loginState) => {
   // debugger;
     const userDetails = loginState.get('userDetails');
-    let user = '';
-    let icon = '';
-    let address = '';
-    let seed = '';
-    let mnemonic = '';
-    let pubKey = '';
-    let hexPrivateKey = '';
-    let masterPrivateKey = '';
+    let id = '';
+    let email = '';
     if (userDetails) {
      //debugger;
      console.log('userDetails Value', userDetails);
-      user = userDetails.user;
-      icon = userDetails.icon;
-      address = userDetails.address;
-      seed = userDetails.seed;
-      mnemonic = userDetails.mnemonic;
-      pubKey = userDetails.pubKey;
-      hexPrivateKey = userDetails.hexPrivateKey;
-      masterPrivateKey = userDetails.masterPrivateKey;
+      id = userDetails.id;
+      email = userDetails.email;
     }
-    if (user === undefined) {
-      user = userDetails.get('user');
+    if (id === undefined) {
+      id = userDetails.get('id');
     }
-    if (icon === undefined) {
-      icon = userDetails.get('icon');
+    if (email === undefined) {
+      email = userDetails.get('email');
     }
-    if (address === undefined) {
-      address = userDetails.get('address');
-    }
-    if (seed === undefined) {
-      seed = userDetails.get('seed');
-    }
-    if (mnemonic === undefined) {
-      mnemonic = userDetails.get('mnemonic');
-    }
-    if (pubKey === undefined) {
-      pubKey = userDetails.get('pubKey');
-    }
-    if (hexPrivateKey === undefined) {
-      hexPrivateKey = userDetails.get('hexPrivateKey');
-    }
-    if (masterPrivateKey === undefined) {
-      masterPrivateKey = userDetails.get('masterPrivateKey');
-    }
-    return { user, icon, address, seed, mnemonic, pubKey, hexPrivateKey, masterPrivateKey };
+    return { id, email };
   }
 );
 

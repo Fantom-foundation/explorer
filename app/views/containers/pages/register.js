@@ -123,7 +123,7 @@ export default class Register extends React.Component {
             <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '86px'}}>
               <Col className="px-5 py-3">
                 <Form onSubmit={(event) => this.props.handleClick(event, isActive)}>
-                <Title h2 style={{ fontWeight: 100 }}>Sign Up <strong>FORM</strong></Title>
+                <Title h2 className="text-center line-title" style={{ fontWeight: 100 }}>Sign Up <strong>FORM</strong></Title>
                    <div className="form-element form-input">
                     <input
                       id="Email"

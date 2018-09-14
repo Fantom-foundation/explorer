@@ -14,3 +14,26 @@
         }
     }
 }
+.line-title
+{
+    span
+    {
+        position: relative;
+        &::before, &::after
+        {
+            position: absolute;
+            content: "";
+            top: 50%;
+            transform: translateY(-50%);
+            height: 2px;
+            width: 60px;
+            background: black;
+        }
+        &::before{
+            left: calc(100% + 20px);
+        }
+        &::after{
+            right: calc(100% + 20px);
+        }
+    }
+}
