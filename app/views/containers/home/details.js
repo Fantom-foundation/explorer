@@ -67,7 +67,7 @@ export default class Deatails extends Component {
           
 
 <div id="theme-tab">
-<Nav tabs className="mb-3">
+<Nav tabs className="mb-3 theme-nav">
           <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === '1' })}
@@ -85,7 +85,7 @@ export default class Deatails extends Component {
             </NavLink>
           </NavItem>
         </Nav>
-        <TabContent activeTab={this.state.activeTab}>
+        <TabContent className="theme-nav-tab-content" activeTab={this.state.activeTab}>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
@@ -102,7 +102,7 @@ export default class Deatails extends Component {
 
             <Row>
                 <Col>
-                    <Table className="information-tale">
+                    <Table className="information-table">
                         <thead>
                             <tr>
                                 <th>Block Information</th>
@@ -200,7 +200,7 @@ export default class Deatails extends Component {
               </Col>
             </Row>
             <Row>
-                <Col>
+                <Col className="px-5">
 
 {/*=======Chat Section=======*/}
 <ChatTab />

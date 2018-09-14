@@ -1,0 +1,51 @@
+#comments
+{
+    padding: { left: 39px; right: 39px; }
+    img{background: {color: #e2e7ea;}}
+    font: {family: Helvetica Neue;}
+    .title,p{font: {family: Helvetica Neue;}}
+    .title
+    {
+        color:#000000;
+        font: { size:13px; weight:bold; }
+    }
+    p
+    {
+        color: #3F4549;
+        font: {size:15px;}
+    }
+    .main-comments
+    {
+        .row
+        {
+            margin: { top:1rem; bottom:1rem; }
+        }
+        .image-col
+        {
+            @include responsive-width(78px);
+            img{width: 48px; height: 48px;}
+        }
+        .form-group
+        {
+            .form-control { height: 48px; }
+        }
+        .options
+        {
+            ul
+            {
+                padding: 0;
+                li
+                {
+                    display: inline-block;
+                    padding: 0 10px;
+                    span
+                    {
+                        cursor: pointer;
+                        transition: .5s all;
+                        &:hover{opacity: .7;}
+                    }
+                }
+            }
+        }
+    }
+}
