@@ -17,7 +17,11 @@ export default class Blocks extends Component {
                 <Header />
                 <section className="bg-theme">
                     <Container>
-                        <Row className="header-title pt-3">
+
+
+{/*========== make this title-header component start=================*/}
+
+                        <Row className="title-header pt-3">
                             <Col className="pt-3">
                             <Title h2>Blocks</Title>
                                 </Col>
@@ -30,9 +34,13 @@ export default class Blocks extends Component {
                                 </div>
                             </Col>
                         </Row>
+
+
+{/*========== make this title-header component end=================*/}
+
                         <Row>
                             <Col>
-                                <Table >
+                                <Table className="transactions-table">
                                     <thead className="dark">
                                         <tr>
                                             <th>Height</th>

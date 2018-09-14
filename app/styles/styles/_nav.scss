@@ -2,8 +2,15 @@
 
 Header
 {
+    position: sticky;
+    top: 0;
+    z-index: 999;
     nav
     {
+        .container
+        {
+            @media(max-width: 767px){max-width: 100%;}
+        }
         &.navbar
         {
             &.navbar-dark

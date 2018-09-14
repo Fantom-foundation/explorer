@@ -1,55 +1,16 @@
-// $font-family:SFCompactDisplay;
-// $title-font-size-large:28px;
-// $title-font-size-large-576:24px;
-// $text-font-size:11px;
-// $text-font-size-large:18px;
-// $text-font-size-small:9px;
-// .black-text{color:#000;}
 .text-black {color:map-get($color, black) !important;}
 .text-gray {color:map-get($color, grayText) !important;}
 .text-gray-dark {color:map-get($color, darkGrayText) !important;}
 .text-primary{color:map-get($color, blue) !important;}
-// .title
-// {
-//     font: {
-//         family: $font-family;
-//         weight:500;
-//     }
-//     &.roboto { font: { family: Roboto;} }
-//     &.large {
-//         font: { size: $title-font-size-large; }
-//         @media(max-width: 576px) { font: { size: $title-font-size-large-576; }}
-//     }
-// }
-// .text
-// {
-//     font: {
-//         family: $font-family;
-//         size: $text-font-size;
-//     }
-//     &.small { font: { size: $text-font-size-small; }}
-//     &.large { font: { size: $text-font-size-large; }}
-//     &.w-thin{font: { weight:300; }}
-// }
 
 
-// .r-title
-// {
-//     font: {
-//         family: Roboto;
-//         weight: 400;
-//         size: 15px;
-//     }
-// }
-
-// .text-ellipsis{
-//     white-space: nowrap; 
-    
-//     overflow: hidden;
-//     text-overflow: ellipsis; 
-
-//     width: 100%;
-//     &.w-148{max-width: 148px; }
-//     &.w-185{max-width: 185px; }
-//     &.w-208{max-width: 208px; }
-// }
+.title-header
+{
+    .title
+    {
+        font: {
+            family:Helvetica;
+            size:30px;
+        }
+    }
+}
