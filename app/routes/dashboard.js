@@ -21,11 +21,11 @@ function renderLoggedInRoutes() {
 function renderLoggedOutRoutes() {
   return (
     <Switch>
-      <Route exact path="/" component={HomePage} />
       <Route path="/blocks" component={Blocks} />
       <Route path="/details" component={Details} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Redirect to="/" />
     </Switch>
   );
 }

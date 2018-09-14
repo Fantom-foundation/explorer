@@ -1,4 +1,5 @@
 import React from 'react';
+import { isUserLoggedIn } from 'common/utility';
 import Logo from 'images/logo/logo.png';
 import SettingIcon from 'images/icons/setting.svg';
 
@@ -20,17 +21,21 @@ export default class Navigation extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
-
+      isLoggedIn: false,
     };
   }
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   }
+  logout = () => {
+    localStorage.setItem('isLoggedIn', false);
+    this.props.history.push('/');
+  };
   render() {
+    const isLoggedIn = isUserLoggedIn();
     return (
-
       <Navbar color="dark" dark expand="md">
         <Container>
           <NavbarBrand href="/"><img className="logo" src={Logo} /></NavbarBrand>
@@ -50,15 +55,12 @@ export default class Navigation extends React.Component {
                 <NavLink href="#">Addresses</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/login">Login</NavLink>
+                {isLoggedIn ? <NavLink onClick={(event) => this.logout(event)}>Logout</NavLink> : <NavLink href="/login">Login</NavLink> }
               </NavItem>
             </Nav>
           </Collapse>
         </Container>
       </Navbar>
-
-
-
     );
   }
 }
