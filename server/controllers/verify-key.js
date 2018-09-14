@@ -27,52 +27,13 @@ module.exports = function (app) {
                 });
                 res.end();
                 return;
-              }
-              if (userFromRepo) {
-                // const tokenCreatedAt = new Date(userFromRepo.token_date).getTime();
-                // const newTime = tokenCreatedAt + tokenExpirationTime;
-                // const currentTime = new Date().getTime();
-                // if (currentTime > newTime) {
-                //   console.log('expiredToken');
-                //   res.statusCode = 500;
-                //   res.json({
-                //     status: 500,
-                //     message: 'Invalid token',
-                //   });
-                //   res.end();
-                // } else {
-                  User.update({
-                    isKeyVerified: true,
-                    // email_token: null,
-                  }, {
-                      where: {
-                        api_key: req.body.api_key,
-                      },
-                    })
-                    .then((result) => {
-                      if (result) {
-                        res.json({
-                          status: 200,
-                          message: ' API key verified successfully ',
-                          result: userFromRepo,
-                        });
-                      } else {
-                        res.json({
-                          status: 202,
-                          message: ' API key verification unsuccessfully',
-                        });
-                      }
-                    })
-                    .catch((error) => {
-                      res.statusCode = 203;
-                      res.json({
-                        status: 203,
-                        message: error,
-                      });
-                      res.end();
-                    });
-                //}
-                 
+              } else {
+                res.json({
+                  status: 200,
+                  message: ' API key verified successfully ',
+                  result: userFromRepo,
+                });
+                res.end();
               }
             })
             .catch((err) => {

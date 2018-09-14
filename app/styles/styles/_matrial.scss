@@ -339,7 +339,8 @@ $theme-color:map-get($color, blue);
   .form-element-hint {
     font-weight: 400;
     font-size: 0.6875rem;
-    color: #a6a6a6;
+   // color: #a6a6a6;
+   color: red;
     display: block;
   }
   

@@ -7,7 +7,6 @@ import Details from 'views/containers/home/details';
 import VerifyEmail from 'views/containers/pages/verify-email';
 import Register from 'views/containers/pages/register';
 import Login from 'views/containers/pages/login';
-import account_management from 'views/containers/account-management/account-management.js';
 
 export default function Dashboard() {
   return (
@@ -19,7 +18,6 @@ export default function Dashboard() {
         <Route path="/verify-email" component={VerifyEmail} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route exact path="/account-management" component={account_management} />
       </Switch>
     </div>
   );

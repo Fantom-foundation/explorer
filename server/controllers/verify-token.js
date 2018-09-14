@@ -19,7 +19,6 @@ module.exports = function (app) {
             },
           })
             .then((userFromRepo) => {
-              console.log('userFromRepo!!', userFromRepo);
               if (!userFromRepo) {
                 res.statusCode = 401;
                 res.json({

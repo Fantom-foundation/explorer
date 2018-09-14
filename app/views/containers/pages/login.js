@@ -6,6 +6,7 @@ import {
     Button,
   } from 'reactstrap';
 import Alert from 'react-s-alert';
+import { Title } from 'views/components/coreComponent/index';
 import { loginApi } from 'views/containers/apis/login';
 
 
@@ -42,11 +43,12 @@ export default class Login extends React.Component {
   render() {
     return (
       <Row>
-        <Col sm="12" style={{ paddingTop: '76px', paddingBottom: '31px' }}>
-          <div className="cs-container forms-container theme-blue-shadow inner mb-4">
-            <Row className="mx-0">
-              <Col sm="12" className="px-5 py-3">
+        <Col sm="12" style={{ paddingTop: '86px', minHeight: '100vh', backgroundColor: 'black' }}>
+          <div style={{ width: '100%', maxWidth: '500px', margin: 'auto' }}>
+            <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '86px'}}>
+              <Col className="px-5 py-3">
                 <Form onSubmit={(event) => this.handleClick(event)}>
+                <Title h2 style={{ fontWeight: 100 }}>Sign In <strong>FORM</strong></Title>
                   <div className="form-element form-input">
                     <input
                       id="Email"
@@ -62,9 +64,6 @@ export default class Login extends React.Component {
                     <label className="form-element-label" for="AccountName">Email</label>
                     {/* {this.state.emailErrorText !== '' ? <small className="form-element-hint">{this.state.emailErrorText}</small> : ''} */}
                   </div>
-
-                  <Row>
-                    <Col sm={12}>
                       <div className="form-element form-input">
                         <input
                           id="Password"
@@ -80,12 +79,11 @@ export default class Login extends React.Component {
                         <label className="form-element-label" for="Password">Password</label>
                         {/* {this.state.passErrorText !== '' ? <small className="form-element-hint">{this.state.passErrorText}</small> : ''} */}
                       </div>
-                    </Col>
-                  </Row>
+                      <Button style={{ marginLeft: '100px', backgroundColor: 'black', width: '200px' }} value={40} onClick={(event) => this.handleClick(event)}>Login</Button>
                 </Form>
               </Col>
             </Row>
-            <Button style={{ marginLeft: '350px' }} value={40} onClick={(event) => this.handleClick(event)}>Login</Button>
+           
           </div>
         </Col>
       </Row>
