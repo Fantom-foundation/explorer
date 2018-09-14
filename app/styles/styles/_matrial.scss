@@ -1,5 +1,4 @@
-
-  
+$theme-color:map-get($color, blue);
   .form-btn,
   .form-btn-cancel,
   .form-btn-error {
@@ -33,7 +32,7 @@
   .form-btn::before,
   .form-btn-cancel::before,
   .form-btn-error::before {
-    background: #337ab7;
+    background: $theme-color;
     z-index: -2;
   }
   
@@ -138,7 +137,7 @@
   
   .form-checkbox-label:hover i,
   .form-radio-label:hover i {
-    color: #337ab7;
+    color: $theme-color;
   }
   
   .form-checkbox-label span, .form-radio-label span { display: block; }
@@ -178,7 +177,7 @@
     position: absolute;
     height: 0;
     width: 0.2rem;
-    background-color: #337ab7;
+    background-color: $theme-color;
     display: block;
     transform-origin: left top;
     border-radius: 0.25rem;
@@ -202,7 +201,7 @@
   }
   
   .form-checkbox-field:checked ~ .form-checkbox-button {
-    color: #337ab7;
+    color: $theme-color;
   }
   
   .form-checkbox-field:checked ~ .form-checkbox-button::after,
@@ -248,8 +247,8 @@
     &::after
     {
         transform: scale(0);
-        background-color: #337ab7;
-        border-color: #337ab7;
+        background-color: $theme-color;
+        border-color: $theme-color;
     }
 }
   
@@ -259,7 +258,7 @@
   }
   
   .form-radio-field:checked ~ .form-radio-button::before {
-    color: #337ab7;
+    color: $theme-color;
   }
   
   .form-has-error .form-checkbox-button,
@@ -340,7 +339,8 @@
   .form-element-hint {
     font-weight: 400;
     font-size: 0.6875rem;
-    color: #a6a6a6;
+   // color: #a6a6a6;
+   color: red;
     display: block;
   }
   
@@ -357,7 +357,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: #337ab7;
+    background: $theme-color;
     height: 2px;
     display: block;
     transform: rotateY(90deg);
@@ -418,7 +418,7 @@
     transform: rotateY(0deg);
   }
   .form-element-field:focus ~ .form-element-label {
-    color: #337ab7;
+    color: $theme-color;
   }
   .form-element-field.-hasvalue,
   .form-element-field:focus {

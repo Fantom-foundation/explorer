@@ -33,9 +33,6 @@ module.exports = db.define('users', {
   isVerified: {
     type: Sequelize.BOOLEAN,
   },
-  isKeyVerified: {
-    type: Sequelize.BOOLEAN,
-  },
   token_date: {
     type: Sequelize.DATE,
     allowNull: false,

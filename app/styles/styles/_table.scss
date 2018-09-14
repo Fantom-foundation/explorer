@@ -1,0 +1,78 @@
+.table
+{
+    &.transactions-table
+    {
+        thead
+        {
+            &.dark{background: rgba(220, 220, 223, 0.21);}
+            tr
+            {
+                th
+                {
+                    font: {
+                        family: Helvetica;
+                        size:10.01px;
+                    }
+                    color: #5E6875;
+                }
+            }
+        }
+        tbody
+        {
+            &.scroll-theme-1
+            {
+                // display:block;
+                // width: 100%;
+                // overflow: auto;
+                // height: 100px;
+            }
+            background: rgba(255, 255, 255, 0.6);
+            
+            tr
+            {
+                td
+                {
+                    
+                    font: {
+                        family: Helvetica;
+                        size:8.58px;
+                    }
+                }
+            }
+        }
+    }
+    &.information-tale
+    {
+        font: {family: Roboto;}
+        
+        thead
+        {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+            tr
+            {
+                th
+                {
+                    color:#000;
+                    font: {size: 18px;weight:400;}
+                    padding: 10px 28px;
+                    border: 0px;
+                }
+            }
+        }
+        tbody
+        {
+            tr
+            {
+                td
+                {
+                    color:#000;
+                    font: {size: 15px;}
+                    &:nth-child(2){font: {weight:300;}}
+                    padding: 10px 28px;
+                    border: 0px;
+                    word-break: break-word;
+                }
+            }
+        }
+    }
+}

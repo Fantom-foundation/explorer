@@ -1,0 +1,47 @@
+.intro
+{
+    .discription
+    {
+        .title,p { font: { family: SFCompactDisplay; }}
+        .title { font: { size: 50.63px; }}
+        p { font: { size: 28.13px; weight: 300; }}
+    }
+    .graph-info
+    {
+        .title-info
+        {
+            margin-bottom: 10px;
+            .logo-column { @include responsive-width(40px); }
+            .title
+            {
+                font: {
+                    family: SFCompactDisplay;
+                    size: 17px;
+                }
+            }
+        }
+    }
+    .result-info
+    {
+        .title
+        {    
+            -webkit-font-smoothing: antialiased;
+            font: {
+                family: Helvetica;
+                size: 13.44px;
+            }
+            &.balance
+            {
+                font: { size: 14.66px; }
+                color: #BD10E0 !important;
+            }
+        }
+        &.top { .title { color: map-get($color, white); }}
+        &.bottom
+        { 
+            .title { color: #E2689A; }
+            .col { &:nth-child(1) { @include responsive-width(130px); }}
+            .col { &:nth-last-child(1) { @include responsive-width(130px); }}
+        }
+    }
+}

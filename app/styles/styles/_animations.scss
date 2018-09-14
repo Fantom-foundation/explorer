@@ -1,13 +1,13 @@
-.rotation {
-    -webkit-animation: rotation 2s infinite linear;
-    &.anti-clock { -webkit-animation: rotation-anti-clock 2s infinite linear; }
-}
+// .rotation {
+//     -webkit-animation: rotation 2s infinite linear;
+//     &.anti-clock { -webkit-animation: rotation-anti-clock 2s infinite linear; }
+// }
 
-@-webkit-keyframes rotation {
-    from { -webkit-transform: rotate(0deg); }
-    to {  -webkit-transform: rotate(359deg); }
-}
-@-webkit-keyframes rotation-anti-clock {
-    from { -webkit-transform: rotate(359deg); }
-    to { -webkit-transform: rotate(0degdeg); }
-}
+// @-webkit-keyframes rotation {
+//     from { -webkit-transform: rotate(0deg); }
+//     to {  -webkit-transform: rotate(359deg); }
+// }
+// @-webkit-keyframes rotation-anti-clock {
+//     from { -webkit-transform: rotate(359deg); }
+//     to { -webkit-transform: rotate(0degdeg); }
+// }

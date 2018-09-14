@@ -1,55 +1,60 @@
-// color:map-get($color, black)
 
-//--Header
-nav
+
+Header
 {
-    &.navbar
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    nav
     {
-        min-height: 64px;
-        &.bg-dark { background: { color:map-get($color, black) !important; } }
-        &.navbar-dark
+        .container
         {
-            .navbar-brand
-            {
-                //  color:map-get($color, white);
-            }
+            @media(max-width: 767px){max-width: 100%;}
         }
-    }
-}
-
-//--Tab
-
-
-.tab-full
-{
-    .nav-item{
-    -ms-flex-preferred-size: 0;
-    flex-basis: 0;
-    -ms-flex-positive: 1;
-    flex-grow: 1;
-    max-width: 100%;
-    }
-}
-.tab-theme 
-{
-    border: 0px;
-    .nav-item
-    {
-        .nav-link
+        &.navbar
         {
-            border: 0px !important;
-            color:map-get($color, lightGrayText);
-            padding: {top: 29px;}
-            font: {
-                family:Roboto;
-                weight: 400;
-                size:20px;
+            &.navbar-dark
+            {
+                min-height: 64px;
+                &.navbar-dark
+                {
+                    .navbar-brand
+                    {
+                        .logo
+                        {
+                            height: 35px;
+                        }
+                    }
+                    .navbar-collapse
+                    {
+                        .navbar-nav
+                        {
+                            .nav-item
+                            {
+                                .nav-link
+                                {
+                                    color: map-get($color, white);
+                                    transition: .5s all;
+                                    font: { family: Helvetica; size:18px; }
+                                    padding-left: 0;
+                                    padding-right: 0;
+                                    margin-left: 25px;
+                                    margin-right: 25px;
+                                    
+                                    &:hover{opacity: .7;}
+                                }
+                                &:nth-last-child(1)
+                                {
+                                    .nav-link
+                                    {
+                                        @media (min-width:768px){margin-right: 0px;}
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            @media(max-width:767px){font: {size:16px;}}
-            @media(max-width:540px){font: {size:14px;}}
-            @media(max-width:480px){font: {size:12px;} padding: {left: 0;right: 0}}
-            @media(max-width:367px){font: {size:11px;} }
-            &.active,&:hover{color:map-get($color, blue);}
         }
     }
 }

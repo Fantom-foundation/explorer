@@ -1,21 +1,21 @@
-.btn
-{
-    height: 25px;
-    padding: 0px 32px;
-    border-radius: 0px;
-    font: {
-        family:SFCompactDisplay;
-        size:15px;
-    }
-    &.btn-primary
-    {
-        background: {color:map-get($color, blue);}
-        border: 0px;
-        box-shadow: none !important;
-        &:hover
-        {
-            background: {color:map-get($color, blue-hover)}
-        }
-    }
-}
-a {color:map-get($color, blue); }
+// .btn
+// {
+//     height: 25px;
+//     padding: 0px 32px;
+//     border-radius: 0px;
+//     font: {
+//         family:SFCompactDisplay;
+//         size:15px;
+//     }
+//     &.btn-primary
+//     {
+//         background: {color:map-get($color, blue);}
+//         border: 0px;
+//         box-shadow: none !important;
+//         &:hover
+//         {
+//             background: {color:map-get($color, blue-hover)}
+//         }
+//     }
+// }
+// a {color:map-get($color, blue); }

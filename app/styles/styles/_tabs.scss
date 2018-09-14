@@ -1,0 +1,38 @@
+$active-tab-btn:#339AFF;
+$tab-background:#EBEBEB;
+#theme-tab
+{
+    .nav-tabs
+    {
+        background-color: $tab-background;
+        .nav-item
+        {
+            .nav-link
+            {
+                font: { family:Roboto; size:18px; }
+                height: 33px;
+                padding-top: 3px;
+                padding-bottom: 0;
+                border: 0px;
+                border-radius: 5px;
+                cursor: pointer;
+                &.active
+                {
+                   background: $active-tab-btn;
+                   color: #fff;
+                }
+            }
+        }
+    }
+    .tab-content
+    {
+        .tab-pane
+        {
+            background: #fff;
+            &.active
+            {
+
+            }
+        }
+    }
+}
