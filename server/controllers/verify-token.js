@@ -29,18 +29,18 @@ module.exports = function (app) {
                 return;
               }
               if (userFromRepo) {
-                // const tokenCreatedAt = new Date(userFromRepo.token_date).getTime();
-                // const newTime = tokenCreatedAt + tokenExpirationTime;
-                // const currentTime = new Date().getTime();
-                // if (currentTime > newTime) {
-                //   console.log('expiredToken');
-                //   res.statusCode = 500;
-                //   res.json({
-                //     status: 500,
-                //     message: 'Invalid token',
-                //   });
-                //   res.end();
-                // } else {
+                const tokenCreatedAt = new Date(userFromRepo.token_date).getTime();
+                const newTime = tokenCreatedAt + tokenExpirationTime;
+                const currentTime = new Date().getTime();
+                if (currentTime > newTime) {
+                  console.log('expiredToken');
+                  res.statusCode = 500;
+                  res.json({
+                    status: 500,
+                    message: 'Invalid token',
+                  });
+                  res.end();
+                } else {
                   User.update({
                     isVerified: true,
                     email_token: null,
@@ -73,7 +73,7 @@ module.exports = function (app) {
                       });
                       res.end();
                     });
-                //}
+                }
                  
               }
             })

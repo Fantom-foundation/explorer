@@ -1,4 +1,4 @@
-export function createAccountApi(email, password, repassword) {
+export function createAccountApi(email, password, repassword, props) {
   const obj = {};
   const payload = {
     email,
@@ -23,23 +23,12 @@ export function createAccountApi(email, password, repassword) {
         .then((res) => {
           if (res.status === 200) {
             console.log('res!!', res);
-            // const object = {
-            //   user: '',
-            //   icon: '',
-            //   address: '',
-            //   seed: '',
-            //   mnemonic: '',
-            //   pubKey: '',
-            //   hexPrivateKey: '',
-            //   masterPrivateKey: '',
-            // };
-            // if (res.result.email) {
-            //   object.user = res.result.email;
-            // } else {
-            //   object.user = res.result.account_name;
-            // }
-            // object.icon = res.result.icon;
-            // props.setUserDetails(object);
+            const userDetails = {
+              id: res.result.id,
+              email: res.result.email,
+            };
+            props.setUserDetails(userDetails);
+            localStorage.setItem('isLoggedIn', true);
             obj.status = true;
             obj.emailToken = res.result.email_token;
             resolve(obj);

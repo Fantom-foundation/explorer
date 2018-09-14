@@ -5,7 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { SET_USER_DETAILS, UPDATE_USER_DETAILS } from '../constants';
+import { SET_USER_DETAILS } from '../constants';
 
 const initialState = fromJS({
   userDetails: {

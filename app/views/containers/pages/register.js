@@ -6,11 +6,15 @@ import {
     Button,
   } from 'reactstrap';
 import Alert from 'react-s-alert';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+import { setUserDetails } from 'views/controllers/user-details/action';
+import { getUserDetails } from 'views/controllers/user-details/selector';
 import { Title } from 'views/components/coreComponent/index';
 import { validateEmailApi } from 'views/containers/apis/validate-email';
 import { createAccountApi } from 'views/containers/apis/create-account';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +37,7 @@ export default class Register extends React.Component {
   handleClick = (event, isActive) => {
     event.preventDefault();
     if (isActive) {
-      const createApiPromise = createAccountApi(this.state.email, this.state.password, this.state.repassword);
+      const createApiPromise = createAccountApi(this.state.email, this.state.password, this.state.repassword, { ...this.props });
       createApiPromise.then((result) => {
         if (result.status) {
           const emailToken = result.emailToken;
@@ -44,6 +48,7 @@ export default class Register extends React.Component {
             position: 'top',
             timeout: 5000,
           });
+          this.props.history.push('/verify-email');
         }
       }).catch((error) => {
         console.log('@@@error', error);
@@ -186,3 +191,14 @@ export default class Register extends React.Component {
     );
   }
 }
+const mapStateToProps = createSelector(
+  getUserDetails(),
+  (userDetails) => ({ userDetails }),
+);
+const mapDispatchToProps = {
+  setUserDetails,
+};
+export default connect(
+mapStateToProps,
+mapDispatchToProps,
+)(Register);
