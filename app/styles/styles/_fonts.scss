@@ -75,3 +75,17 @@
     src: url("../fonts/Helvetica/Helvetica-Regular.ttf");
   }
   
+
+    /** Bold */
+    @font-face {
+      font-family: "Helvetica Neue";
+      font-weight: 700;
+      src: url("../fonts/HelveticaNeue/helveticaneue-bold.woff2");
+    }
+      /** Regular */
+  @font-face {
+    font-family: "Helvetica Neue";
+    font-weight: 400;
+    src: url("../fonts/HelveticaNeue/helveticaneue.woff2");
+  }
+  
