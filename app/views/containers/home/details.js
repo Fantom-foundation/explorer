@@ -86,7 +86,7 @@ export default class Deatails extends Component {
           </NavItem>
         </Nav>
         <TabContent className="theme-nav-tab-content" activeTab={this.state.activeTab}>
-          <TabPane tabId="2">
+          <TabPane tabId="1">
             <Row>
               <Col sm="12">
                
@@ -186,7 +186,7 @@ export default class Deatails extends Component {
               </Col>
             </Row>
           </TabPane>
-          <TabPane tabId="1">
+          <TabPane tabId="2">
             <Row>
                 <Col>
                     <Table className="information-tale">
