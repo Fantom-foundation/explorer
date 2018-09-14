@@ -10,7 +10,7 @@ module.exports = db.define('address', {
     primaryKey: true,
     type: Sequelize.INTEGER,
   },
-  addresses: {
+  address: {
     type: Sequelize.STRING, // Type of column
   },
   balance: {

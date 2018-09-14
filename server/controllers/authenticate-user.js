@@ -22,11 +22,11 @@ module.exports = function (app) {
           })
             .then((userFromRepo) => {
               if (!userFromRepo) {
-                console.log(' User doesn\'t exist : ');
+                console.log(' email doesn\'t exist : ');
                 res.statusCode = 203;
                 res.json({
                   status: 203,
-                  message: 'User doesn\'t exist',
+                  message: 'email doesn\'t exist',
                 });
                 res.end();
                 return;

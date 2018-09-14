@@ -2,9 +2,9 @@
  * This is a sample API controller which only contains API.
  *
  */
-const User = require('../models/users');
+const Apikey = require('../models/api_keys');
 const utils = require('../utilities/utils');
-const tokenExpirationTime = 28800000;
+
 module.exports = function (app) {
   app.post('/api/verify-key', (req, res, next) => {
     utils.validateRequiredKeys(req.body,
@@ -13,16 +13,16 @@ module.exports = function (app) {
       ],
       (errorField) => {
         if (!errorField) {
-          User.findOne({
+          Apikey.findOne({
             where: {
               api_key: req.body.api_key,
             },
           })
             .then((userFromRepo) => {
               if (!userFromRepo) {
-                res.statusCode = 401;
+                res.statusCode = 201;
                 res.json({
-                  status: 401,
+                  status: 201,
                   message: 'Invalid Key',
                 });
                 res.end();
@@ -37,17 +37,12 @@ module.exports = function (app) {
               }
             })
             .catch((err) => {
-              res.statusCode = 205;
-              res.json({
-                status: 205,
-                message: err,
-              });
-              res.end();
+              console.log('error', err);
             });
         } else {
-          res.statusCode = 207;
+          res.statusCode = 203;
           res.json({
-            status: 207,
+            status: 203,
             message: errorField,
           });
           res.end();
