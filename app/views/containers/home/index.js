@@ -6,6 +6,8 @@ import {
 } from 'reactstrap';
 import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
+import LatestTransactions from 'views/containers/home/latest-transactions';
+import LatestBlocks from 'views/containers/home/latest-blocks';
 // import { createSelector } from 'reselect';
 // import { setUserDetails, updateUserDetails } from 'views/controllers/user-details/action';
 // import { getUserDetails } from 'views/controllers/user-details/selector';
@@ -78,75 +80,8 @@ export default class HomePage extends Component {
                 <section id="latest-blocks" className="bg-theme">
                     <Container>
                         <Row>
-                            <Col className="left">
-                                <Row className="header bg-white mb-3 pt-2 pb-3">
-                                    <Col><Title h2 className="text-uppercase mb-0">Latest Transactions</Title></Col>
-                                    <Col className="link-column"><a hredf="#" className="link pt-2">View all</a></Col>
-                                </Row>
-                                <Row className="blocks">
-                                    {_.times(5, (i) =>
-                                        <Col key={i} xs={12} className="bg-white  mb-3">
-                                            <Row>
-                                                <Col className="pr-0">
-                                                    <p>
-                                                        <span className="text-black">TX#</span>&nbsp;
-                                                        <span className="text-primary">0X42BB307E4C04F0BF13B7952</span>
-                                                    </p>
-                                                </Col>
-                                                <Col className="time-date-col pl-0">
-                                                    <p><span className="text-primary">23 mins 42 secs</span></p>
-                                                </Col>
-                                            </Row>
-                                            <p className="pb-2 mb-1">
-                                                <span className="text-gray">From</span>&nbsp;
-                                                <span className="text-primary">0x04041d6a6bbbc2…</span>&nbsp;
-
-                                                <span className="text-gray">to</span>&nbsp;
-                                                <span className="text-primary">0xf4a2eff88a408ff4c4550148…</span>
-                                            </p>
-                                            <p className="mb-0">
-                                                <span className="text-gray">Amount 2.9999</span>&nbsp;
-                                                <span className="text-primary">Fantom</span>
-                                            </p>
-                                        </Col>
-
-                                    )}
-
-
-                                </Row>
-                            </Col>
-                            <Col className="right">
-                                <Row className="header bg-white mb-3 pt-2 pb-3">
-                                    <Col><Title h2 className="text-uppercase mb-0">Latest Blocks</Title></Col>
-                                    <Col className="link-column"><a hredf="#" className="link pt-2">View all</a></Col>
-                                </Row>
-                                <Row className="blocks">
-                                    {_.times(5, (i) =>
-                                        <Col xs={12} className="bg-white mb-3">
-                                            <Row>
-                                                <Col className="pr-0">
-                                                    <p className="text-black"><img src={blockIcon} className="block-icon" />062791</p>
-                                                </Col>
-                                                <Col className="time-date-col pl-0">
-                                                    <p><span className="text-primary">23 mins 42 secs</span></p>
-                                                </Col>
-                                            </Row>
-                                            <p>
-                                                <span className="text-gray">Hash</span>&nbsp;
-                                                <span className="text-primary">0X42BB307E4C04F0BF13B7952</span>
-                                            </p>
-                                            <p>
-                                                <span className="text-gray">Mined by</span>&nbsp;
-                                                <span className="text-primary">John Doe</span>
-                                            </p>
-                                            <p className="mb-0">
-                                                <span className="text-gray">Txns</span>&nbsp;
-                                                <span className="text-primary">30</span>
-                                            </p>
-                                        </Col>
-                                    )}
-                                </Row>
-                            </Col>
+                         <LatestTransactions />
+                            <LatestBlocks />
                         </Row>
                     </Container>
                 </section>

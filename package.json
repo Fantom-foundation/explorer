@@ -322,6 +322,7 @@
     "null-loader": "0.1.1",
     "offline-plugin": "4.8.1",
     "plop": "1.8.0",
+    "prettier-eslint": "^8.8.2",
     "react-test-renderer": "^16.4.2",
     "react-to-print": "^2.0.0-alpha-3",
     "react-watch": "^1.0.0",
