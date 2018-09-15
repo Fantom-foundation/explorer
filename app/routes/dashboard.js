@@ -3,10 +3,10 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { isUserLoggedIn } from 'common/utility';
 import HomePage from 'views/containers/home/';
-import Blocks from 'views/containers/home/blocks';
-import Details from 'views/containers/home/details';
+import Blocks from 'views/containers/blocks/index';
+import Details from 'views/containers/blocks/details';
 import VerifyEmail from 'views/containers/Pages/verify-email';
-import Register from 'views/containers/Pages/register';
+import Register from 'views/containers/register/index';
 import Login from 'views/containers/login/index';
 
 function renderLoggedInRoutes() {

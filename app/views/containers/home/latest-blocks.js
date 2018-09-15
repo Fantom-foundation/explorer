@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Container,
     Row,
     Col,
 } from 'reactstrap';
@@ -8,7 +7,7 @@ import _ from 'lodash';
 import blockIcon from 'images/icons/block-icon.svg';
 import { Title } from 'views/components/coreComponent/index';
 
-export default class LatestTransactions extends React.Component {
+export default class LatestBlocks extends React.Component {
   render() {
     return (
       <Col className="right">

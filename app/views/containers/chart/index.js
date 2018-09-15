@@ -152,7 +152,7 @@ export default class Chart extends React.Component {
   render() {
     return (
       <div>
-        <Line
+        <Line className="w-100"
           options={options}
           data={data}
           height={100}
