@@ -5,6 +5,7 @@ const response = require('./response');
 const userAccount = require('./transaction-mock-data');
 
 router.get('/transactions', (req, res) => {
+  console.log('req111', req);
   utils.validateUrlKeys(req.query,
     [
       { key: 'module', name: 'Module' },
@@ -12,9 +13,13 @@ router.get('/transactions', (req, res) => {
       { key: 'apikey', name: 'APIKEY' },
     ],
     (errorField) => {
+      console.log('errorField', errorField);
       if (!errorField) {
+        console.log('Enter');
         const apiKeyPromise = utils.validateApiKey(req.query.apikey);
+        console.log('apiKey', apiKeyPromise);
         apiKeyPromise.then((result) => {
+          console.log('result', result);
           if (result.status) {
             const array = [];
             for (const user of userAccount) {
@@ -22,6 +27,7 @@ router.get('/transactions', (req, res) => {
                 array.push(user);
               }
             }
+            console.log('array', array);
             response.sendSuccess(array, res);
           } else {
             response.sendError('Invalid Api Key', res);

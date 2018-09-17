@@ -1,4 +1,5 @@
 const User = require('../models/users');
+const Apikey = require('../models/api_keys');
 
 module.exports.validateUrlKeys = function(query, fields, callback) {
   let key = '';
@@ -67,7 +68,7 @@ function validateModule(module) {
 const validateApiKey = (apiKey) => {
   const obj = {};
   const promise = new Promise((resolve, reject) => {
-    User.findOne({
+    Apikey.findOne({
       where: {
         api_key: apiKey,
       },
@@ -79,7 +80,7 @@ const validateApiKey = (apiKey) => {
             return;
           }
           if (userFromRepo) {
-            User.update({
+            Apikey.update({
               isKeyVerified: true,
             }, {
               where: {

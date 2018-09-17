@@ -81,10 +81,10 @@ class Login extends React.Component {
                       <Button style={{ marginLeft: '100px', backgroundColor: 'black', width: '200px' }} value={40} onClick={(event) => this.handleClick(event)}>Login</Button>
                       <div className="text-right mt-4 pt-4">
                       <p className="m-0">
-                        <a href="/register">Register</a>
+                        <a className="text-black" href="/register">Register</a>
                         </p>
                       <p className="m-0">
-                        <a>Forgot Password</a>
+                        <a className="text-black">Forgot Password</a>
                         </p>
                       </div>
                 </Form>

@@ -8,6 +8,31 @@ import blockIcon from 'images/icons/block-icon.svg';
 import { Title } from 'views/components/coreComponent/index';
 
 export default class LatestBlocks extends React.Component {
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     transactionArray: [],
+  //   };
+  // }
+  // componentWillMount() {
+  //   fetch(
+  //     'http://localhost:3000/public/api/transactions?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&sort=asc&apikey=$2a$10$CDxkjkpQIVhi9R/LSqu8eekpaUpyOAaGRoUlEqOphJkI8jFjCsAK21536916662372',
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     },
+  //   )
+  //   .then((res) => res.json())
+  //   .then((res) => {
+  //    // debugger;
+  //     console.log('Res is !!!', res);
+  //     this.setState({ transactionArray: res.result });
+  //   }).catch((error) => {
+  //     console.log('error is !!!', error);
+  //   });
+  // }
   render() {
     return (
       <Col className="right">
