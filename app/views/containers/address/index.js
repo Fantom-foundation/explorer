@@ -55,6 +55,7 @@ export default class Blocks extends Component {
             <Row className="title-header pt-3">
               <Col className="pt-3">
                 <Title h2>Address</Title>
+                <Title h6>{this.state.address}</Title>
               </Col>
               <Col>
                 <div className="form-element form-input">

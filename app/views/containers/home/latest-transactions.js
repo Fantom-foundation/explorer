@@ -42,7 +42,7 @@ export default class LatestTransactions extends React.Component {
       <Col className="left">
         <Row className="header bg-white mb-3 pt-2 pb-3">
           <Col><Title h2 className="text-uppercase mb-0">Latest Transactions</Title></Col>
-          <Col className="link-column"><a href="/transactions" className="link pt-2">View all</a></Col>
+          <Col className="link-column"><a href="/transactions" className="link pt-2 text-black">View all</a></Col>
         </Row>
         <Row className="blocks">
           {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
