@@ -9,39 +9,37 @@ import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
-import { isMoment } from 'moment';
 
 export default class Blocks extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      blockArray: [],
-    };
-  }
-  componentWillMount() {
-    const payload = {
-      api_key: 'qscvfgrtmncefiur2345',
-    };
-    fetch(
-          'http://localhost:3000/api/get-blocks',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      },
+    constructor(props) {
+        super(props);
+        this.state = {
+          transactionArray: [],
+        };
+      }
+      componentWillMount() {
+        const payload = {
+          api_key: 'qscvfgrtmncefiur2345',
+        };
+        fetch(
+          'http://localhost:3000/api/get-transactions',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          },
         )
         .then((res) => res.json())
         .then((res) => {
-          console.log('RES!!', res.result);
-          this.setState({ blockArray: res.result });
+          this.setState({ transactionArray: res.result });
         }).catch((error) => {
           console.log('error is !!!', error);
         });
-  }
+      }
   render() {
-      const blocks = this.state.blockArray;
+      const transactions = this.state.transactionArray;
     return (
       <div>
         <Header />
@@ -73,10 +71,13 @@ export default class Blocks extends Component {
                 <Table className="transactions-table">
                   <thead className="dark">
                     <tr>
-                      <th>Height</th>
+                      <th>txHash</th>
+                      <th>Block</th>
                       <th>Age</th>
-                      <th>Txn</th>
-                      <th>hash</th>
+                      <th>From</th>
+                      <th>To</th>
+                      <th>Value</th>
+                      <th>[TxFee]</th>
                       {/* <th>Uncles</th>
                                             <th>Miner</th>
                                             <th>GasUsed</th>
@@ -86,12 +87,14 @@ export default class Blocks extends Component {
                     </tr>
                   </thead>
                   <tbody className="scroll-theme-1">
-                    {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
+                    {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
                       <tr>
-                        <td className="text-black">{data.block_number}</td>
-                        <td className="text-black">{moment(parseInt(data.timestamp, 10)).fromNow()}</td>
-                        <td className="text-black">{data.size}</td>
-                        <td className="text-black">{data.hash}</td>
+                        <td className="text-black">{data.transaction_hash}</td>
+                        <td className="text-black">{data.block_id}</td>
+                        <td className="text-black">{moment(parseInt(data.createdAt, 10)).fromNow()}</td>
+                        <td className="text-black">{data.address_from}</td>
+                        <td className="text-black">{data.address_to}</td>
+                        <td className="text-black">{data.value}</td>
                       </tr>
                                         ))}
                     {/* {_.times(20, (i) =>

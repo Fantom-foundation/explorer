@@ -2,31 +2,26 @@
  * Create Account API controller, which contains api to create a new account
  *
  */
-const Blocks = require('../models/blocks');
+const Transaction = require('../models/transactions');
 const utils = require('../utilities/utils');
 
 module.exports = function (app) {
-  app.post('/api/create-blocks', (req, res) => {
+  app.post('/api/get-transactions', (req, res) => {
     utils.validateRequiredKeys(req.body,
       [
-        { key: 'hash', name: 'HASH' },
+        { key: 'api_key', name: 'API_KEY' },
       ],
       (errorField) => {
         if (!errorField) {
-          console.log('req.body!!', req.body);
-          Blocks.create({
-            block_number: req.body.block_number,
-            hash: req.body.hash,
-            size: req.body.size,
-            timestamp: req.body.timestamp,
-          })
+          if (req.body.api_key === 'qscvfgrtmncefiur2345') {
+            Transaction.findAll()
           .then((result) => {
             if (result) {
               res.statusCode = 200;
               res.json({
                 status: 200,
                 result,
-                message: 'Blocks fields created successfully',
+                message: 'transaction successful',
               });
               res.end();
             }
@@ -34,6 +29,7 @@ module.exports = function (app) {
           .catch((error) => {
             console.log('error', error);
           });
+          }
         } else {
           res.statusCode = 205;
           res.json({

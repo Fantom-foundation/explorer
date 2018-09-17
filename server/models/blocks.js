@@ -10,6 +10,9 @@ module.exports = db.define('blocks', {
     primaryKey: true,
     type: Sequelize.INTEGER,
   },
+  block_number: {
+    type: Sequelize.STRING,
+  },
   hash: {
     type: Sequelize.STRING, // Type of column
   },

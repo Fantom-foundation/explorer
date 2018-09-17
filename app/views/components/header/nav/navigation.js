@@ -49,7 +49,7 @@ export default class Navigation extends React.Component {
                 <NavLink href="/blocks">Blocks</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">Transactions</NavLink>
+                <NavLink href="/transactions">Transactions</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="#">Addresses</NavLink>
