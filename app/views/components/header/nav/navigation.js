@@ -52,7 +52,7 @@ export default class Navigation extends React.Component {
                 <NavLink href="/transactions">Transactions</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">Addresses</NavLink>
+                <NavLink href="/address">Addresses</NavLink>
               </NavItem>
               <NavItem>
                 {isLoggedIn ? <NavLink onClick={(event) => this.logout(event)}>Logout</NavLink> : <NavLink href="/login">Login</NavLink> }

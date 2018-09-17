@@ -9,7 +9,7 @@ import Details from 'views/containers/blocks/details';
 import VerifyEmail from 'views/containers/Pages/verify-email';
 import Register from 'views/containers/register/index';
 import Login from 'views/containers/login/index';
-
+import Address from 'views/containers/address/index';
 function renderLoggedInRoutes() {
   return (
     <Switch>
@@ -23,6 +23,7 @@ function renderLoggedOutRoutes() {
   return (
     <Switch>
       <Route path="/blocks" component={Blocks} />
+      <Route path="/address" component={Address} />
       <Route path="/transactions" component={Transactions} />
       <Route path="/details" component={Details} />
       <Route path="/login" component={Login} />

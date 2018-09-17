@@ -3,7 +3,8 @@ import {
     Container,
     Row,
     Col,
-    Table
+    Table,
+    Button,
 } from 'reactstrap';
 import moment from 'moment';
 import { Title } from '../../components/coreComponent';
@@ -11,25 +12,27 @@ import _ from 'lodash';
 import Header from 'views/components/header/header';
 
 export default class Blocks extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          transactionArray: [],
-        };
-      }
-      componentWillMount() {
-        const payload = {
-          api_key: 'qscvfgrtmncefiur2345',
-        };
-        fetch(
-          'http://localhost:3000/api/get-transactions',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-          },
+  constructor(props) {
+    super(props);
+    this.state = {
+      transactionArray: [],
+      address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
+    };
+  }
+  componentWillMount() {
+    const payload = {
+      api_key: 'qscvfgrtmncefiur2345',
+      address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
+    };
+    fetch(
+          'http://localhost:3000/api/address-transaction',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      },
         )
         .then((res) => res.json())
         .then((res) => {
@@ -37,9 +40,9 @@ export default class Blocks extends Component {
         }).catch((error) => {
           console.log('error is !!!', error);
         });
-      }
+  }
   render() {
-      const transactions = this.state.transactionArray;
+    const transactions = this.state.transactionArray;
     return (
       <div>
         <Header />
@@ -51,7 +54,7 @@ export default class Blocks extends Component {
 
             <Row className="title-header pt-3">
               <Col className="pt-3">
-                <Title h2>Transaction</Title>
+                <Title h2>Address</Title>
               </Col>
               <Col>
                 <div className="form-element form-input">
@@ -75,6 +78,7 @@ export default class Blocks extends Component {
                       <th>Block</th>
                       <th>Age</th>
                       <th>From</th>
+                      <th></th>
                       <th>To</th>
                       <th>Value</th>
                       <th>[TxFee]</th>
@@ -93,6 +97,7 @@ export default class Blocks extends Component {
                         <td className="text-black">{data.block_id}</td>
                         <td className="text-black">{moment(parseInt(data.createdAt, 10)).fromNow()}</td>
                         <td className="text-black">{data.address_from}</td>
+                        {this.state.address === data.address_from ? <Button style={{ backgroundColor: 'red', borderColor: 'red', radius: '10px' }}>OUT</Button> : <Button style={{ backgroundColor: 'cyan', borderColor: 'cyan', radius: '10px' }}>IN</Button>}
                         <td className="text-black">{data.address_to}</td>
                         <td className="text-black">{data.value}</td>
                       </tr>
