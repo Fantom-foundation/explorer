@@ -9,16 +9,16 @@ const utils = require('../utilities/utils');
 
 module.exports = function (app) {
   app.post('/api/address-transaction', (req, res) => {
-    utils.validateRequiredKeys(req.body,
+    utils.validateRequiredKeys(req.headers,
       [
         { key: 'api_key', name: 'API_KEY' },
         { key: 'address', name: 'ADDRESS' },
       ],
       (errorField) => {
         if (!errorField) {
-          if (req.body.api_key === 'qscvfgrtmncefiur2345') {
+          if (req.headers.api_key === 'qscvfgrtmncefiur2345') {
             Transaction.findAll({
-              [Op.or]: [{ address_from: req.body.address }, { address_to: req.body.address }],
+              [Op.or]: [{ address_from: req.headers.address }, { address_to: req.headers.address }],
             })
           .then((result) => {
             if (result) {

@@ -17,17 +17,15 @@ export default class LatestBlocks extends React.Component {
     };
   }
   componentWillMount() {
-    const payload = {
-      api_key: 'qscvfgrtmncefiur2345',
-    };
     fetch(
       'http://localhost:3000/api/get-blocks',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          api_key: 'qscvfgrtmncefiur2345',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(),
       },
     )
     .then((res) => res.json())

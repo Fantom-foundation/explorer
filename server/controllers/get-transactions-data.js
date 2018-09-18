@@ -7,13 +7,13 @@ const utils = require('../utilities/utils');
 
 module.exports = function (app) {
   app.post('/api/get-transactions', (req, res) => {
-    utils.validateRequiredKeys(req.body,
+    utils.validateRequiredKeys(req.headers,
       [
         { key: 'api_key', name: 'API_KEY' },
       ],
       (errorField) => {
         if (!errorField) {
-          if (req.body.api_key === 'qscvfgrtmncefiur2345') {
+          if (req.headers.api_key === 'qscvfgrtmncefiur2345') {
             Transaction.findAll()
           .then((result) => {
             if (result) {

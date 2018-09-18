@@ -7,13 +7,15 @@ const utils = require('../utilities/utils');
 
 module.exports = function (app) {
   app.post('/api/get-blocks', (req, res) => {
-    utils.validateRequiredKeys(req.body,
+    console.log('reqQW!!!', req.headers);
+    console.log('********', req.headers.api_key);
+    utils.validateRequiredKeys(req.headers,
       [
         { key: 'api_key', name: 'API_KEY' },
       ],
       (errorField) => {
         if (!errorField) {
-          if (req.body.api_key === 'qscvfgrtmncefiur2345') {
+          if (req.headers.api_key === 'qscvfgrtmncefiur2345') {
             Blocks.findAll()
           .then((result) => {
             if (result) {
