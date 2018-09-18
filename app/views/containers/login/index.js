@@ -51,7 +51,7 @@ class Login extends React.Component {
             <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '10px'}}>
               <Col className="px-5 py-3">
                 <Form onSubmit={(event) => this.handleClick(event)}>
-                <Title h2 className="text-center line-title" style={{ fontWeight: 100 }}>Sign In <strong>FORM</strong></Title>
+                <Title h2 className="text-center line-title" style={{ fontWeight: 100 }}>Sign In</Title>
                   <div className="form-element form-input">
                     <input
                       id="Email"

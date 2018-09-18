@@ -26,7 +26,6 @@ export default class Blocks extends Component {
               'Content-Type': 'application/json',
               api_key: 'qscvfgrtmncefiur2345',
             },
-            body: JSON.stringify(),
           },
         )
         .then((res) => res.json())
@@ -41,7 +40,7 @@ export default class Blocks extends Component {
     return (
       <div>
         <Header />
-        <section className="bg-theme">
+        <section className="bg-theme full-height-conatainer">
           <Container>
 
 
@@ -93,6 +92,7 @@ export default class Blocks extends Component {
                         <td className="text-black">{data.address_from}</td>
                         <td className="text-black">{data.address_to}</td>
                         <td className="text-black">{data.value}</td>
+                        <td className="text-black">225.205</td>
                       </tr>
                                         ))}
                     {/* {_.times(20, (i) =>

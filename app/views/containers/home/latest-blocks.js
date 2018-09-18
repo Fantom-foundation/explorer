@@ -25,7 +25,6 @@ export default class LatestBlocks extends React.Component {
           'Content-Type': 'application/json',
           api_key: 'qscvfgrtmncefiur2345',
         },
-        body: JSON.stringify(),
       },
     )
     .then((res) => res.json())

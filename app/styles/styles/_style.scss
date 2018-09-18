@@ -30,3 +30,8 @@ hr
     }
 
 }
+
+
+.full-height-conatainer {
+        min-height: calc(100vh - 64px) !important;
+}

@@ -3,7 +3,7 @@ import {
     Container,
     Row,
     Col,
-    Table
+    Table,
 } from 'reactstrap';
 import moment from 'moment';
 import { Title } from '../../components/coreComponent';
@@ -26,7 +26,6 @@ export default class Blocks extends Component {
           'Content-Type': 'application/json',
           api_key: 'qscvfgrtmncefiur2345',
         },
-        body: JSON.stringify(),
       },
         )
         .then((res) => res.json())
@@ -41,7 +40,7 @@ export default class Blocks extends Component {
     return (
       <div>
         <Header />
-        <section className="bg-theme">
+        <section className="bg-theme full-height-conatainer">
           <Container>
 
 

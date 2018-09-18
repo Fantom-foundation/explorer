@@ -36,7 +36,7 @@ export default class Deatails extends Component {
         return (
             <div>
                 <Header />
-                <section className="bg-theme" style={{paddingBottom:'60px'}}>
+                <section className="bg-theme full-height-conatainer" style={{paddingBottom:'60px'}}>
                     <Container>
 
 

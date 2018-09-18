@@ -38,7 +38,6 @@ export default class Blocks extends Component {
           api_key: 'qscvfgrtmncefiur2345',
           address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
         },
-        body: JSON.stringify(),
       },
         )
         .then((res) => res.json())
@@ -66,7 +65,7 @@ export default class Blocks extends Component {
     return (
       <div>
         <Header />
-        <section className="bg-theme" style={{paddingBottom: '179px'}}>
+        <section className="bg-theme full-height-conatainer" style={{paddingBottom: '179px'}}>
           <Container>
 
 

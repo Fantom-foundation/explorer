@@ -34,6 +34,8 @@ const ReactBoilerplate = {
         'defaultable',
         './locale',
         'node',
+        'uws',
+        'ws',
       ],
 
       /**

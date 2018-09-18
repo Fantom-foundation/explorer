@@ -4,6 +4,7 @@ import {
     Row,
     Col,
 } from 'reactstrap';
+import io from 'socket.io-client';
 import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
 import LatestTransactions from 'views/containers/home/latest-transactions';
@@ -15,10 +16,12 @@ import MarketCap from 'views/containers/home/market-cap';
 import Chart from 'views/containers/chart/index';
 export default class HomePage extends Component {
   render() {
+    // const socket = io();
+    // socket.on('testerEvent', (data) => { document.write(data.description); });
     return (
       <div>
         <Header />
-        <section className="bg-dark intro" style={{ paddingTop: '89px', paddingBottom: '112px' }}> <Container>
+        <section className="bg-dark intro " style={{ paddingTop: '89px', paddingBottom: '112px' }}> <Container>
           <MarketCap />
           <Row>
             <Col>
