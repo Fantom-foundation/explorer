@@ -1,8 +1,9 @@
 @import 'styles/fonts';
 @import 'styles/colors';
+@import 'styles/mixin';
 @import 'styles/typography';
 
-@import 'styles/mixin';
+
 
 @import 'styles/nav';
 @import 'styles/button';
@@ -12,7 +13,7 @@
 @import 'styles/latest-blocks';
 @import 'styles/tabs';
 @import 'styles/comments';
-
+@import 'styles/address-details';
 
 @import 'styles/form';
 

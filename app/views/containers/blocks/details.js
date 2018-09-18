@@ -31,7 +31,7 @@ export default class Deatails extends Component {
           });
         }
       }
-      ren
+      
     render() {
         return (
             <div>

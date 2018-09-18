@@ -35,8 +35,11 @@
                     
                     font: {
                         family: Helvetica;
-                        size:8.58px;
+                        // size:8.58px;
+                        size:10px;
                     }
+                    .btn{ width: 51px; height: 19px;
+                        padding: 0;}
                 }
             }
         }

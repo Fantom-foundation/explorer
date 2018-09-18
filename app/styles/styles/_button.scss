@@ -1,3 +1,33 @@
+.btn
+{
+    font: {
+        family:Roboto;
+        size:13px;
+    }
+    border-radius: 4px;
+    &.btn-red
+    {
+        background: #ff6e6e;
+        border: 0px;
+        box-shadow: none !important;
+        color:#fff;
+        &:hover
+        {
+            background: {color:#ec8c8c;}
+        }
+    }
+    &.btn-green
+    {
+        background: #50e3c2;
+        color:#fff;
+        border: 0px;
+        box-shadow: none !important;
+        &:hover
+        {
+            background: {color:#70ecd0;}
+        }
+    }
+}
 // .btn
 // {
 //     height: 25px;
@@ -19,3 +49,5 @@
 //     }
 // }
 // a {color:map-get($color, blue); }
+
+
