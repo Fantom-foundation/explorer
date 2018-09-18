@@ -32,7 +32,6 @@ export default class LatestBlocks extends React.Component {
     )
     .then((res) => res.json())
     .then((res) => {
-      console.log('RES!!', res.result);
       this.setState({ blockArray: res.result });
     }).catch((error) => {
       console.log('error is !!!', error);
@@ -41,7 +40,7 @@ export default class LatestBlocks extends React.Component {
   render() {
     const blocks = this.state.blockArray;
     return (
-      <Col className="right">
+      <Col xs={12} md={6} className="right">
         <Row className="header bg-white mb-3 pt-2 pb-3">
           <Col><Title h2 className="text-uppercase mb-0">Latest Blocks</Title></Col>
           <Col className="link-column"><a href="/blocks" className="link pt-2 text-black">View all</a></Col>
@@ -57,9 +56,9 @@ export default class LatestBlocks extends React.Component {
                     <p><span className="text-primary">{moment(parseInt(data.timestamp, 10)).fromNow()}</span></p>
                   </Col>
                 </Row>
-                <p>
+                <p className="hash-holder">
                   <span className="text-gray">Hash</span>&nbsp;
-                  <span className="text-primary">{data.hash}</span>
+                  <span className="text-primary hash-value">{data.hash}</span>
                 </p>
                 <p>
                   <span className="text-gray">Mined by</span>&nbsp;

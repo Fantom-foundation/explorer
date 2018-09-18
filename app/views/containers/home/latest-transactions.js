@@ -39,7 +39,7 @@ export default class LatestTransactions extends React.Component {
   render() {
     const transactions = this.state.transactionArray;
     return (
-      <Col className="left">
+      <Col xs={12} md={6} className="left" >
         <Row className="header bg-white mb-3 pt-2 pb-3">
           <Col><Title h2 className="text-uppercase mb-0">Latest Transactions</Title></Col>
           <Col className="link-column"><a href="/transactions" className="link pt-2 text-black">View all</a></Col>
@@ -49,21 +49,21 @@ export default class LatestTransactions extends React.Component {
             <Col key={index} xs={12} className="bg-white  mb-3">
                     <Row>
                       <Col className="pr-0">
-                        <p>
+                        <p className="tx-holder">
                           <span className="text-black">TX#</span>&nbsp;
-                          <span className="text-primary">{data.transaction_hash}</span>
+                          <span className="text-primary tx-value">{data.transaction_hash}</span>
                         </p>
                       </Col>
                       <Col className="time-date-col pl-0">
                         <p><span className="text-primary">{moment(parseInt(data.createdAt, 10)).fromNow()}</span></p>
                       </Col>
                     </Row>
-                    <p className="pb-2 mb-1">
+                    <p className="pb-2 mb-1 from-to-holder">
                       <span className="text-gray">From</span>&nbsp;
-                      <span className="text-primary">{data.address_from}</span>&nbsp;
+                      <span className="text-primary from-value">{data.address_from}</span>&nbsp;
     
                       <span className="text-gray">to</span>&nbsp;
-                      <span className="text-primary">{data.address_to}</span>
+                      <span className="text-primary to-value">{data.address_to}</span>
                     </p>
                     <p className="mb-0">
                       <span className="text-gray">Amount 2.9999</span>&nbsp;

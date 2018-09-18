@@ -3,8 +3,16 @@
     padding: {top:76px; bottom:88px;}
     @media(min-width:768px)
     {
-        .left{margin-right: 20px;}
-        .right{margin-left: 20px;}
+        // .left{margin-right: 20px;}
+        // .right{margin-left: 20px;}
+        .left
+        {
+            transform: translateX(-20px);
+        }
+        .right
+        {
+            transform: translateX(20px);
+        }
     }
     .header
     {
@@ -52,6 +60,46 @@
         p
         {
             margin-bottom: 0px;
+        }
+
+        .from-to-holder
+        {
+            span{display: inline-block;vertical-align: top;}
+            .from-value,.to-value
+            {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
+            .from-value
+            {
+                max-width: 6rem;
+            }
+            .to-value{    max-width:10rem;}
+        }
+        .tx-holder,.hash-holder
+        {
+            span
+            {
+                display: inline-block;vertical-align: top;
+                &.tx-value
+                {
+                    white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+                max-width: 12rem;
+                }
+                &.hash-value
+                {
+                    white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+                max-width: 12rem;
+                }
+            }
         }
     }
 }

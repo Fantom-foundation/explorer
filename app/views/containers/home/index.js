@@ -29,7 +29,7 @@ export default class HomePage extends Component {
         </section>
         <section id="latest-blocks" className="bg-theme">
           <Container>
-            <Row>
+            <Row className="mx-md-0">
               <LatestTransactions />
               <LatestBlocks />
             </Row>

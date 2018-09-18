@@ -34,7 +34,6 @@ export default class Blocks extends Component {
         )
         .then((res) => res.json())
         .then((res) => {
-          console.log('RES!!', res.result);
           this.setState({ blockArray: res.result });
         }).catch((error) => {
           console.log('error is !!!', error);
