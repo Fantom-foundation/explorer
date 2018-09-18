@@ -47,7 +47,7 @@ export default class LatestBlocks extends React.Component {
         </Row>
         <Row className="blocks">
          {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
-          <Col xs={12} className="bg-white mb-3">
+          <Col key={index} xs={12} className="bg-white mb-3">
                 <Row>
                   <Col className="pr-0">
                     <p className="text-black"><img src={blockIcon} className="block-icon" />{data.block_number}</p>

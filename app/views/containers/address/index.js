@@ -201,7 +201,7 @@ export default class Blocks extends Component {
                   </thead>
                   <tbody className="scroll-theme-1">
                     {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
-                      <tr>
+                      <tr key={index}>
                         <td className="text-black">{data.transaction_hash}</td>
                         <td className="text-black">{data.block_id}</td>
                         <td className="text-black">{moment(parseInt(data.createdAt, 10)).fromNow()}</td>

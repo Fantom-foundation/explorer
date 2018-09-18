@@ -86,7 +86,7 @@ export default class Blocks extends Component {
                   </thead>
                   <tbody className="scroll-theme-1">
                     {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
-                      <tr>
+                      <tr key={index}>
                         <td className="text-black">{data.block_number}</td>
                         <td className="text-black">{moment(parseInt(data.timestamp, 10)).fromNow()}</td>
                         <td className="text-black">{data.size}</td>

@@ -12,13 +12,10 @@ const selectLoginUser = (state) => state.get('currentUserDetails');
 const getUserDetails = () => createSelector(
   selectLoginUser,
   (loginState) => {
-  // debugger;
     const userDetails = loginState.get('userDetails');
     let id = '';
     let email = '';
     if (userDetails) {
-     //debugger;
-     console.log('userDetails Value', userDetails);
       id = userDetails.id;
       email = userDetails.email;
     }
