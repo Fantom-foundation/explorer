@@ -54,45 +54,23 @@ app.post('/api/hello', (req, res) => {
   res.send({ message: 'Hello From Express' });
 });
 
-
-Request.post({
-  headers: { 'content-type': 'application/json' },
-  url: 'http://api.etherscan.io/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
-  body: JSON.stringify({
-    firstname: 'Nic',
-    lastname: 'Raboy',
-  }),
-}, (error, response, body) => {
-  if (error) {
-    return console.dir(error);
-  }
-  //console.log('@@@1', response.body);
-  const data = JSON.parse(response.body);
-  for (const items of data.result) {
-    console.log('@@@###', items);
-    Transaction.create({
-      block_id: items.blockNumber,
-      transaction_hash: items.hash,
-      value: items.value,
-      tx_fee: items.gasPrice,
-      gas_used: items.gas,
-      cumulative_gas_used: items.cumulativeGasUsed,
-      address_from: items.from,
-      address_to: items.to,
-    })
-    .then((result) => {
-      console.log('successful!!!', result);
-    })
-    .catch((errr) => {
-      console.log('error', errr);
-    });
-  }
-  
-
-  // const data = dir(JSON.parse(body));
-  // console.log('##', data);
-  //console.dir(JSON.parse(body));
-});
+const getEthData = (callback) => {
+  Request.post({
+    headers: { 'content-type': 'application/json' },
+    url: 'http://api.etherscan.io/api?module=account&action=txlist&address=0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
+    body: JSON.stringify({
+      firstname: 'Nic',
+      lastname: 'Raboy',
+    }),
+  }, (error, response, body) => {
+    if (error) {
+      return console.dir(error);
+    }
+    if (callback) {
+      callback(null, response.body);
+    }
+  });
+};
 
 // get the intended host and port number, use localhost and port 3000 if not provided
 const customHost = argv.host || process.env.HOST;
@@ -124,9 +102,35 @@ const io = require('socket.io')(server);
 io.on('connection', (socket) => {
   console.log('A user connected');
   // socket.emit('testerEvent', { description: 'A custom event named testerEvent!' });
-
+  getEthData((err, res) => {
+    if (res) {
+      insertTransactions(res);
+    }
+  });
   //Whenever someone disconnects this piece of code executed
   socket.on('disconnect', () => {
     console.log('A user disconnected');
   });
 });
+
+const insertTransactions = (res) => {
+  const data = JSON.parse(res);
+  for (const items of data.result) {
+    Transaction.create({
+      block_id: items.blockNumber,
+      transaction_hash: items.hash,
+      value: items.value,
+      tx_fee: items.gasPrice,
+      gas_used: items.gas,
+      cumulative_gas_used: items.cumulativeGasUsed,
+      address_from: items.from,
+      address_to: items.to,
+    })
+  .then((result) => {
+    console.log('successful!!!', result);
+  })
+  .catch((errr) => {
+    console.log('error', errr);
+  });
+  }
+};

@@ -16,7 +16,7 @@ import MarketCap from 'views/containers/home/market-cap';
 import Chart from 'views/containers/chart/index';
 export default class HomePage extends Component {
   render() {
-    // const socket = io();
+     const socket = io();
     // socket.on('testerEvent', (data) => { document.write(data.description); });
     return (
       <div>
