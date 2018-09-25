@@ -1,3 +1,6 @@
+/**
+ * From this api we get verification email link.
+ */
 import Alert from 'react-s-alert';
 export function emailTokenApi(props) {
     console.log('props details', props);

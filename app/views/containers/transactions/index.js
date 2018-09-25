@@ -25,6 +25,7 @@ export default class Blocks extends Component {
             headers: {
               'Content-Type': 'application/json',
               api_key: 'qscvfgrtmncefiur2345',
+              limit: 5,
             },
           },
         )

@@ -14,7 +14,9 @@ module.exports = function (app) {
       (errorField) => {
         if (!errorField) {
           if (req.headers.api_key === 'qscvfgrtmncefiur2345') {
-            Transaction.findAll()
+            Transaction.findAll({
+              limit: parseInt(req.headers.limit, 10),
+            })
           .then((result) => {
             if (result) {
               res.statusCode = 200;

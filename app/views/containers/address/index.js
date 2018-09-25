@@ -25,9 +25,12 @@ export default class Blocks extends Component {
       transactionArray: [],
       isOpen: false,
       address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
-      activeTab: '1'
+      activeTab: '1',
     };
   }
+  /**
+   * Fetching data from database using api address-transaction
+   */
   componentWillMount() {
     fetch(
           'http://localhost:3000/api/address-transaction',
@@ -37,6 +40,7 @@ export default class Blocks extends Component {
           'Content-Type': 'application/json',
           api_key: 'qscvfgrtmncefiur2345',
           address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
+          limit: 5,
         },
       },
         )
@@ -47,11 +51,6 @@ export default class Blocks extends Component {
           console.log('error is !!!', error);
         });
   }
-  // toggle = () => {
-  //   this.setState({
-  //     isOpen: !this.state.isOpen,
-  //   });
-  // }
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({

@@ -1,3 +1,8 @@
+/**
+ * @email: User Email
+ * @password: User password
+ * Firstly create a payload. Using this payload send email, password and repassword server side in api create-account for creating user account.
+ */
 export function createAccountApi(email, password, repassword, props) {
   const obj = {};
   const payload = {

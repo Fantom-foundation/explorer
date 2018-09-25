@@ -23,6 +23,7 @@ export default class LatestTransactions extends React.Component {
         headers: {
           'Content-Type': 'application/json',
           api_key: 'qscvfgrtmncefiur2345',
+          limit: 5,
         },
       },
     )
