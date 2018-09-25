@@ -1,5 +1,4 @@
 export const loadState = () => {
- // debugger;
   try {
     const serializedState = localStorage.getItem('state');
     if (serializedState === null) {
@@ -13,7 +12,6 @@ export const loadState = () => {
 };
 
 export const saveState = (state) => {
- // debugger;
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('state', serializedState);

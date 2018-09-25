@@ -4,6 +4,7 @@ import {
     Col,
     Form,
     Button,
+    Modal, ModalHeader, ModalBody, ModalFooter,
   } from 'reactstrap';
 import Alert from 'react-s-alert';
 import { connect } from 'react-redux';
@@ -122,10 +123,25 @@ class Register extends React.Component {
       isActive = true;
     }
     return (
-      <Row>
-        <Col sm="12" style={{ paddingTop: '86px', minHeight: '100vh', backgroundColor: 'black' }}>
-          <div style={{ width: '100%', maxWidth: '500px', margin: 'auto' }}>
-            <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '86px'}}>
+      // <Row>
+      //   <Col sm="12" style={{ paddingTop: '86px', minHeight: '100vh', backgroundColor: 'black' }}>
+      //     <div style={{ width: '100%', maxWidth: '500px', margin: 'auto' }}>
+      <Modal isOpen={this.props.registerModal} toggle={(event) => this.props.toggle(event)} className={this.props.className} backdrop>
+          
+      <ModalBody>
+            <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '10px',position:'relative'}}>
+            <Button color="secondary" onClick={this.props.toggle} 
+             style={{
+              position:'absolute',
+              top:0,
+              right:0,
+              padding:0,
+              background:"transparent",
+              color:'#000',
+              border:'0px',
+              fontSize:'32px',
+              lineHeight: '100%',
+            }}>&times;</Button>
               <Col className="px-5 py-3">
                 <Form onSubmit={(event) => this.props.handleClick(event, isActive)}>
                 <Title h2 className="text-center line-title" style={{ fontWeight: 100 }}>Sign Up</Title>
@@ -184,10 +200,13 @@ class Register extends React.Component {
                 </Form>
               </Col>
             </Row>
+            </ModalBody>
+          
+          </Modal>
            
-          </div>
-        </Col>
-      </Row>
+      //     </div>
+      //   </Col>
+      // </Row>
     );
   }
 }

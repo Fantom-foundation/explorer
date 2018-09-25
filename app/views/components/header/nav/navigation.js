@@ -1,6 +1,7 @@
 import React from 'react';
 import { isUserLoggedIn } from 'common/utility';
 import Logo from 'images/logo/logo.png';
+import Login from 'views/containers/login/index';
 import SettingIcon from 'images/icons/setting.svg';
 
 import {
@@ -17,16 +18,23 @@ import {
 export default class Navigation extends React.Component {
   constructor(props) {
     super(props);
-
-    this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
       isLoggedIn: false,
+      modal: false,
     };
+    //this.toggleModal = this.toggleModal.bind(this);
+    this.toggle = this.toggle.bind(this);
   }
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
+    });
+  }
+  toggleModal = (event, modal) => {
+    event.preventDefault();
+    this.setState({
+      modal: !modal,
     });
   }
   logout = () => {
@@ -35,6 +43,9 @@ export default class Navigation extends React.Component {
   };
   render() {
     const isLoggedIn = isUserLoggedIn();
+    if (this.state.modal) {
+     return <Login toggleModal={this.toggleModal} modal={this.state.modal} />;
+    }
     return (
       <Navbar color="dark" dark expand="md">
         <Container>
@@ -55,7 +66,7 @@ export default class Navigation extends React.Component {
                 <NavLink href="/address">Addresses</NavLink>
               </NavItem>
               <NavItem>
-                {isLoggedIn ? <NavLink onClick={(event) => this.logout(event)}>Logout</NavLink> : <NavLink href="/login">Login</NavLink> }
+              {isLoggedIn ? <NavLink onClick={(event) => this.logout(event)}>Logout</NavLink> : <NavLink onClick={(event) => this.toggleModal(event, this.state.modal)}>Login</NavLink> }
               </NavItem>
             </Nav>
           </Collapse>
@@ -64,3 +75,4 @@ export default class Navigation extends React.Component {
     );
   }
 }
+

@@ -1,44 +1,37 @@
 import React from 'react';
-import {
-    Row,
-    Col,
-    Form,
-    Button,
-    Modal, ModalHeader, ModalBody, ModalFooter,
-  } from 'reactstrap';
+
+import { Row, Col, Button, Form, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { setUserDetails } from 'views/controllers/user-details/action';
 import { getUserDetails } from 'views/controllers/user-details/selector';
 import { Title } from 'views/components/coreComponent/index';
 import { loginApi } from 'views/containers/apis/login';
-import Register from 'views/containers/register/index';
 
 
-class Login extends React.Component {
+
+class ModalComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      modal: false,
       email: '',
       password: '',
-      registerModal: false,
-      modal: this.props.modal,
-      update: false,
     };
+
     this.toggle = this.toggle.bind(this);
+  }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
   }
   onUpdate = (key, value) => {
     this.setState({
       [key]: value,
     });
-  }
-  toggle(event) {
-    this.setState({
-      modal: false,
-      registerModal: !this.state.registerModal,
-      update: true,
-    });
-    this.props.toggleModal(event, !this.state.modal);
   }
   handleClick = (event) => {
     event.preventDefault();
@@ -57,35 +50,29 @@ class Login extends React.Component {
       password: '',
     });
   }
-  closeModal = (event) => {
-    event.preventDefault();
-    this.props.toggleModal(event, this.state.modal);
-  }
   render() {
-    if (this.state.registerModal) {
-      return <Register toggle={this.toggle} registerModal={this.state.registerModal}/>;
-    }
     return (
-      // <Row>
-      //   <Col sm="12" style={{ paddingTop: '86px', minHeight: '100vh', backgroundColor: 'black' }}>
-      //     <div style={{ width: '100%', maxWidth: '500px', margin: 'auto' }}> 
-      <Modal isOpen={this.state.modal} toggle={(event) => this.closeModal(event)} className={this.props.className} backdrop>   
-      <ModalBody>
-            <Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '10px',position:'relative'}}>
-            <Button color="secondary" onClick={(event) => this.closeModal(event)}
-            style={{
-              position:'absolute',
-              top:0,
-              right:0,
-              padding:0,
-              background:"transparent",
-              color:'#000',
-              border:'0px',
-              fontSize:'32px',
-              lineHeight: '100%',
-            }}
-            
-            >&times;</Button>
+      <div>
+        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className} backdrop='static'>
+          
+          <ModalBody>
+           
+
+
+
+<Row className="mx-0" style={{ backgroundColor: 'white', paddingTop: '86px', paddingBottom: '10px'}}>
+
+
+
+
+<Button color="secondary" onClick={this.toggle}
+
+
+>&times;</Button>
+
+
+
               <Col className="px-5 py-3">
                 <Form onSubmit={(event) => this.handleClick(event)}>
                 <Title h2 className="text-center line-title" style={{ fontWeight: 100 }}>Sign In</Title>
@@ -118,7 +105,7 @@ class Login extends React.Component {
                       <Button style={{ marginLeft: '100px', backgroundColor: 'black', width: '200px' }} value={40} onClick={(event) => this.handleClick(event)}>Login</Button>
                       <div className="text-right mt-4 pt-4">
                       <p className="m-0">
-                        <a className="text-black" onClick={this.toggle}>Register</a>
+                        <a className="text-black" href="/register">Register</a>
                         </p>
                       <p className="m-0">
                         <a className="text-black">Forgot Password</a>
@@ -128,23 +115,15 @@ class Login extends React.Component {
               </Col>
             </Row>
 
+
+
+
           </ModalBody>
           
-          </Modal>
-      //     </div>
-      //   </Col>
-      // </Row>
+        </Modal>
+      </div>
     );
   }
 }
-const mapStateToProps = createSelector(
-    getUserDetails(),
-    (userDetails) => ({ userDetails }),
-);
-const mapDispatchToProps = {
-  setUserDetails,
-};
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Login);
+
+export default ModalComponent;

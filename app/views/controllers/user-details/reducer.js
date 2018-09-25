@@ -15,7 +15,6 @@ const initialState = fromJS({
 });
 
 function loginReducer(state = initialState, action) {
- // debugger;
   switch (action.type) {
     case SET_USER_DETAILS:
       return state.set('userDetails', action.userDetails);
