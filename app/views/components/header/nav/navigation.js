@@ -37,7 +37,8 @@ export default class Navigation extends React.Component {
       modal: !modal,
     });
   }
-  logout = () => {
+  logout = (event) => {
+    event.preventDefault();
     localStorage.setItem('isLoggedIn', false);
     this.props.history.push('/');
   };

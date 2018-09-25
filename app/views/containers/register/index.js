@@ -28,6 +28,7 @@ class Register extends React.Component {
       data: [],
       date: new Date().getTime(),
       isUpdated: false,
+      registerModal: false,
     };
   }
   onUpdate = (key, value) => {
@@ -49,6 +50,7 @@ class Register extends React.Component {
             position: 'top',
             timeout: 5000,
           });
+          this.props.toggle(event);
           this.props.history.push('/verify-email');
         }
       }).catch((error) => {

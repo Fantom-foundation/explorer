@@ -46,6 +46,7 @@ class Login extends React.Component {
     loginApiPromise.then((result) => {
       if (result.status) {
         this.resetFields();
+        this.closeModal(event);
       }
     }).catch((error) => {
       console.log('@@@error', error);

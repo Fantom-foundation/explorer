@@ -21,7 +21,7 @@ export default class HomePage extends Component {
     // socket.on('testerEvent', (data) => { document.write(data.description); });
     return (
       <div>
-        <Header />
+        <Header {...this.props}/>
         <section className="bg-dark intro " style={{ paddingTop: '89px', paddingBottom: '112px' }}> <Container>
           <MarketCap />
           <Row>

@@ -7,7 +7,7 @@ export default class Header extends React.Component {
     return (
 <header>
 
-  <Navigation />
+  <Navigation {...this.props}/>
   </header>
    
     );
