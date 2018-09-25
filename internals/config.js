@@ -36,6 +36,8 @@ const ReactBoilerplate = {
         'node',
         'uws',
         'ws',
+        'engine.io',
+        'socket.io',
       ],
 
       /**
