@@ -1,3 +1,7 @@
+/**
+ * @verifyEmailTokenApi is a method which calls verify-token api which provide us a response that token is valid or not valid.
+ */
+
 import Alert from 'react-s-alert';
 
 export function verifyEmailTokenApi(props) {
@@ -19,42 +23,24 @@ export function verifyEmailTokenApi(props) {
          .then((res) => res.json())
          .then((res) => {
            if (res.status === 200) {
-             //object.isVerified = true;
              object.text = 'success';
              resolve(object);
              Alert.success(res.message, {
                position: 'top',
                timeout: 2000,
              });
-             //props.history.push('/');
            } else if (res.status === 202) {
              object.text = 'reject';
              resolve(object);
-            //  Alert.error(res.message, {
-            //    position: 'top',
-            //    timeout: 2000,
-            //  });
            } else if (res.status === 203) {
              object.text = 'reject';
              resolve(object);
-            //  Alert.error(res.message, {
-            //    position: 'top',
-            //    timeout: 2000,
-            //  });
            } else if (res.status === 205) {
              object.text = 'reject';
              resolve(object);
-            //  Alert.error(res.message, {
-            //    position: 'top',
-            //    timeout: 2000,
-            //  });
            } else if (res.status === 207) {
              object.text = 'reject';
              resolve(object);
-            //  Alert.error(res.message, {
-            //    position: 'top',
-            //    timeout: 2000,
-            //  });
            } else if (res.status === 401) {
              object.text = 'reject';
              resolve(object);

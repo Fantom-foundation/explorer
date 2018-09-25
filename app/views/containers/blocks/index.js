@@ -17,6 +17,10 @@ export default class Blocks extends Component {
       blockArray: [],
     };
   }
+  /**
+   * @api_key: send private key for security purpose
+   * here call a api get-blocks and get data from blocks table.
+   */
   componentWillMount() {
     fetch(
           'http://localhost:3000/api/get-blocks',
@@ -72,12 +76,6 @@ export default class Blocks extends Component {
                       <th>Age</th>
                       <th>Txn</th>
                       <th>hash</th>
-                      {/* <th>Uncles</th>
-                                            <th>Miner</th>
-                                            <th>GasUsed</th>
-                                            <th>GasLimit</th>
-                                            <th>Avg.GasPrice</th>
-                                            <th>Reward</th> */}
                     </tr>
                   </thead>
                   <tbody className="scroll-theme-1">
@@ -89,19 +87,6 @@ export default class Blocks extends Component {
                         <td className="text-black">{data.hash}</td>
                       </tr>
                                         ))}
-                    {/* {_.times(20, (i) =>
-                                        <tr>
-                                            <td className="text-primary">6197846</td>
-                                            <td className="text-gray-dark">30 secs ago</td>
-                                            <td className="text-black">101</td>
-                                            <td className="text-primary">1</td>
-                                            <td className="text-gray">Ethermine</td>
-                                            <td className="text-black">7987286 (99.84%)</td>
-                                            <td className="text-primary">0.00000524</td>
-                                            <td className="text-gray">0.00000524</td>
-                                            <td className="text-black">3.07095 FTM</td>
-                                        </tr>
-                                    )} */}
                   </tbody>
                 </Table>
               </Col>
@@ -112,8 +97,3 @@ export default class Blocks extends Component {
     );
   }
 }
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )(HomePage);

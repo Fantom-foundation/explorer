@@ -5,7 +5,7 @@ const utils = require('../utilities/utils');
 
 module.exports = function (app) {
   /**
-   * Post API which authenticates credentials at the time of login with already registered username
+   * Post API which authenticates credentials at the time of login with already registered email
    */
   app.post('/api/authenticate-user', (req, res) => {
     utils.validateRequiredKeys(req.body,

@@ -33,9 +33,6 @@ class VerifyEmail extends React.Component {
     emailTokenApi({ ...this.props });
   }
   render() {
-    // if (this.state.text === 'success') {
-    //   return null;
-    // }
     return (
       <Row>
       <Col sm="12" style={{ paddingTop: '86px', minHeight: '100vh', backgroundColor: 'black' }}>

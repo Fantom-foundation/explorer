@@ -1,48 +1,44 @@
-const User = require('../models/users');
-const Apikey = require('../models/api_keys');
+const User = require("../models/users");
+const Apikey = require("../models/api_keys");
 
 module.exports.validateUrlKeys = function(query, fields, callback) {
-  let key = '';
-  let name = '';
-  let errorField = '';
-  let value = '';
+  let key = "";
+  let name = "";
+  let errorField = "";
+  let value = "";
 
-    // Traversing through the required fields
+  // Traversing through the required fields
   for (let i = 0; i < fields.length; i += 1) {
     key = fields[i].key;
     name = fields[i].name;
-    errorField = '';
-    value = query[key] + '';
-      // if request body does not contain respective field then throw error
-    if (!value || value.replace(/\s+/g, '') === '') {
+    errorField = "";
+    value = query[key] + "";
+    // if request body does not contain respective field then throw error
+    if (!value || value.replace(/\s+/g, "") === "") {
       errorField = `${name} is required.`;
-        // console.log('validate function call errorField', key, errorField);
+      // console.log('validate function call errorField', key, errorField);
       break;
-    } else if (key === 'address' && !validateAddress(value)) {
-      errorField = 'Wrong address.';
+    } else if (key === "address" && !validateAddress(value)) {
+      errorField = "Wrong address.";
       break;
-    } else if (
-        (key === 'module') &&
-        !validateModule(value)
-      ) {
-      errorField =
-          'Module not found';
+    } else if (key === "module" && !validateModule(value)) {
+      errorField = "Module not found";
       break;
-    } else if ((key === 'apikey' && !validateApi(value))) {
-      errorField = 'Api key required';
+    } else if (key === "apikey" && !validateApi(value)) {
+      errorField = "Api key required";
       break;
-    } else if ((key === 'Tx_hash') && !validateHash(value)) {
-      errorField = 'Invalid hash..';
+    } else if (key === "Tx_hash" && !validateHash(value)) {
+      errorField = "Invalid hash..";
       break;
     }
   }
-    // // console.log(" validate function call errorField",key, errorField);
+  // // console.log(" validate function call errorField",key, errorField);
   callback(errorField);
 };
 function validateApi(value) {
-  console.log('@@@', value);
-  console.log('###', typeof value);
-  if (value !== '' && value !== 'undefined' && value !== null) {
+  console.log("@@@", value);
+  console.log("###", typeof value);
+  if (value !== "" && value !== "undefined" && value !== null) {
     return true;
   }
   return false;
@@ -59,48 +55,52 @@ function validateAddress(address) {
   return false;
 }
 function validateModule(module) {
-  if (module === 'account' || module === 'transaction') {
+  if (module === "account" || module === "transaction") {
     return true;
   }
   return false;
 }
 
-const validateApiKey = (apiKey) => {
+//In this method we validate our private key so that authenticate user can get data.
+const validateApiKey = apiKey => {
   const obj = {};
   const promise = new Promise((resolve, reject) => {
     Apikey.findOne({
       where: {
-        api_key: apiKey,
-      },
+        api_key: apiKey
+      }
     })
-        .then((userFromRepo) => {
-          if (!userFromRepo) {
-            obj.status = false;
-            resolve(obj);
-            return;
-          }
-          if (userFromRepo) {
-            Apikey.update({
-              isKeyVerified: true,
-            }, {
+      .then(userFromRepo => {
+        if (!userFromRepo) {
+          obj.status = false;
+          resolve(obj);
+          return;
+        }
+        if (userFromRepo) {
+          Apikey.update(
+            {
+              isKeyVerified: true
+            },
+            {
               where: {
-                api_key: apiKey,
-              },
+                api_key: apiKey
+              }
+            }
+          )
+            .then(result => {
+              if (result) {
+                obj.status = true;
+                resolve(obj);
+              }
             })
-                .then((result) => {
-                  if (result) {
-                    obj.status = true;
-                    resolve(obj);
-                  }
-                })
-                .catch((error) => {
-                  reject(error);
-                });
-          }
-        })
-        .catch((err) => {
-          reject(err);
-        });
+            .catch(error => {
+              reject(error);
+            });
+        }
+      })
+      .catch(err => {
+        reject(err);
+      });
   });
   return promise;
 };

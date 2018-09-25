@@ -1,34 +1,44 @@
-var express = require('express'), router = express.Router();
-const utils = require('./utils');
-const response = require('./response');
-const userAccount = require('./balance-mock-data');
+var express = require("express"),
+  router = express.Router();
+const utils = require("./utils");
+const response = require("./response");
+const userAccount = require("./balance-mock-data");
 
-router.get('/balance', function(req, res) {
-  utils.validateUrlKeys(req.query,
+/**
+ * Get API to get balance.
+ * @apiKey: Private Key
+ * @address: Block Address
+ */
+router.get("/balance", function(req, res) {
+  utils.validateUrlKeys(
+    req.query,
     [
-      { key: 'module', name: 'Module' },
-      { key: 'address', name: 'Address' },
-      { key: 'apikey', name: 'APIKEY' },
+      { key: "module", name: "Module" },
+      { key: "address", name: "Address" },
+      { key: "apikey", name: "APIKEY" }
     ],
-    (errorField) => {
+    errorField => {
       if (!errorField) {
         const apiKeyPromise = utils.validateApiKey(req.query.apikey);
-        apiKeyPromise.then((result) => {
-          if (result.status) {
-            for(const user of userAccount) {
-              if (user.address === req.query.address) {
-                response.sendSuccess(user.balance.toString(), res);
+        apiKeyPromise
+          .then(result => {
+            if (result.status) {
+              for (const user of userAccount) {
+                if (user.address === req.query.address) {
+                  response.sendSuccess(user.balance.toString(), res);
+                }
               }
+            } else {
+              response.sendError("Invalid Api Key", res);
             }
-          } else {
-            response.sendError('Invalid Api Key', res);
-          }
-        }).catch((error) => {
-          console.log('@@@error', error);
-        });
+          })
+          .catch(error => {
+            console.log("@@@error", error);
+          });
       } else {
         response.sendError(errorField, res);
       }
-    });
+    }
+  );
 });
 module.exports = router;

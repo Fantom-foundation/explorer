@@ -1,3 +1,7 @@
+/**
+ * 
+ * @validateEmailApi is a method in which we call validate-email api to check whether email is valid or not
+ */
 export function validateEmailApi(email) {
   const obj = {};
   const payload = {

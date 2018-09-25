@@ -10,15 +10,11 @@ import Footer from 'views/components/footer/footer';
 import LatestTransactions from 'views/containers/home/latest-transactions';
 import LatestBlocks from 'views/containers/home/latest-blocks';
 import MarketCap from 'views/containers/home/market-cap';
-// import { createSelector } from 'reselect';
-// import { setUserDetails, updateUserDetails } from 'views/controllers/user-details/action';
-// import { getUserDetails } from 'views/controllers/user-details/selector';
 import Chart from 'views/containers/chart/index';
+
 export default class HomePage extends Component {
   render() {
      const socket = io();
-     console.log('this.popropw', this.props);
-    // socket.on('testerEvent', (data) => { document.write(data.description); });
     return (
       <div>
         <Header {...this.props}/>
@@ -44,15 +40,3 @@ export default class HomePage extends Component {
     );
   }
 }
-// const mapStateToProps = createSelector(
-//     getUserDetails(),
-//     (userDetails) => ({ userDetails }),
-// );
-// const mapDispatchToProps = {
-//     setUserDetails,
-//     updateUserDetails,
-// };
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )(HomePage);

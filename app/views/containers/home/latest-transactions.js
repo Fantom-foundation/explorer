@@ -15,6 +15,10 @@ export default class LatestTransactions extends React.Component {
       transactionArray: [],
     };
   }
+  /**
+   * @api_key: send private key for security purpose
+   * here call a api get-transactions and get data from transactions table.
+   */
   componentWillMount() {
     fetch(
       'http://localhost:3000/api/get-transactions',
@@ -45,55 +49,29 @@ export default class LatestTransactions extends React.Component {
         <Row className="blocks">
           {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
             <Col key={index} xs={12} className="bg-white  mb-3">
-                    <Row>
-                      <Col className="pr-0">
-                        <p className="tx-holder">
-                          <span className="text-black">TX#</span>&nbsp;
-                          <span className="text-primary tx-value">{data.transaction_hash}</span>
-                        </p>
-                      </Col>
-                      <Col className="time-date-col pl-0">
-                        <p><span className="text-primary">{moment(parseInt(data.createdAt, 10)).fromNow()}</span></p>
-                      </Col>
-                    </Row>
-                    <p className="pb-2 mb-1 from-to-holder">
-                      <span className="text-gray">From</span>&nbsp;
-                      <span className="text-primary from-value">{data.address_from}</span>&nbsp;
+              <Row>
+                <Col className="pr-0">
+                  <p className="tx-holder">
+                    <span className="text-black">TX#</span>&nbsp;
+                    <span className="text-primary tx-value">{data.transaction_hash}</span>
+                  </p>
+                </Col>
+                <Col className="time-date-col pl-0">
+                  <p><span className="text-primary">{moment(parseInt(data.createdAt, 10)).fromNow()}</span></p>
+                </Col>
+              </Row>
+              <p className="pb-2 mb-1 from-to-holder">
+                <span className="text-gray">From</span>&nbsp;
+                <span className="text-primary from-value">{data.address_from}</span>&nbsp;
     
-                      <span className="text-gray">to</span>&nbsp;
-                      <span className="text-primary to-value">{data.address_to}</span>
-                    </p>
-                    <p className="mb-0">
-                      <span className="text-gray">Amount 2.9999</span>&nbsp;
-                      <span className="text-primary">Fantom</span>
-                    </p>
-                  </Col>))}
-          {/* {_.times(5, (i) =>
-                  (<Col key={i} xs={12} className="bg-white  mb-3">
-                    <Row>
-                      <Col className="pr-0">
-                        <p>
-                          <span className="text-black">TX#</span>&nbsp;
-                          <span className="text-primary">0X42BB307E4C04F0BF13B7952</span>
-                        </p>
-                      </Col>
-                      <Col className="time-date-col pl-0">
-                        <p><span className="text-primary">23 mins 42 secs</span></p>
-                      </Col>
-                    </Row>
-                    <p className="pb-2 mb-1">
-                      <span className="text-gray">From</span>&nbsp;
-                      <span className="text-primary">0x04041d6a6bbbc2…</span>&nbsp;
-    
-                      <span className="text-gray">to</span>&nbsp;
-                      <span className="text-primary">0xf4a2eff88a408ff4c4550148…</span>
-                    </p>
-                    <p className="mb-0">
-                      <span className="text-gray">Amount 2.9999</span>&nbsp;
-                      <span className="text-primary">Fantom</span>
-                    </p>
-                  </Col>)
-                    )} */}
+                <span className="text-gray">to</span>&nbsp;
+                <span className="text-primary to-value">{data.address_to}</span>
+              </p>
+              <p className="mb-0">
+                <span className="text-gray">Amount 2.9999</span>&nbsp;
+                <span className="text-primary">Fantom</span>
+              </p>
+            </Col>))}
         </Row>
       </Col>
     );

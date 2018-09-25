@@ -1,41 +1,50 @@
-let express = require('express'), router = express.Router();
-const utils = require('./utils');
-const url = require('url');
-const response = require('./response');
-const userAccount = require('./transaction-mock-data');
+let express = require("express"),
+  router = express.Router();
+const utils = require("./utils");
+const url = require("url");
+const response = require("./response");
+const userAccount = require("./transaction-mock-data");
 
-
-router.get('/transaction_hash', (req, res) => {
-  console.log('req.params', req.query);
-  utils.validateUrlKeys(req.query,
+/**
+ * Get API to get individual transaction data by using txhash.
+ * @apiKey: Private Key
+ * @txhash: transaction hash value
+ */
+router.get("/transaction_hash", (req, res) => {
+  console.log("req.params", req.query);
+  utils.validateUrlKeys(
+    req.query,
     [
-      { key: 'module', name: 'Module' },
-      { key: 'apikey', name: 'APIKEY' },
-      { key: 'txhash', name: 'TXHASH' },
+      { key: "module", name: "Module" },
+      { key: "apikey", name: "APIKEY" },
+      { key: "txhash", name: "TXHASH" }
     ],
-    (errorField) => {
-      console.log('@@@', req.query, errorField);
+    errorField => {
+      console.log("@@@", req.query, errorField);
       if (!errorField) {
-        console.log('!!!', req.query);
+        console.log("!!!", req.query);
         const apiKeyPromise = utils.validateApiKey(req.query.apikey);
-        apiKeyPromise.then((result) => {
-          if (result.status) {
-            const array = [];
-            for (const user of userAccount) {
-              if (user.hash === req.query.txhash) {
-                array.push(user);
+        apiKeyPromise
+          .then(result => {
+            if (result.status) {
+              const array = [];
+              for (const user of userAccount) {
+                if (user.hash === req.query.txhash) {
+                  array.push(user);
+                }
               }
+              response.sendSuccess(array, res);
+            } else {
+              response.sendError("Invalid Api Key", res);
             }
-            response.sendSuccess(array, res);
-          } else {
-            response.sendError('Invalid Api Key', res);
-          }
-        }).catch((error) => {
-          console.log('@@@error', error);
-        });
+          })
+          .catch(error => {
+            console.log("@@@error", error);
+          });
       } else {
         response.sendError(errorField, res);
       }
-    });
+    }
+  );
 });
 module.exports = router;

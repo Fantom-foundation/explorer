@@ -1,3 +1,9 @@
+/**
+ * @email: User email
+ * @password: User password
+ * In this api we authenticate user by sending email, password in payload.
+ * fetch response from api authetication which is either true or false.
+ */
 import Alert from 'react-s-alert';
 export function loginApi(email, password, props) {
   const obj = {};

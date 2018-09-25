@@ -36,6 +36,13 @@ class Register extends React.Component {
       [key]: value,
     });
   }
+   /**
+   * handleClick is a method which called when clicked on register button
+   * in this methos call createAccountApi for create user account.
+   * @email: User email
+   * @password: User password
+   * @repassword: For confirmation purpose.
+   */
   handleClick = (event, isActive) => {
     event.preventDefault();
     if (isActive) {

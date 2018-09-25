@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
-    Container,
-    Row,
-    Col,
-    Table
+  Container,
+  Row,
+  Col,
+  Table,
 } from 'reactstrap';
 import moment from 'moment';
 import { Title } from '../../components/coreComponent';
@@ -11,33 +11,37 @@ import _ from 'lodash';
 import Header from 'views/components/header/header';
 
 export default class Blocks extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          transactionArray: [],
-        };
-      }
-      componentWillMount() {
-        fetch(
-          'http://localhost:3000/api/get-transactions',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              api_key: 'qscvfgrtmncefiur2345',
-              limit: 5,
-            },
-          },
-        )
-        .then((res) => res.json())
-        .then((res) => {
-          this.setState({ transactionArray: res.result });
-        }).catch((error) => {
-          console.log('error is !!!', error);
-        });
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      transactionArray: [],
+    };
+  }
+  /**
+* @api_key: send private key for security purpose
+* here call a api get-transactions and get data from transactions table.
+*/
+  componentWillMount() {
+    fetch(
+      'http://localhost:3000/api/get-transactions',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          api_key: 'qscvfgrtmncefiur2345',
+          limit: 5,
+        },
+      },
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        this.setState({ transactionArray: res.result });
+      }).catch((error) => {
+        console.log('error is !!!', error);
+      });
+  }
   render() {
-      const transactions = this.state.transactionArray;
+    const transactions = this.state.transactionArray;
     return (
       <div>
         <Header />
@@ -76,12 +80,6 @@ export default class Blocks extends Component {
                       <th>To</th>
                       <th>Value</th>
                       <th>[TxFee]</th>
-                      {/* <th>Uncles</th>
-                                            <th>Miner</th>
-                                            <th>GasUsed</th>
-                                            <th>GasLimit</th>
-                                            <th>Avg.GasPrice</th>
-                                            <th>Reward</th> */}
                     </tr>
                   </thead>
                   <tbody className="scroll-theme-1">
@@ -95,20 +93,7 @@ export default class Blocks extends Component {
                         <td className="text-black">{data.value}</td>
                         <td className="text-black">225.205</td>
                       </tr>
-                                        ))}
-                    {/* {_.times(20, (i) =>
-                                        <tr>
-                                            <td className="text-primary">6197846</td>
-                                            <td className="text-gray-dark">30 secs ago</td>
-                                            <td className="text-black">101</td>
-                                            <td className="text-primary">1</td>
-                                            <td className="text-gray">Ethermine</td>
-                                            <td className="text-black">7987286 (99.84%)</td>
-                                            <td className="text-primary">0.00000524</td>
-                                            <td className="text-gray">0.00000524</td>
-                                            <td className="text-black">3.07095 FTM</td>
-                                        </tr>
-                                    )} */}
+                    ))}
                   </tbody>
                 </Table>
               </Col>
@@ -119,8 +104,3 @@ export default class Blocks extends Component {
     );
   }
 }
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps,
-// )(HomePage);
