@@ -119,6 +119,7 @@ module.exports = (options) => ({
     child_process: 'empty',
     defaultable: 'empty',
     ws: 'empty',
+    engine: 'empty',
     // module: 'empty',
   },
   devtool: options.devtool,

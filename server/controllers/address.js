@@ -19,6 +19,7 @@ module.exports = function (app) {
           if (req.headers.api_key === 'qscvfgrtmncefiur2345') {
             Transaction.findAll({
               [Op.or]: [{ address_from: req.headers.address }, { address_to: req.headers.address }],
+              limit: parseInt(req.headers.limit, 10),
             })
           .then((result) => {
             if (result) {
