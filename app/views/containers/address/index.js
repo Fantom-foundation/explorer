@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import {
-    Container,
-    Row,
-    Col,
-    Table,
-    Button,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    TabContent, TabPane, Nav, NavItem, NavLink,
+  Container,
+  Row,
+  Col,
+  Table,
+  Button,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  TabContent, TabPane, Nav, NavItem, NavLink,
 } from 'reactstrap';
 import classnames from 'classnames';
 import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
+import Web3 from 'web3';
+
+import SearchForAccount from '../../components/search/searchForAccount/index';
+import { scientificToDecimal } from '../../components/utils/index';
 
 export default class Blocks extends Component {
   constructor(props) {
@@ -26,6 +30,11 @@ export default class Blocks extends Component {
       isOpen: false,
       address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
       activeTab: '1',
+      searchText: '',
+      transactionData: [],
+      walletDetail: [],
+      isValidSearchText: 1,
+      error: '',
     };
   }
   /**
@@ -33,7 +42,7 @@ export default class Blocks extends Component {
    */
   componentWillMount() {
     fetch(
-          'http://localhost:3000/api/address-transaction',
+      'http://localhost:3000/api/address-transaction',
       {
         method: 'POST',
         headers: {
@@ -43,13 +52,13 @@ export default class Blocks extends Component {
           limit: 5,
         },
       },
-        )
-        .then((res) => res.json())
-        .then((res) => {
-          this.setState({ transactionArray: res.result });
-        }).catch((error) => {
-          console.log('error is !!!', error);
-        });
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        this.setState({ transactionArray: res.result });
+      }).catch((error) => {
+        console.log('error is !!!', error);
+      });
   }
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -58,34 +67,128 @@ export default class Blocks extends Component {
       });
     }
   }
+
+  setSearchText(e) {
+    this.setState({
+      searchText: e.target.value,
+    });
+
+    let searchText = e.target.value.trim();
+    if (searchText && searchText === '') {
+      this.setState({
+        walletDetail: [],
+      })
+    }
+  }
+
+  /**
+     * getFantomBalanceFromApiAsync() :  Api to fetch wallet balance for given address of Fantom own endpoint.
+     * @param { String } address : address to fetch wallet balance.
+     */
+
+  getFantomBalanceFromApiAsync(address) {
+    let url = 'http://18.221.128.6:8080';
+    console.log('address : ', address)
+    // const { publicKey } = this.props;
+    // const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
+    return fetch(`${url}/account/${address}`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        if (responseJson) {
+          const balance = scientificToDecimal(responseJson.balance);
+           const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
+          //  const walletBalance =  Number(valInEther).toFixed(4);
+          let walletDetail = []
+
+          walletDetail.push({
+            address: address,
+            balance: valInEther,
+            nonce: responseJson.nonce,
+          });
+          this.setState({
+            searchType: 'address',
+            walletDetail,
+          });
+        } else {
+          this.setState({
+            walletDetail: [],
+            error: 'No Record Found',
+          })
+
+        }
+        return responseJson;
+      })
+      .catch((error) => {
+        this.setState({
+          walletDetail: [],
+          error: error.message || 'Internal Server Error',
+        })
+      });
+  }
+
+  searchHandler(e) {
+
+    e.preventDefault();
+    const { searchText } = this.state;
+    
+    if (searchText && searchText !== '') {
+      const isValid = Web3.utils.isAddress(searchText);
+      if (isValid) {
+        this.getFantomBalanceFromApiAsync(searchText);
+        this.setState({
+          error: ''
+        })
+      }else{
+        this.setState({
+          walletDetail: [],
+          error: 'Please enter valid address.'
+        })
+      }
+    }
+
+  }
+
   render() {
-    const transactions = this.state.transactionArray;
-    const isOpen = this.state.isOpen;
+    // let transactions = this.state.transactionArray;
+
+    const { searchText,  walletDetail, address, error} = this.state;
+
+    let addressText  = '';
+    if(walletDetail && walletDetail.length){
+      addressText = walletDetail[0].address
+    }
+    
+
     return (
       <div>
         <Header />
-        <section className="bg-theme full-height-conatainer" style={{paddingBottom: '179px'}}>
+        <section className="bg-theme full-height-conatainer" style={{ paddingBottom: '179px' }}>
           <Container>
             {/*========== make this title-header component start=================*/}
             <Row className="title-header pt-3">
               <Col className="pt-3">
                 <Row>
                   <Col className="pr-0"><Title h2>Address</Title></Col>
-                  <Col className="token-col pt-2 pl-0"><Title h2 className="token">{this.state.address}</Title></Col>
+                  <Col className="token-col pt-2 pl-0"><Title h2 className="token">{addressText}</Title></Col>
                 </Row>
               </Col>
               <Col md={5}>
                 <div className="form-element form-input">
-                  <input id="search" className="form-element-field" placeholder=" " type="search" required="" />
+                  <form autoComplete='off' onSubmit={(e) => this.searchHandler(e)}> {/*eslint-line disable*/}
+                    <input id="search" value={searchText} className="form-element-field"  placeholder="Search by Address"
+                      type="search" required="" onChange={(e) => this.setSearchText(e)} />
+                  </form>
                   <div className="form-element-bar"></div>
-                  <label className="form-element-label" htmlFor="search">Search by Address / Txhash / Block Heights</label>
+                  {/* <label className="form-element-label" htmlFor="search">Search by Address / Txhash / Block Heights</label> */}
                 </div>
               </Col>
             </Row>
           </Container>
           <hr />
           <Container>
-            <div className="address-details">
+            {walletDetail.length > 0 && <SearchForAccount accountDetail={walletDetail} isOpen={this.state.isOpen} toggle={this.toggle} />}
+            {error !== '' && <p>{error}</p>}
+            {/* { <div className="address-details">
               <Row>
                 <Col>
                   <Title h2>OverView | <span className="gray">Eathermine</span></Title>
@@ -97,11 +200,11 @@ export default class Blocks extends Component {
                     <tbody>
                       <tr>
                         <td>Balance:</td>
-                        <td>1,099.667542570678819374 Etder</td>
+                        <td>1,099.667542570678819374 Ether</td>
                       </tr>
                       <tr>
-                        <td>Etder Value:</td>
-                        <td>$305,961.51 (@ $278.19/Etd)</td>
+                        <td>Ether Value:</td>
+                        <td>$305,961.51 (@ $278.19/ETH)</td>
                       </tr>
                       <tr>
                         <td>Mined:</td>
@@ -116,7 +219,7 @@ export default class Blocks extends Component {
                 </Col>
                 <Col>
                   <Table>
-                    <tbody>  
+                    <tbody>
                       <tr>
                         <td><strong>Misc</strong></td>
                         <td>Toggle Dropdown</td>
@@ -128,8 +231,8 @@ export default class Blocks extends Component {
                         <td>Token Balances:</td>
                         <td><Dropdown direction="down" isOpen={this.state.isOpen} toggle={this.toggle}>
                           <DropdownToggle caret>
-                       Dropup
-                     </DropdownToggle>
+                            Dropup
+                          </DropdownToggle>
                           <DropdownMenu>
                             <DropdownItem>Another Action</DropdownItem>
                             <DropdownItem>Another Action</DropdownItem>
@@ -139,16 +242,16 @@ export default class Blocks extends Component {
                     </tbody>
                   </Table></Col>
               </Row>
-            </div>
+            </div>} */}
             {/*========== make this title-header component end=================*/}
-            <div id="theme-tab">
+            {/* <div id="theme-tab">
               <Nav tabs className="mb-3 theme-nav">
                 <NavItem>
                   <NavLink
                     className={classnames({ active: this.state.activeTab === '1' })}
                     onClick={() => { this.toggle('1'); }}
                   >
-              Overview
+                    Overview
             </NavLink>
                 </NavItem>
                 <NavItem>
@@ -156,13 +259,13 @@ export default class Blocks extends Component {
                     className={classnames({ active: this.state.activeTab === '2' })}
                     onClick={() => { this.toggle('2'); }}
                   >
-              Comments
+                    Comments
             </NavLink>
                 </NavItem>
               </Nav>
               <TabContent className="theme-nav-tab-content" activeTab={this.state.activeTab}>
                 <TabPane tabId="1">
-                  <Row>
+                  {<Row>
                     <Col>
                       <Table className="transactions-table">
                         <thead className="dark bg-white">
@@ -178,6 +281,7 @@ export default class Blocks extends Component {
                           </tr>
                         </thead>
                         <tbody className="scroll-theme-1">
+
                           {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
                             <tr key={index}>
                               <td className="text-black">{data.transaction_hash}</td>
@@ -187,33 +291,33 @@ export default class Blocks extends Component {
                               <td>
                                 {this.state.address === data.address_from ?
                                   <Button color="red">OUT</Button>
-                                    : 
+                                  :
                                   <Button color="green">IN</Button>
-                      }
+                                }
                               </td>
                               <td className="text-black">{data.address_to}</td>
                               <td className="text-black">{data.value}</td>
-                              <td></td>
+                              <td className="text-black">{txFee}</td>
                             </tr>
-                                        ))}
+                          ))}
                         </tbody>
                       </Table>
                     </Col>
-                  </Row>
+                  </Row>}
                 </TabPane>
                 <TabPane tabId="2">
                   <Row>
                     <Col>
-                    empty
+                      empty
 
                 </Col>
                   </Row>
                 </TabPane>
               </TabContent>
-            </div>
+            </div> */}
           </Container>
         </section>
-      </div>
+      </div >
     );
   }
 }

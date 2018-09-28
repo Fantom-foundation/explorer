@@ -27,14 +27,14 @@ export default class HomePage extends Component {
           </Row>
         </Container>
         </section>
-        <section id="latest-blocks" className="bg-theme">
+        {/* <section id="latest-blocks" className="bg-theme">
           <Container>
             <Row className="mx-md-0">
               <LatestTransactions />
               <LatestBlocks />
             </Row>
           </Container>
-        </section>
+        </section> */}
         <Footer />
       </div>
     );

@@ -24,7 +24,7 @@ function renderLoggedInRoutes() {
 function renderLoggedOutRoutes() {
   return (
     <Switch>
-      <Route path="/blocks" component={Blocks} />
+      {/* <Route path="/blocks" component={Blocks} /> */}
       <Route path="/address" component={Address} />
       <Route path="/transactions" component={Transactions} />
       <Route path="/details" component={Details} />
