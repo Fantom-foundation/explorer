@@ -13,10 +13,11 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import moment from 'moment';
+import Web3 from 'web3';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
-import Web3 from 'web3';
+
 
 import SearchForAccount from '../../components/search/searchForAccount/index';
 import { scientificToDecimal } from '../../components/utils/index';
@@ -41,6 +42,7 @@ export default class Blocks extends Component {
    * Fetching data from database using api address-transaction
    */
   componentWillMount() {
+    return;
     fetch(
       'http://localhost:3000/api/address-transaction',
       {
@@ -63,7 +65,7 @@ export default class Blocks extends Component {
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -73,11 +75,11 @@ export default class Blocks extends Component {
       searchText: e.target.value,
     });
 
-    let searchText = e.target.value.trim();
+    const searchText = e.target.value.trim();
     if (searchText && searchText === '') {
       this.setState({
         walletDetail: [],
-      })
+      });
     }
   }
 
@@ -87,8 +89,8 @@ export default class Blocks extends Component {
      */
 
   getFantomBalanceFromApiAsync(address) {
-    let url = 'http://18.221.128.6:8080';
-    console.log('address : ', address)
+    const url = 'http://18.221.128.6:8080';
+    console.log('address : ', address);
     // const { publicKey } = this.props;
     // const dummyAddress = '0xFD00A5fE03CB4672e4380046938cFe5A18456Df4';
     return fetch(`${url}/account/${address}`)
@@ -96,12 +98,12 @@ export default class Blocks extends Component {
       .then((responseJson) => {
         if (responseJson) {
           const balance = scientificToDecimal(responseJson.balance);
-           const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
+          const valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
           //  const walletBalance =  Number(valInEther).toFixed(4);
-          let walletDetail = []
+          const walletDetail = [];
 
           walletDetail.push({
-            address: address,
+            address,
             balance: valInEther,
             nonce: responseJson.nonce,
           });
@@ -113,8 +115,7 @@ export default class Blocks extends Component {
           this.setState({
             walletDetail: [],
             error: 'No Record Found',
-          })
-
+          });
         }
         return responseJson;
       })
@@ -122,49 +123,47 @@ export default class Blocks extends Component {
         this.setState({
           walletDetail: [],
           error: error.message || 'Internal Server Error',
-        })
+        });
       });
   }
 
   searchHandler(e) {
-
     e.preventDefault();
     const { searchText } = this.state;
-    
+
     if (searchText && searchText !== '') {
       const isValid = Web3.utils.isAddress(searchText);
       if (isValid) {
         this.getFantomBalanceFromApiAsync(searchText);
         this.setState({
-          error: ''
-        })
-      }else{
+          error: '',
+        });
+      } else {
         this.setState({
           walletDetail: [],
-          error: 'Please enter valid address.'
-        })
+          error: 'Please enter valid address.',
+        });
       }
     }
-
   }
 
   render() {
     // let transactions = this.state.transactionArray;
 
-    const { searchText,  walletDetail, address, error} = this.state;
+    const { searchText, walletDetail, address, error } = this.state;
 
-    let addressText  = '';
-    if(walletDetail && walletDetail.length){
-      addressText = walletDetail[0].address
+    let addressText = '';
+    if (walletDetail && walletDetail.length) {
+      addressText = walletDetail[0].address;
     }
-    
+
 
     return (
       <div>
         <Header />
         <section className="bg-theme full-height-conatainer" style={{ paddingBottom: '179px' }}>
           <Container>
-            {/*========== make this title-header component start=================*/}
+            {/*= ========= make this title-header component start=================*/}
             <Row className="title-header pt-3">
               <Col className="pt-3">
                 <Row>
@@ -174,17 +173,19 @@ export default class Blocks extends Component {
               </Col>
               <Col md={5}>
                 <div className="form-element form-input">
-                  <form autoComplete='off' onSubmit={(e) => this.searchHandler(e)}> {/*eslint-line disable*/}
-                    <input id="search" value={searchText} className="form-element-field"  placeholder="Search by Address"
-                      type="search" required="" onChange={(e) => this.setSearchText(e)} />
+                  <form autoComplete="off" onSubmit={(e) => this.searchHandler(e)}> {/* eslint-line disable*/}
+                    <input
+                      id="search" value={searchText} className="form-element-field" placeholder=" "
+                      type="search" required="" onChange={(e) => this.setSearchText(e)}
+                    />
+                    <div className="form-element-bar"></div>
+                    <label className="form-element-label" htmlFor="search">Search by Address</label>
                   </form>
-                  <div className="form-element-bar"></div>
-                  {/* <label className="form-element-label" htmlFor="search">Search by Address / Txhash / Block Heights</label> */}
                 </div>
               </Col>
             </Row>
           </Container>
-          <hr />
+          {/* <hr /> */}
           <Container>
             {walletDetail.length > 0 && <SearchForAccount accountDetail={walletDetail} isOpen={this.state.isOpen} toggle={this.toggle} />}
             {error !== '' && <p>{error}</p>}
@@ -243,7 +244,7 @@ export default class Blocks extends Component {
                   </Table></Col>
               </Row>
             </div>} */}
-            {/*========== make this title-header component end=================*/}
+            {/*= ========= make this title-header component end=================*/}
             {/* <div id="theme-tab">
               <Nav tabs className="mb-3 theme-nav">
                 <NavItem>

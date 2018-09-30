@@ -14,10 +14,10 @@ import Chart from 'views/containers/chart/index';
 
 export default class HomePage extends Component {
   render() {
-     const socket = io();
+    const socket = io();
     return (
       <div>
-        <Header {...this.props}/>
+        <Header {...this.props} />
         <section className="bg-dark intro " style={{ paddingTop: '89px', paddingBottom: '112px' }}> <Container>
           <MarketCap />
           <Row>

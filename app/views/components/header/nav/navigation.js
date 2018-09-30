@@ -1,8 +1,10 @@
 import React from 'react';
 import { isUserLoggedIn } from 'common/utility';
-import Logo from 'images/logo/logo.png';
+import Logo from 'images/Logo/logo.png';
 import Login from 'views/containers/login/index';
 import SettingIcon from 'images/icons/setting.svg';
+import { NavLink as RouterNavLink } from 'react-router-dom';
+
 
 import {
   Collapse,
@@ -23,7 +25,7 @@ export default class Navigation extends React.Component {
       isLoggedIn: false,
       modal: false,
     };
-    //this.toggleModal = this.toggleModal.bind(this);
+    // this.toggleModal = this.toggleModal.bind(this);
     this.toggle = this.toggle.bind(this);
   }
   toggle() {
@@ -45,30 +47,30 @@ export default class Navigation extends React.Component {
   render() {
     const isLoggedIn = isUserLoggedIn();
     if (this.state.modal) {
-     return <Login toggleModal={this.toggleModal} modal={this.state.modal} />;
+      return <Login toggleModal={this.toggleModal} modal={this.state.modal} />;
     }
     return (
       <Navbar color="dark" dark expand="md">
         <Container>
-          <NavbarBrand href="/"><img className="logo" src={Logo} /></NavbarBrand>
+          <NavbarBrand tag={RouterNavLink} to="/"><img className="logo" src={Logo} /></NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/">Home</NavLink>
+                <NavLink tag={RouterNavLink} to="/">Home</NavLink>
               </NavItem>
               {/* <NavItem>
                 <NavLink href="/blocks">Blocks</NavLink>
               </NavItem> */}
               <NavItem>
-                <NavLink href="/transactions">Transactions</NavLink>
+                <NavLink tag={RouterNavLink} to="/transactions">Transactions</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/address">Addresses</NavLink>
+                <NavLink tag={RouterNavLink} to="/address">Addresses</NavLink>
               </NavItem>
-              <NavItem>
+              {/* <NavItem>
               {isLoggedIn ? <NavLink onClick={(event) => this.logout(event)}>Logout</NavLink> : <NavLink onClick={(event) => this.toggleModal(event, this.state.modal)}>Login</NavLink> }
-              </NavItem>
+              </NavItem> */}
             </Nav>
           </Collapse>
         </Container>

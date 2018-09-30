@@ -22,8 +22,7 @@ function scientificToDecimal(num) {
     if (direction === -1) {
       coeff_array[0] = Math.abs(coeff_array[0]);
       num = `${zero}.${new Array(l).join(zero)}${coeff_array.join('')}`;
-    }
-    else {
+    } else {
       const dec = coeff_array[1];
       if (dec) l -= dec.length;
       num = coeff_array.join('') + new Array(l + 1).join(zero);
@@ -44,7 +43,7 @@ export default class Blocks extends Component {
       transactionArray: [],
       searchText: '',
       walletDetail: {},
-      transactionData: [], 
+      transactionData: [],
       error: '',
     };
   }
@@ -53,6 +52,7 @@ export default class Blocks extends Component {
    * here call a api get-transactions and get data from transactions table.
    */
   componentWillMount() {
+    return;
     fetch('http://localhost:3000/api/get-transactions', {
       method: 'POST',
       headers: {
@@ -74,7 +74,6 @@ export default class Blocks extends Component {
     this.setState({
       searchText: e.target.value,
     });
-
   }
 
   /**
@@ -82,13 +81,18 @@ export default class Blocks extends Component {
      * @param {String} address : address to fetch transactions.
      */
   getFantomTransactionsFromApiAsync(searchTransactionHash) {
-    let url = 'http://18.221.128.6:8080'
-    console.log('inside getFantomTransactionsFromApiAsync ')
+    const url = 'http://18.221.128.6:8080';
+    console.log('inside getFantomTransactionsFromApiAsync ');
     // const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
     fetch(`${url}/transaction/${searchTransactionHash}`)
 
       // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response && response.status < 400) {
+          return response.json();
+        }
+        throw new Error((response.statusText || 'Internal Server Error'));
+      })
       .then((responseJson) => {
         if (responseJson) {
           this.loadFantomTransactionData(responseJson);
@@ -96,7 +100,7 @@ export default class Blocks extends Component {
           this.setState({
             transactionData: [],
             error: 'No Record Found',
-          })
+          });
         }
         return responseJson;
       })
@@ -104,7 +108,7 @@ export default class Blocks extends Component {
         this.setState({
           transactionData: [],
           error: error.message || 'Internal Server Error',
-        })
+        });
       });
   }
 
@@ -122,6 +126,7 @@ export default class Blocks extends Component {
       value: result.value,
       txFee: '',
       createdAt: '',
+      gasUsed: result.gasUsed,
     });
     transactionData = transactionData.reverse();
     this.setState({
@@ -131,36 +136,35 @@ export default class Blocks extends Component {
 
   isValidHash(hash) {
     const validHashLength = 66;
-    console.log('hash.length === validHashLength : ', hash.length === validHashLength)
+    console.log('hash.length === validHashLength : ', hash.length === validHashLength);
     if (hash && hash.length === validHashLength) {
-      return true
+      return true;
     }
     return false;
   }
   searchHandler(e) {
     e.preventDefault();
     const { searchText } = this.state;
-    
+
     if (searchText && searchText !== '') {
-      let isValid = this.isValidHash(searchText);
+      const isValid = this.isValidHash(searchText);
       if (isValid) {
-        this.getFantomTransactionsFromApiAsync(searchText)
+        this.getFantomTransactionsFromApiAsync(searchText);
         this.setState({
-          error: ''
-        })
-      }else{
+          error: '',
+        });
+      } else {
         this.setState({
           transactionData: [],
-          error: 'Please enter valid hash.'
-        })
+          error: 'Please enter valid hash.',
+        });
       }
     }
-
   }
 
   render() {
     // let transactions = this.state.transactionArray;
-    const { searchText,  transactionData,  error } = this.state;
+    const { searchText, transactionData, error } = this.state;
     return (
       <div>
         <Header />
@@ -174,19 +178,19 @@ export default class Blocks extends Component {
               </Col>
               <Col>
                 <div className="form-element form-input">
-                <form autoComplete='off' onSubmit={(e) => this.searchHandler(e)}>
-                  <input
-                    value={searchText}
-                    id="search"
-                    className="form-element-field"
-                    placeholder="Search by Txhash"
-                    type="search"
-                    required=""
-                    onChange={(e) => this.setSearchText(e)}
-                  />
+                  <form autoComplete="off" onSubmit={(e) => this.searchHandler(e)}>
+                    <input
+                      value={searchText}
+                      id="search"
+                      className="form-element-field"
+                      placeholder=" "
+                      type="search"
+                      required=""
+                      onChange={(e) => this.setSearchText(e)}
+                    />
+                    <div className="form-element-bar" />
+                    <label className="form-element-label" htmlFor="search"> Search by Txhash</label>
                   </form>
-                  <div className="form-element-bar" />
-                  {/* <label className="form-element-label" htmlFor="search"> Search by Address / Txhash / Block Heights</label> */}
 
                 </div>
               </Col>

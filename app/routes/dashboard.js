@@ -6,7 +6,7 @@ import HomePage from 'views/containers/home/';
 import Blocks from 'views/containers/blocks/index';
 import Transactions from 'views/containers/transactions/index';
 import Details from 'views/containers/blocks/details';
-import VerifyEmail from 'views/containers/Pages/verify-email';
+import VerifyEmail from 'views/containers/pages/verify-email';
 // import Register from 'views/containers/register/index';
 // import Login from 'views/containers/login/index';
 import Address from 'views/containers/address/index';
@@ -27,10 +27,10 @@ function renderLoggedOutRoutes() {
       {/* <Route path="/blocks" component={Blocks} /> */}
       <Route path="/address" component={Address} />
       <Route path="/transactions" component={Transactions} />
-      <Route path="/details" component={Details} />
+      {/* <Route path="/details" component={Details} /> */}
       {/* <Route path="/login" component={Login} />
       <Route path="/register" component={Register} /> */}
-      <Route path="/login-modal" component={ModalComponent} />
+      {/* <Route path="/login-modal" component={ModalComponent} /> */}
       <Redirect to="/" />
     </Switch>
   );
@@ -55,3 +55,4 @@ export default function Dashboard() {
 }
 
 ModalComponent
+;

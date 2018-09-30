@@ -52,9 +52,18 @@ module.exports = (options) => ({
           {
             loader: 'image-webpack-loader',
             options: {
-              progressive: true,
-              optimizationLevel: 7,
-              interlaced: false,
+              mozjpeg: {
+                optimizationLevel: 7,
+                progressive: true,
+              },
+              gifsicle: {
+                optimizationLevel: 7,
+                interlaced: false,
+              },
+              optipng: {
+                optimizationLevel: 7,
+                interlaced: false,
+              },
               pngquant: {
                 quality: '65-90',
                 speed: 4,
@@ -88,7 +97,7 @@ module.exports = (options) => ({
       fetch: 'exports-loader?self.fetch!whatwg-fetch',
     }),
     new webpack.ContextReplacementPlugin(/protobufjs/, /^$/),
-    
+
     // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
     // inside your code for any environment checks; UglifyJS will automatically
     // drop any unreachable code.
