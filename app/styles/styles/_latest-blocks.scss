@@ -1,0 +1,105 @@
+#latest-blocks
+{
+    padding: {top:76px; bottom:88px;}
+    @media(min-width:768px)
+    {
+        // .left{margin-right: 20px;}
+        // .right{margin-left: 20px;}
+        .left
+        {
+            transform: translateX(-20px);
+        }
+        .right
+        {
+            transform: translateX(20px);
+        }
+    }
+    .header
+    {
+        .title
+        {
+            font: { family: Roboto; size: 30px; }
+            @media(max-width: 1230px){ font: {  size: 26px; }}
+            @media(max-width: 991px) { font: {  size: 20px; }}
+            @media(max-width: 370px) { font: {  size: 16px; }}
+        }
+        .link-column
+        {
+            @include responsive-width(100px);
+            .link{}
+        }
+    }
+    .left,.right
+    {
+        @media (max-width:767px){ @include responsive-width(100%); }
+    }
+    // .left
+    // {
+    //     .blocks
+    //     {
+    //         p
+    //         {
+    //             &.tx{margin-bottom: 0px;}
+    //             &.f-t{margin-bottom: 12px;}
+    //         }
+    //     }
+    // }
+    .blocks
+    {
+        font: { family: Roboto; size: 12px; }
+        .col-12
+        {
+            padding: 16px 23px 11px;
+            min-height: 99px;
+        }
+        .block-icon
+        {
+            margin: { right:7.3px; }
+        }
+        .time-date-col{@include responsive-width(115px);}
+        p
+        {
+            margin-bottom: 0px;
+        }
+
+        .from-to-holder
+        {
+            span{display: inline-block;vertical-align: top;}
+            .from-value,.to-value
+            {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+            }
+            .from-value
+            {
+                max-width: 6rem;
+            }
+            .to-value{    max-width:10rem;}
+        }
+        .tx-holder,.hash-holder
+        {
+            span
+            {
+                display: inline-block;vertical-align: top;
+                &.tx-value
+                {
+                    white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+                max-width: 12rem;
+                }
+                &.hash-value
+                {
+                    white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+                max-width: 12rem;
+                }
+            }
+        }
+    }
+}

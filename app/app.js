@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
+import 'react-s-alert/dist/s-alert-default.css';
 
 // Import root app
 import Routes from 'routes';
@@ -38,6 +39,7 @@ import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './configureStore';
+import { loadState, saveState } from './localStorage';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
@@ -45,10 +47,14 @@ import { translationMessages } from './i18n';
 // Import CSS reset and Global Styles
 import './global-style';
 
+const persistedState = loadState();
 // Create redux store with history
-const initialState = {};
+//const initialState = {};
 const history = createHistory();
-const store = configureStore(initialState, history);
+const store = configureStore(persistedState, history);
+store.subscribe(() => {
+  saveState(store.getState());
+});
 const MOUNT_NODE = document.getElementById('app');
 
 const render = (messages) => {

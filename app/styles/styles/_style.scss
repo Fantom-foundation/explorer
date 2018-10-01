@@ -1,0 +1,38 @@
+*{
+    outline: 0px;
+}
+h2
+{
+    font: {weight: 400; }
+}
+strong { -webkit-font-smoothing: antialiased; }
+.bg-dark{background: { color:map-get($color, black) !important; }}
+hr
+{
+    &.light { border-color: map-get($color, theme-light-border); }
+}
+.bg-primary{background: { color:map-get($color, blue) !important; }}
+.container { @media (min-width: 1200px){max-width: 1172px;} }
+.bg-theme
+{
+    background: {
+        image:url(../images/backgrounds/pattern.svg);
+        size: cover;
+        position: center;
+        color:#F5F8FA;
+        attachment: fixed;
+    }
+}
+.header-title
+{
+    font: {
+        family: Helvetica;
+        size:30px;
+    }
+
+}
+
+
+.full-height-conatainer {
+        min-height: calc(100vh - 64px) !important;
+}

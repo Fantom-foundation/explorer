@@ -28,6 +28,16 @@ const ReactBoilerplate = {
         'ip',
         'minimist',
         'sanitize.css',
+        'sequelize',
+        'coffee-script',
+        'generate',
+        'defaultable',
+        './locale',
+        'node',
+        'uws',
+        'ws',
+        'engine.io',
+        'socket.io',
       ],
 
       /**
@@ -39,7 +49,6 @@ const ReactBoilerplate = {
       // The path where the DLL manifest and bundle will get built
       path: resolve('../node_modules/react-boilerplate-dlls'),
     },
-
     entry(pkg) {
       const dependencyNames = Object.keys(pkg.dependencies);
       const exclude = pkg.dllPlugin.exclude || ReactBoilerplate.dllPlugin.defaults.exclude;

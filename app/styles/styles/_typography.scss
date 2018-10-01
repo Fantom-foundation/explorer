@@ -1,0 +1,59 @@
+.text-black {color:map-get($color, black) !important;}
+.text-gray {color:map-get($color, grayText) !important;}
+.text-gray-dark {color:map-get($color, darkGrayText) !important;}
+.text-primary{color:map-get($color, blue) !important;}
+
+
+.title-header
+{
+    .title
+    {
+        display: inline-block !important;
+        font: {
+            family:Helvetica;
+            size:30px;
+        }
+        &.token{ font-family: Roboto;
+            font-size: 20px;
+            font-weight: 300;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #9b9b9b;
+
+
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        max-width: 447px;
+        
+        }
+    }
+    .token-col {@include responsive-width(447px);}
+}
+.line-title
+{
+    span
+    {
+        position: relative;
+        &::before, &::after
+        {
+            position: absolute;
+            content: "";
+            top: 50%;
+            transform: translateY(-50%);
+            height: 2px;
+            width: 60px;
+            background: black;
+        }
+        &::before{
+            left: calc(100% + 20px);
+        }
+        &::after{
+            right: calc(100% + 20px);
+        }
+    }
+}

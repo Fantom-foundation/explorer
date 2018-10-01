@@ -1,0 +1,7 @@
+{
+    "port": 3306,
+    "host": "fantomdb.cc9igbadbqr9.us-east-2.rds.amazonaws.com",
+    "dbName": "fantomdb",
+    "dbUser": "root",
+    "dbPassword": "webdb123"
+   }
