@@ -165,13 +165,13 @@ export default class Blocks extends Component {
           <Container>
             {/*= ========= make this title-header component start=================*/}
             <Row className="title-header pt-3">
-              <Col className="pt-3">
-                <Row>
-                  <Col className="pr-0"><Title h2>Address</Title></Col>
-                  <Col className="token-col pt-2 pl-0"><Title h2 className="token">{addressText}</Title></Col>
-                </Row>
-              </Col>
-              <Col md={5}>
+              
+                <Col className="pt-3">
+                  <Title h2 className="d-inline  mr-4 mb-0" >Address</Title>
+                  <Title h2 className="token d-inline mb-0"><span className="">{addressText}</span></Title>
+                </Col>
+              
+              <Col xs={12} lg={3}>
                 <div className="form-element form-input">
                   <form autoComplete="off" onSubmit={(e) => this.searchHandler(e)}> {/* eslint-line disable*/}
                     <input

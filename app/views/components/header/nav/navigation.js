@@ -59,9 +59,9 @@ export default class Navigation extends React.Component {
               <NavItem>
                 <NavLink tag={RouterNavLink} to="/">Home</NavLink>
               </NavItem>
-              {/* <NavItem>
-                <NavLink href="/blocks">Blocks</NavLink>
-              </NavItem> */}
+              <NavItem>
+                <NavLink tag={RouterNavLink} to="/blocks">Blocks</NavLink>
+              </NavItem>
               <NavItem>
                 <NavLink tag={RouterNavLink} to="/transactions">Transactions</NavLink>
               </NavItem>

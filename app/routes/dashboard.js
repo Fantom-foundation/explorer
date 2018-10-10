@@ -11,6 +11,7 @@ import VerifyEmail from 'views/containers/pages/verify-email';
 // import Login from 'views/containers/login/index';
 import Address from 'views/containers/address/index';
 import ModalComponent from 'views/containers/modal/index';
+import BlockTransactionDetail from '../views/components/search/searchForBlock/viewBlockDetail/index';
 
 function renderLoggedInRoutes() {
   return (
@@ -24,10 +25,11 @@ function renderLoggedInRoutes() {
 function renderLoggedOutRoutes() {
   return (
     <Switch>
-      {/* <Route path="/blocks" component={Blocks} /> */}
+      <Route path="/blocks" component={Blocks} />
       <Route path="/address" component={Address} />
       <Route path="/transactions" component={Transactions} />
-      {/* <Route path="/details" component={Details} /> */}
+      <Route path="/details" component={Details} />
+      <Route path="/block/:id" component={BlockTransactionDetail} />
       {/* <Route path="/login" component={Login} />
       <Route path="/register" component={Register} /> */}
       {/* <Route path="/login-modal" component={ModalComponent} /> */}
@@ -53,6 +55,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-ModalComponent
-;

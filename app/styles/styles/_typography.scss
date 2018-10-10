@@ -13,7 +13,8 @@
             family:Helvetica;
             size:30px;
         }
-        &.token{ font-family: Roboto;
+        .token{ margin: {left:6px;}display: inline-block;}
+        &.token,.token{ font-family: Roboto;
             font-size: 20px;
             font-weight: 300;
             font-style: normal;
@@ -28,7 +29,8 @@
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
-        max-width: 447px;
+            // max-width: 447px;
+            max-width: 420px;
         
         }
     }
