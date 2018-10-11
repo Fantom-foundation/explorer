@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
-    Container,
-    Row,
-    Col,
-    Table,
-    TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText,
+  Container,
+  Row,
+  Col,
+  Table,
+  TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -35,7 +35,7 @@ export default class Deatails extends Component {
     return (
       <div>
         <Header />
-        <section className="bg-theme full-height-conatainer" style={{paddingBottom:'60px'}}>
+        <section className="bg-theme full-height-conatainer" style={{ paddingBottom: '60px' }}>
           <Container>
             {/*========== make this title-header component start=================*/}
 
@@ -64,16 +64,16 @@ export default class Deatails extends Component {
                         className={classnames({ active: this.state.activeTab === '1' })}
                         onClick={() => { this.toggle('1'); }}
                       >
-              Overview
-            </NavLink>
+                        Overview
+                    </NavLink>
                     </NavItem>
                     <NavItem>
                       <NavLink
                         className={classnames({ active: this.state.activeTab === '2' })}
                         onClick={() => { this.toggle('2'); }}
                       >
-              Comments
-            </NavLink>
+                        Comments
+                    </NavLink>
                     </NavItem>
                   </Nav>
                   <TabContent className="theme-nav-tab-content" activeTab={this.state.activeTab}>

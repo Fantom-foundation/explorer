@@ -42,7 +42,6 @@ export default class Blocks extends Component {
     this.state = {
       transactionArray: [],
       searchText: '',
-      walletDetail: {},
       transactionData: [],
       error: '',
     };
