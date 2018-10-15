@@ -8,8 +8,7 @@ import {
 import moment from 'moment'; // eslint-disable-line
 import Header from 'views/components/header/header';
 import { Title } from '../../components/coreComponent';
-import _ from 'lodash';  // eslint-disable-line
-
+import _ from 'lodash'; // eslint-disable-line
 
 import SearchForBlock from '../../components/search/searchForBlock/index';
 
@@ -30,20 +29,18 @@ export default class Blocks extends Component {
    * here call a api get-blocks and get data from blocks table.
    */
   componentWillMount() {
-    fetch(
-      'http://localhost:3000/api/get-blocks',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          api_key: 'qscvfgrtmncefiur2345',
-        },
+    fetch('http://localhost:3000/api/get-blocks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        api_key: 'qscvfgrtmncefiur2345',
       },
-    )
+    })
       .then((res) => res.json())
       .then((res) => {
         this.setState({ blockArray: res.result });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log('error is !!!', error);
       });
   }
@@ -54,11 +51,10 @@ export default class Blocks extends Component {
     });
   }
 
-
   /**
-     * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-     * @param {String} searchBlockIndex : Index to fetch block.
-     */
+   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
+   * @param {String} searchBlockIndex : Index to fetch block.
+   */
   getFantomBlocks(searchBlockIndex) {
     const url = 'http://18.224.109.107:8080';
     fetch(`${url}/blockById/${searchBlockIndex}`)
@@ -66,7 +62,7 @@ export default class Blocks extends Component {
         if (response && response.status < 400) {
           return response.json();
         }
-        throw new Error((response.statusText || 'Internal Server Error'));
+        throw new Error(response.statusText || 'Internal Server Error');
       })
       .then((responseJson) => {
         if (responseJson) {
@@ -89,12 +85,13 @@ export default class Blocks extends Component {
   }
 
   /**
-    * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-    * @param {*} responseJson : Json of block response data from Api.
-    */
+   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
+   * @param {*} responseJson : Json of block response data from Api.
+   */
   loadFantomBlockData(result) {
     let blockData = [];
-    const txLength = result.transactions !== null ? result.transactions.length : 0;
+    const txLength =
+      result.transactions !== null ? result.transactions.length : 0;
     blockData.push({
       height: result.index,
       hash: result.hash,
@@ -158,18 +155,26 @@ export default class Blocks extends Component {
         <Header />
         <section className="bg-theme full-height-conatainer">
           <Container>
-
-
             {/*= ========= make this title-header component start=================*/}
 
             <Row className="title-header pt-3">
               <Col className="pt-3">
-                  <Title h2 className="d-inline  mr-4 mb-0" >Blocks</Title>
-                  <Title h2 className="token d-inline mb-0"><span className="">{hashSymbol}{blockNumberText}</span></Title>
-                </Col>
-              <Col xs={12} lg={3}>
+                <Title h2 className="d-inline  mr-4 mb-0">
+                  Blocks
+                </Title>
+                <Title h2 className="token d-inline mb-0">
+                  <span className="">
+                    {hashSymbol}
+                    {blockNumberText}
+                  </span>
+                </Title>
+              </Col>
+              <Col xs={12} className="search-col">
                 <div className="form-element form-input">
-                  <form autoComplete="off" onSubmit={(e) => this.searchHandler(e)}>
+                  <form
+                    autoComplete="off"
+                    onSubmit={(e) => this.searchHandler(e)}
+                  >
                     <input
                       id="search"
                       value={searchText}
@@ -179,17 +184,20 @@ export default class Blocks extends Component {
                       required=""
                       onChange={(e) => this.setSearchText(e)}
                     />
-                    <div className="form-element-bar"></div>
+                    <div className="form-element-bar" />
                     {/* <label className="form-element-label" htmlFor="search">Search by Address / Txhash / Block Heights</label> */}
-                    <label className="form-element-label" htmlFor="search">Search Block Number</label>
+                    <label className="form-element-label" htmlFor="search">
+                      Search Block Number
+                    </label>
                   </form>
                 </div>
               </Col>
             </Row>
 
-
             {/*= ========= make this title-header component end=================*/}
-            {blockData.length > 0 && <SearchForBlock blocks={blockData} showDetail={this.showDetail} />}
+            {blockData.length > 0 && (
+              <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
+            )}
             {error !== '' && <p>{error}</p>}
             {/* <Row>
               <Col>
@@ -217,7 +225,7 @@ export default class Blocks extends Component {
             </Row> */}
           </Container>
         </section>
-      </div >
+      </div>
     );
   }
 }

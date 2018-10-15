@@ -9,7 +9,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  TabContent, TabPane, Nav, NavItem, NavLink,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
 } from 'reactstrap';
 import classnames from 'classnames';
 import moment from 'moment';
@@ -17,7 +21,6 @@ import Web3 from 'web3';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
-
 
 import SearchForAccount from '../../components/search/searchForAccount/index';
 import { scientificToDecimal } from '../../components/utils/index';
@@ -43,22 +46,20 @@ export default class Blocks extends Component {
    */
   componentWillMount() {
     return;
-    fetch(
-      'http://localhost:3000/api/address-transaction',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          api_key: 'qscvfgrtmncefiur2345',
-          address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
-          limit: 5,
-        },
+    fetch('http://localhost:3000/api/address-transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        api_key: 'qscvfgrtmncefiur2345',
+        address: '0x3fb1cd2cd96c6d5c0b5eb3322d807b34482481d4',
+        limit: 5,
       },
-    )
+    })
       .then((res) => res.json())
       .then((res) => {
         this.setState({ transactionArray: res.result });
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log('error is !!!', error);
       });
   }
@@ -84,9 +85,9 @@ export default class Blocks extends Component {
   }
 
   /**
-     * getFantomBalanceFromApiAsync() :  Api to fetch wallet balance for given address of Fantom own endpoint.
-     * @param { String } address : address to fetch wallet balance.
-     */
+   * getFantomBalanceFromApiAsync() :  Api to fetch wallet balance for given address of Fantom own endpoint.
+   * @param { String } address : address to fetch wallet balance.
+   */
 
   getFantomBalanceFromApiAsync(address) {
     const url = 'http://18.221.128.6:8080';
@@ -157,29 +158,46 @@ export default class Blocks extends Component {
       addressText = walletDetail[0].address;
     }
 
-
     return (
       <div>
         <Header />
-        <section className="bg-theme full-height-conatainer" style={{ paddingBottom: '179px' }}>
+        <section
+          className="bg-theme full-height-conatainer"
+          style={{ paddingBottom: '179px' }}
+        >
           <Container>
             {/*= ========= make this title-header component start=================*/}
             <Row className="title-header pt-3">
-              
-                <Col className="pt-3">
-                  <Title h2 className="d-inline  mr-4 mb-0" >Address</Title>
-                  <Title h2 className="token d-inline mb-0"><span className="">{addressText}</span></Title>
-                </Col>
-              
-              <Col xs={12} lg={3}>
+              <Col className="pt-3">
+                <Title h2 className="d-inline  mr-4 mb-0 ">
+                  Address
+                </Title>
+                <Title h2 className="token d-inline mb-0">
+                  <span className="">{addressText}</span>
+                </Title>
+              </Col>
+
+              <Col xs={12} className="search-col">
                 <div className="form-element form-input">
-                  <form autoComplete="off" onSubmit={(e) => this.searchHandler(e)}> {/* eslint-line disable*/}
+                  <form
+                    autoComplete="off"
+                    onSubmit={(e) => this.searchHandler(e)}
+                  >
+                    {' '}
+                    {/* eslint-line disable*/}
                     <input
-                      id="search" value={searchText} className="form-element-field" placeholder=" "
-                      type="search" required="" onChange={(e) => this.setSearchText(e)}
+                      id="search"
+                      value={searchText}
+                      className="form-element-field"
+                      placeholder=" "
+                      type="search"
+                      required=""
+                      onChange={(e) => this.setSearchText(e)}
                     />
-                    <div className="form-element-bar"></div>
-                    <label className="form-element-label" htmlFor="search">Search by Address</label>
+                    <div className="form-element-bar" />
+                    <label className="form-element-label" htmlFor="search">
+                      Search by Address
+                    </label>
                   </form>
                 </div>
               </Col>
@@ -187,7 +205,13 @@ export default class Blocks extends Component {
           </Container>
           {/* <hr /> */}
           <Container>
-            {walletDetail.length > 0 && <SearchForAccount accountDetail={walletDetail} isOpen={this.state.isOpen} toggle={this.toggle} />}
+            {walletDetail.length > 0 && (
+              <SearchForAccount
+                accountDetail={walletDetail}
+                isOpen={this.state.isOpen}
+                toggle={this.toggle}
+              />
+            )}
             {error !== '' && <p>{error}</p>}
             {/* { <div className="address-details">
               <Row>
@@ -318,7 +342,7 @@ export default class Blocks extends Component {
             </div> */}
           </Container>
         </section>
-      </div >
+      </div>
     );
   }
 }

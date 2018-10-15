@@ -1,13 +1,17 @@
-$formTextColor:#979797;
+$formTextColor: #979797;
+.search-col {
+  @media (min-width: 992px) {
+    @include responsive-width(417px);
+  }
+}
 // .form-control:focus{box-shadow: none;}
 // input[type="email"],input[type="text"],input[type="password"]
 // {
-    
+
 //     border: 0px;
 //     border-bottom: 1.7px solid;
 //     border-radius: 0px;
 //     color: $formTextColor;
-
 
 //     &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 //         color: $formTextColor;
@@ -22,7 +26,6 @@ $formTextColor:#979797;
 //         color: $formTextColor;
 //       }
 
-
 //     font: {
 //         family:Roboto;
 //         weight: 400;
@@ -32,7 +35,7 @@ $formTextColor:#979797;
 //     {
 //         border-color: #85daff;
 //         padding: 24.4px 10.7px;
-        
+
 //     }
 // }
 
@@ -76,7 +79,7 @@ $formTextColor:#979797;
 //         }
 //     }
 // }
-// .Form-Text{ 
+// .Form-Text{
 //     font-family: Roboto;
 //     font-size: 10.7px;
 //     font-weight: normal;
