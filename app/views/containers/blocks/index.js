@@ -7,6 +7,7 @@ import {
 } from 'reactstrap';
 import moment from 'moment'; // eslint-disable-line
 import Header from 'views/components/header/header';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
 
@@ -19,7 +20,11 @@ export default class Blocks extends Component {
       blockArray: [],
       searchText: '',
       blockData: [],
+      allBlockData: [],
       error: '',
+      cursor: '',
+      lastFetchedPage: 0,
+      currentPage: 0,
     };
 
     this.showDetail = this.showDetail.bind(this);
@@ -51,6 +56,118 @@ export default class Blocks extends Component {
     });
   }
 
+  // fetchNext(page) {
+  //   const { lastFetchedPage } = this.state;
+  //   let { cursor } = this.state;
+  //   if (page < lastFetchedPage) {
+  //     return;
+  //   }
+  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+  //     query: `
+  //         {
+  //           blocks(after:${cursor}) {
+  //             pageInfo {
+  //               hasNextPage
+  //             }
+  //             edges {
+  //               cursor
+  //               node {
+  //                 payload
+  //               }
+  //             }
+  //           }
+  //         }`,
+  //   })
+  //     .then(
+  //       (res) => {
+  //         if (res && res.data) {
+  //           // this.formatTransactionList(res.data);
+  //           const allBlockData = [];
+  //           const edges = res.data.data.blocks.edges;
+
+  //           edges.forEach((val) => {
+  //             const {
+  //               hash,
+  //               index,
+
+  //               stateHash,
+  //               transactions,
+  //             } = val.node.payload;
+  //             cursor = val.cursor;
+  //             allBlockData.push({
+  //               hash,
+  //               height: index,
+  //               parentHash: stateHash,
+  //               transactions: transactions.length,
+  //             });
+  //           });
+  //           this.setState({
+  //             allBlockData,
+  //             cursor,
+  //           });
+  //           console.log('allBlockData', allBlockData);
+  //         }
+  //         return null;
+  //       },
+  //       () => {
+  //         console.log('1');
+  //       }
+  //     )
+  //     .catch((err) => {
+  //       console.log(err, 'err in graphql');
+  //     });
+  // }
+
+  componentDidMount() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+          {
+            blocks(first:10) {
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                cursor
+                node {
+                  payload
+                }
+              }
+            }
+          }`,
+    })
+      .then(
+        (res) => {
+          if (res && res.data) {
+            // this.formatTransactionList(res.data);
+            const allBlockData = [];
+            const edges = res.data.data.blocks.edges;
+            let cursor;
+            edges.forEach((val) => {
+              const { hash, index, stateHash, transactions } = val.node.payload;
+              cursor = val.cursor;
+              allBlockData.push({
+                hash,
+                height: index,
+                parentHash: stateHash,
+                transactions: transactions.length,
+              });
+            });
+            this.setState({
+              allBlockData,
+              cursor,
+            });
+            console.log('allBlockData', allBlockData);
+          }
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch((err) => {
+        console.log(err, 'err in graphql');
+      });
+  }
   /**
    * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
    * @param {String} searchBlockIndex : Index to fetch block.
@@ -142,7 +259,7 @@ export default class Blocks extends Component {
 
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
-    const { searchText, blockData, error } = this.state;
+    const { searchText, blockData, error, allBlockData } = this.state;
 
     let blockNumberText = '';
     let hashSymbol = '';
@@ -169,7 +286,7 @@ export default class Blocks extends Component {
                   </span>
                 </Title>
               </Col>
-              <Col xs={12} className="search-col">
+              <Col xs={12} lg={3}>
                 <div className="form-element form-input">
                   <form
                     autoComplete="off"
@@ -198,6 +315,15 @@ export default class Blocks extends Component {
             {blockData.length > 0 && (
               <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
             )}
+            {allBlockData.length > 0 &&
+              searchText.trim() === '' &&
+              allBlockData.map((temp) => (
+                <SearchForBlock
+                  key={temp.hash}
+                  blocks={temp}
+                  showDetail={this.showDetail}
+                />
+              ))}
             {error !== '' && <p>{error}</p>}
             {/* <Row>
               <Col>

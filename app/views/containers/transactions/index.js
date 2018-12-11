@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 // import Web3 from 'web3';
 
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
@@ -46,6 +47,7 @@ export default class Transactions extends Component {
       searchText: '',
       transactionData: [],
       error: '',
+      allTransactionData: [],
     };
   }
   /**
@@ -75,6 +77,81 @@ export default class Transactions extends Component {
     this.setState({
       searchText: e.target.value,
     });
+  }
+
+  componentDidMount() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+      {
+        transactions {
+          pageInfo {
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              hash
+              from
+              to
+              block
+              value
+              gas
+              cumulative
+              contract
+              root
+            }
+          }
+        }
+      }`,
+    })
+      .then(
+        (res) => {
+          if (res && res.data) {
+            // this.formatTransactionList(res.data);
+            const allTransactionData = [];
+            const edges = res.data.data.transactions.edges;
+            let cursor;
+            edges.forEach((val) => {
+              const {
+                block,
+                from,
+                hash,
+                to,
+                value,
+                gas,
+                cumulative,
+                contract,
+                root,
+              } = val.node;
+              cursor = val.cursor;
+
+              allTransactionData.push({
+                block_id: block,
+                address_from: from,
+                transaction_hash: hash,
+                address_to: to,
+                value,
+                gasUsed: gas,
+                cumulativeGasUsed: cumulative,
+                contractAddress: contract,
+                root,
+              });
+            });
+            this.setState({
+              transactionData: allTransactionData,
+              cursor,
+            });
+            console.log('allTransactionData', allTransactionData);
+          }
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch((err) => {
+        console.log(err, 'err in graphql');
+      });
   }
 
   /**
