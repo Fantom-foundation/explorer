@@ -48,31 +48,30 @@ export default class Transactions extends Component {
       transactionData: [],
       error: '',
       isSearch: false,
-      allTransactionData: [],
     };
   }
   /**
    * @api_key: send private key for security purpose
    * here call a api get-transactions and get data from transactions table.
    */
-  componentWillMount() {
-    // return;
-    fetch('http://localhost:3000/api/get-transactions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        api_key: 'qscvfgrtmncefiur2345',
-        limit: 5,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ transactionArray: res.result });
-      })
-      .catch((error) => {
-        console.log('error is !!!', error);
-      });
-  }
+  // componentWillMount() {
+  //   // return;
+  //   fetch('http://localhost:3000/api/get-transactions', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       api_key: 'qscvfgrtmncefiur2345',
+  //       limit: 5,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       this.setState({ transactionArray: res.result });
+  //     })
+  //     .catch((error) => {
+  //       console.log('error is !!!', error);
+  //     });
+  // }
 
   setSearchText(e) {
     this.setState({
@@ -279,11 +278,11 @@ export default class Transactions extends Component {
               <tr>
                 <th>txHash</th>
                 {<th>Block</th>}
-                <th>Age</th>
+                {/* <th>Age</th> */}
                 <th>From</th>
                 <th>To</th>
                 <th>Value</th>
-                <th>[TxFee]</th>
+                {/* <th>[TxFee]</th> */}
               </tr>
             </thead>
             <tbody className="scroll-theme-1">
@@ -294,13 +293,13 @@ export default class Transactions extends Component {
                   <tr key={`tx_${index}`}>
                     <td className="text-black">{data.transaction_hash}</td>
                     <td className="text-black">{data.block_id}</td>
-                    <td className="text-black">
+                    {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
-                    </td>
+                    </td> */}
                     <td className="text-black">{data.address_from}</td>
                     <td className="text-black">{data.address_to}</td>
                     <td className="text-black">{data.value}</td>
-                    <td className="text-black">{txFee}</td>
+                    {/* <td className="text-black">{txFee}</td> */}
                   </tr>
                 ))}
             </tbody>

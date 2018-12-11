@@ -29,22 +29,22 @@ export default class Blocks extends Component {
    * @api_key: send private key for security purpose
    * here call a api get-blocks and get data from blocks table.
    */
-  componentWillMount() {
-    fetch('http://localhost:3000/api/get-blocks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        api_key: 'qscvfgrtmncefiur2345',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ blockArray: res.result });
-      })
-      .catch((error) => {
-        console.log('error is !!!', error);
-      });
-  }
+  // componentWillMount() {
+  //   fetch('http://localhost:3000/api/get-blocks', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       api_key: 'qscvfgrtmncefiur2345',
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       this.setState({ blockArray: res.result });
+  //     })
+  //     .catch((error) => {
+  //       console.log('error is !!!', error);
+  //     });
+  // }
 
   setSearchText(e) {
     this.setState({
@@ -126,7 +126,7 @@ export default class Blocks extends Component {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
           {
-            blocks(first:10) {
+            blocks {
               pageInfo {
                 hasNextPage
               }
@@ -157,7 +157,7 @@ export default class Blocks extends Component {
               });
             });
             this.setState({
-              allBlockData,
+              blockArray: allBlockData,
               cursor,
             });
             console.log('allBlockData', allBlockData);
@@ -271,7 +271,7 @@ export default class Blocks extends Component {
 
   renderBlockList() {
     const { isSearch, blockArray } = this.state;
-
+    console.log('blockArray', blockArray);
     if (!isSearch) {
       return (
         <Row>
@@ -280,7 +280,7 @@ export default class Blocks extends Component {
               <thead className="dark">
                 <tr>
                   <th>Height</th>
-                  <th>Age</th>
+                  {/* <th>Age</th> */}
                   <th>Txn</th>
                   <th>hash</th>
                 </tr>
@@ -291,11 +291,11 @@ export default class Blocks extends Component {
                   blockArray.length > 0 &&
                   blockArray.map((data, index) => (
                     <tr key={index}>
-                      <td className="text-black">{data.block_number}</td>
-                      <td className="text-black">
+                      <td className="text-black">{data.height}</td>
+                      {/* <td className="text-black">
                         {moment(parseInt(data.timestamp, 10)).fromNow()}
-                      </td>
-                      <td className="text-black">{data.size}</td>
+                      </td> */}
+                      <td className="text-black">{data.transactions}</td>
                       <td className="text-black">{data.hash}</td>
                     </tr>
                   ))}
