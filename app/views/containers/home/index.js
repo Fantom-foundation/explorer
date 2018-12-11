@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import {
-    Container,
-    Row,
-    Col,
-} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import io from 'socket.io-client';
 import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
@@ -18,23 +14,28 @@ export default class HomePage extends Component {
     return (
       <div>
         <Header {...this.props} />
-        <section className="bg-dark intro " style={{ paddingTop: '89px', paddingBottom: '112px' }}> <Container>
-          <MarketCap />
-          <Row>
-            <Col>
-              <Chart />
-            </Col>
-          </Row>
-        </Container>
+        <section
+          className="bg-dark intro "
+          style={{ paddingTop: '89px', paddingBottom: '112px' }}
+        >
+          {' '}
+          <Container>
+            <MarketCap />
+            <Row>
+              <Col>
+                <Chart />
+              </Col>
+            </Row>
+          </Container>
         </section>
-        {/* <section id="latest-blocks" className="bg-theme">
+        <section id="latest-blocks" className="bg-theme">
           <Container>
             <Row className="mx-md-0">
               <LatestTransactions />
               <LatestBlocks />
             </Row>
           </Container>
-        </section> */}
+        </section>
         <Footer />
       </div>
     );

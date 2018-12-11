@@ -38,7 +38,7 @@ function scientificToDecimal(num) {
   return num;
 }
 
-export default class Blocks extends Component {
+export default class Transactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,7 +53,7 @@ export default class Blocks extends Component {
    * here call a api get-transactions and get data from transactions table.
    */
   componentWillMount() {
-    return;
+    // return;
     fetch('http://localhost:3000/api/get-transactions', {
       method: 'POST',
       headers: {
@@ -174,9 +174,64 @@ export default class Blocks extends Component {
     }
   }
 
+  renderTransactionList() {
+    const { searchText, transactionArray } = this.state;
+
+    if (searchText === '') {
+      return (
+        <Col>
+          <Table className="transactions-table">
+            <thead className="dark">
+              <tr>
+                <th>txHash</th>
+                {<th>Block</th>}
+                <th>Age</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Value</th>
+                <th>[TxFee]</th>
+              </tr>
+            </thead>
+            <tbody className="scroll-theme-1">
+              {transactionArray &&
+                transactionArray.length &&
+                transactionArray.length > 0 &&
+                transactionArray.map((data, index) => (
+                  <tr key={`tx_${index}`}>
+                    <td className="text-black">{data.transaction_hash}</td>
+                    <td className="text-black">{data.block_id}</td>
+                    <td className="text-black">
+                      {moment(parseInt(data.createdAt, 10)).fromNow()}
+                    </td>
+                    <td className="text-black">{data.address_from}</td>
+                    <td className="text-black">{data.address_to}</td>
+                    <td className="text-black">{data.value}</td>
+                    <td className="text-black">{0.0001}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+        </Col>
+      );
+    }
+    return null;
+  }
+
+  renderTransactionSearchView() {
+    const { transactionData, error } = this.state;
+
+    return (
+      <React.Fragment>
+        {transactionData.length > 0 && (
+          <SearchForTransaction transactions={transactionData} />
+        )}
+        {error !== '' && <p>{error}</p>}
+      </React.Fragment>
+    );
+  }
+
   render() {
-    // let transactions = this.state.transactionArray;
-    const { searchText, transactionData, error } = this.state;
+    const { searchText, transactionData } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;
@@ -225,45 +280,8 @@ export default class Blocks extends Component {
             {/*= ========= make this title-header component end=================*/}
 
             <Row>
-              {transactionData.length > 0 && (
-                <SearchForTransaction transactions={transactionData} />
-              )}
-              {error !== '' && <p>{error}</p>}
-              {/* <Col>
-                <Table className="transactions-table">
-                  <thead className="dark">
-                    <tr>
-                      <th>txHash</th>
-                      {<th>Block</th>}
-                      <th>Age</th>
-                      <th>From</th>
-                      <th>To</th>
-                      <th>Value</th>
-                      <th>[TxFee]</th>
-                    </tr>
-                  </thead>
-                  <tbody className="scroll-theme-1">
-                    { transactions &&
-                      transactions.length &&
-                      transactions.length > 0 &&
-                      transactions.map((data, index) => (
-                        <tr key={index}>
-                         <td className="text-black">
-                            {data.transaction_hash}
-                          </td>
-                           <td className="text-black">{data.block_id}</td>
-                          <td className="text-black">
-                            {moment(parseInt(data.createdAt, 10)).fromNow()}
-                          </td>
-                       <td className="text-black">{data.address_from}</td>
-                          <td className="text-black">{data.address_to}</td>
-                          <td className="text-black">{data.value}</td>
-                        <td className="text-black">{txFee}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </Col> */}
+              {this.renderTransactionSearchView()}
+              {this.renderTransactionList()}
             </Row>
           </Container>
         </section>
