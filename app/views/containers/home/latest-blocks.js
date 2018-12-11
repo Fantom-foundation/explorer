@@ -1,14 +1,12 @@
 import React from 'react';
-import {
-    Row,
-    Col,
-} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import moment from 'moment';
 import blockIcon from 'images/icons/block-icon.svg';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from  '../../../images/icons/latest-blocks.svg';
 
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 export default class LatestBlocks extends React.Component {
   constructor(props) {
@@ -21,23 +19,74 @@ export default class LatestBlocks extends React.Component {
    * @api_key: send private key for security purpose
    * here call a api get-blocks and get data from blocks table.
    */
-  componentWillMount() {
-    fetch(
-      'http://localhost:3000/api/get-blocks',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          api_key: 'qscvfgrtmncefiur2345',
+  // componentWillMount() {
+  //   fetch(
+  //     'http://localhost:3000/api/get-blocks',
+  //     {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         api_key: 'qscvfgrtmncefiur2345',
+  //       },
+  //     },
+  //   )
+  //   .then((res) => res.json())
+  //   .then((res) => {
+  //     this.setState({ blockArray: res.result });
+  //   }).catch((error) => {
+  //     console.log('error is !!!', error);
+  //   });
+  // }
+
+  componentDidMount() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+          {
+            blocks(first:10) {
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                cursor
+                node {
+                  payload
+                }
+              }
+            }
+          }`,
+    })
+      .then(
+        (res) => {
+          if (res && res.data) {
+            // this.formatTransactionList(res.data);
+            const allBlockData = [];
+            const edges = res.data.data.blocks.edges;
+            let cursor;
+            edges.forEach((val) => {
+              const { hash, index, stateHash, transactions } = val.node.payload;
+              cursor = val.cursor;
+              allBlockData.push({
+                hash,
+                height: index,
+                parentHash: stateHash,
+                transactions: transactions.length,
+              });
+            });
+            this.setState({
+              blockArray: allBlockData,
+              cursor,
+            });
+            console.log('allBlockData', allBlockData);
+          }
+          return null;
         },
-      },
-    )
-    .then((res) => res.json())
-    .then((res) => {
-      this.setState({ blockArray: res.result });
-    }).catch((error) => {
-      console.log('error is !!!', error);
-    });
+        () => {
+          console.log('1');
+        }
+      )
+      .catch((err) => {
+        console.log(err, 'err in graphql');
+      });
   }
   render() {
     const blocks = this.state.blockArray;
@@ -56,22 +105,25 @@ export default class LatestBlocks extends React.Component {
                 </Col>
                 <Col className="time-date-col pl-0">
                   <p><span className="text-primary">{moment(parseInt(data.timestamp, 10)).fromNow()}</span></p>
-                </Col>
-              </Row>
-              <p className="hash-holder">
-                <span className="text-gray">Hash</span>&nbsp;
-                <span className="text-primary hash-value">{data.hash}</span>
-              </p>
-              <p>
-                <span className="text-gray">Mined by</span>&nbsp;
-                <span className="text-primary">John Doe</span>
-              </p>
-              <p className="mb-0">
-                <span className="text-gray">Txns</span>&nbsp;
-                <span className="text-primary">{data.size}</span>
-              </p>
-            </Col>
-         ))}
+                </Col> */}
+                </Row>
+                <p className="hash-holder">
+                  <span className="text-gray">Hash</span>
+                  &nbsp;
+                  <span className="text-primary hash-value">{data.hash}</span>
+                </p>
+                <p>
+                  <span className="text-gray">Mined by</span>
+                  &nbsp;
+                  <span className="text-primary">John Doe</span>
+                </p>
+                <p className="mb-0">
+                  <span className="text-gray">Txns</span>
+                  &nbsp;
+                  <span className="text-primary">{data.size}</span>
+                </p>
+              </Col>
+            ))}
         </Row>
       </Col>
     );

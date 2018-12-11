@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-    Row,
-    Col,
-} from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import moment from 'moment';
 import { Title } from 'views/components/coreComponent/index';
 import { addLocaleData } from 'react-intl';
 import TitleIcon from  '../../../images/icons/latest-transaction.svg';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 export default class LatestTransactions extends React.Component {
   constructor(props) {
@@ -20,24 +18,99 @@ export default class LatestTransactions extends React.Component {
    * @api_key: send private key for security purpose
    * here call a api get-transactions and get data from transactions table.
    */
-  componentWillMount() {
-    fetch(
-      'http://localhost:3000/api/get-transactions',
+  // componentWillMount() {
+  //   fetch(
+  //     'http://localhost:3000/api/get-transactions',
+  //     {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         api_key: 'qscvfgrtmncefiur2345',
+  //         limit: 5,
+  //       },
+  //     },
+  //   )
+  //   .then((res) => res.json())
+  //   .then((res) => {
+  //     this.setState({ transactionArray: res.result });
+  //   }).catch((error) => {
+  //     console.log('error is !!!', error);
+  //   });
+  // }
+
+  componentDidMount() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
       {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          api_key: 'qscvfgrtmncefiur2345',
-          limit: 5,
+        transactions(first:10) {
+          pageInfo {
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              hash
+              from
+              to
+              block
+              value
+              gas
+              cumulative
+              contract
+              root
+            }
+          }
+        }
+      }`,
+    })
+      .then(
+        (res) => {
+          if (res && res.data) {
+            // this.formatTransactionList(res.data);
+            const allTransactionData = [];
+            const edges = res.data.data.transactions.edges;
+            let cursor;
+            edges.forEach((val) => {
+              const {
+                block,
+                from,
+                hash,
+                to,
+                value,
+                gas,
+                cumulative,
+                contract,
+                root,
+              } = val.node;
+              cursor = val.cursor;
+
+              allTransactionData.push({
+                block_id: block,
+                address_from: from,
+                transaction_hash: hash,
+                address_to: to,
+                value,
+                gasUsed: gas,
+                cumulativeGasUsed: cumulative,
+                contractAddress: contract,
+                root,
+              });
+            });
+            this.setState({
+              transactionArray: allTransactionData,
+              cursor,
+            });
+            console.log('allTransactionData', allTransactionData);
+          }
+          return null;
         },
-      },
-    )
-    .then((res) => res.json())
-    .then((res) => {
-      this.setState({ transactionArray: res.result });
-    }).catch((error) => {
-      console.log('error is !!!', error);
-    });
+        () => {
+          console.log('1');
+        }
+      )
+      .catch((err) => {
+        console.log(err, 'err in graphql');
+      });
   }
   render() {
     const transactions = this.state.transactionArray;

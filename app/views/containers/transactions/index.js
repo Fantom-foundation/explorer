@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 // import Web3 from 'web3';
 
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
@@ -53,24 +54,24 @@ export default class Transactions extends Component {
    * @api_key: send private key for security purpose
    * here call a api get-transactions and get data from transactions table.
    */
-  componentWillMount() {
-    // return;
-    fetch('http://localhost:3000/api/get-transactions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        api_key: 'qscvfgrtmncefiur2345',
-        limit: 5,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ transactionArray: res.result });
-      })
-      .catch((error) => {
-        console.log('error is !!!', error);
-      });
-  }
+  // componentWillMount() {
+  //   // return;
+  //   fetch('http://localhost:3000/api/get-transactions', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       api_key: 'qscvfgrtmncefiur2345',
+  //       limit: 5,
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       this.setState({ transactionArray: res.result });
+  //     })
+  //     .catch((error) => {
+  //       console.log('error is !!!', error);
+  //     });
+  // }
 
   setSearchText(e) {
     this.setState({
@@ -81,8 +82,84 @@ export default class Transactions extends Component {
       this.setState({
         error: '',
         isSearch: false,
+        transactionData: [],
       });
     }
+  }
+
+  componentDidMount() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+      {
+        transactions {
+          pageInfo {
+            hasNextPage
+          }
+          edges {
+            cursor
+            node {
+              hash
+              from
+              to
+              block
+              value
+              gas
+              cumulative
+              contract
+              root
+            }
+          }
+        }
+      }`,
+    })
+      .then(
+        (res) => {
+          if (res && res.data) {
+            // this.formatTransactionList(res.data);
+            const allTransactionData = [];
+            const edges = res.data.data.transactions.edges;
+            let cursor;
+            edges.forEach((val) => {
+              const {
+                block,
+                from,
+                hash,
+                to,
+                value,
+                gas,
+                cumulative,
+                contract,
+                root,
+              } = val.node;
+              cursor = val.cursor;
+
+              allTransactionData.push({
+                block_id: block,
+                address_from: from,
+                transaction_hash: hash,
+                address_to: to,
+                value,
+                gasUsed: gas,
+                cumulativeGasUsed: cumulative,
+                contractAddress: contract,
+                root,
+              });
+            });
+            this.setState({
+              transactionArray: allTransactionData,
+              cursor,
+            });
+            console.log('allTransactionData', allTransactionData);
+          }
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch((err) => {
+        console.log(err, 'err in graphql');
+      });
   }
 
   /**
@@ -201,11 +278,11 @@ export default class Transactions extends Component {
               <tr>
                 <th>txHash</th>
                 {<th>Block</th>}
-                <th>Age</th>
+                {/* <th>Age</th> */}
                 <th>From</th>
                 <th>To</th>
                 <th>Value</th>
-                <th>[TxFee]</th>
+                {/* <th>[TxFee]</th> */}
               </tr>
             </thead>
             <tbody className="scroll-theme-1">
@@ -216,13 +293,13 @@ export default class Transactions extends Component {
                   <tr key={`tx_${index}`}>
                     <td className="text-black">{data.transaction_hash}</td>
                     <td className="text-black">{data.block_id}</td>
-                    <td className="text-black">
+                    {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
-                    </td>
+                    </td> */}
                     <td className="text-black">{data.address_from}</td>
                     <td className="text-black">{data.address_to}</td>
                     <td className="text-black">{data.value}</td>
-                    <td className="text-black">{txFee}</td>
+                    {/* <td className="text-black">{txFee}</td> */}
                   </tr>
                 ))}
             </tbody>

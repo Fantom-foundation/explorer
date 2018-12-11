@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  // Table,
-} from 'reactstrap';
+import { Container, Row, Col, Table } from 'reactstrap';
 import moment from 'moment'; // eslint-disable-line
 import Header from 'views/components/header/header';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
 
@@ -19,7 +15,12 @@ export default class Blocks extends Component {
       blockArray: [],
       searchText: '',
       blockData: [],
+      allBlockData: [],
       error: '',
+      cursor: '',
+      lastFetchedPage: 0,
+      currentPage: 0,
+      isSearch: false,
     };
 
     this.showDetail = this.showDetail.bind(this);
@@ -28,29 +29,149 @@ export default class Blocks extends Component {
    * @api_key: send private key for security purpose
    * here call a api get-blocks and get data from blocks table.
    */
-  componentWillMount() {
-    fetch('http://localhost:3000/api/get-blocks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        api_key: 'qscvfgrtmncefiur2345',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ blockArray: res.result });
-      })
-      .catch((error) => {
-        console.log('error is !!!', error);
-      });
-  }
+  // componentWillMount() {
+  //   fetch('http://localhost:3000/api/get-blocks', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       api_key: 'qscvfgrtmncefiur2345',
+  //     },
+  //   })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       this.setState({ blockArray: res.result });
+  //     })
+  //     .catch((error) => {
+  //       console.log('error is !!!', error);
+  //     });
+  // }
 
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
     });
+
+    if (e.target.value === '') {
+      this.setState({
+        error: '',
+        isSearch: false,
+        blockData: [],
+      });
+    }
   }
 
+  // fetchNext(page) {
+  //   const { lastFetchedPage } = this.state;
+  //   let { cursor } = this.state;
+  //   if (page < lastFetchedPage) {
+  //     return;
+  //   }
+  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+  //     query: `
+  //         {
+  //           blocks(after:${cursor}) {
+  //             pageInfo {
+  //               hasNextPage
+  //             }
+  //             edges {
+  //               cursor
+  //               node {
+  //                 payload
+  //               }
+  //             }
+  //           }
+  //         }`,
+  //   })
+  //     .then(
+  //       (res) => {
+  //         if (res && res.data) {
+  //           // this.formatTransactionList(res.data);
+  //           const allBlockData = [];
+  //           const edges = res.data.data.blocks.edges;
+
+  //           edges.forEach((val) => {
+  //             const {
+  //               hash,
+  //               index,
+
+  //               stateHash,
+  //               transactions,
+  //             } = val.node.payload;
+  //             cursor = val.cursor;
+  //             allBlockData.push({
+  //               hash,
+  //               height: index,
+  //               parentHash: stateHash,
+  //               transactions: transactions.length,
+  //             });
+  //           });
+  //           this.setState({
+  //             allBlockData,
+  //             cursor,
+  //           });
+  //           console.log('allBlockData', allBlockData);
+  //         }
+  //         return null;
+  //       },
+  //       () => {
+  //         console.log('1');
+  //       }
+  //     )
+  //     .catch((err) => {
+  //       console.log(err, 'err in graphql');
+  //     });
+  // }
+
+  componentDidMount() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+          {
+            blocks {
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                cursor
+                node {
+                  payload
+                }
+              }
+            }
+          }`,
+    })
+      .then(
+        (res) => {
+          if (res && res.data) {
+            // this.formatTransactionList(res.data);
+            const allBlockData = [];
+            const edges = res.data.data.blocks.edges;
+            let cursor;
+            edges.forEach((val) => {
+              const { hash, index, stateHash, transactions } = val.node.payload;
+              cursor = val.cursor;
+              allBlockData.push({
+                hash,
+                height: index,
+                parentHash: stateHash,
+                transactions: transactions.length,
+              });
+            });
+            this.setState({
+              blockArray: allBlockData,
+              cursor,
+            });
+            console.log('allBlockData', allBlockData);
+          }
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch((err) => {
+        console.log(err, 'err in graphql');
+      });
+  }
   /**
    * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
    * @param {String} searchBlockIndex : Index to fetch block.
@@ -122,13 +243,21 @@ export default class Blocks extends Component {
         this.getFantomBlocks(searchText);
         this.setState({
           error: '',
+          isSearch: true,
         });
       } else {
         this.setState({
           blockData: [],
           error: 'Please enter valid hash.',
+          isSearch: true,
         });
       }
+    } else {
+      this.setState({
+        blockData: [],
+        error: '',
+        isSearch: false,
+      });
     }
   }
 
@@ -140,9 +269,63 @@ export default class Blocks extends Component {
     this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
   }
 
+  renderBlockList() {
+    const { isSearch, blockArray } = this.state;
+    console.log('blockArray', blockArray);
+    if (!isSearch) {
+      return (
+        <Row>
+          <Col>
+            <Table className="transactions-table">
+              <thead className="dark">
+                <tr>
+                  <th>Height</th>
+                  {/* <th>Age</th> */}
+                  <th>Txn</th>
+                  <th>hash</th>
+                </tr>
+              </thead>
+              <tbody className="scroll-theme-1">
+                {blockArray &&
+                  blockArray.length &&
+                  blockArray.length > 0 &&
+                  blockArray.map((data, index) => (
+                    <tr key={index}>
+                      <td className="text-black">{data.height}</td>
+                      {/* <td className="text-black">
+                        {moment(parseInt(data.timestamp, 10)).fromNow()}
+                      </td> */}
+                      <td className="text-black">{data.transactions}</td>
+                      <td className="text-black">{data.hash}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      );
+    }
+    return null;
+  }
+
+  renderBlockSearchView() {
+    const { error, searchText, blockData, isSearch } = this.state;
+    if (isSearch) {
+      return (
+        <React.Fragment>
+          {blockData.length > 0 && (
+            <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
+          )}
+          {error !== '' && searchText !== '' && <p>{error}</p>}
+        </React.Fragment>
+      );
+    }
+    return null;
+  }
+
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
-    const { searchText, blockData, error } = this.state;
+    const { searchText, blockData, error, allBlockData } = this.state;
 
     let blockNumberText = '';
     let hashSymbol = '';
@@ -169,7 +352,7 @@ export default class Blocks extends Component {
                   </span>
                 </Title>
               </Col>
-              <Col xs={12} className="search-col">
+              <Col xs={12} lg={3}>
                 <div className="form-element form-input">
                   <form
                     autoComplete="off"
@@ -195,34 +378,8 @@ export default class Blocks extends Component {
             </Row>
 
             {/*= ========= make this title-header component end=================*/}
-            {blockData.length > 0 && (
-              <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
-            )}
-            {error !== '' && <p>{error}</p>}
-            {/* <Row>
-              <Col>
-                <Table className="transactions-table">
-                  <thead className="dark">
-                    <tr>
-                      <th>Height</th>
-                      <th>Age</th>
-                      <th>Txn</th>
-                      <th>hash</th>
-                    </tr>
-                  </thead>
-                  <tbody className="scroll-theme-1">
-                    {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
-                      <tr key={index}>
-                        <td className="text-black">{data.block_number}</td>
-                        <td className="text-black">{moment(parseInt(data.timestamp, 10)).fromNow()}</td>
-                        <td className="text-black">{data.size}</td>
-                        <td className="text-black">{data.hash}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Col>
-            </Row> */}
+            {this.renderBlockSearchView()}
+            {this.renderBlockList()}
           </Container>
         </section>
       </div>
