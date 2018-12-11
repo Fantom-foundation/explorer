@@ -7,6 +7,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { Title } from 'views/components/coreComponent/index';
 import { addLocaleData } from 'react-intl';
+import TitleIcon from  '../../../images/icons/latest-transaction.svg';
 
 export default class LatestTransactions extends React.Component {
   constructor(props) {
@@ -41,18 +42,18 @@ export default class LatestTransactions extends React.Component {
   render() {
     const transactions = this.state.transactionArray;
     return (
-      <Col xs={12} md={6} className="left" >
-        <Row className="header bg-white mb-3 pt-2 pb-3">
-          <Col><Title h2 className="text-uppercase mb-0">Latest Transactions</Title></Col>
-          <Col className="link-column"><a href="/transactions" className="link pt-2 text-black">View all</a></Col>
+      <Col xs={12} md={6}>
+        <Row className="header">
+          <Col className="icon"  style={{backgroundImage:`url(${TitleIcon})`}} ><Title h2 className="text-uppercase mb-0">Latest Transactions</Title></Col>
+          <Col className="link-column"><a href="/transactions" className="btn">View all</a></Col>
         </Row>
         <Row className="blocks">
           {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
-            <Col key={index} xs={12} className="bg-white  mb-3">
+            <Col key={index} xs={12} className=" mb-3">
               <Row>
                 <Col className="pr-0">
                   <p className="tx-holder">
-                    <span className="text-black">TX#</span>&nbsp;
+                    <span className="text-white">TX#</span>&nbsp;
                     <span className="text-primary tx-value">{data.transaction_hash}</span>
                   </p>
                 </Col>

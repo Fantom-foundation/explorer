@@ -1,51 +1,70 @@
 #latest-blocks
 {
     padding: {top:76px; bottom:88px;}
-    @media(min-width:768px)
-    {
-        // .left{margin-right: 20px;}
-        // .right{margin-left: 20px;}
-        .left
-        {
-            transform: translateX(-20px);
-        }
-        .right
-        {
-            transform: translateX(20px);
-        }
-    }
     .header
     {
+        .col
+        {
+            min-height: 54px;
+            align-items: center;
+            display: flex;
+            &.icon
+            {
+                padding-left: 60px;
+                background: {
+                    repeat:no-repeat;
+                    position: left 15px center;
+                }
+            }
+        }
+        
         .title
         {
-            font: { family: Roboto; size: 30px; }
+            color: #fff;
+            font: { family: Roboto; size: 24px; }
+           
             @media(max-width: 1230px){ font: {  size: 26px; }}
             @media(max-width: 991px) { font: {  size: 20px; }}
             @media(max-width: 370px) { font: {  size: 16px; }}
+           
         }
         .link-column
         {
-            @include responsive-width(100px);
-            .link{}
+            @include responsive-width(#{91 + 30}px);
+            .btn
+            {
+                padding: 3px 16px;
+                border: 1px solid;
+                font:
+                {
+                    family: Roboto;
+                    size: 16px;
+                    weight: normal;
+                    style: normal;
+                    stretch: normal;
+                }
+                line-height: 1.5;
+                letter-spacing: normal;
+                text-align: center;
+                color: #ffffff;
+                @media (max-width:991px) { font: { size: 12px; } }
+                @media (max-width:767px) { font: { size: 8px; } }
+            }
         }
     }
     .left,.right
     {
         @media (max-width:767px){ @include responsive-width(100%); }
     }
-    // .left
-    // {
-    //     .blocks
-    //     {
-    //         p
-    //         {
-    //             &.tx{margin-bottom: 0px;}
-    //             &.f-t{margin-bottom: 12px;}
-    //         }
-    //     }
-    // }
+
     .blocks
     {
+        min-height: 130px;
+        > div{
+            border-radius: 3.8px;
+            border:1px solid #fff; 
+        }
+       
         font: { family: Roboto; size: 12px; }
         .col-12
         {
@@ -56,7 +75,7 @@
         {
             margin: { right:7.3px; }
         }
-        .time-date-col{@include responsive-width(115px);}
+        .time-date-col { @include responsive-width(115px); }
         p
         {
             margin-bottom: 0px;
@@ -64,7 +83,7 @@
 
         .from-to-holder
         {
-            span{display: inline-block;vertical-align: top;}
+            span { display: inline-block; vertical-align: top; }
             .from-value,.to-value
             {
                 white-space: nowrap;
@@ -82,7 +101,7 @@
         {
             span
             {
-                display: inline-block;vertical-align: top;
+                display: inline-block; vertical-align: top;
                 &.tx-value
                 {
                     white-space: nowrap;

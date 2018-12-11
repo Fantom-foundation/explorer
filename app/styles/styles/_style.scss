@@ -1,6 +1,15 @@
 * {
   outline: 0px;
 }
+body
+{
+  font:{
+    family: $primaryFont;
+  }
+  background: {
+    color: $themeDark;
+  }
+}
 h2 {
   font: {
     weight: 400;
@@ -24,20 +33,7 @@ hr {
     color: map-get($color, blue) !important;
   }
 }
-.container {
-  @media (min-width: 1200px) {
-    max-width: 1172px;
-  }
-}
-.bg-theme {
-  background: {
-    image: url(../images/backgrounds/pattern.png);
-    size: cover;
-    position: center;
-    color: #f5f8fa;
-    attachment: fixed;
-  }
-}
+
 .header-title {
   font: {
     family: Helvetica;

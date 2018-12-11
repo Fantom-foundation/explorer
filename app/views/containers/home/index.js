@@ -15,7 +15,7 @@ export default class HomePage extends Component {
       <div>
         <Header {...this.props} />
         <section
-          className="bg-dark intro "
+          className="intro"
           style={{ paddingTop: '89px', paddingBottom: '112px' }}
         >
           {' '}
@@ -30,7 +30,7 @@ export default class HomePage extends Component {
         </section>
         <section id="latest-blocks" className="bg-theme">
           <Container>
-            <Row className="mx-md-0">
+            <Row>
               <LatestTransactions />
               <LatestBlocks />
             </Row>

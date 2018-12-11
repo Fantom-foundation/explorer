@@ -5,7 +5,7 @@ export default class Footer extends React.Component {
   
   render() {
     return (
-<footer className="bg-dark">
+<footer>
 <Container>
     <Row>
         <Col>
