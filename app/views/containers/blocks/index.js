@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  // Table,
-} from 'reactstrap';
+import { Container, Row, Col, Table } from 'reactstrap';
 import moment from 'moment'; // eslint-disable-line
 import Header from 'views/components/header/header';
 import { Title } from '../../components/coreComponent';
@@ -20,6 +15,7 @@ export default class Blocks extends Component {
       searchText: '',
       blockData: [],
       error: '',
+      isSearch: false,
     };
 
     this.showDetail = this.showDetail.bind(this);
@@ -49,6 +45,14 @@ export default class Blocks extends Component {
     this.setState({
       searchText: e.target.value,
     });
+
+    if (e.target.value === '') {
+      this.setState({
+        error: '',
+        isSearch: false,
+        blockData: [],
+      });
+    }
   }
 
   /**
@@ -122,13 +126,21 @@ export default class Blocks extends Component {
         this.getFantomBlocks(searchText);
         this.setState({
           error: '',
+          isSearch: true,
         });
       } else {
         this.setState({
           blockData: [],
           error: 'Please enter valid hash.',
+          isSearch: true,
         });
       }
+    } else {
+      this.setState({
+        blockData: [],
+        error: '',
+        isSearch: false,
+      });
     }
   }
 
@@ -140,9 +152,62 @@ export default class Blocks extends Component {
     this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
   }
 
+  renderBlockList() {
+    const { isSearch, blockArray } = this.state;
+
+    if (!isSearch) {
+      return (
+        <Row>
+          <Col>
+            <Table className="transactions-table">
+              <thead className="dark">
+                <tr>
+                  <th>Height</th>
+                  <th>Age</th>
+                  <th>Txn</th>
+                  <th>hash</th>
+                </tr>
+              </thead>
+              <tbody className="scroll-theme-1">
+                {blockArray &&
+                  blockArray.length &&
+                  blockArray.length > 0 &&
+                  blockArray.map((data, index) => (
+                    <tr key={index}>
+                      <td className="text-black">{data.block_number}</td>
+                      <td className="text-black">
+                        {moment(parseInt(data.timestamp, 10)).fromNow()}
+                      </td>
+                      <td className="text-black">{data.size}</td>
+                      <td className="text-black">{data.hash}</td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      );
+    }
+    return null;
+  }
+
+  renderBlockSearchView() {
+    const { error, searchText, blockData, isSearch } = this.state;
+    if (isSearch) {
+      return (
+        <React.Fragment>
+          {blockData.length > 0 && (
+            <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
+          )}
+          {error !== '' && searchText !== '' && <p>{error}</p>}
+        </React.Fragment>
+      );
+    }
+    return null;
+  }
+
   render() {
-    const blocks = this.state.blockArray; // eslint-disable-line
-    const { searchText, blockData, error } = this.state;
+    const { searchText, blockData } = this.state;
 
     let blockNumberText = '';
     let hashSymbol = '';
@@ -195,34 +260,8 @@ export default class Blocks extends Component {
             </Row>
 
             {/*= ========= make this title-header component end=================*/}
-            {blockData.length > 0 && (
-              <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
-            )}
-            {error !== '' && <p>{error}</p>}
-            {/* <Row>
-              <Col>
-                <Table className="transactions-table">
-                  <thead className="dark">
-                    <tr>
-                      <th>Height</th>
-                      <th>Age</th>
-                      <th>Txn</th>
-                      <th>hash</th>
-                    </tr>
-                  </thead>
-                  <tbody className="scroll-theme-1">
-                    {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
-                      <tr key={index}>
-                        <td className="text-black">{data.block_number}</td>
-                        <td className="text-black">{moment(parseInt(data.timestamp, 10)).fromNow()}</td>
-                        <td className="text-black">{data.size}</td>
-                        <td className="text-black">{data.hash}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </Col>
-            </Row> */}
+            {this.renderBlockSearchView()}
+            {this.renderBlockList()}
           </Container>
         </section>
       </div>

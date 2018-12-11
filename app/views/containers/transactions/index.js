@@ -81,6 +81,7 @@ export default class Transactions extends Component {
       this.setState({
         error: '',
         isSearch: false,
+        transactionData: [],
       });
     }
   }
