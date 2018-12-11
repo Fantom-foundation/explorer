@@ -47,6 +47,7 @@ export default class Transactions extends Component {
       searchText: '',
       transactionData: [],
       error: '',
+      isSearch: false,
       allTransactionData: [],
     };
   }
@@ -77,6 +78,14 @@ export default class Transactions extends Component {
     this.setState({
       searchText: e.target.value,
     });
+
+    if (e.target.value === '') {
+      this.setState({
+        error: '',
+        isSearch: false,
+        transactionData: [],
+      });
+    }
   }
 
   componentDidMount() {
@@ -138,7 +147,7 @@ export default class Transactions extends Component {
               });
             });
             this.setState({
-              transactionData: allTransactionData,
+              transactionArray: allTransactionData,
               cursor,
             });
             console.log('allTransactionData', allTransactionData);
@@ -240,21 +249,29 @@ export default class Transactions extends Component {
       if (isValid) {
         this.getFantomTransactionsFromApiAsync(searchText);
         this.setState({
+          isSearch: true,
           error: '',
         });
       } else {
         this.setState({
           transactionData: [],
           error: 'Please enter valid hash.',
+          isSearch: true,
         });
       }
+    } else {
+      this.setState({
+        transactionData: [],
+        error: '',
+        isSearch: false,
+      });
     }
   }
 
   renderTransactionList() {
-    const { searchText, transactionArray } = this.state;
-
-    if (searchText === '') {
+    const { transactionArray, isSearch } = this.state;
+    const txFee = '0.0001';
+    if (!isSearch) {
       return (
         <Col>
           <Table className="transactions-table">
@@ -283,7 +300,7 @@ export default class Transactions extends Component {
                     <td className="text-black">{data.address_from}</td>
                     <td className="text-black">{data.address_to}</td>
                     <td className="text-black">{data.value}</td>
-                    <td className="text-black">{0.0001}</td>
+                    <td className="text-black">{txFee}</td>
                   </tr>
                 ))}
             </tbody>
@@ -295,14 +312,14 @@ export default class Transactions extends Component {
   }
 
   renderTransactionSearchView() {
-    const { transactionData, error } = this.state;
+    const { transactionData, error, searchText } = this.state;
 
     return (
       <React.Fragment>
         {transactionData.length > 0 && (
           <SearchForTransaction transactions={transactionData} />
         )}
-        {error !== '' && <p>{error}</p>}
+        {error !== '' && searchText !== '' && <p>{error}</p>}
       </React.Fragment>
     );
   }
