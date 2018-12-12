@@ -1,10 +1,9 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
-import blockIcon from 'images/icons/block-icon.svg';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from  '../../../images/icons/latest-blocks.svg';
-
+import blockIcon from  '../../../images/icons/block.svg'
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 
@@ -100,29 +99,37 @@ export default class LatestBlocks extends React.Component {
         <Row className="blocks">
           {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
             <Col key={index} xs={12} className="details mb-3">
-              <Row>
-                <Col className="pr-0">
-                  <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p>
-                </Col>
-                <Col className="time-date-col pl-0">
-                  <p><span className="text-primary">{moment(parseInt(data.timestamp, 10)).fromNow()}</span></p>
-                </Col>
-                </Row>
-                <p className="hash-holder">
-                  <span className="text-gray">Hash</span>
+              
+                  {/* <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p> */}
+                  <p className="text-white ico" style={{backgroundImage:`url(${blockIcon})`}}>
+                  062790
+                  </p>
+              
+                 
+           
+               
+                <p className="text-ellipsis">
+                  <span className="text-white">Hash</span>
                   &nbsp;
                   <span className="text-primary hash-value">{data.hash}</span>
                 </p>
-                <p>
-                  <span className="text-gray">Mined by</span>
+                <p className="text-ellipsis">
+                  <span className="text-white">Mined by</span>
                   &nbsp;
                   <span className="text-primary">John Doe</span>
                 </p>
-                <p className="mb-0">
-                  <span className="text-gray">Txns</span>
+                <div className="ammount-date">
+                  <p className="mb-0">
+                    <span className="text-white">Txns</span>&nbsp;
+                    <span className="text-primary">{data.size}</span>
+                  </p>
+                  <p className="time-date text-white">{moment(parseInt(data.timestamp, 10)).fromNow()}</p>
+                </div>
+                {/* <p>
+                  <span className="text-white">Txns </span>
                   &nbsp;
                   <span className="text-primary">{data.size}</span>
-                </p>
+                </p> */}
               </Col>
             ))}
         </Row>

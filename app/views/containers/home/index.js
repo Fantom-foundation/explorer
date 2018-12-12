@@ -32,6 +32,7 @@ export default class HomePage extends Component {
           <Container>
             <Row>
               <LatestTransactions />
+             <Col className="middle" xs={12}><hr/></Col>
               <LatestBlocks />
             </Row>
           </Container>

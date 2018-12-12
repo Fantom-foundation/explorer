@@ -60,6 +60,15 @@
             }
         
     }
+    .middle{
+        @media (min-width:768px){
+        display: none;
+        }
+        @media (max-width:767px){ @include responsive-width(100%);
+            padding:0 #{$block-space + 15}px;
+        
+        }
+    }
     .left,.right
     {
         @media (max-width:767px){ @include responsive-width(100%);
@@ -88,7 +97,7 @@
                 -ms-flex-wrap: wrap;
                 flex-wrap: wrap;
                 margin-bottom: 16px;
-                @media (max-width:991px){margin-bottom: 7px;}
+                @media (max-width:991px){margin-bottom: 9px;}
                 p{
                     padding-right:20px; 
                     @include responsive-width(50%);
