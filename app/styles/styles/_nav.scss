@@ -1,46 +1,76 @@
 
 
-Header
+header
 {
+    background: {
+        color:map-get($color, header-bg );
+    }
     position: sticky;
     top: 0;
     z-index: 999;
+    .container
+    {
+        position: relative;
+       
+        @media(max-width: 991px){max-width: 100%;}
+        &::before
+        {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right:0;
+            height: 1px;
+            opacity: map-get($color, border-line-opacity);
+            background: {color:map-get($color, border-line);}
+        }
+    }
     nav
     {
-        .container
-        {
-            @media(max-width: 767px){max-width: 100%;}
-        }
+       
         &.navbar
         {
-            &.navbar-dark
-            {
-                min-height: 64px;
-                &.navbar-dark
-                {
+            
+            padding: 0;
+   
                     .navbar-brand
                     {
                         .logo
                         {
-                            height: 35px;
+                            height: 36px;
+                            @media (max-width:767px) { height: 26px; }
+                            @media (max-width:400px) { height: 18px; }
                         }
                     }
                     .navbar-collapse
                     {
                         .navbar-nav
                         {
+                            display: -ms-flexbox;
+                            display: flex;
+                            align-items: center;
                             .nav-item
                             {
+                                margin:  0 7px;
                                 .nav-link
                                 {
-                                    color: map-get($color, white);
+                                    padding: 41px 11px;
+                                    color: map-get($color, header-menu);
                                     transition: .5s all;
-                                    font: { family: Helvetica; size:18px; }
-                                    padding-left: 0;
-                                    padding-right: 0;
-                                    margin-left: 25px;
-                                    margin-right: 25px;
-                                    
+                                    font: { family: Roboto; size:18px; }
+                                    &.active, &:hover{
+                                        color: map-get($color, header-menu-active);
+                                        position: relative;
+                                        &::before{
+                                            content: "";
+                                            position: absolute;
+                                            bottom: 0;
+                                            left: 0;
+                                            right: 0;
+                                            height: 5px;
+                                            background: map-get($color, primary );
+                                        }
+                                    }
                                     &:hover{opacity: .7;}
                                 }
                                 &:nth-last-child(1)
@@ -53,8 +83,8 @@ Header
                             }
                         }
                     }
-                }
-            }
+             
+         
         }
     }
 }
