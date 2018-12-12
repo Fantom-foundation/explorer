@@ -1,11 +1,12 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import _ from 'lodash';
 import moment from 'moment';
 import { Title } from 'views/components/coreComponent/index';
 import { addLocaleData } from 'react-intl';
 import TitleIcon from  '../../../images/icons/latest-transaction.svg';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
+import transactionIcon from '../../../images/icons/transactions.svg';
+
 
 export default class LatestTransactions extends React.Component {
   constructor(props) {
@@ -115,37 +116,38 @@ export default class LatestTransactions extends React.Component {
   render() {
     const transactions = this.state.transactionArray;
     return (
-      <Col xs={12} md={6}>
-        <Row className="header">
-          <Col className="icon"  style={{backgroundImage:`url(${TitleIcon})`}} ><Title h2 className="text-uppercase mb-0">Latest Transactions</Title></Col>
-          <Col className="link-column"><a href="/transactions" className="btn">View all</a></Col>
-        </Row>
+      <Col xs={12} md={6}  className="left">
+        <div className="header">
+         <Title h2 className="text-uppercase" style={{backgroundImage:`url(${TitleIcon})`}} >Latest Transactions</Title>
+          <a href="/transactions" className="btn">View all</a>
+        </div>
         <Row className="blocks">
           {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
-            <Col key={index} xs={12} className=" mb-3">
-              <Row>
-                <Col className="pr-0">
-                  <p className="tx-holder">
+            <Col key={index} xs={12} className="details mb-3">
+          
+                  <p className="tx-holder text-ellipsis ico" style={{backgroundImage:`url(${transactionIcon})`}}>
                     <span className="text-white">TX#</span>&nbsp;
                     <span className="text-primary tx-value">{data.transaction_hash}</span>
                   </p>
-                </Col>
-                <Col className="time-date-col pl-0">
-                  <p><span className="text-primary">{moment(parseInt(data.createdAt, 10)).fromNow()}</span></p>
-                </Col>
-              </Row>
-              <p className="pb-2 mb-1 from-to-holder">
-                <span className="text-gray">From</span>&nbsp;
-                <span className="text-primary from-value">{data.address_from}</span>&nbsp;
-    
-                <span className="text-gray">to</span>&nbsp;
-                <span className="text-primary to-value">{data.address_to}</span>
-              </p>
-              <p className="mb-0">
-                <span className="text-gray">Amount 2.9999</span>&nbsp;
-                <span className="text-primary">Fantom</span>
-              </p>
+                  <div className="s-to-r">
+                    <p className="pb-2 mb-1 text-ellipsis">
+                      <span className="text-white">From</span>&nbsp;
+                      <span className="text-primary from-value">{data.address_from}</span>&nbsp;
+                    </p>
+                    <p  className="text-ellipsis">
+                      <span className="text-white ">to</span>&nbsp;
+                      <span className="text-primary to-value">{data.address_to}</span>
+                    </p>
+                  </div>
+                  <div className="ammount-date">
+                  <p className="mb-0">
+                    <span className="text-white">Amount 2.9999</span>&nbsp;
+                    <span className="text-primary">Fantom</span>
+                  </p>
+                  <p className="time-date text-white">{moment(parseInt(data.createdAt, 10)).fromNow()}</p>
+                </div>
             </Col>))}
+            
         </Row>
       </Col>
     );

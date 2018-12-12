@@ -1,12 +1,13 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
-import _ from 'lodash';
 import moment from 'moment';
 import blockIcon from 'images/icons/block-icon.svg';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from  '../../../images/icons/latest-blocks.svg';
 
 import HttpDataProvider from '../../../../app/utils/httpProvider';
+
+
 
 export default class LatestBlocks extends React.Component {
   constructor(props) {
@@ -91,21 +92,21 @@ export default class LatestBlocks extends React.Component {
   render() {
     const blocks = this.state.blockArray;
     return (
-      <Col xs={12} md={6}>
-        <Row className="header">
-          <Col className="icon"  style={{backgroundImage:`url(${TitleIcon})`}}><Title h2 className=" blacks text-uppercase mb-0"   >Latest Blocks</Title></Col>
-          <Col className="link-column"><a href="/blocks" className="btn">View all</a></Col>
-        </Row>
+      <Col xs={12} md={6} className="right">
+        <div className="header">
+         <Title h2 className="text-uppercase l-b" style={{backgroundImage:`url(${TitleIcon})`}} >Latest Blocks</Title>
+          <a href="/blocks" className="btn">View all</a>
+        </div>
         <Row className="blocks">
           {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
-            <Col key={index} xs={12} className=" mb-3">
+            <Col key={index} xs={12} className="details mb-3">
               <Row>
                 <Col className="pr-0">
                   <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p>
                 </Col>
                 <Col className="time-date-col pl-0">
                   <p><span className="text-primary">{moment(parseInt(data.timestamp, 10)).fromNow()}</span></p>
-                </Col> */}
+                </Col>
                 </Row>
                 <p className="hash-holder">
                   <span className="text-gray">Hash</span>
