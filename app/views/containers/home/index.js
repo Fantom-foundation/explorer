@@ -16,10 +16,10 @@ export default class HomePage extends Component {
         <Header {...this.props} />
         <section
           className="intro"
-          style={{ paddingTop: '89px', paddingBottom: '112px' }}
+          style={{ paddingTop: '89px', paddingBottom: '27px' }}
         >
           {' '}
-          <Container>
+          <Container className="intro-container">
             <MarketCap />
             <Row>
               <Col>
@@ -27,6 +27,11 @@ export default class HomePage extends Component {
               </Col>
             </Row>
           </Container>
+        </section>
+        <section>
+        <Container>
+          <hr />
+        </Container>
         </section>
         <section id="latest-blocks" className="bg-theme">
           <Container>

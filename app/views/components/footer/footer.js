@@ -7,6 +7,7 @@ export default class Footer extends React.Component {
     return (
 <footer>
 <Container>
+  <hr />
     <Row>
         <Col>
         <span className="text-white" style={{opacity:.7}}>Copyright © 2018 FANTOM. All Rights Reserved.</span>

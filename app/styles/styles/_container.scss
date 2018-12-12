@@ -6,4 +6,9 @@
   @media (min-width: 1200px) {
     max-width: 1093px;
   }
+  &.intro-container{
+    @media (min-width: 768px) and  (max-width: 991px){
+      max-width: 1000px;
+    }
+  }
   }

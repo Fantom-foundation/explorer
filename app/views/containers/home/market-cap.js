@@ -9,46 +9,46 @@ import { Title } from 'views/components/coreComponent/index';
 export default class MarketCap extends React.Component {
   render() {
     return (
-      <Row>
+      <Row className="market-cap">
         <Col xs={12} md={6} className="discription">
-          <Title h2 className="text-white mb-0"><strong>Beyond</strong></Title>
-          <Title h2 className="text-white"><strong>Blockchain</strong></Title>
-          <p className="text-white mb-0">The Future of Decentralized</p>
-          <p className="text-white">Ecosystem</p>
+          <Title h2 className="text-white mb-0">Beyond</Title>
+          <Title h2 className="text-white">Blockchain</Title>
+          <p className="mb-0">The Future of Decentralized Ecosystem</p>
         </Col>
+        <Col xs={12} className="line"><hr /></Col>
         <Col xs={12} md={6} className="graph-info">
           <Row className="title-info">
-            <Col className="logo-column pt-1"><img src={logoIcon} className="logo" alt="logo" /></Col>
-            <Col className="">
-              <Title h2 className="mb-0 text-primary">MARKET CAP OF $28.956 BILLION</Title>
-              <Title h2 className="text-white text-primary mb-0">$285.47 @ 0.04267 FTM/ETH <span style={{ color: '#00ff72' }}>1.13%</span></Title>
+            <Col className="icon" style={{backgroundImage:`url(${logoIcon})`}}>
+              <Title h2 className="mb-0 text-white text-uppercase">Market Cap Of $28.956 Billion</Title>
+              <Title h2 className="mb-0 text-white">$285.47 @ 0.04267 FTM/ETH 1.13%</Title>
             </Col>
           </Row>
-          <Row className="result-info top">
-            <Col>
-              <Title h2 className="text-white text-uppercase mb-0"><strong>Last Block</strong></Title>
-              <Title h2 className="text-white mb-0">6192596 (14.2s)</Title>
-            </Col>
-            <Col className="text-right">
-              <Title h2 className="text-white text-uppercase mb-0"><strong>Transactions</strong></Title>
-              <Title h2 className="text-white mb-0">296.24 M (7.9 TPS)</Title>
-            </Col>
-          </Row>
-          <hr className="light" />
-          <Row className="result-info bottom">
-            <Col className="pr-0">
-              <Title h2 className="text-uppercase mb-0"><strong>Hash Rate</strong></Title>
-              <Title h2 className="mb-0">286,235.71 GH/s</Title>
-            </Col>
-            <Col className="px-0">
-
-              <Title h2 className="text-uppercase text-center balance mb-0"><strong>Your Balance</strong> 149.00FTM</Title>
-            </Col>
-            <Col className="text-right pl-0">
-              <Title h2 className="text-uppercase mb-0"><strong>Network Difficulty</strong></Title>
-              <Title h2 className="mb-0">3,583.35 TH</Title>
-            </Col>
-          </Row>
+          <div className="result-info top">
+          <div className="left">
+              <Title h2 className="text-white text-uppercase mb-0">Last Block</Title>
+              <p>6192596 (14.2s)</p>
+              </div>
+    
+            <div className="text-right right">
+              <Title h2 className="text-white text-uppercase mb-0">Transactions</Title>
+              <p>296.24 M (7.9 TPS)</p>
+              </div>
+            </div>
+          <hr />
+          <div className="result-info bottom">
+            <div className="left">
+              <Title h2 className="text-uppercase mb-0">Hash Rate</Title>
+              <p>286,235.71 GH/s</p>
+            </div>
+            <div className="middle">
+              <Title h2 className="text-uppercase mb-0">Your Balance</Title>
+              <p>149.00FTM</p>
+            </div>
+            <div className="text-right right">
+              <Title h2 className="text-uppercase mb-0">Network Difficulty</Title>
+              <p>3,583.35 TH</p>
+            </div>
+          </div>
         </Col>
       </Row>
     );

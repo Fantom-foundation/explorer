@@ -123,7 +123,7 @@ export default class LatestTransactions extends React.Component {
         </div>
         <Row className="blocks">
           {transactions && transactions.length && transactions.length > 0 && transactions.map((data, index) => (
-            <Col key={index} xs={12} className="details mb-3">
+            <Col key={index} xs={12} className="details">
           
                   <p className="tx-holder text-ellipsis ico" style={{backgroundImage:`url(${transactionIcon})`}}>
                     <span className="text-white">TX#</span>&nbsp;
