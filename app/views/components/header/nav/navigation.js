@@ -90,7 +90,7 @@ export default class Navigation extends React.Component {
           <button className="btn open" style={{backgroundImage:`url(${hamburgerBtn})`}} onClick={this.toggleNavbar} ></button>
           {isShow && <button className={`btn close ${closing && 'dim' }`} style={{backgroundImage:`url(${closeBtn})`}} onClick={this.toggleNavbar} ></button>}
         {windowWidth >= 768 || isShow ? <Collapse className={closing ? 'closing':''}  navbar>
-       
+       <div className="overlay"  onClick={this.toggleNavbar} />
             <Nav className="ml-auto" navbar>
             
               <NavItem>
