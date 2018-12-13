@@ -128,7 +128,7 @@ export default class Blocks extends Component {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
           {
-            blocks(first:10) {
+            blocks(first:30) {
               pageInfo {
                 hasNextPage
                 hasPreviousPage
@@ -166,6 +166,7 @@ export default class Blocks extends Component {
               cursor,
               hasNextPage,
               hasPrevPage,
+              lastFetchedPage: 2,
             });
           }
           return null;
