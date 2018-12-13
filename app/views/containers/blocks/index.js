@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table } from 'reactstrap';
+import { Container, Row, Col, Table, Button } from 'reactstrap';
 import moment from 'moment'; // eslint-disable-line
 import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
@@ -21,6 +21,8 @@ export default class Blocks extends Component {
       lastFetchedPage: 0,
       currentPage: 0,
       isSearch: false,
+      hasNextPage: true,
+      hasPrevPage: false,
     };
 
     this.showDetail = this.showDetail.bind(this);
@@ -126,9 +128,10 @@ export default class Blocks extends Component {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
           {
-            blocks {
+            blocks(first:10) {
               pageInfo {
                 hasNextPage
+                hasPreviousPage
               }
               edges {
                 cursor
@@ -145,6 +148,8 @@ export default class Blocks extends Component {
             // this.formatTransactionList(res.data);
             const allBlockData = [];
             const edges = res.data.data.blocks.edges;
+            const hasNextPage = res.data.data.blocks.pageInfo.hasNextPage;
+            const hasPrevPage = res.data.data.blocks.pageInfo.hasPreviousPage;
             let cursor;
             edges.forEach((val) => {
               const { hash, index, stateHash, transactions } = val.node.payload;
@@ -159,8 +164,9 @@ export default class Blocks extends Component {
             this.setState({
               blockArray: allBlockData,
               cursor,
+              hasNextPage,
+              hasPrevPage,
             });
-            console.log('allBlockData', allBlockData);
           }
           return null;
         },
@@ -270,8 +276,10 @@ export default class Blocks extends Component {
   }
 
   renderBlockList() {
-    const { isSearch, blockArray } = this.state;
-    console.log('blockArray', blockArray);
+    const { isSearch, blockArray, currentPage } = this.state;
+    const from = currentPage * 10;
+    const to = from + 10;
+    const transformedBlockArray = blockArray.slice(from, to);
     if (!isSearch) {
       return (
         <Row>
@@ -286,10 +294,10 @@ export default class Blocks extends Component {
                 </tr>
               </thead>
               <tbody className="scroll-theme-1">
-                {blockArray &&
-                  blockArray.length &&
-                  blockArray.length > 0 &&
-                  blockArray.map((data, index) => (
+                {transformedBlockArray &&
+                  transformedBlockArray.length &&
+                  transformedBlockArray.length > 0 &&
+                  transformedBlockArray.map((data, index) => (
                     <tr key={index}>
                       <td className="text-black">{data.height}</td>
                       {/* <td className="text-black">
@@ -323,9 +331,99 @@ export default class Blocks extends Component {
     return null;
   }
 
+  onChangePage = (type) => {
+    const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
+    let pageToFetch = type === 'next' ? currentPage + 1 : currentPage - 1;
+    if (pageToFetch < 0) {
+      pageToFetch = 0;
+    }
+    if (pageToFetch <= lastFetchedPage) {
+      this.setState({
+        currentPage: pageToFetch,
+      });
+      return;
+    }
+    if (type === 'next') {
+      if (!hasNextPage) {
+        return;
+      }
+    }
+
+    if (hasNextPage) {
+      HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+        query: `
+            {
+              blocks(first:10,after:"${cursor}") {
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+                edges {
+                  cursor
+                  node {
+                    payload
+                  }
+                }
+              }
+            }`,
+      })
+        .then(
+          (res) => {
+            if (res && res.data) {
+              // this.formatTransactionList(res.data);
+              const allBlockData = [];
+              const edges = res.data.data.blocks.edges;
+              const changedNextPage = res.data.data.blocks.pageInfo.hasNextPage;
+              const changedPrevPage =
+                res.data.data.blocks.pageInfo.hasPreviousPage;
+              let changedCursor;
+              edges.forEach((val) => {
+                const {
+                  hash,
+                  index,
+                  stateHash,
+                  transactions,
+                } = val.node.payload;
+                changedCursor = val.cursor;
+                allBlockData.push({
+                  hash,
+                  height: index,
+                  parentHash: stateHash,
+                  transactions: transactions.length,
+                });
+              });
+              this.setState((prevState) => ({
+                blockArray: [...prevState.blockArray, ...allBlockData],
+                cursor: changedCursor,
+                lastFetchedPage: prevState.lastFetchedPage + 1,
+                currentPage: prevState.currentPage + 1,
+                hasNextPage: changedNextPage,
+                hasPrevPage: changedPrevPage,
+              }));
+            }
+            return null;
+          },
+          () => {
+            console.log('1');
+          }
+        )
+        .catch((err) => {
+          console.log(err, 'err in graphql');
+        });
+      console.log('');
+    }
+  };
+
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
-    const { searchText, blockData, error, allBlockData } = this.state;
+    const {
+      searchText,
+      blockData,
+      error,
+      allBlockData,
+      hasNextPage,
+      hasPrevPage,
+    } = this.state;
 
     let blockNumberText = '';
     let hashSymbol = '';
@@ -380,6 +478,22 @@ export default class Blocks extends Component {
             {/*= ========= make this title-header component end=================*/}
             {this.renderBlockSearchView()}
             {this.renderBlockList()}
+          </Container>
+          <Container
+            style={{ display: 'flex', justifyContent: 'space-around' }}
+          >
+            <Button
+              disable={!hasPrevPage}
+              onClick={() => this.onChangePage('prev')}
+            >
+              Previous
+            </Button>
+            <Button
+              disable={!hasNextPage}
+              onClick={() => this.onChangePage('next')}
+            >
+              Next
+            </Button>
           </Container>
         </section>
       </div>
