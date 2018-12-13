@@ -16,12 +16,20 @@ export default class HomePage extends Component {
       latestTransactionsArr: [],
       latestBlocksArr: [],
     };
+    this.handleRealTimeUpdate = this.handleRealTimeUpdate.bind(this);
   }
 
   /**
    * Get list of latest blocks and latest transactions.
    */
   componentDidMount() {
+    this.fetchLatestBlocks();
+  }
+
+  /**
+   * @method fetchLatestBlocks : To get list of latest blocks and latest transactions.
+   */
+  fetchLatestBlocks() {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
       {
@@ -43,7 +51,6 @@ export default class HomePage extends Component {
         (res) => {
           if (res && res.data) {
             const allData = res.data;
-
             if (
               allData.data &&
               allData.data.blocks &&
@@ -100,9 +107,17 @@ export default class HomePage extends Component {
       });
   }
 
+  /**
+   * @method handleRealTimeUpdate : To update list of latest blocks and transactions, If real time update is enabled.
+   */
+  handleRealTimeUpdate() {
+    this.fetchLatestBlocks();
+  }
+
   render() {
     // const socket = io();
     const { latestBlocksArr, latestTransactionsArr } = this.state;
+
     return (
       <div>
         <Header {...this.props} />
@@ -112,7 +127,7 @@ export default class HomePage extends Component {
         >
           {' '}
           <Container className="intro-container">
-            <MarketCap />
+            <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
             <Row>
               <Col>
                 <Chart />
