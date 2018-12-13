@@ -5,6 +5,8 @@ import Login from 'views/containers/login/index';
 import SettingIcon from 'images/icons/setting.svg';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import avatar from 'images/icons/avatar.svg';
+import hamburgerBtn from "images/icons/hamburger.svg";
+import closeBtn from "images/icons/close.svg";
 import {
   Collapse,
   Navbar,
@@ -27,6 +29,9 @@ export default class Navigation extends React.Component {
       isOpen: false,
       isLoggedIn: false,
       modal: false,
+      isShow: false,
+      closing: false,
+      windowWidth: 1900,
     };
     // this.toggleModal = this.toggleModal.bind(this);
     this.toggle = this.toggle.bind(this);
@@ -47,8 +52,32 @@ export default class Navigation extends React.Component {
     localStorage.setItem('isLoggedIn', false);
     this.props.history.push('/');
   };
+  toggleNavbar = (e) => {
+    e.preventDefault();
+    this.setState({closing:true})
+    setTimeout(()=>this.setState({ isShow: !this.state.isShow,closing:false }),400)
+  }
+
+
+
+  componentDidMount() {
+    this.handleResize();
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+
+  handleResize = () => this.setState({
+    windowWidth: window.innerWidth,
+  });
+
+
   render() {
     const isLoggedIn = isUserLoggedIn();
+    const { isShow,closing, windowWidth } = this.state;
     if (this.state.modal) {
       return <Login toggleModal={this.toggleModal} modal={this.state.modal} />;
     }
@@ -57,9 +86,13 @@ export default class Navigation extends React.Component {
       <Navbar  dark expand="md">
     
           <NavbarBrand tag={RouterNavLink} to="/"><img className="logo" src={Logo} /></NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          {/* <NavbarToggler onClick={this.toggle} /> */}
+          <button className="btn open" style={{backgroundImage:`url(${hamburgerBtn})`}} onClick={this.toggleNavbar} ></button>
+          {isShow && <button className={`btn close ${closing && 'dim' }`} style={{backgroundImage:`url(${closeBtn})`}} onClick={this.toggleNavbar} ></button>}
+        {windowWidth >= 768 || isShow ? <Collapse className={closing ? 'closing':''}  navbar>
+       
             <Nav className="ml-auto" navbar>
+            
               <NavItem>
                 <NavLink exact tag={RouterNavLink} to="/">Home</NavLink>
               </NavItem>
@@ -72,32 +105,12 @@ export default class Navigation extends React.Component {
               <NavItem>
                 <NavLink tag={RouterNavLink} to="/address">Addresses</NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  More
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    Option 1
-                  </DropdownItem>
-                  <DropdownItem>
-                    Option 2
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Reset
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
               <NavItem>
-                <img src={avatar} />
+                <NavLink tag={RouterNavLink} to="/resources">Resources</NavLink>
               </NavItem>
-              {/* <NavItem>
-              {isLoggedIn ? <NavLink onClick={(event) => this.logout(event)}>Logout</NavLink> : <NavLink onClick={(event) => this.toggleModal(event, this.state.modal)}>Login</NavLink> }
-              </NavItem> */}
+             
             </Nav>
-            
-          </Collapse>
+          </Collapse>:null}
       </Navbar>
       </Container>
     );
