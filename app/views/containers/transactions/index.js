@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table } from 'reactstrap';
+import { Container, Row, Col, Table, Button } from 'reactstrap';
 import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
@@ -48,6 +48,11 @@ export default class Transactions extends Component {
       transactionData: [],
       error: '',
       isSearch: false,
+      cursor: '',
+      lastFetchedPage: 0,
+      currentPage: 0,
+      hasNextPage: true,
+      hasPrevPage: false,
     };
   }
   /**
@@ -91,7 +96,7 @@ export default class Transactions extends Component {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
       {
-        transactions {
+        transactions(first:30) {
           pageInfo {
             hasNextPage
           }
@@ -118,6 +123,7 @@ export default class Transactions extends Component {
             // this.formatTransactionList(res.data);
             const allTransactionData = [];
             const edges = res.data.data.transactions.edges;
+            const hasNextPage = res.data.data.transactions.pageInfo.hasNextPage;
             let cursor;
             edges.forEach((val) => {
               const {
@@ -148,8 +154,9 @@ export default class Transactions extends Component {
             this.setState({
               transactionArray: allTransactionData,
               cursor,
+              hasNextPage,
+              lastFetchedPage: 2,
             });
-            console.log('allTransactionData', allTransactionData);
           }
           return null;
         },
@@ -162,6 +169,109 @@ export default class Transactions extends Component {
       });
   }
 
+  onChangePage = (type) => {
+    const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
+    let pageToFetch = type === 'next' ? currentPage + 1 : currentPage - 1;
+    if (pageToFetch < 0) {
+      pageToFetch = 0;
+    }
+    if (pageToFetch <= lastFetchedPage) {
+      this.setState({
+        currentPage: pageToFetch,
+      });
+      return;
+    }
+    if (type === 'next') {
+      if (!hasNextPage) {
+        return;
+      }
+    }
+
+    if (hasNextPage) {
+      HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+        query: `
+        {
+          transactions(first:30) {
+            pageInfo {
+              hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                hash
+                from
+                to
+                block
+                value
+                gas
+                cumulative
+                contract
+                root
+              }
+            }
+          }
+        }`,
+      })
+        .then(
+          (res) => {
+            if (res && res.data) {
+              // this.formatTransactionList(res.data);
+              const allTransactionData = [];
+              const edges = res.data.data.transactions.edges;
+              const changedNextPage =
+                res.data.data.transactions.pageInfo.hasNextPage;
+              const changedPrevPage =
+                res.data.data.transactions.pageInfo.hasPreviousPage;
+              let changedCursor;
+              edges.forEach((val) => {
+                const {
+                  block,
+                  from,
+                  hash,
+                  to,
+                  value,
+                  gas,
+                  cumulative,
+                  contract,
+                  root,
+                } = val.node;
+                changedCursor = val.cursor;
+                allTransactionData.push({
+                  block_id: block,
+                  address_from: from,
+                  transaction_hash: hash,
+                  address_to: to,
+                  value,
+                  gasUsed: gas,
+                  cumulativeGasUsed: cumulative,
+                  contractAddress: contract,
+                  root,
+                });
+              });
+              this.setState((prevState) => ({
+                transactionArray: [
+                  ...prevState.transactionArray,
+                  ...allTransactionData,
+                ],
+                cursor: changedCursor,
+                lastFetchedPage: prevState.lastFetchedPage + 3,
+                currentPage: prevState.currentPage + 1,
+                hasNextPage: changedNextPage,
+                hasPrevPage: changedPrevPage,
+              }));
+            }
+            return null;
+          },
+          () => {
+            console.log('1');
+          }
+        )
+        .catch((err) => {
+          console.log(err, 'err in graphql');
+        });
+      console.log('');
+    }
+  };
   /**
    * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
    * @param {String} address : address to fetch transactions.
@@ -268,8 +378,11 @@ export default class Transactions extends Component {
   }
 
   renderTransactionList() {
-    const { transactionArray, isSearch } = this.state;
+    const { transactionArray, isSearch, currentPage } = this.state;
     const txFee = '0.0001';
+    const from = currentPage * 10;
+    const to = from + 10;
+    const transformedArray = transactionArray.slice(from, to);
     if (!isSearch) {
       return (
         <Col>
@@ -286,10 +399,10 @@ export default class Transactions extends Component {
               </tr>
             </thead>
             <tbody className="scroll-theme-1">
-              {transactionArray &&
-                transactionArray.length &&
-                transactionArray.length > 0 &&
-                transactionArray.map((data, index) => (
+              {transformedArray &&
+                transformedArray.length &&
+                transformedArray.length > 0 &&
+                transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>
                     <td className="text-black">{data.transaction_hash}</td>
                     <td className="text-black">{data.block_id}</td>
@@ -324,7 +437,7 @@ export default class Transactions extends Component {
   }
 
   render() {
-    const { searchText, transactionData } = this.state;
+    const { searchText, transactionData, hasNextPage } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;
@@ -376,6 +489,17 @@ export default class Transactions extends Component {
               {this.renderTransactionSearchView()}
               {this.renderTransactionList()}
             </Row>
+          </Container>
+          <Container
+            style={{ display: 'flex', justifyContent: 'space-around' }}
+          >
+            <Button onClick={() => this.onChangePage('prev')}>Previous</Button>
+            <Button
+              // disabled={hasNextPage}
+              onClick={() => this.onChangePage('next')}
+            >
+              Next
+            </Button>
           </Container>
         </section>
       </div>

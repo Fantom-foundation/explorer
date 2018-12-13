@@ -179,6 +179,89 @@ export default class Blocks extends Component {
         console.log(err, 'err in graphql');
       });
   }
+
+  onChangePage = (type) => {
+    const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
+    let pageToFetch = type === 'next' ? currentPage + 1 : currentPage - 1;
+    if (pageToFetch < 0) {
+      pageToFetch = 0;
+    }
+    if (pageToFetch <= lastFetchedPage) {
+      this.setState({
+        currentPage: pageToFetch,
+      });
+      return;
+    }
+    if (type === 'next') {
+      if (!hasNextPage) {
+        return;
+      }
+    }
+
+    if (hasNextPage) {
+      HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+        query: `
+            {
+              blocks(first:30,after:"${cursor}") {
+                pageInfo {
+                  hasNextPage
+                  hasPreviousPage
+                }
+                edges {
+                  cursor
+                  node {
+                    payload
+                  }
+                }
+              }
+            }`,
+      })
+        .then(
+          (res) => {
+            if (res && res.data) {
+              // this.formatTransactionList(res.data);
+              const allBlockData = [];
+              const edges = res.data.data.blocks.edges;
+              const changedNextPage = res.data.data.blocks.pageInfo.hasNextPage;
+              const changedPrevPage =
+                res.data.data.blocks.pageInfo.hasPreviousPage;
+              let changedCursor;
+              edges.forEach((val) => {
+                const {
+                  hash,
+                  index,
+                  stateHash,
+                  transactions,
+                } = val.node.payload;
+                changedCursor = val.cursor;
+                allBlockData.push({
+                  hash,
+                  height: index,
+                  parentHash: stateHash,
+                  transactions: transactions.length,
+                });
+              });
+              this.setState((prevState) => ({
+                blockArray: [...prevState.blockArray, ...allBlockData],
+                cursor: changedCursor,
+                lastFetchedPage: prevState.lastFetchedPage + 3,
+                currentPage: prevState.currentPage + 1,
+                hasNextPage: changedNextPage,
+                hasPrevPage: changedPrevPage,
+              }));
+            }
+            return null;
+          },
+          () => {
+            console.log('1');
+          }
+        )
+        .catch((err) => {
+          console.log(err, 'err in graphql');
+        });
+      console.log('');
+    }
+  };
   /**
    * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
    * @param {String} searchBlockIndex : Index to fetch block.
@@ -332,89 +415,6 @@ export default class Blocks extends Component {
     return null;
   }
 
-  onChangePage = (type) => {
-    const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
-    let pageToFetch = type === 'next' ? currentPage + 1 : currentPage - 1;
-    if (pageToFetch < 0) {
-      pageToFetch = 0;
-    }
-    if (pageToFetch <= lastFetchedPage) {
-      this.setState({
-        currentPage: pageToFetch,
-      });
-      return;
-    }
-    if (type === 'next') {
-      if (!hasNextPage) {
-        return;
-      }
-    }
-
-    if (hasNextPage) {
-      HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-        query: `
-            {
-              blocks(first:10,after:"${cursor}") {
-                pageInfo {
-                  hasNextPage
-                  hasPreviousPage
-                }
-                edges {
-                  cursor
-                  node {
-                    payload
-                  }
-                }
-              }
-            }`,
-      })
-        .then(
-          (res) => {
-            if (res && res.data) {
-              // this.formatTransactionList(res.data);
-              const allBlockData = [];
-              const edges = res.data.data.blocks.edges;
-              const changedNextPage = res.data.data.blocks.pageInfo.hasNextPage;
-              const changedPrevPage =
-                res.data.data.blocks.pageInfo.hasPreviousPage;
-              let changedCursor;
-              edges.forEach((val) => {
-                const {
-                  hash,
-                  index,
-                  stateHash,
-                  transactions,
-                } = val.node.payload;
-                changedCursor = val.cursor;
-                allBlockData.push({
-                  hash,
-                  height: index,
-                  parentHash: stateHash,
-                  transactions: transactions.length,
-                });
-              });
-              this.setState((prevState) => ({
-                blockArray: [...prevState.blockArray, ...allBlockData],
-                cursor: changedCursor,
-                lastFetchedPage: prevState.lastFetchedPage + 1,
-                currentPage: prevState.currentPage + 1,
-                hasNextPage: changedNextPage,
-                hasPrevPage: changedPrevPage,
-              }));
-            }
-            return null;
-          },
-          () => {
-            console.log('1');
-          }
-        )
-        .catch((err) => {
-          console.log(err, 'err in graphql');
-        });
-      console.log('');
-    }
-  };
-
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
     const {
@@ -484,13 +484,13 @@ export default class Blocks extends Component {
             style={{ display: 'flex', justifyContent: 'space-around' }}
           >
             <Button
-              disable={!hasPrevPage}
+              // disabled={!hasPrevPage}
               onClick={() => this.onChangePage('prev')}
             >
               Previous
             </Button>
             <Button
-              disable={!hasNextPage}
+              // disabled={!hasNextPage}
               onClick={() => this.onChangePage('next')}
             >
               Next
