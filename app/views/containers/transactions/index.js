@@ -171,27 +171,27 @@ export default class Transactions extends Component {
 
   onChangePage = (type) => {
     const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
-    let pageToFetch = type === 'next' ? currentPage + 1 : currentPage - 1;
-    if (pageToFetch < 0) {
-      pageToFetch = 0;
+    let showPage = type === 'next' ? currentPage + 1 : currentPage - 1;
+    if (showPage < 0) {
+      showPage = 0;
     }
-    if (pageToFetch <= lastFetchedPage) {
-      this.setState({
-        currentPage: pageToFetch,
-      });
+    if (showPage > lastFetchedPage) {
       return;
     }
+    this.setState({
+      currentPage: showPage,
+    });
     if (type === 'next') {
       if (!hasNextPage) {
         return;
       }
     }
-
-    if (hasNextPage) {
+    const fetch = lastFetchedPage - showPage === 1;
+    if (hasNextPage && type === 'next' && fetch) {
       HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
         query: `
         {
-          transactions(first:30) {
+          transactions(first:10,after:"${cursor}") {
             pageInfo {
               hasNextPage
             }
@@ -254,8 +254,7 @@ export default class Transactions extends Component {
                   ...allTransactionData,
                 ],
                 cursor: changedCursor,
-                lastFetchedPage: prevState.lastFetchedPage + 3,
-                currentPage: prevState.currentPage + 1,
+                lastFetchedPage: prevState.lastFetchedPage + 1,
                 hasNextPage: changedNextPage,
                 hasPrevPage: changedPrevPage,
               }));
@@ -403,13 +402,21 @@ export default class Transactions extends Component {
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>
-                    <td className="text-primary  text-ellipsis">{data.transaction_hash}</td>
-                    <td className="text-primary  text-ellipsis">{data.block_id}</td>
+                    <td className="text-primary  text-ellipsis">
+                      {data.transaction_hash}
+                    </td>
+                    <td className="text-primary  text-ellipsis">
+                      {data.block_id}
+                    </td>
                     {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
                     </td> */}
-                    <td className="text-primary  text-ellipsis">{data.address_from}</td>
-                    <td className="text-primary  text-ellipsis">{data.address_to}</td>
+                    <td className="text-primary  text-ellipsis">
+                      {data.address_from}
+                    </td>
+                    <td className="text-primary  text-ellipsis">
+                      {data.address_to}
+                    </td>
                     <td className="o-0">{data.value}</td>
                     {/* <td className="text-black">{txFee}</td> */}
                   </tr>
