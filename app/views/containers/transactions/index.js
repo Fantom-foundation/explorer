@@ -400,7 +400,6 @@ export default class Transactions extends Component {
             </thead>
             <tbody className="scroll-theme-1">
               {transformedArray &&
-                transformedArray.length &&
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>

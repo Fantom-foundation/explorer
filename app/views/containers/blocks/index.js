@@ -379,7 +379,6 @@ export default class Blocks extends Component {
               </thead>
               <tbody className="scroll-theme-1">
                 {transformedBlockArray &&
-                  transformedBlockArray.length &&
                   transformedBlockArray.length > 0 &&
                   transformedBlockArray.map((data, index) => (
                     <tr key={index}>
