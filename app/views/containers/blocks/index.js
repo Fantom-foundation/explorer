@@ -152,7 +152,13 @@ export default class Blocks extends Component {
             const hasPrevPage = res.data.data.blocks.pageInfo.hasPreviousPage;
             let cursor;
             edges.forEach((val) => {
-              const { hash, index, stateHash, transactions, round } = val.node.payload;
+              const {
+                hash,
+                index,
+                stateHash,
+                transactions,
+                round,
+              } = val.node.payload;
               cursor = val.cursor;
               allBlockData.push({
                 hash,
@@ -183,25 +189,21 @@ export default class Blocks extends Component {
 
   onChangePage = (type) => {
     const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
-    let pageToFetch = type === 'next' ? currentPage + 1 : currentPage - 1;
-    if (pageToFetch < 0) {
-      pageToFetch = 0;
+    let showPage = type === 'next' ? currentPage + 1 : currentPage - 1;
+    if (showPage < 0) {
+      showPage = 0;
     }
-    if (pageToFetch <= lastFetchedPage) {
-      this.setState({
-        currentPage: pageToFetch,
-      });
+    if (showPage > lastFetchedPage) {
       return;
     }
-    if (type === 'next') {
-      if (!hasNextPage) {
-        return;
-      }
-    }
-
-    if (hasNextPage) {
-      HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-        query: `
+    this.setState({
+      currentPage: showPage,
+    });
+    const fetch = lastFetchedPage - showPage === 1;
+    if (type === 'next' && fetch) {
+      if (hasNextPage) {
+        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+          query: `
             {
               blocks(first:30,after:"${cursor}") {
                 pageInfo {
@@ -216,51 +218,51 @@ export default class Blocks extends Component {
                 }
               }
             }`,
-      })
-        .then(
-          (res) => {
-            if (res && res.data) {
-              // this.formatTransactionList(res.data);
-              const allBlockData = [];
-              const edges = res.data.data.blocks.edges;
-              const changedNextPage = res.data.data.blocks.pageInfo.hasNextPage;
-              const changedPrevPage =
-                res.data.data.blocks.pageInfo.hasPreviousPage;
-              let changedCursor;
-              edges.forEach((val) => {
-                const {
-                  hash,
-                  index,
-                  stateHash,
-                  transactions,
-                } = val.node.payload;
-                changedCursor = val.cursor;
-                allBlockData.push({
-                  hash,
-                  height: index,
-                  parentHash: stateHash,
-                  transactions: transactions.length,
+        })
+          .then(
+            (res) => {
+              if (res && res.data) {
+                // this.formatTransactionList(res.data);
+                const allBlockData = [];
+                const edges = res.data.data.blocks.edges;
+                const changedNextPage =
+                  res.data.data.blocks.pageInfo.hasNextPage;
+                const changedPrevPage =
+                  res.data.data.blocks.pageInfo.hasPreviousPage;
+                let changedCursor;
+                edges.forEach((val) => {
+                  const {
+                    hash,
+                    index,
+                    stateHash,
+                    transactions,
+                  } = val.node.payload;
+                  changedCursor = val.cursor;
+                  allBlockData.push({
+                    hash,
+                    height: index,
+                    parentHash: stateHash,
+                    transactions: transactions.length,
+                  });
                 });
-              });
-              this.setState((prevState) => ({
-                blockArray: [...prevState.blockArray, ...allBlockData],
-                cursor: changedCursor,
-                lastFetchedPage: prevState.lastFetchedPage + 3,
-                currentPage: prevState.currentPage + 1,
-                hasNextPage: changedNextPage,
-                hasPrevPage: changedPrevPage,
-              }));
+                this.setState((prevState) => ({
+                  blockArray: [...prevState.blockArray, ...allBlockData],
+                  cursor: changedCursor,
+                  lastFetchedPage: prevState.lastFetchedPage + 3,
+                  hasNextPage: changedNextPage,
+                  hasPrevPage: changedPrevPage,
+                }));
+              }
+              return null;
+            },
+            () => {
+              console.log('1');
             }
-            return null;
-          },
-          () => {
-            console.log('1');
-          }
-        )
-        .catch((err) => {
-          console.log(err, 'err in graphql');
-        });
-      console.log('');
+          )
+          .catch((err) => {
+            console.log(err, 'err in graphql');
+          });
+      }
     }
   };
   /**
