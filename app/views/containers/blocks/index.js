@@ -381,7 +381,6 @@ export default class Blocks extends Component {
               </thead>
               <tbody className="">
                 {transformedBlockArray &&
-                  transformedBlockArray.length &&
                   transformedBlockArray.length > 0 &&
                   transformedBlockArray.map((data, index) => (
                     <tr key={index}>
