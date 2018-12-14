@@ -181,15 +181,11 @@ export default class Transactions extends Component {
     this.setState({
       currentPage: showPage,
     });
-    if (type === 'next') {
-      if (!hasNextPage) {
-        return;
-      }
-    }
     const fetch = lastFetchedPage - showPage === 1;
-    if (hasNextPage && type === 'next' && fetch) {
-      HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-        query: `
+    if (type === 'next' && fetch) {
+      if (hasNextPage) {
+        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+          query: `
         {
           transactions(first:10,after:"${cursor}") {
             pageInfo {
@@ -211,64 +207,64 @@ export default class Transactions extends Component {
             }
           }
         }`,
-      })
-        .then(
-          (res) => {
-            if (res && res.data) {
-              // this.formatTransactionList(res.data);
-              const allTransactionData = [];
-              const edges = res.data.data.transactions.edges;
-              const changedNextPage =
-                res.data.data.transactions.pageInfo.hasNextPage;
-              const changedPrevPage =
-                res.data.data.transactions.pageInfo.hasPreviousPage;
-              let changedCursor;
-              edges.forEach((val) => {
-                const {
-                  block,
-                  from,
-                  hash,
-                  to,
-                  value,
-                  gas,
-                  cumulative,
-                  contract,
-                  root,
-                } = val.node;
-                changedCursor = val.cursor;
-                allTransactionData.push({
-                  block_id: block,
-                  address_from: from,
-                  transaction_hash: hash,
-                  address_to: to,
-                  value,
-                  gasUsed: gas,
-                  cumulativeGasUsed: cumulative,
-                  contractAddress: contract,
-                  root,
+        })
+          .then(
+            (res) => {
+              if (res && res.data) {
+                // this.formatTransactionList(res.data);
+                const allTransactionData = [];
+                const edges = res.data.data.transactions.edges;
+                const changedNextPage =
+                  res.data.data.transactions.pageInfo.hasNextPage;
+                const changedPrevPage =
+                  res.data.data.transactions.pageInfo.hasPreviousPage;
+                let changedCursor;
+                edges.forEach((val) => {
+                  const {
+                    block,
+                    from,
+                    hash,
+                    to,
+                    value,
+                    gas,
+                    cumulative,
+                    contract,
+                    root,
+                  } = val.node;
+                  changedCursor = val.cursor;
+                  allTransactionData.push({
+                    block_id: block,
+                    address_from: from,
+                    transaction_hash: hash,
+                    address_to: to,
+                    value,
+                    gasUsed: gas,
+                    cumulativeGasUsed: cumulative,
+                    contractAddress: contract,
+                    root,
+                  });
                 });
-              });
-              this.setState((prevState) => ({
-                transactionArray: [
-                  ...prevState.transactionArray,
-                  ...allTransactionData,
-                ],
-                cursor: changedCursor,
-                lastFetchedPage: prevState.lastFetchedPage + 1,
-                hasNextPage: changedNextPage,
-                hasPrevPage: changedPrevPage,
-              }));
+                this.setState((prevState) => ({
+                  transactionArray: [
+                    ...prevState.transactionArray,
+                    ...allTransactionData,
+                  ],
+                  cursor: changedCursor,
+                  lastFetchedPage: prevState.lastFetchedPage + 1,
+                  hasNextPage: changedNextPage,
+                  hasPrevPage: changedPrevPage,
+                }));
+              }
+              return null;
+            },
+            () => {
+              console.log('1');
             }
-            return null;
-          },
-          () => {
-            console.log('1');
-          }
-        )
-        .catch((err) => {
-          console.log(err, 'err in graphql');
-        });
-      console.log('');
+          )
+          .catch((err) => {
+            console.log(err, 'err in graphql');
+          });
+      }
     }
   };
   /**
