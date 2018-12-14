@@ -5,6 +5,7 @@ import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
+import TxBlockPagination from '../pagination/txBlockPagination';
 // import Web3 from 'web3';
 
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
@@ -389,8 +390,8 @@ export default class Transactions extends Component {
           <Table className="transactions-table">
             <thead>
               <tr>
-                <th>txHash</th>
-                {<th>Block</th>}
+                <th>TxHash</th>
+                <th>Block</th>
                 {/* <th>Age</th> */}
                 <th>From</th>
                 <th>To</th>
@@ -398,19 +399,19 @@ export default class Transactions extends Component {
                 {/* <th>[TxFee]</th> */}
               </tr>
             </thead>
-            <tbody className="scroll-theme-1">
+            <tbody>
               {transformedArray &&
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>
-                    <td className="text-primary  text-ellipsis">{data.transaction_hash}</td>
-                    <td className="text-primary  text-ellipsis">{data.block_id}</td>
+                    <td data-head="TxHash" className="text-primary  text-ellipsis full head"><span className="icon icon-transaction">{data.transaction_hash}</span></td>
+                    <td data-head="Block" className="text-primary  text-ellipsis half">{data.block_id}</td>
                     {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
                     </td> */}
-                    <td className="text-primary  text-ellipsis">{data.address_from}</td>
-                    <td className="text-primary  text-ellipsis">{data.address_to}</td>
-                    <td className="o-0">{data.value}</td>
+                    <td data-head="From" className="text-primary  text-ellipsis half">{data.address_from}</td>
+                    <td data-head="To" className="text-primary  text-ellipsis half">{data.address_to}</td>
+                    <td data-head="Value" className="half"><span className="o-5">{data.value}</span></td>
                     {/* <td className="text-black">{txFee}</td> */}
                   </tr>
                 ))}
@@ -488,18 +489,9 @@ export default class Transactions extends Component {
               {this.renderTransactionSearchView()}
               {this.renderTransactionList()}
             </Row>
+            <TxBlockPagination onChangePage={this.onChangePage}/>
           </Container>
-          <Container
-            style={{ display: 'flex', justifyContent: 'space-around' }}
-          >
-            <Button onClick={() => this.onChangePage('prev')}>Previous</Button>
-            <Button
-              // disabled={hasNextPage}
-              onClick={() => this.onChangePage('next')}
-            >
-              Next
-            </Button>
-          </Container>
+         
         </section>
       </div>
     );

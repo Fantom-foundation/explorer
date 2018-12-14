@@ -1,4 +1,12 @@
 {
+  "cSpell.words": [
+    "beginnus",
+    "publicid"
+  ],
+  "eslint.workingDirectories": [
+    "./client",
+    "./backend"
+  ]
   "files.associations": {
     ".eslintrc": "jsonc",
     ".babelrc": "jsonc",

@@ -5,7 +5,7 @@ import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
-
+import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
 
 export default class Blocks extends Component {
@@ -384,13 +384,13 @@ export default class Blocks extends Component {
                   transformedBlockArray.length > 0 &&
                   transformedBlockArray.map((data, index) => (
                     <tr key={index}>
-                      <td className="text-primary"><span className="icon icon-block">{data.height}</span></td>
+                      <td data-head="Height" className="text-primary full head"><span className="icon icon-block">{data.height}</span></td>
                       {/* <td className="">
                         {moment(parseInt(data.timestamp, 10)).fromNow()}
                       </td> */}
-                      <td className="text-primary">{data.transactions}</td>
-                      <td className="text-primary text-ellipsis">{data.hash}</td>
-                      <td className="o-5">{data.round}</td>
+                      <td data-head="Txn" className="text-primary full-wrap txn">{data.transactions}</td>
+                      <td data-head="hash" className="text-primary full-wrap hash text-ellipsis">{data.hash}</td>
+                      <td data-head="Round" className=" full-wrap round"><span className="o-5">{data.round}</span></td>
                     </tr>
                   ))}
               </tbody>
@@ -479,12 +479,19 @@ export default class Blocks extends Component {
             </Row>
 
             {/*= ========= make this title-header component end=================*/}
+
+<Row>
+  <Col>
+  </Col>
+  <Col>
+  </Col>
+</Row>
+
             {this.renderBlockSearchView()}
             {this.renderBlockList()}
-          </Container>
-          <Container
-            style={{ display: 'flex', justifyContent: 'space-around' }}
-          >
+
+
+            {/* <div>
             <Button
               // disabled={!hasPrevPage}
               onClick={() => this.onChangePage('prev')}
@@ -497,7 +504,10 @@ export default class Blocks extends Component {
             >
               Next
             </Button>
+          </div> */}
+          <TxBlockPagination onChangePage={this.onChangePage}/>
           </Container>
+       
         </section>
       </div>
     );

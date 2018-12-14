@@ -1,15 +1,18 @@
+$icon-block:'../images/icons/block-small.svg';
+$icon-transaction:'../images/icons/tx.svg';
 .table {
   .icon{
+    @media (min-width: 768px) {
+    padding: 4px 0px;
     padding-left: 20px;
     background: {
       repeat: no-repeat;
       position: left center;
     }
-    &.icon-block{
-      background: {
-        image: url(../images/icons/block-small.svg);
-      }
-    }
+    &.icon-block{  background: { image: url($icon-block); }}
+    &.icon-transaction{     padding-left: 27px; background: { image: url($icon-transaction); }}
+  }
+    
   }
   .o-5{opacity: .5;}
    th, td{
@@ -30,6 +33,9 @@
       }
     }
   }
+
+
+ 
   tbody {
     tr {
       td {
@@ -49,6 +55,100 @@
       }
     }
   }
+  &.blocks-table,&.transactions-table  {
+    @media (max-width: 767px) {
+      font:{ size:12px; }
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+  
+    thead
+    {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+    tbody {
+       display: block;
+      tr {
+          display: -ms-flexbox;
+          display: flex;
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+          border: 1px solid map-get($color , border-line );
+          padding: 10px 7px;
+          margin-bottom: 6px;
+        td {
+          border:0px;
+          padding: 2px 12px;
+            -ms-flex-preferred-size: 0;
+            flex-basis: 0;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            max-width: 100%;
+            &.head{
+              position: relative;
+              padding-bottom: 7px;
+              margin-bottom: 3px;
+              &::before{
+                padding-top: 4px;
+                padding-bottom: 4px;
+                padding-left: 20px;
+                background: {
+                  repeat: no-repeat;
+                  position: left center;
+                }
+              }
+              &::after{
+                position: absolute;
+                content: "";
+                bottom: 0;
+                left: 13px;
+                right: 13px;
+                height: 1px;
+                background-color: map-get($color , border-line );
+              }
+            }
+            &.full{  @include responsive-width(100%); }
+            &.half{  @include responsive-width(50%); }
+            &.full-wrap{
+              position: relative;
+              &::before{
+                display: block;
+              }
+              &:nth-child(2){&::after{width:0px;}}
+              &::after{
+                
+                content: "";
+                position: absolute;
+                width:1px;
+                top: 5px;
+                left: 0;
+                bottom:5px;
+                background-color: map-get($color , border-line );
+              }
+            }
+          
+            &::before{
+              padding-right: 8px;
+              content: attr(data-head) !important;
+              color: map-get($color, table-head );
+            }
+          
+        }
+      }
+    }
+    }
+  }
   &.blocks-table {
     thead {
       tr {
@@ -62,6 +162,12 @@
         td {
           &.text-ellipsis{
             max-width: 100px;
+          }
+          @media (max-width:767px) {
+            &.head{ &::before{padding-left: 27px; background: { image: url($icon-block);} }}
+            &.txn{@include responsive-width(60px);}
+            &.hash{@include responsive-width(calc(100% - 60px - 70px));}
+            &.round{@include responsive-width(70px);}
           }
         }
       }
@@ -81,6 +187,7 @@
           &.text-ellipsis{
             max-width: 100px;
           }
+          @media (max-width:767px) { &.head{ &::before{padding-left: 27px; background: { image: url($icon-transaction);} } }}
         }
       }
     }
@@ -104,6 +211,7 @@
         }
       }
     }
+
     tbody {
       tr {
         td {
