@@ -38,57 +38,28 @@ class SearchForBlock extends Component {
     }
 
     return (
-      <Row >
-        <Col>
-          <div id="theme-tab">
-            <Nav tabs className="mb-3 theme-nav">
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: true })}
-                >Overview </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent className="theme-nav-tab-content" activeTab={'1'}>
-              <TabPane tabId="1">
-                <Row>
-                  <Col sm="12">
-                    <Row>
-                      <Col>
-                        <Table className="information-table" >
-                          <thead>
-                            <tr>
-                              <th>Block Information</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Height:</td>
-                              <td>{height}</td>
-                            </tr>
-                            <tr>
-                              <td>Transactions:</td>
-                              <td><span aria-hidden className="text-primary" style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }} onClick={() => this.showDetail(height, transactions)}>{transactions} {transactionText}</span></td>
-                            </tr>
-                            <tr>
-                              <td>Hash:</td>
-                              <td>{hash}</td>
-                            </tr>
-                            <tr>
-                              <td>Parent Hash:</td>
-                              <td><span className="text-primary">{parentHash}</span></td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
-          </div>
-        </Col>
-      </Row >
+      <React.Fragment>
+      <hr />
+        <div className="details">
+
+                            <div>
+                              <p>Height :</p>
+                              <p className="text-ellipsis">{height}</p>
+                            </div>
+                            <div>
+                              <p>Transactions :</p>
+                              <p className="text-ellipsis"><span aria-hidden className="text-primary" style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }} onClick={() => this.showDetail(height, transactions)}>{transactions} {transactionText}</span></p>
+                            </div>
+                            <div>
+                              <p>Hash :</p>
+                              <p className="text-ellipsis">{hash}</p>
+                            </div>
+                            <div>
+                              <p>Parent Hash :</p>
+                              <p className="text-ellipsis"><span className="text-primary">{parentHash}</span></p>
+                            </div>
+        </div>
+        </React.Fragment>
     );
   }
 }

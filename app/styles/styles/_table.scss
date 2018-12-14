@@ -14,7 +14,7 @@ $icon-transaction:'../images/icons/tx.svg';
   }
     
   }
-  .o-5{opacity: .5;}
+
    th, td{
     border-top: 1px solid map-get($color, border-line );
     font: { family: "Roboto"; weight: 400; }
@@ -195,6 +195,7 @@ $icon-transaction:'../images/icons/tx.svg';
   &.information-table {
     font: {
       family: Roboto;
+     
     }
 
     thead {
@@ -257,6 +258,7 @@ $icon-transaction:'../images/icons/tx.svg';
     }
     font: {
       size: 24px;
+      weight:300;
     }
     @media (max-width:991px) { font: { size: 20px; } }
     @media (max-width:767px) {  font: { size: 18px; } background: {size: auto 100%}     padding: 0px 0 0px 30px;}
@@ -280,5 +282,31 @@ $icon-transaction:'../images/icons/tx.svg';
       font: { size: 12px; }
     }
     @media (max-width:567px) { font: { size: 10px; } }
+  }
+}
+
+.details{
+  min-height: 400px;
+  div{
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 6px;
+  }
+  p{
+    white-space: nowrap;
+    color: map-get($color, white );
+    font-family: Roboto;
+    font-size: 16px;
+    display: inline-block;
+    @media(max-width:767px){
+      font-size: 14px;
+    }
+    @media(max-width:576px){
+      font-size: 12px;
+    }
+    &:nth-child(1){
+      opacity: .6;
+      padding-right: 12px;
+    }
   }
 }
