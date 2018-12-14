@@ -6,7 +6,9 @@ import _ from 'lodash';
 import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import TxBlockPagination from '../pagination/txBlockPagination';
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader'
 // import Web3 from 'web3';
+import TitleIcon from '../../../images/icons/latest-transaction.svg';
 
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
 
@@ -479,7 +481,12 @@ export default class Transactions extends Component {
             </Row>
 
             {/*= ========= make this title-header component end=================*/}
-
+            <TranactionBlockHeader onChangePage={this.onChangePage}
+          icon={TitleIcon}
+            title="Transactions"
+            block="Block #683387 To #683390"
+            total="(Total of 683391 Blocks)"
+            />
             <Row>
               {this.renderTransactionSearchView()}
               {this.renderTransactionList()}

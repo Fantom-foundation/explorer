@@ -7,7 +7,8 @@ import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
 import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
-
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader'
+import TitleIcon from '../../../images/icons/latest-blocks.svg';
 export default class Blocks extends Component {
   constructor(props) {
     super(props);
@@ -123,6 +124,7 @@ export default class Blocks extends Component {
   //       console.log(err, 'err in graphql');
   //     });
   // }
+
 
   componentDidMount() {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
@@ -482,12 +484,23 @@ export default class Blocks extends Component {
 
             {/*= ========= make this title-header component end=================*/}
 
-<Row>
-  <Col>
+{/* <Row>
+  <Col md={6} className="table-title">
+   <Row>
+   <Col xs={6} md={12}><h2>Blocks</h2></Col>
+     <Col xs={6} md={12}><div className="info"><p>Block #683387 To #683390 </p><p>(Total of 683391 Blocks)</p></div></Col>
+     </Row>
   </Col>
-  <Col>
-  </Col>
-</Row>
+  {windowWidth >= 768 && <Col md={6}><TxBlockPagination onChangePage={this.onChangePage}/></Col>}
+</Row> */}
+
+          <TranactionBlockHeader onChangePage={this.onChangePage}
+          icon={TitleIcon}
+           title="Blocks"
+           block="Block #683387 To #683390"
+           total="(Total of 683391 Blocks)"
+          
+          />
 
             {this.renderBlockSearchView()}
             {this.renderBlockList()}

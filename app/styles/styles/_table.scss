@@ -232,3 +232,53 @@ $icon-transaction:'../images/icons/tx.svg';
     }
   }
 }
+
+.table-title {
+
+  margin-bottom: 26px;
+  @media (max-width:767px) { margin-bottom: 17px;  }
+  .info{
+    @media (max-width:767px) { 
+    width: fit-content;
+    margin-left: auto;}
+  }
+  h2, p{
+    color: map-get($color, white );
+    font: {
+      family: "Roboto";
+    }
+  }
+  h2{
+    padding: 5px 0 6px 42px;
+    margin-bottom: 0;
+    background: {
+      position: center left ;
+      repeat:no-repeat;
+    }
+    font: {
+      size: 24px;
+    }
+    @media (max-width:991px) { font: { size: 20px; } }
+    @media (max-width:767px) {  font: { size: 18px; } background: {size: auto 100%}     padding: 0px 0 0px 30px;}
+    @media (max-width:567px) { font: { size: 16px; } }
+  
+  }
+  p{
+    opacity: .6;
+    font: {
+      size: 16px;
+    }
+    line-height: 1;
+    margin-bottom: 0;
+
+    @media (min-width:768px) {
+      display: inline-block;
+    }
+    @media (max-width:991px) { font: { size: 14px; } }
+    @media (max-width:767px) {
+      margin-bottom: 8px;
+      font: { size: 12px; }
+    }
+    @media (max-width:567px) { font: { size: 10px; } }
+  }
+}
