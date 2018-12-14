@@ -1,0 +1,57 @@
+.resources {
+  $image-position: 50px;
+  h2,
+  p {
+    font: {
+      family: "Roboto";
+    }
+  }
+  h1 {
+    font: {
+      size: 24px;
+      family: "Roboto";
+    }
+  }
+  h2 {
+    font: {
+      size: 20px;
+      family: "Roboto";
+    }
+  }
+  p {
+    font: {
+      size: 12px;
+    }
+  }
+
+  ul {
+    display: -ms-flexbox;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    li {
+      list-style: none;
+      margin-right: 10px;
+      color: #00b1ff;
+      font: {
+        family: "Roboto";
+        size: 13px;
+      }
+      border-right: 1px solid #fff;
+      padding-right: 10px;
+      &:nth-last-child(1) {
+        padding-right: 0px;
+        margin-right: 0px;
+        border-right: 0px;
+      }
+    }
+  }
+
+  .resource-card {
+    padding: 50px 0 100px $image-position;
+    background: {
+      repeat: no-repeat;
+      position: top $image-position left;
+    }
+  }
+}

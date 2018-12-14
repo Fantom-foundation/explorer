@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { isUserLoggedIn } from 'common/utility';
@@ -12,6 +11,7 @@ import VerifyEmail from 'views/containers/pages/verify-email';
 import Address from 'views/containers/address/index';
 import ModalComponent from 'views/containers/modal/index';
 import BlockTransactionDetail from '../views/components/search/searchForBlock/viewBlockDetail/index';
+import Resources from '../views/containers/resources/index';
 
 function renderLoggedInRoutes() {
   return (
@@ -30,6 +30,7 @@ function renderLoggedOutRoutes() {
       <Route path="/transactions" component={Transactions} />
       <Route path="/details" component={Details} />
       <Route path="/block/:id" component={BlockTransactionDetail} />
+      <Route path="/resources" component={Resources} />
       {/* <Route path="/login" component={Login} />
       <Route path="/register" component={Register} /> */}
       {/* <Route path="/login-modal" component={ModalComponent} /> */}
