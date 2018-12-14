@@ -387,7 +387,7 @@ export default class Transactions extends Component {
       return (
         <Col>
           <Table className="transactions-table">
-            <thead className="dark">
+            <thead>
               <tr>
                 <th>txHash</th>
                 {<th>Block</th>}
@@ -404,14 +404,14 @@ export default class Transactions extends Component {
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>
-                    <td className="text-black">{data.transaction_hash}</td>
-                    <td className="text-black">{data.block_id}</td>
+                    <td className="text-primary  text-ellipsis">{data.transaction_hash}</td>
+                    <td className="text-primary  text-ellipsis">{data.block_id}</td>
                     {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
                     </td> */}
-                    <td className="text-black">{data.address_from}</td>
-                    <td className="text-black">{data.address_to}</td>
-                    <td className="text-black">{data.value}</td>
+                    <td className="text-primary  text-ellipsis">{data.address_from}</td>
+                    <td className="text-primary  text-ellipsis">{data.address_to}</td>
+                    <td className="o-0">{data.value}</td>
                     {/* <td className="text-black">{txFee}</td> */}
                   </tr>
                 ))}

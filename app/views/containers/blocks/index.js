@@ -152,13 +152,14 @@ export default class Blocks extends Component {
             const hasPrevPage = res.data.data.blocks.pageInfo.hasPreviousPage;
             let cursor;
             edges.forEach((val) => {
-              const { hash, index, stateHash, transactions } = val.node.payload;
+              const { hash, index, stateHash, transactions, round } = val.node.payload;
               cursor = val.cursor;
               allBlockData.push({
                 hash,
                 height: index,
                 parentHash: stateHash,
                 transactions: transactions.length,
+                round,
               });
             });
             this.setState({
@@ -368,27 +369,29 @@ export default class Blocks extends Component {
       return (
         <Row>
           <Col>
-            <Table className="transactions-table">
-              <thead className="dark">
+            <Table className="blocks-table">
+              <thead>
                 <tr>
                   <th>Height</th>
                   {/* <th>Age</th> */}
                   <th>Txn</th>
                   <th>hash</th>
+                  <th>Round</th>
                 </tr>
               </thead>
-              <tbody className="scroll-theme-1">
+              <tbody className="">
                 {transformedBlockArray &&
                   transformedBlockArray.length &&
                   transformedBlockArray.length > 0 &&
                   transformedBlockArray.map((data, index) => (
                     <tr key={index}>
-                      <td className="text-black">{data.height}</td>
-                      {/* <td className="text-black">
+                      <td className="text-primary"><span className="icon icon-block">{data.height}</span></td>
+                      {/* <td className="">
                         {moment(parseInt(data.timestamp, 10)).fromNow()}
                       </td> */}
-                      <td className="text-black">{data.transactions}</td>
-                      <td className="text-black">{data.hash}</td>
+                      <td className="text-primary">{data.transactions}</td>
+                      <td className="text-primary text-ellipsis">{data.hash}</td>
+                      <td className="o-5">{data.round}</td>
                     </tr>
                   ))}
               </tbody>

@@ -128,11 +128,11 @@ export default class HomePage extends Component {
           {' '}
           <Container className="intro-container">
             <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
-            <Row>
+            {/* <Row>
               <Col>
                 <Chart />
               </Col>
-            </Row>
+            </Row> */}
           </Container>
         </section>
         <section>
