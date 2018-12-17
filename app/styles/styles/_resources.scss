@@ -1,57 +1,87 @@
 .resources {
-  $image-position: 50px;
+  $image-position-top: 70px;
+  $image-position-top-767: 15px;
+  $image-position-left-gap: 54px;
+  
   h2,
   p {
     font: {
       family: "Roboto";
     }
   }
-  h1 {
-    font: {
-      size: 24px;
-      family: "Roboto";
-    }
-  }
   h2 {
     font: {
-      size: 20px;
       family: "Roboto";
     }
   }
   p {
-    font: {
-      size: 12px;
-    }
+    
   }
 
   ul {
-    display: -ms-flexbox;
+    display: inline-block;
     padding: 0;
     margin: 0;
-    display: flex;
+    
     li {
+      display: inline-block;
       list-style: none;
       margin-right: 10px;
-      color: #00b1ff;
+      color: map-get($color, primary );
       font: {
         family: "Roboto";
         size: 13px;
       }
-      border-right: 1px solid #fff;
-      padding-right: 10px;
-      &:nth-last-child(1) {
-        padding-right: 0px;
-        margin-right: 0px;
-        border-right: 0px;
+      border-left: 1px solid #fff;
+      padding-left: 10px;
+      &:nth-child(1) {
+        padding-left: 0px;
+        border-left: 0px;
       }
+      &:nth-last-child(1) {margin-right: 0px;}
     }
   }
-
+  .head {
+    padding: 34px 0;
+    .col{
+      padding-left: $image-position-left-gap + $block-space;
+      background: { position: top 0 left 26px; }
+    }
+    h2{ font: { size: 26px; } }
+    p{
+      font: { size: 16px; }
+      margin-bottom: 0;
+    }
+  }
+  
   .resource-card {
-    padding: 50px 0 100px $image-position;
-    background: {
-      repeat: no-repeat;
-      position: top $image-position left;
+    
+    padding: {
+      top:$image-position-top;
+      bottom: 100px;
+      left: $image-position-left-gap + $block-space;
+    }
+    background: { 
+      position: {
+        x: 15px; y: $image-position-top;
+     }
+    }
+    @media (max-width:767px){
+      padding: { top:15px; bottom:15px; }
+      background: { position: { y: $image-position-top-767; } }}
+    &.ioexchangecs{  }
+    &.wallet{ background-position: { x: 22px;} }
+    &.wallet{  }
+    &.iocs{ background-position: { x:  27px; }}
+    &.news-event{ background-position: { x: 21px; }}
+    &.smart-contract{ background-position: { x: 25px; }}
+    &.others{ background-position: { x: 25px; }}
+    h2{
+      font: { size: 20px; }
+    }
+    p{
+      font: { size: 12px; }
+      
     }
   }
 }

@@ -337,7 +337,9 @@ export default class Blocks extends Component {
   searchHandler(e) {
     e.preventDefault();
     const { searchText } = this.state;
-
+    this.setState({
+      isSearch: true,
+    });
     if (searchText && searchText !== '') {
       const isValid = this.isValidHash(searchText);
       if (isValid) {
@@ -441,6 +443,13 @@ export default class Blocks extends Component {
     return null;
   }
 
+  onShowList = () => {
+    this.setState({
+      searchText: '',
+      isSearch: false,
+    });
+  };
+
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
     const {
@@ -450,6 +459,7 @@ export default class Blocks extends Component {
       allBlockData,
       hasNextPage,
       hasPrevPage,
+      isSearch,
     } = this.state;
 
     let blockNumberText = '';
@@ -520,6 +530,8 @@ export default class Blocks extends Component {
               title="Blocks"
               block="Block #683387 To #683390"
               total="(Total of 683391 Blocks)"
+              isSearching={isSearch}
+              onShowList={this.onShowList}
             />
 
             {this.renderBlockSearchView()}
@@ -539,7 +551,10 @@ export default class Blocks extends Component {
               Next
             </Button>
           </div> */}
-            <TxBlockPagination onChangePage={this.onChangePage} />
+            <TxBlockPagination
+              onChangePage={this.onChangePage}
+              isSearching={isSearch}
+            />
           </Container>
         </section>
       </div>
