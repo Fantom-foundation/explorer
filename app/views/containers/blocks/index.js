@@ -271,25 +271,29 @@ export default class Blocks extends Component {
    * @param {String} searchBlockIndex : Index to fetch block.
    */
   getFantomBlocks(searchBlockIndex) {
-    const url = 'http://18.224.109.107:8080';
-    fetch(`${url}/blockById/${searchBlockIndex}`)
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+          {
+           block(index:${searchBlockIndex}) {
+            id,payload
+          }
+          }`,
+    })
+
       .then((response) => {
-        if (response && response.status < 400) {
-          return response.json();
-        }
-        throw new Error(response.statusText || 'Internal Server Error');
-      })
-      .then((responseJson) => {
-        if (responseJson) {
-          console.log('responseJson : ', responseJson);
-          this.loadFantomBlockData(responseJson);
+        if (
+          response &&
+          response.data &&
+          response.data.data &&
+          response.data.data.block
+        ) {
+          this.loadFantomBlockData(response.data.data.block);
         } else {
           this.setState({
             blockData: [],
             error: 'No Record Found',
           });
         }
-        return responseJson;
       })
       .catch((error) => {
         this.setState({
@@ -303,10 +307,13 @@ export default class Blocks extends Component {
    * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
    * @param {*} responseJson : Json of block response data from Api.
    */
-  loadFantomBlockData(result) {
+  loadFantomBlockData(allData) {
+    const result = allData.payload;
     let blockData = [];
     const txLength =
-      result.transactions !== null ? result.transactions.length : 0;
+      allData.payload.transactions !== null
+        ? allData.payload.transactions.length
+        : 0;
     blockData.push({
       height: result.index,
       hash: result.hash,

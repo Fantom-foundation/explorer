@@ -275,27 +275,39 @@ export default class Transactions extends Component {
    * @param {String} address : address to fetch transactions.
    */
   getFantomTransactionsFromApiAsync(searchTransactionHash) {
-    const url = 'http://18.221.128.6:8080';
-    console.log('inside getFantomTransactionsFromApiAsync ');
-    // const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
-    fetch(`${url}/transaction/${searchTransactionHash}`)
-      // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
-      .then((response) => {
-        if (response && response.status < 400) {
-          return response.json();
-        }
-        throw new Error(response.statusText || 'Internal Server Error');
-      })
-      .then((responseJson) => {
-        if (responseJson) {
-          this.loadFantomTransactionData(responseJson);
+    const transactionHash = `"${searchTransactionHash}"`;
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+      query{
+        transaction(hash: ${transactionHash}) {
+          id,
+          hash,
+          root
+          from,
+          to,
+          value,
+          gas,
+          used,
+          price,
+          cumulative,
+          contract,
+          logs,
+          status,
+          block,
+          error
+        }  
+        }`,
+    })
+
+      .then((res) => {
+        if (res && res.data && res.data.data && res.data.data.transaction) {
+          this.loadFantomTransactionData(res.data.data.transaction);
         } else {
           this.setState({
             transactionData: [],
             error: 'No Record Found',
           });
         }
-        return responseJson;
       })
       .catch((error) => {
         this.setState({
@@ -312,23 +324,23 @@ export default class Transactions extends Component {
   loadFantomTransactionData(result) {
     let transactionData = [];
     let txnStatus = 'Failed';
-    if (result.failed === false) {
+    if (result.status === 0) {
       txnStatus = 'Success';
     }
     transactionData.push({
-      transaction_hash: result.transactionHash,
+      transaction_hash: result.hash,
       Block_id: '',
       address_from: result.from,
       address_to: result.to,
       value: result.value,
       txFee: '',
       createdAt: '',
-      gasUsed: result.gasUsed,
+      gasUsed: result.gas,
       txnStatus,
-      contractAddress: result.contractAddress,
-      cumulativeGasUsed: result.cumulativeGasUsed,
+      contractAddress: result.contract,
+      cumulativeGasUsed: result.cumulative,
       root: result.root,
-      logsBloom: result.logsBloom,
+      logsBloom: result.logs,
     });
     transactionData = transactionData.reverse();
     this.setState({

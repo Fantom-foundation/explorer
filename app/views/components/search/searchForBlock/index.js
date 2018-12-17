@@ -40,7 +40,7 @@ class SearchForBlock extends Component {
     return (
       <React.Fragment>
       <hr />
-        <div className="details">
+        <div className="tran-blk-details">
 
                             <div>
                               <p>Height :</p>

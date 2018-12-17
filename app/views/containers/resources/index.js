@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import resources from '../../../images/resources/resources.svg';
-import exchange from '../../../images/resources/exchange.jpg';
-import icos from '../../../images/resources/icos.jpg';
-import newsEvent from '../../../images/resources/news-event.jpg';
-import smartContract from '../../../images/resources/smart-contract.jpg';
-import wallet from '../../../images/resources/wallet.jpg';
-import others from '../../../images/resources/others.jpg';
+import exchange from '../../../images/resources/exchange.svg';
+import icos from '../../../images/resources/icos.svg';
+import newsEvent from '../../../images/resources/news-event.svg';
+import smartContract from '../../../images/resources/smart-contract.svg';
+import wallet from '../../../images/resources/wallet.svg';
+import others from '../../../images/resources/others.svg';
 
 import Header from '../../components/header/header';
 
@@ -16,18 +16,18 @@ class Resources extends Component {
       <React.Fragment>
         <Header />
         <Container className="text-white resources">
-          <Row style={{ marginTop: '70px' }}>
+          <Row className="head">
             <Col style={{ backgroundImage: `url(${resources})` }}>
-              <h1 style={{ paddingLeft: '25px' }}>Resources</h1>
-              <p style={{ fontSize: 16, paddingLeft: '25px' }}>
+              <h2>Resources</h2>
+              <p>
                 Find out more about us
               </p>
             </Col>
           </Row>
           <hr />
-          <Row style={{ marginTop: '70px' }}>
+          <Row>
             <Col
-              className="resource-card"
+              className="resource-card exchange"
               style={{ backgroundImage: `url(${exchange})` }}
               md={4}
             >
@@ -40,7 +40,7 @@ class Resources extends Component {
               </ul>
             </Col>
             <Col
-              className="resource-card"
+              className="resource-card wallet"
               style={{ backgroundImage: `url(${wallet})` }}
               md={4}
             >
@@ -52,7 +52,7 @@ class Resources extends Component {
               </ul>
             </Col>
             <Col
-              className="resource-card"
+              className="resource-card iocs"
               style={{ backgroundImage: `url(${icos})` }}
               md={4}
             >
@@ -65,7 +65,7 @@ class Resources extends Component {
               </ul>
             </Col>
             <Col
-              className="resource-card"
+              className="resource-card news-event"
               style={{ backgroundImage: `url(${newsEvent})` }}
               md={4}
             >
@@ -78,7 +78,7 @@ class Resources extends Component {
             </Col>
 
             <Col
-              className="resource-card"
+              className="resource-card smart-contract"
               style={{ backgroundImage: `url(${smartContract})` }}
               md={4}
             >
@@ -90,7 +90,7 @@ class Resources extends Component {
               </ul>
             </Col>
             <Col
-              className="resource-card"
+              className="resource-card others"
               style={{ backgroundImage: `url(${others})` }}
               md={4}
             >
