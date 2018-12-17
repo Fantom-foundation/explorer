@@ -206,6 +206,8 @@ export default class Transactions extends Component {
                 cumulative
                 contract
                 root
+                logs 
+                status 
               }
             }
           }
@@ -233,6 +235,8 @@ export default class Transactions extends Component {
                     cumulative,
                     contract,
                     root,
+                    logs,
+                    status,
                   } = val.node;
                   changedCursor = val.cursor;
                   allTransactionData.push({
@@ -245,6 +249,8 @@ export default class Transactions extends Component {
                     cumulativeGasUsed: cumulative,
                     contractAddress: contract,
                     root,
+                    logs,
+                    status,
                   });
                 });
                 this.setState((prevState) => ({

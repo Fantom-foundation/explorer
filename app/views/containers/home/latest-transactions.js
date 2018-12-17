@@ -17,6 +17,7 @@ export default class LatestTransactions extends React.Component {
     this.state = {
       transactionArray: [],
     };
+    this.onTransactionClick = this.onTransactionClick.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -35,6 +36,8 @@ export default class LatestTransactions extends React.Component {
           to,
           transactionHash,
           value,
+          logsBloom,
+          status,
         } = val;
 
         transactions.push({
@@ -46,12 +49,22 @@ export default class LatestTransactions extends React.Component {
           cumulativeGasUsed,
           contractAddress,
           root,
+          logsBloom,
+          status,
         });
       });
       this.setState({
         transactionArray: transactions,
       });
     }
+  }
+
+  onTransactionClick(props, data) {
+    console.log('onTransactionClick', data);
+    props.history.push({
+      pathname: `/detail/${data.transaction_hash}`,
+      state: { data, type: 'transaction' },
+    });
   }
 
   render() {
@@ -74,7 +87,12 @@ export default class LatestTransactions extends React.Component {
           {transactions &&
             transactions.length &&
             transactions.map((data, index) => (
-              <Col key={index} xs={12} className="details">
+              <Col
+                key={index}
+                xs={12}
+                className="details"
+                onClick={() => this.onTransactionClick(this.props, data)}
+              >
                 <p
                   className="tx-holder text-ellipsis ico"
                   style={{ backgroundImage: `url(${transactionIcon})` }}

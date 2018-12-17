@@ -6,8 +6,12 @@ import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import blockIcon from '../../../images/icons/block.svg';
 
-function onBlockClick(dataHash) {
-  console.log('onBlockClick', dataHash);
+function onBlockClick(props, data) {
+  console.log('remo', data);
+  props.history.push({
+    pathname: `/detail/${data.hash}`,
+    state: { data, type: 'block' },
+  });
 }
 /**
  * @method LatestBlocks : To display list of latest blocks of transactions.
@@ -15,6 +19,7 @@ function onBlockClick(dataHash) {
  */
 export default function LatestBlocks(props) {
   const blocks = props.latestBlocksArr;
+  console.log('blocks22', blocks);
   return (
     <Col xs={12} md={6} className="right">
       <div className="header">
@@ -32,43 +37,48 @@ export default function LatestBlocks(props) {
       <Row className="blocks">
         {blocks &&
           blocks.length &&
-          blocks.map((data, index) => (
-            <Col
-              key={index}
-              xs={12}
-              className="details"
-              onClick={() => onBlockClick(data.hash)}
-            >
-              {/* <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p> */}
-              <p
-                className="text-white ico"
-                style={{ backgroundImage: `url(${blockIcon})` }}
+          blocks.map((data, index) => {
+            console.log('dataBlock', data);
+            return (
+              <Col
+                key={index}
+                xs={12}
+                className="details"
+                onClick={() => onBlockClick(props, data)}
               >
-                {data.height}
-              </p>
-
-              <p className="text-ellipsis">
-                <span className="text-white">Hash</span>
-                &nbsp;
-                <span className="text-primary hash-value">{data.hash}</span>
-              </p>
-              <p className="text-ellipsis">
-                <span className="text-white">Round</span>
-                &nbsp;
-                <span className="text-primary">{data.round}</span>
-              </p>
-              <div className="ammount-date">
-                <p className="mb-0">
-                  <span className="text-white">Txns</span>
-                  &nbsp;
-                  <span className="text-primary">{data.transactionLength}</span>
+                {/* <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p> */}
+                <p
+                  className="text-white ico"
+                  style={{ backgroundImage: `url(${blockIcon})` }}
+                >
+                  {data.height}
                 </p>
-                {/* <p className="time-date text-white">
-                    {moment(parseInt(data.timestamp, 10)).fromNow()}
-                  </p> */}
-              </div>
-            </Col>
-          ))}
+
+                <p className="text-ellipsis">
+                  <span className="text-white">Hash</span>
+                  &nbsp;
+                  <span className="text-primary hash-value">{data.hash}</span>
+                </p>
+                <p className="text-ellipsis">
+                  <span className="text-white">Round</span>
+                  &nbsp;
+                  <span className="text-primary">{data.round}</span>
+                </p>
+                <div className="ammount-date">
+                  <p className="mb-0">
+                    <span className="text-white">Txns</span>
+                    &nbsp;
+                    <span className="text-primary">
+                      {data.transactionLength}
+                    </span>
+                  </p>
+                  {/* <p className="time-date text-white">
+                  {moment(parseInt(data.timestamp, 10)).fromNow()}
+                </p> */}
+                </div>
+              </Col>
+            );
+          })}
       </Row>
     </Col>
   );

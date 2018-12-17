@@ -12,6 +12,7 @@ import Address from 'views/containers/address/index';
 import ModalComponent from 'views/containers/modal/index';
 import BlockTransactionDetail from '../views/components/search/searchForBlock/viewBlockDetail/index';
 import Resources from '../views/containers/resources/index';
+import DetailView from '../views/containers/detailView/index';
 
 function renderLoggedInRoutes() {
   return (
@@ -31,6 +32,7 @@ function renderLoggedOutRoutes() {
       <Route path="/details" component={Details} />
       <Route path="/block/:id" component={BlockTransactionDetail} />
       <Route path="/resources" component={Resources} />
+      <Route path="/detail/:hash" component={DetailView} />
       {/* <Route path="/login" component={Login} />
       <Route path="/register" component={Register} /> */}
       {/* <Route path="/login-modal" component={ModalComponent} /> */}

@@ -72,6 +72,10 @@ export default class HomePage extends Component {
                 } = val.node.payload;
 
                 latestTransactions.push(...val.node.payload.transactions);
+                console.log(
+                  'latestTransactionslatestTransactions',
+                  latestTransactions
+                );
                 cursor = val.cursor;
                 allBlockData.push({
                   hash,
@@ -79,6 +83,7 @@ export default class HomePage extends Component {
                   parentHash: stateHash,
                   transactionLength: transactions.length,
                   round,
+                  transactions,
                 });
               });
               this.setState({
@@ -117,7 +122,6 @@ export default class HomePage extends Component {
   render() {
     // const socket = io();
     const { latestBlocksArr, latestTransactionsArr } = this.state;
-
     return (
       <div>
         <Header {...this.props} />
@@ -145,11 +149,15 @@ export default class HomePage extends Component {
             <Row>
               <LatestTransactions
                 latestTransactionsArr={latestTransactionsArr}
+                history={this.props.history}
               />
               <Col className="middle" xs={12}>
                 <hr />
               </Col>
-              <LatestBlocks latestBlocksArr={latestBlocksArr} />
+              <LatestBlocks
+                latestBlocksArr={latestBlocksArr}
+                history={this.props.history}
+              />
             </Row>
           </Container>
         </section>
