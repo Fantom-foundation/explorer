@@ -8,7 +8,7 @@ import iconLast from './ic-last.svg';
 
 export default class TxBlockPagination extends React.PureComponent {
   render() {
-    const { onChangePage, isSearching } = this.props;
+    const { onChangePage, isSearching, currentPage } = this.props;
     if (isSearching) {
       return null;
     }
@@ -35,7 +35,7 @@ export default class TxBlockPagination extends React.PureComponent {
           {/* <Button style={{backgroundImage:`url(${iconLast})`}} className="right">Last</Button> */}
         </div>
         <div>
-          <p>Page 1 of 27335</p>
+          <p> Page {this.props.currentPage + 1}</p>
         </div>
       </div>
     );

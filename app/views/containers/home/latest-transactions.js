@@ -104,9 +104,9 @@ export default class LatestTransactions extends React.Component {
                 </div>
                 <div className="ammount-date">
                   <p className="mb-0">
-                    <span className="text-white">Amount {data.value}</span>
+                    <span className="text-white">Amount </span>
                     &nbsp;
-                    <span className="text-primary">FTM</span>
+                    <span className="text-primary">{data.value} FTM</span>
                   </p>
                   {/* <p className="time-date text-white">
                     {moment(parseInt(data.createdAt, 10)).fromNow()}
