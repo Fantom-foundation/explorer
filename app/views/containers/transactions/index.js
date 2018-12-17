@@ -547,6 +547,7 @@ export default class Transactions extends Component {
             <TxBlockPagination
               onChangePage={this.onChangePage}
               isSearching={isSearch}
+              currentPage={this.state.currentPage}
             />
           </Container>
         </section>

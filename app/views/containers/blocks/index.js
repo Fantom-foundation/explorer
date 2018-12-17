@@ -129,7 +129,7 @@ export default class Blocks extends Component {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
           {
-            blocks(first:30) {
+            blocks(first:30, byDirection: "desc") {
               pageInfo {
                 hasNextPage
                 hasPreviousPage
@@ -436,7 +436,8 @@ export default class Blocks extends Component {
           {blockData.length > 0 && (
             <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
           )}
-          {error !== '' && searchText !== '' && <p>{error}</p>}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
         </React.Fragment>
       );
     }
@@ -554,6 +555,7 @@ export default class Blocks extends Component {
             <TxBlockPagination
               onChangePage={this.onChangePage}
               isSearching={isSearch}
+              currentPage={this.state.currentPage}
             />
           </Container>
         </section>
