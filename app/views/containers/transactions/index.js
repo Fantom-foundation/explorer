@@ -6,7 +6,7 @@ import _ from 'lodash';
 import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import TxBlockPagination from '../pagination/txBlockPagination';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader'
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 // import Web3 from 'web3';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 
@@ -275,27 +275,39 @@ export default class Transactions extends Component {
    * @param {String} address : address to fetch transactions.
    */
   getFantomTransactionsFromApiAsync(searchTransactionHash) {
-    const url = 'http://18.221.128.6:8080';
-    console.log('inside getFantomTransactionsFromApiAsync ');
-    // const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
-    fetch(`${url}/transaction/${searchTransactionHash}`)
-      // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
-      .then((response) => {
-        if (response && response.status < 400) {
-          return response.json();
-        }
-        throw new Error(response.statusText || 'Internal Server Error');
-      })
-      .then((responseJson) => {
-        if (responseJson) {
-          this.loadFantomTransactionData(responseJson);
+    const transactionHash = `"${searchTransactionHash}"`;
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+      query{
+        transaction(hash: ${transactionHash}) {
+          id,
+          hash,
+          root
+          from,
+          to,
+          value,
+          gas,
+          used,
+          price,
+          cumulative,
+          contract,
+          logs,
+          status,
+          block,
+          error
+        }  
+        }`,
+    })
+
+      .then((res) => {
+        if (res && res.data && res.data.data && res.data.data.transaction) {
+          this.loadFantomTransactionData(res.data.data.transaction);
         } else {
           this.setState({
             transactionData: [],
             error: 'No Record Found',
           });
         }
-        return responseJson;
       })
       .catch((error) => {
         this.setState({
@@ -312,23 +324,23 @@ export default class Transactions extends Component {
   loadFantomTransactionData(result) {
     let transactionData = [];
     let txnStatus = 'Failed';
-    if (result.failed === false) {
+    if (result.status === 0) {
       txnStatus = 'Success';
     }
     transactionData.push({
-      transaction_hash: result.transactionHash,
+      transaction_hash: result.hash,
       Block_id: '',
       address_from: result.from,
       address_to: result.to,
       value: result.value,
       txFee: '',
       createdAt: '',
-      gasUsed: result.gasUsed,
+      gasUsed: result.gas,
       txnStatus,
-      contractAddress: result.contractAddress,
-      cumulativeGasUsed: result.cumulativeGasUsed,
+      contractAddress: result.contract,
+      cumulativeGasUsed: result.cumulative,
       root: result.root,
-      logsBloom: result.logsBloom,
+      logsBloom: result.logs,
     });
     transactionData = transactionData.reverse();
     this.setState({
@@ -401,14 +413,38 @@ export default class Transactions extends Component {
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>
-                    <td data-head="TxHash" className="text-primary  text-ellipsis full head"><span className="icon icon-transaction">{data.transaction_hash}</span></td>
-                    <td data-head="Block" className="text-primary  text-ellipsis half">{data.block_id}</td>
+                    <td
+                      data-head="TxHash"
+                      className="text-primary  text-ellipsis full head"
+                    >
+                      <span className="icon icon-transaction">
+                        {data.transaction_hash}
+                      </span>
+                    </td>
+                    <td
+                      data-head="Block"
+                      className="text-primary  text-ellipsis half"
+                    >
+                      {data.block_id}
+                    </td>
                     {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
                     </td> */}
-                    <td data-head="From" className="text-primary  text-ellipsis half">{data.address_from}</td>
-                    <td data-head="To" className="text-primary  text-ellipsis half">{data.address_to}</td>
-                    <td data-head="Value" className="half"><span className="o-5">{data.value}</span></td>
+                    <td
+                      data-head="From"
+                      className="text-primary  text-ellipsis half"
+                    >
+                      {data.address_from}
+                    </td>
+                    <td
+                      data-head="To"
+                      className="text-primary  text-ellipsis half"
+                    >
+                      {data.address_to}
+                    </td>
+                    <td data-head="Value" className="half">
+                      <span className="o-5">{data.value}</span>
+                    </td>
                     {/* <td className="text-black">{txFee}</td> */}
                   </tr>
                 ))}
@@ -481,19 +517,19 @@ export default class Transactions extends Component {
             </Row>
 
             {/*= ========= make this title-header component end=================*/}
-            <TranactionBlockHeader onChangePage={this.onChangePage}
-          icon={TitleIcon}
-            title="Transactions"
-            block="Block #683387 To #683390"
-            total="(Total of 683391 Blocks)"
+            <TranactionBlockHeader
+              onChangePage={this.onChangePage}
+              icon={TitleIcon}
+              title="Transactions"
+              block="Block #683387 To #683390"
+              total="(Total of 683391 Blocks)"
             />
             <Row>
               {this.renderTransactionSearchView()}
               {this.renderTransactionList()}
             </Row>
-            <TxBlockPagination onChangePage={this.onChangePage}/>
+            <TxBlockPagination onChangePage={this.onChangePage} />
           </Container>
-         
         </section>
       </div>
     );
