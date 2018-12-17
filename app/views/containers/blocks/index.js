@@ -7,7 +7,7 @@ import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
 import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader'
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 export default class Blocks extends Component {
   constructor(props) {
@@ -124,7 +124,6 @@ export default class Blocks extends Component {
   //       console.log(err, 'err in graphql');
   //     });
   // }
-
 
   componentDidMount() {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
@@ -331,7 +330,9 @@ export default class Blocks extends Component {
   searchHandler(e) {
     e.preventDefault();
     const { searchText } = this.state;
-
+    this.setState({
+      isSearch: true,
+    });
     if (searchText && searchText !== '') {
       const isValid = this.isValidHash(searchText);
       if (isValid) {
@@ -388,13 +389,27 @@ export default class Blocks extends Component {
                   transformedBlockArray.length > 0 &&
                   transformedBlockArray.map((data, index) => (
                     <tr key={index}>
-                      <td data-head="Height" className="text-primary full head"><span className="icon icon-block">{data.height}</span></td>
+                      <td data-head="Height" className="text-primary full head">
+                        <span className="icon icon-block">{data.height}</span>
+                      </td>
                       {/* <td className="">
                         {moment(parseInt(data.timestamp, 10)).fromNow()}
                       </td> */}
-                      <td data-head="Txn" className="text-primary full-wrap txn">{data.transactions}</td>
-                      <td data-head="hash" className="text-primary full-wrap hash text-ellipsis">{data.hash}</td>
-                      <td data-head="Round" className=" full-wrap round"><span className="o-5">{data.round}</span></td>
+                      <td
+                        data-head="Txn"
+                        className="text-primary full-wrap txn"
+                      >
+                        {data.transactions}
+                      </td>
+                      <td
+                        data-head="hash"
+                        className="text-primary full-wrap hash text-ellipsis"
+                      >
+                        {data.hash}
+                      </td>
+                      <td data-head="Round" className=" full-wrap round">
+                        <span className="o-5">{data.round}</span>
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -421,6 +436,13 @@ export default class Blocks extends Component {
     return null;
   }
 
+  onShowList = () => {
+    this.setState({
+      searchText: '',
+      isSearch: false,
+    });
+  };
+
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
     const {
@@ -430,6 +452,7 @@ export default class Blocks extends Component {
       allBlockData,
       hasNextPage,
       hasPrevPage,
+      isSearch,
     } = this.state;
 
     let blockNumberText = '';
@@ -484,7 +507,7 @@ export default class Blocks extends Component {
 
             {/*= ========= make this title-header component end=================*/}
 
-{/* <Row>
+            {/* <Row>
   <Col md={6} className="table-title">
    <Row>
    <Col xs={6} md={12}><h2>Blocks</h2></Col>
@@ -494,17 +517,18 @@ export default class Blocks extends Component {
   {windowWidth >= 768 && <Col md={6}><TxBlockPagination onChangePage={this.onChangePage}/></Col>}
 </Row> */}
 
-          <TranactionBlockHeader onChangePage={this.onChangePage}
-          icon={TitleIcon}
-           title="Blocks"
-           block="Block #683387 To #683390"
-           total="(Total of 683391 Blocks)"
-          
-          />
+            <TranactionBlockHeader
+              onChangePage={this.onChangePage}
+              icon={TitleIcon}
+              title="Blocks"
+              block="Block #683387 To #683390"
+              total="(Total of 683391 Blocks)"
+              isSearching={isSearch}
+              onShowList={this.onShowList}
+            />
 
             {this.renderBlockSearchView()}
             {this.renderBlockList()}
-
 
             {/* <div>
             <Button
@@ -520,9 +544,11 @@ export default class Blocks extends Component {
               Next
             </Button>
           </div> */}
-          <TxBlockPagination onChangePage={this.onChangePage}/>
+            <TxBlockPagination
+              onChangePage={this.onChangePage}
+              isSearching={isSearch}
+            />
           </Container>
-       
         </section>
       </div>
     );

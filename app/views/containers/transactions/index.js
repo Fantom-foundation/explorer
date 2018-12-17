@@ -6,7 +6,7 @@ import _ from 'lodash';
 import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import TxBlockPagination from '../pagination/txBlockPagination';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader'
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 // import Web3 from 'web3';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 
@@ -349,6 +349,9 @@ export default class Transactions extends Component {
   }
   searchHandler(e) {
     e.preventDefault();
+    this.setState({
+      isSearch: true,
+    });
     const { searchText } = this.state;
 
     if (searchText && searchText !== '') {
@@ -356,7 +359,6 @@ export default class Transactions extends Component {
       if (isValid) {
         this.getFantomTransactionsFromApiAsync(searchText);
         this.setState({
-          isSearch: true,
           error: '',
         });
       } else {
@@ -401,14 +403,38 @@ export default class Transactions extends Component {
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
                   <tr key={`tx_${index}`}>
-                    <td data-head="TxHash" className="text-primary  text-ellipsis full head"><span className="icon icon-transaction">{data.transaction_hash}</span></td>
-                    <td data-head="Block" className="text-primary  text-ellipsis half">{data.block_id}</td>
+                    <td
+                      data-head="TxHash"
+                      className="text-primary  text-ellipsis full head"
+                    >
+                      <span className="icon icon-transaction">
+                        {data.transaction_hash}
+                      </span>
+                    </td>
+                    <td
+                      data-head="Block"
+                      className="text-primary  text-ellipsis half"
+                    >
+                      {data.block_id}
+                    </td>
                     {/* <td className="text-black">
                       {moment(parseInt(data.createdAt, 10)).fromNow()}
                     </td> */}
-                    <td data-head="From" className="text-primary  text-ellipsis half">{data.address_from}</td>
-                    <td data-head="To" className="text-primary  text-ellipsis half">{data.address_to}</td>
-                    <td data-head="Value" className="half"><span className="o-5">{data.value}</span></td>
+                    <td
+                      data-head="From"
+                      className="text-primary  text-ellipsis half"
+                    >
+                      {data.address_from}
+                    </td>
+                    <td
+                      data-head="To"
+                      className="text-primary  text-ellipsis half"
+                    >
+                      {data.address_to}
+                    </td>
+                    <td data-head="Value" className="half">
+                      <span className="o-5">{data.value}</span>
+                    </td>
                     {/* <td className="text-black">{txFee}</td> */}
                   </tr>
                 ))}
@@ -432,9 +458,15 @@ export default class Transactions extends Component {
       </React.Fragment>
     );
   }
-
+  onShowList = () => {
+    this.setState({
+      searchText: '',
+      isSearch: false,
+    });
+  };
   render() {
     const { searchText, transactionData, hasNextPage } = this.state;
+    const { isSearch } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;
@@ -481,19 +513,24 @@ export default class Transactions extends Component {
             </Row>
 
             {/*= ========= make this title-header component end=================*/}
-            <TranactionBlockHeader onChangePage={this.onChangePage}
-          icon={TitleIcon}
-            title="Transactions"
-            block="Block #683387 To #683390"
-            total="(Total of 683391 Blocks)"
+            <TranactionBlockHeader
+              onChangePage={this.onChangePage}
+              onShowList={this.onShowList}
+              icon={TitleIcon}
+              title="Transactions"
+              block="Block #683387 To #683390"
+              total="(Total of 683391 Blocks)"
+              isSearching={isSearch}
             />
             <Row>
               {this.renderTransactionSearchView()}
               {this.renderTransactionList()}
             </Row>
-            <TxBlockPagination onChangePage={this.onChangePage}/>
+            <TxBlockPagination
+              onChangePage={this.onChangePage}
+              isSearching={isSearch}
+            />
           </Container>
-         
         </section>
       </div>
     );
