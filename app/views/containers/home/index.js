@@ -72,10 +72,6 @@ export default class HomePage extends Component {
                 } = val.node.payload;
 
                 latestTransactions.push(...val.node.payload.transactions);
-                console.log(
-                  'latestTransactionslatestTransactions',
-                  latestTransactions
-                );
                 cursor = val.cursor;
                 allBlockData.push({
                   hash,

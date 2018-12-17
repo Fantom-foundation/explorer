@@ -60,7 +60,6 @@ export default class LatestTransactions extends React.Component {
   }
 
   onTransactionClick(props, data) {
-    console.log('onTransactionClick', data);
     props.history.push({
       pathname: `/detail/${data.transaction_hash}`,
       state: { data, type: 'transaction' },
