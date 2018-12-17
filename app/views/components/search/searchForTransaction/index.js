@@ -18,7 +18,6 @@ import classnames from 'classnames';
 class SearchForTransaction extends Component {
   renderDetail = () => {
     const { transactions } = this.props;
-    console.log('TransactionDetail transactions : ', transactions);
     let transactionHash = '';
     let txnStatus = '';
     let addressFrom = '';

@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, TabContent, TabPane, Nav, NavItem, NavLink,
+import {
+  Row,
+  Col,
+  Table,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -8,7 +16,6 @@ import classnames from 'classnames';
  */
 
 class SearchForBlock extends Component {
-
   showDetail(height, transactions) {
     if (transactions <= 0) {
       return;
@@ -20,16 +27,15 @@ class SearchForBlock extends Component {
   }
   render() {
     const { blocks } = this.props; // eslint-disable-line
-
     let height = '';
     let hash = '';
-    let parentHash = '';
+    let round = '';
     let transactions = '';
 
     if (blocks && blocks.length) {
       height = blocks[0].height;
       hash = blocks[0].hash;
-      parentHash = blocks[0].parentHash;
+      round = blocks[0].round;
       transactions = blocks[0].transactions;
     }
     let transactionText = 'transactions';
@@ -39,27 +45,37 @@ class SearchForBlock extends Component {
 
     return (
       <React.Fragment>
-      <hr />
+        <hr />
         <div className="tran-blk-details">
-
-                            <div>
-                              <p>Height :</p>
-                              <p className="text-ellipsis">{height}</p>
-                            </div>
-                            <div>
-                              <p>Transactions :</p>
-                              <p className="text-ellipsis"><span aria-hidden className="text-primary" style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }} onClick={() => this.showDetail(height, transactions)}>{transactions} {transactionText}</span></p>
-                            </div>
-                            <div>
-                              <p>Hash :</p>
-                              <p className="text-ellipsis">{hash}</p>
-                            </div>
-                            <div>
-                              <p>Parent Hash :</p>
-                              <p className="text-ellipsis"><span className="text-primary">{parentHash}</span></p>
-                            </div>
+          <div>
+            <p>Height :</p>
+            <p className="text-ellipsis">{height}</p>
+          </div>
+          <div>
+            <p>Transactions :</p>
+            <p className="text-ellipsis">
+              <span
+                aria-hidden
+                className="text-primary"
+                style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }}
+                onClick={() => this.showDetail(height, transactions)}
+              >
+                {transactions} {transactionText}
+              </span>
+            </p>
+          </div>
+          <div>
+            <p>Hash :</p>
+            <p className="text-ellipsis">{hash}</p>
+          </div>
+          <div>
+            <p>Round :</p>
+            <p className="text-ellipsis">
+              <span className="text-primary">{round}</span>
+            </p>
+          </div>
         </div>
-        </React.Fragment>
+      </React.Fragment>
     );
   }
 }

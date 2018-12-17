@@ -317,7 +317,7 @@ export default class Blocks extends Component {
     blockData.push({
       height: result.index,
       hash: result.hash,
-      parentHash: result.frameHash,
+      round: result.round,
       transactions: txLength,
     });
     blockData = blockData.reverse();

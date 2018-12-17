@@ -110,49 +110,51 @@ class MarketCap extends React.Component {
           <p className="mb-0">The Future of Decentralized Ecosystem</p>
         </Col>
         <Col xs={12} md={6} className="pt-3">
-        <div id="toggle_tooltip">
-              <ToggleButton
-                value={isRealtimeUpdate}
-                onToggle={this.toggle}
-                inactiveLabel={''}
-                activeLabel={''}
-          
-                colors={{
-                  activeThumb: {
-                    base: '#00b1ff'
-                  },
-                  inactiveThumb: {
-                    base: '#7da5b7'
-                  },
-                  active: {
-                    base: '#04759f',
-                    hover: '#04759f',
-                  },
-                  inactive: {
-                    base: '#045877',
-                    hover: '#045877',
-                  },
-                }}
-                trackStyle={{width: '25px', height: '7px',backgroundColor:'rgba(0, 177, 255, 0.5)'}}
-                thumbStyle={{width: '15px', height: '15px'}}
-                activeThumbStyle={{left: '15px'}}
-                thumbAnimateRange={[0, 10]}
-                // thumbStyleHover={styles.thumbStyleHover}
-                animateThumbStyleHover={(n) => ({
-                  boxShadow: `0 0 ${2 + 4 * n}px rgba(0,0,0,.16),0 ${2 +
-                    3 * n}px ${4 + 8 * n}px rgba(0,0,0,.32)`,
-                })}
-              />
-               </div>
-              <Tooltip
-                placement={'top-end'}
-                isOpen={isOpenTooltip}
-                target="toggle_tooltip"
-                toggle={this.toggleTooltip}
-              >
-                {tooltipText}
-              </Tooltip>
-           
+          <div id="toggle_tooltip">
+            <ToggleButton
+              value={isRealtimeUpdate}
+              onToggle={this.toggle}
+              inactiveLabel={''}
+              activeLabel={''}
+              colors={{
+                activeThumb: {
+                  base: '#00b1ff',
+                },
+                inactiveThumb: {
+                  base: '#7da5b7',
+                },
+                active: {
+                  base: '#04759f',
+                  hover: '#04759f',
+                },
+                inactive: {
+                  base: '#045877',
+                  hover: '#045877',
+                },
+              }}
+              trackStyle={{
+                width: '25px',
+                height: '7px',
+                backgroundColor: 'rgba(0, 177, 255, 0.5)',
+              }}
+              thumbStyle={{ width: '15px', height: '15px' }}
+              activeThumbStyle={{ left: '15px' }}
+              thumbAnimateRange={[0, 10]}
+              // thumbStyleHover={styles.thumbStyleHover}
+              animateThumbStyleHover={(n) => ({
+                boxShadow: `0 0 ${2 + 4 * n}px rgba(0,0,0,.16),0 ${2 +
+                  3 * n}px ${4 + 8 * n}px rgba(0,0,0,.32)`,
+              })}
+            />
+          </div>
+          <Tooltip
+            placement={'top-end'}
+            isOpen={isOpenTooltip}
+            target="toggle_tooltip"
+            toggle={this.toggleTooltip}
+          >
+            {tooltipText}
+          </Tooltip>
         </Col>
         {/* <Col xs={12} className="line">
           <hr />
@@ -178,7 +180,7 @@ class MarketCap extends React.Component {
               </Title>
               <p>6192596 (14.2s)</p>
             </div>
-           
+
 
             <div className="text-right right">
               <Title h2 className="text-white text-uppercase mb-0">

@@ -6,6 +6,9 @@ import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import blockIcon from '../../../images/icons/block.svg';
 
+function onBlockClick(dataHash) {
+  console.log('onBlockClick', dataHash);
+}
 /**
  * @method LatestBlocks : To display list of latest blocks of transactions.
  * @param {array} latestBlocksArr : List of latest blocks.
@@ -30,7 +33,12 @@ export default function LatestBlocks(props) {
         {blocks &&
           blocks.length &&
           blocks.map((data, index) => (
-            <Col key={index} xs={12} className="details">
+            <Col
+              key={index}
+              xs={12}
+              className="details"
+              onClick={() => onBlockClick(data.hash)}
+            >
               {/* <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p> */}
               <p
                 className="text-white ico"

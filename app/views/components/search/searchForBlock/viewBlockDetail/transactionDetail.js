@@ -7,10 +7,8 @@ import Web3 from 'web3';
  */
 /* eslint-disable */
 class TransactionDetail extends Component {
-
   renderDetail = () => {
     const { transactions } = this.props;
-    console.log('TransactionDetail transactions : ', transactions)
     let transaction_hash = '';
     let block_id = '';
     let address_from = '';
@@ -20,34 +18,33 @@ class TransactionDetail extends Component {
     let gasUsed = '';
 
     if (transactions && transactions.length) {
-
       let data = transactions.map((txData, index) => {
         transaction_hash = txData.transaction_hash || '--';
-        block_id = (txData.block_id + '') || '--';
+        block_id = txData.block_id + '' || '--';
         address_from = txData.address_from || '--';
         address_to = txData.address_to || '--';
-        value = (txData.value + '') || '--';
+        value = txData.value + '' || '--';
         if (value !== '--') {
           value = Web3.utils.fromWei(`${value}`, 'ether');
           value = Number(value).toFixed(4);
         }
-        gasUsed = (txData.gasUsed + '') || '--';
+        gasUsed = txData.gasUsed + '' || '--';
 
         return (
           <tr key={index}>
-            {<td className="text-black">{transaction_hash}</td>}
-            {<td className="text-black">{block_id}</td>}
-            {<td className="text-black">{address_from}</td>}
-            {<td className="text-black">{address_to}</td>}
-            {<td className="text-black">{value} FTM</td>}
-            {<td className="text-black">{gasUsed}</td>}
+            {<td className="text-white">{transaction_hash}</td>}
+            {<td className="text-white">{block_id}</td>}
+            {<td className="text-white">{address_from}</td>}
+            {<td className="text-white">{address_to}</td>}
+            {<td className="text-white">{value} FTM</td>}
+            {<td className="text-white">{gasUsed}</td>}
           </tr>
-        )
+        );
       });
       return data;
     }
     return null;
-  }
+  };
   render() {
     return (
       <Col>
@@ -62,9 +59,7 @@ class TransactionDetail extends Component {
               {<th>gasUsed</th>}
             </tr>
           </thead>
-          <tbody className="scroll-theme-1">
-            {this.renderDetail()}
-          </tbody>
+          <tbody className="scroll-theme-1">{this.renderDetail()}</tbody>
         </Table>
       </Col>
     );
