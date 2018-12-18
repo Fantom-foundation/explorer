@@ -8,6 +8,8 @@ import avatar from 'images/icons/avatar.svg';
 import hamburgerBtn from 'images/icons/hamburger.svg';
 import closeBtn from 'images/icons/close.svg';
 import {
+  Row,
+  Col,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -82,7 +84,9 @@ export default class Navigation extends React.Component {
       return <Login toggleModal={this.toggleModal} modal={this.state.modal} />;
     }
     return (
-      <Container>
+      <Container className="header-container">
+        <Row><Col>
+        
         <Navbar dark expand="md">
           <NavbarBrand tag={RouterNavLink} to="/">
             <img className="logo" src={Logo} />
@@ -128,9 +132,12 @@ export default class Navigation extends React.Component {
                   </NavLink>
                 </NavItem>
               </Nav>
+             
             </Collapse>
           ) : null}
         </Navbar>
+        </Col>
+              </Row>
       </Container>
     );
   }

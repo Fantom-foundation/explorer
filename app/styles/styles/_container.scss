@@ -16,6 +16,12 @@
         width: 99%;
       }
   }
+  &.header-container{
+    @media (max-width: 991px) {
+      padding-right: 32px;
+      padding-left: 32px;
+    }
+  }
   @media (max-width: 767px) {
     padding-right: 32px;
     padding-left: 32px;

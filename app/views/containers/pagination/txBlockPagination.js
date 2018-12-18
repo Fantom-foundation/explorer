@@ -8,12 +8,12 @@ import iconLast from './ic-last.svg';
 
 export default class TxBlockPagination extends React.PureComponent {
   render() {
-    const { onChangePage, isSearching, currentPage } = this.props;
+    const { onChangePage, isSearching, currentPage, className } = this.props;
     if (isSearching) {
       return null;
     }
     return (
-      <div id="tx-block-pagination">
+      <div id="tx-block-pagination" className={className}>
         <div>
           {/* <Button style={{backgroundImage:`url(${iconFirst})`}} className="left">First</Button> */}
           <Button
