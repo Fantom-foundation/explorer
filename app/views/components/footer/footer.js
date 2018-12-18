@@ -38,11 +38,17 @@ export default class Footer extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col md={4} />
+            <Col md={4} >
+            <h2 className="text-uppercase">&nbsp;</h2>
+            <ul className="page-menus">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Term of services</a></li>
+            </ul>
+            </Col>
           </Row>
-          <Row>
+          <Row className="copyright">
             <Col>
-              <span className="text-white">
+              <span >
                 Copyright © 2018 FANTOM. All Rights Reserved.
               </span>
             </Col>

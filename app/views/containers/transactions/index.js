@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
+import Footer from 'views/components/footer/footer';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import TxBlockPagination from '../pagination/txBlockPagination';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
@@ -551,6 +552,7 @@ export default class Transactions extends Component {
             />
           </Container>
         </section>
+        <Footer />
       </div>
     );
   }

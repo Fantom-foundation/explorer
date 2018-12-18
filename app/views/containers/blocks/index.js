@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Table, Button } from 'reactstrap';
 import moment from 'moment'; // eslint-disable-line
 import Header from 'views/components/header/header';
+import Footer from 'views/components/footer/footer';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
@@ -482,6 +483,7 @@ export default class Blocks extends Component {
     return (
       <div>
         <Header />
+        <SearchBar searchHandler={(e) => this.searchHandler(e)} setSearchText={(e) => this.setSearchText(e)} searchText={searchText}/>
         <section className="bg-theme full-height-conatainer">
           <Container>
             {/*= ========= make this title-header component start=================*/}
@@ -512,7 +514,7 @@ export default class Blocks extends Component {
                 </div>
               </Col>
             </Row> */}
-      <SearchBar searchHandler={(e) => this.searchHandler(e)} setSearchText={(e) => this.setSearchText(e)} searchText={searchText}/>
+     
             {/*= ========= make this title-header component end=================*/}
 
             {/* <Row>
@@ -560,6 +562,7 @@ export default class Blocks extends Component {
             />
           </Container>
         </section>
+        <Footer />
       </div>
     );
   }

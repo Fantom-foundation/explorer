@@ -1,20 +1,21 @@
 footer {
   color: #fff;
-  padding: 0 0 48px;
   .menus {
+    padding-top: 50px;
     h2 {
       opacity: 0.6;
+      margin-bottom: 20px;
       font: {
-        family: "Lato";
+        family:  map-get($font, footer-font);
         size: 21.6px;
       }
     }
     a {
       font: {
-        family: "Lato";
+        family: map-get($font, footer-font);
         size: 16.8px;
       }
-      color: #999999;
+      color: map-get($color, footer-link )
     }
     .social {
       margin: 0 -11px;
@@ -25,6 +26,28 @@ footer {
           margin-right: 11.3px;
           transform: translateY(-2px);
         }
+      }
+    }
+    .page-menus{
+      padding: 0;
+      margin: 0 -16px;
+      li{
+        display: inline-block;
+        line-height: 100%;
+        padding: 0 16px;
+        border-left: 1px solid rgba(255,255,255,.6);
+        &:nth-child(1){border-left: 0px;}
+      }
+    }
+  }
+  .copyright{
+    padding: 91px 0;
+    text-align: center;
+    span {
+      color:map-get($color, footer-copyright);
+      font: {
+        family: map-get($font, footer-copyright);
+        size: 16.8px;
       }
     }
   }
