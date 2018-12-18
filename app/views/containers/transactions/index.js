@@ -541,8 +541,9 @@ export default class Transactions extends Component {
               isSearching={isSearch}
               currentPage={this.state.currentPage}
             />
-            <Row>
+           
               {this.renderTransactionSearchView()}
+              <Row>
               {this.renderTransactionList()}
             </Row>
             <TxBlockPagination
