@@ -45,6 +45,7 @@
   }
   .head {
     padding: 34px 0;
+    @media (max-width:567px){ padding: 34px 0 2px; }
     .col{
       padding-left: $image-position-left-gap + $block-space;
       background: { position: top 0 left 26px; }
