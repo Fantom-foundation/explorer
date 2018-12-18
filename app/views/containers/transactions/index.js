@@ -505,14 +505,17 @@ export default class Transactions extends Component {
             {/*= ========= make this title-header component start=================*/}
 
             <Row className="title-header pt-3">
-              <Col className="pt-3">
-                <Title h2 className="mr-3 mb-0">
-                  Transaction
-                </Title>
-                <Title h2 className="token d-inline mb-0">
-                  <span className="">{txnHashText}</span>
-                </Title>
-              </Col>
+              {isSearch && (
+                <Col className="pt-3">
+                  <Title h2 className="mr-3 mb-0">
+                    Transaction
+                  </Title>
+                  <Title h2 className="token d-inline mb-0">
+                    <span className="">{txnHashText}</span>
+                  </Title>
+                </Col>
+              )}
+
               <Col xs={12} className="search-col">
                 <div className="form-element form-input">
                   <form
@@ -549,10 +552,12 @@ export default class Transactions extends Component {
               isSearching={isSearch}
               currentPage={this.state.currentPage}
             />
-            <Row>
-              {this.renderTransactionSearchView()}
-              {this.renderTransactionList()}
-            </Row>
+            {isSearch ? (
+              <Row>{this.renderTransactionSearchView()}</Row>
+            ) : (
+              <Row>{this.renderTransactionList()}</Row>
+            )}
+
             <TxBlockPagination
               onChangePage={this.onChangePage}
               isSearching={isSearch}

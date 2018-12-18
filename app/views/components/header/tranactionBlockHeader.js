@@ -25,6 +25,7 @@ export default class TranactionBlockHeader extends React.PureComponent {
 
   render() {
     const { windowWidth } = this.state;
+
     const {
       title,
       block,

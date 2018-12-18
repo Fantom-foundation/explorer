@@ -80,7 +80,6 @@ export default class DetailView extends React.PureComponent {
                             <tr>
                               <td>Input Data:</td>
                               <td>
-                                {/* {inputData} */}
                                 <textarea className="txn-inputdata">
                                   {data.logsBloom}
                                 </textarea>

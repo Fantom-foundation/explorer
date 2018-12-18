@@ -486,17 +486,20 @@ export default class Blocks extends Component {
             {/*= ========= make this title-header component start=================*/}
 
             <Row className="title-header pt-3">
-              <Col className="pt-3">
-                <Title h2 className="d-inline  mr-4 mb-0">
-                  Blocks
-                </Title>
-                <Title h2 className="token d-inline mb-0">
-                  <span className="">
-                    {hashSymbol}
-                    {blockNumberText}
-                  </span>
-                </Title>
-              </Col>
+              {isSearch && (
+                <Col className="pt-3">
+                  <Title h2 className="d-inline  mr-4 mb-0 text-white">
+                    Block
+                  </Title>
+
+                  <Title h2 className="token d-inline mb-0">
+                    <span className="">
+                      {hashSymbol}
+                      {blockNumberText}
+                    </span>
+                  </Title>
+                </Col>
+              )}
               <Col xs={12} lg={3}>
                 <div className="form-element form-input">
                   <form
