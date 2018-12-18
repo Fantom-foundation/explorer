@@ -1,11 +1,3 @@
-$theme-color:map-get($color, blue);
-  .form-btn,
-  .form-btn-cancel,
-  .form-btn-error {
-    left: -1px;
-    right: -1px;
-    bottom: -1px;
-  }
 $theme-color: map-get($color, blue);
 .form-btn,
 .form-btn-cancel,

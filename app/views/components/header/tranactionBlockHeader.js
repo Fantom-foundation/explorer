@@ -18,13 +18,22 @@ export default class TranactionBlockHeader extends React.PureComponent {
     window.removeEventListener('resize', this.handleResize);
   }
 
-  handleResize = () => this.setState({
-    windowWidth: window.innerWidth,
-  });
+  handleResize = () =>
+    this.setState({
+      windowWidth: window.innerWidth,
+    });
 
   render() {
     const { windowWidth } = this.state;
-    const { title, block, total, icon, isSearching, onShowList } = this.props;
+    const {
+      title,
+      block,
+      total,
+      icon,
+      isSearching,
+      onShowList,
+      currentPage,
+    } = this.props;
     return (
       <Row>
         <Col md={6} className="table-title">
@@ -43,7 +52,10 @@ export default class TranactionBlockHeader extends React.PureComponent {
         {windowWidth >= 768 && (
           <Col md={6}>
             {!isSearching ? (
-              <TxBlockPagination onChangePage={this.props.onChangePage} />
+              <TxBlockPagination
+                onChangePage={this.props.onChangePage}
+                currentPage={this.props.currentPage}
+              />
             ) : (
               <Button onClick={() => onShowList()}>List</Button>
             )}

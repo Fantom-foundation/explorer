@@ -9,6 +9,7 @@ import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
+
 export default class Blocks extends Component {
   constructor(props) {
     super(props);
@@ -395,7 +396,15 @@ export default class Blocks extends Component {
                 {transformedBlockArray &&
                   transformedBlockArray.length > 0 &&
                   transformedBlockArray.map((data, index) => (
-                    <tr key={index}>
+                    <tr
+                      key={index}
+                      onClick={() =>
+                        this.props.history.push({
+                          pathname: `/detail/${data.hash}`,
+                          state: { data, type: 'block' },
+                        })
+                      }
+                    >
                       <td data-head="Height" className="text-primary full head">
                         <span className="icon icon-block">{data.height}</span>
                       </td>
@@ -533,6 +542,7 @@ export default class Blocks extends Component {
               total="(Total of 683391 Blocks)"
               isSearching={isSearch}
               onShowList={this.onShowList}
+              currentPage={this.state.currentPage}
             />
 
             {this.renderBlockSearchView()}

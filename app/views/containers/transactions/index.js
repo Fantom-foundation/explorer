@@ -420,7 +420,15 @@ export default class Transactions extends Component {
               {transformedArray &&
                 transformedArray.length > 0 &&
                 transformedArray.map((data, index) => (
-                  <tr key={`tx_${index}`}>
+                  <tr
+                    key={`tx_${index}`}
+                    onClick={() =>
+                      this.props.history.push({
+                        pathname: `/detail/${data.transaction_hash}`,
+                        state: { data, type: 'transaction' },
+                      })
+                    }
+                  >
                     <td
                       data-head="TxHash"
                       className="text-primary  text-ellipsis full head"
@@ -539,6 +547,7 @@ export default class Transactions extends Component {
               block="Block #683387 To #683390"
               total="(Total of 683391 Blocks)"
               isSearching={isSearch}
+              currentPage={this.state.currentPage}
             />
             <Row>
               {this.renderTransactionSearchView()}
