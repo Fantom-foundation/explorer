@@ -9,7 +9,7 @@ import TxBlockPagination from '../pagination/txBlockPagination';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 // import Web3 from 'web3';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
-
+import SearchBar from '../../components/search/searchBar/index';
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
 
 function scientificToDecimal(num) {
@@ -480,7 +480,7 @@ export default class Transactions extends Component {
         {transactionData.length > 0 && (
           <SearchForTransaction transactions={transactionData} />
         )}
-        {error !== '' && searchText !== '' && <p>{error}</p>}
+        {error !== '' && searchText !== '' && <p className="text-white">{error}</p>}
       </React.Fragment>
     );
   }
@@ -500,21 +500,14 @@ export default class Transactions extends Component {
     return (
       <div>
         <Header />
+        <SearchBar searchHandler={(e) => this.searchHandler(e) } setSearchText={ (e) => this.setSearchText(e)} searchText={searchText}/>
         <section className="bg-theme full-height-conatainer">
           <Container>
             {/*= ========= make this title-header component start=================*/}
 
-            <Row className="title-header pt-3">
-              <Col className="pt-3">
-                <Title h2 className="mr-3 mb-0">
-                  Transaction
-                </Title>
-                <Title h2 className="token d-inline mb-0">
-                  <span className="">{txnHashText}</span>
-                </Title>
-              </Col>
-              <Col xs={12} className="search-col">
-                <div className="form-element form-input">
+            {/* <Row className="title-header">
+              <Col>
+                
                   <form
                     autoComplete="off"
                     onSubmit={(e) => this.searchHandler(e)}
@@ -529,14 +522,12 @@ export default class Transactions extends Component {
                       onChange={(e) => this.setSearchText(e)}
                     />
                     <div className="form-element-bar" />
-                    <label className="form-element-label" htmlFor="search">
-                      {' '}
-                      Search by Txhash
-                    </label>
+                   
                   </form>
-                </div>
+          
               </Col>
-            </Row>
+            </Row> */}
+            
 
             {/*= ========= make this title-header component end=================*/}
             <TranactionBlockHeader

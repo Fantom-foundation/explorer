@@ -9,6 +9,7 @@ import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
+import SearchBar from '../../components/search/searchBar/index';
 
 export default class Blocks extends Component {
   constructor(props) {
@@ -485,19 +486,9 @@ export default class Blocks extends Component {
           <Container>
             {/*= ========= make this title-header component start=================*/}
 
-            <Row className="title-header pt-3">
-              <Col className="pt-3">
-                <Title h2 className="d-inline  mr-4 mb-0">
-                  Blocks
-                </Title>
-                <Title h2 className="token d-inline mb-0">
-                  <span className="">
-                    {hashSymbol}
-                    {blockNumberText}
-                  </span>
-                </Title>
-              </Col>
-              <Col xs={12} lg={3}>
+            {/* <Row className="title-header pt-3">
+         
+              <Col>
                 <div className="form-element form-input">
                   <form
                     autoComplete="off"
@@ -513,15 +504,15 @@ export default class Blocks extends Component {
                       onChange={(e) => this.setSearchText(e)}
                     />
                     <div className="form-element-bar" />
-                    {/* <label className="form-element-label" htmlFor="search">Search by Address / Txhash / Block Heights</label> */}
+                    
                     <label className="form-element-label" htmlFor="search">
                       Search Block Number
                     </label>
                   </form>
                 </div>
               </Col>
-            </Row>
-
+            </Row> */}
+      <SearchBar searchHandler={(e) => this.searchHandler(e)} setSearchText={(e) => this.setSearchText(e)} searchText={searchText}/>
             {/*= ========= make this title-header component end=================*/}
 
             {/* <Row>

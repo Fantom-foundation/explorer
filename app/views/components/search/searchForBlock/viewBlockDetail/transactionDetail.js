@@ -32,12 +32,12 @@ class TransactionDetail extends Component {
 
         return (
           <tr key={index}>
-            {<td className="text-white">{transaction_hash}</td>}
-            {<td className="text-white">{block_id}</td>}
-            {<td className="text-white">{address_from}</td>}
-            {<td className="text-white">{address_to}</td>}
-            {<td className="text-white">{value} FTM</td>}
-            {<td className="text-white">{gasUsed}</td>}
+            {<td data-head="TxHash" className="text-primary full head text-ellipsis"><span className="icon icon-transaction">{transaction_hash}</span></td>}
+            {<td data-head="Block" className="text-primary half text-ellipsis">{block_id}</td>}
+            {<td data-head="From" className="text-primary half text-ellipsis">{address_from}</td>}
+            {<td data-head="To" className="text-primary half text-ellipsis">{address_to}</td>}
+            {<td data-head="Value" className="text-primary half text-ellipsis">{value} FTM</td>}
+            {<td data-head="gasUsed" className="text-primary half text-ellipsis">{gasUsed}</td>}
           </tr>
         );
       });
@@ -51,7 +51,7 @@ class TransactionDetail extends Component {
         <Table className="transactions-table">
           <thead className="dark">
             <tr>
-              {<th>txHash</th>}
+              {<th>TxHash</th>}
               {<th>Block</th>}
               {<th>From</th>}
               {<th>To</th>}

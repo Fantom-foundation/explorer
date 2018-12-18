@@ -1,5 +1,7 @@
 import React from 'react';
 import { Col, Table, Row, TabContent, TabPane } from 'reactstrap';
+import Header from '../../components/header/header'
+
 export default class DetailView extends React.PureComponent {
   showDetail(height, transactions) {
     if (transactions <= 0) {
@@ -21,81 +23,57 @@ export default class DetailView extends React.PureComponent {
         txnStatus = 'Success';
       }
       return (
-        <Col>
-          <div id="theme-tab">
-            <TabContent className="theme-nav-tab-content" activeTab={'1'}>
-              <TabPane tabId="1">
-                <Row>
-                  <Col sm="12">
-                    <Row>
-                      <Col>
-                        <Table className="information-table">
-                          <thead>
-                            <tr>
-                              <th className="w-nowrap">
-                                Transaction Information
-                              </th>
-                              <th />
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>TxHash:</td>
-                              <td>{data.transaction_hash}</td>
-                            </tr>
-                            <tr>
-                              <td>TxReceipt Status:</td>
-                              <td>{txnStatus}</td>
-                            </tr>
-                            <tr>
-                              <td>From:</td>
-                              <td className="text-primary">
-                                {data.address_from}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>To:</td>
-                              <td>{data.address_to}</td>
-                            </tr>
-                            <tr>
-                              <td>Value:</td>
-                              <td>{data.value} FTM</td>
-                            </tr>
-                            <tr>
-                              <td>Gas used:</td>
-                              <td>{data.gasUsed}</td>
-                            </tr>
-                            <tr>
-                              <td>Cumulative Gas used:</td>
-                              <td>{data.cumulativeGasUsed}</td>
-                            </tr>
-                            <tr>
-                              <td>Contract Address:</td>
-                              <td>{data.contractAddress}</td>
-                            </tr>
-                            <tr>
-                              <td>Root:</td>
-                              <td>{data.root}</td>
-                            </tr>
-                            <tr>
-                              <td>Input Data:</td>
-                              <td>
-                                {/* {inputData} */}
-                                <textarea className="txn-inputdata">
-                                  {data.logsBloom}
-                                </textarea>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
+        <React.Fragment>
+          <Header />
+        <div className="tran-blk-details" style={{padding:'100px'}}>
+          <div>
+            <p>TxHash :</p>
+            <p className="text-ellipsis">{data.transaction_hash}</p>
           </div>
-        </Col>
+          <div>
+            <p>TxReceipt Status :</p>
+            <p className="text-ellipsis">{txnStatus}</p>
+          </div>
+          <div>
+            <p>From:</p>
+            <p className="text-ellipsis">{data.address_from}</p>
+          </div>
+          <div>
+            <p>To:</p>
+            <p className="text-ellipsis">{data.address_to}</p>
+          </div>
+          <div>
+            <p>Value:</p>
+            <p className="text-ellipsis">{data.gasUsed}</p>
+          </div>
+          <div>
+            <p>Gas used:</p>
+            <p className="text-ellipsis">{txnStatus}</p>
+          </div>
+          <div>
+            <p>Cumulative Gas used:</p>
+            <p className="text-ellipsis">{data.cumulativeGasUsed}</p>
+          </div>
+          <div>
+            <p>Contract Address:</p>
+            <p className="text-ellipsis">{data.contractAddress}</p>
+          </div>
+          <div>
+            <p>Root :</p>
+            <p className="text-ellipsis">{data.root}</p>
+          </div>
+          <div>
+            <p>Contract Address:</p>
+            <p className="text-ellipsis">{data.contractAddress}</p>
+          </div>
+          <div>
+            <p>Input Data:</p>
+            <p className="text-ellipsis text-primary">
+            {data.logsBloom}
+            </p>
+          </div>
+        </div>
+      </React.Fragment>
       );
     } else if (type === 'block') {
       let transactionText = 'transactions';
@@ -105,8 +83,8 @@ export default class DetailView extends React.PureComponent {
 
       return (
         <React.Fragment>
-          <hr />
-          <div className="tran-blk-details">
+           <Header />
+          <div className="tran-blk-details" style={{padding:'100px'}}>
             <div>
               <p>Height :</p>
               <p className="text-ellipsis">{data.height}</p>
