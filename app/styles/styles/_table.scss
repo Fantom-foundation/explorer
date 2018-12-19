@@ -56,6 +56,9 @@ $icon-transaction:'../images/icons/tx.svg';
     }
   }
   &.blocks-table,&.transactions-table  {
+    tr{
+      cursor: pointer;
+    }
     @media (max-width: 767px) {
       font:{ size:12px; }
       display: -webkit-box;
@@ -80,6 +83,7 @@ $icon-transaction:'../images/icons/tx.svg';
     tbody {
        display: block;
       tr {
+       
           display: -ms-flexbox;
           display: flex;
           -ms-flex-wrap: wrap;
@@ -287,6 +291,7 @@ $icon-transaction:'../images/icons/tx.svg';
 
 .tran-blk-details{
   min-height: 400px;
+ 
   div{
     display: -ms-flexbox;
     display: flex;

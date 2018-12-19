@@ -53,7 +53,7 @@ class SearchForBlock extends Component {
           </div>
           <div>
             <p>Transactions : </p>
-            <p className="text-ellipsis">
+            <p className="text-ellipsis pointer">
               <span
                 aria-hidden
                 className="text-primary"
