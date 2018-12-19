@@ -11,17 +11,13 @@ import 'babel-polyfill';
 // Import all the third party stuff
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
+
 import 'sanitize.css/sanitize.css';
 import 'react-s-alert/dist/s-alert-default.css';
 
 // Import root app
-import Routes from 'routes';
 
 // Import Language Provider
-import LanguageProvider from 'views/containers/LanguageProvider';
 
 // Load the favicon, the manifest.json file and the .htaccess file
 /* eslint-disable import/no-unresolved, import/extensions */
@@ -37,37 +33,24 @@ import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
 /* eslint-enable import/no-unresolved, import/extensions */
-
-import configureStore from './configureStore';
+import { Provider } from 'react-redux';
 import { loadState, saveState } from './localStorage';
 
 // Import i18n messages
 import { translationMessages } from './i18n';
-
+import Main from './main';
+import configureStore from './configureStore';
 // Import CSS reset and Global Styles
 import './global-style';
-
 const persistedState = loadState();
-// Create redux store with history
-//const initialState = {};
-const history = createHistory();
+
+const MOUNT_NODE = document.getElementById('app');
 const store = configureStore(persistedState, history);
 store.subscribe(() => {
   saveState(store.getState());
 });
-const MOUNT_NODE = document.getElementById('app');
-
-const render = (messages) => {
-  ReactDOM.render(
-    <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <Routes />
-        </ConnectedRouter>
-      </LanguageProvider>
-    </Provider>,
-    MOUNT_NODE
-  );
+const render = () => {
+  ReactDOM.render(<Main store={store} />, MOUNT_NODE);
 };
 
 if (module.hot) {
@@ -82,12 +65,10 @@ if (module.hot) {
 
 // Chunked polyfill for browsers without Intl support
 if (!window.Intl) {
-  (new Promise((resolve) => {
+  new Promise((resolve) => {
     resolve(import('intl'));
-  }))
-    .then(() => Promise.all([
-      import('intl/locale-data/jsonp/en.js'),
-    ]))
+  })
+    .then(() => Promise.all([import('intl/locale-data/jsonp/en.js')]))
     .then(() => render(translationMessages))
     .catch((err) => {
       throw err;

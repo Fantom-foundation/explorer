@@ -1,71 +1,104 @@
 import React, { Component } from 'react';
-import { Col, Table } from 'reactstrap';
+import {
+  Col,
+  Table,
+  Row,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane,
+} from 'reactstrap';
 import Web3 from 'web3';
-
+import classnames from 'classnames';
 /**
  * SearchForTransaction :  A component meant for searching details of particuler transaction , on entering valid transaction hash in search field.
  */
 
 class SearchForTransaction extends Component {
-  render() {
+  renderDetail = () => {
     const { transactions } = this.props;
-    let transaction_hash = '';
-    let block_id = '';
-    let address_from = '';
-
-    let address_to = '';
+    let transactionHash = '';
+    let txnStatus = '';
+    let addressFrom = '';
+    let addressTo = '';
     let value = '';
-    let txFee = '';
-    let createdAt = '';
     let gasUsed = '';
+    let cumulativeGasUsed = '';
+    let contractAddress = '';
+    let root = '';
+    let inputData = '';
 
     if (transactions && transactions.length) {
-      transaction_hash = transactions[0].transaction_hash;
-      block_id = transactions[0].Block_id;
-      address_from = transactions[0].address_from;
-      address_to = transactions[0].address_to;
-      value = transactions[0].value;
-      value = Web3.utils.fromWei(`${value}`, 'ether');
-      value = Number(value).toFixed(4);
-      txFee = transactions[0].txFee;
-      createdAt = transactions[0].createdAt;
-      gasUsed = transactions[0].gasUsed;
+      const data = transactions.map((txData, index) => {
+        transactionHash = txData.transaction_hash || '--';
+        txnStatus = txData.status === 0 ? 'Success' : 'Failed';
+        addressFrom = txData.address_from || '--';
+        addressTo = txData.address_to || '--';
+        value = `${txData.value}` || '--';
+        if (value !== '--') {
+          value = Web3.utils.fromWei(`${value}`, 'ether');
+          value = Number(value).toFixed(4);
+        }
+        gasUsed = `${txData.gasUsed}` || '--';
+        cumulativeGasUsed = `${txData.cumulativeGasUsed}` || '--';
+        contractAddress = `${txData.contractAddress}` || '--';
+        root = `${txData.root}` || '--';
+        inputData = `${txData.logsBloom}` || '--';
+        return (
+          <React.Fragment>
+            <hr />
+            <div className="tran-blk-details">
+              <div>
+                <p>TxHash:</p>
+                <p className="text-ellipsis">{transactionHash}</p>
+              </div>
+              <div>
+                <p>TxReceipt Status:</p>
+                <p>{txnStatus}</p>
+              </div>
+              <div>
+                <p>From:</p>
+                <p className="text-primary text-ellipsis">{addressFrom}</p>
+              </div>
+              <div>
+                <p>To:</p>
+                <p className="text-ellipsis">{addressTo}</p>
+              </div>
+              <div>
+                <p>Value:</p>
+                <p>{value} FTM</p>
+              </div>
+              <div>
+                <p>Gas used:</p>
+                <p className="text-ellipsis">{gasUsed}</p>
+              </div>
+              <div>
+                <p>Cumulative Gas used:</p>
+                <p className="text-ellipsis">{cumulativeGasUsed}</p>
+              </div>
+              <div>
+                <p>Contract Address:</p>
+                <p className="text-ellipsis">{contractAddress}</p>
+              </div>
+              <div>
+                <p>Root:</p>
+                <p className="text-ellipsis">{root}</p>
+              </div>
+              <div>
+                <p>Input Data:</p>
+                <textarea>{inputData}</textarea>
+              </div>
+            </div>
+          </React.Fragment>
+        );
+      });
+      return data;
     }
-
-    return (
-      <Col>
-        <Table className="transactions-table">
-          <thead className="dark">
-            <tr>
-              {transaction_hash !== '' && <th>txHash</th>}
-              {block_id !== '' && <th>Block</th>}
-              {createdAt !== '' && <th>Age</th>}
-              {address_from !== '' && <th>From</th>}
-              {address_to !== '' && <th>To</th>}
-              {value !== '' && <th>Value</th>}
-              {txFee !== '' && <th>[TxFee]</th>}
-              {gasUsed !== '' && <th>gasUsed</th>}
-            </tr>
-          </thead>
-          <tbody className="scroll-theme-1">
-            <tr>
-              {transaction_hash !== '' && <td className="text-black">
-                {transaction_hash}
-              </td>}
-              {block_id !== '' && <td className="text-black">{block_id}</td>}
-              {createdAt !== '' && <td className="text-black">
-                {moment(parseInt(createdAt, 10)).fromNow()}
-              </td>}
-              {address_from !== '' && <td className="text-black">{address_from}</td>}
-              {address_to !== '' && <td className="text-black">{address_to}</td>}
-              {value !== '' && <td className="text-black">{value} FTM</td>}
-              {txFee !== '' && <td className="text-black">{txFee}</td>}
-              {gasUsed !== '' && <td className="text-black">{gasUsed}</td>}
-            </tr>
-          </tbody>
-        </Table>
-      </Col>
-    );
+    return null;
+  };
+  render() {
+    return this.renderDetail();
   }
 }
 

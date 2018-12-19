@@ -1,38 +1,94 @@
-*{
-    outline: 0px;
+* {
+  outline: 0px;
 }
-h2
-{
-    font: {weight: 400; }
+.pointer{
+cursor: pointer;
 }
-strong { -webkit-font-smoothing: antialiased; }
-.bg-dark{background: { color:map-get($color, black) !important; }}
-hr
-{
-    &.light { border-color: map-get($color, theme-light-border); }
+body {
+  font: {
+    family: $primaryFont;
+  }
+  background: {
+    color: $themeDark;
+  }
 }
-.bg-primary{background: { color:map-get($color, blue) !important; }}
-.container { @media (min-width: 1200px){max-width: 1172px;} }
-.bg-theme
-{
-    background: {
-        image:url(../images/backgrounds/pattern.svg);
-        size: cover;
-        position: center;
-        color:#F5F8FA;
-        attachment: fixed;
-    }
+.o-5 {
+  opacity: 0.5;
 }
-.header-title
-{
-    font: {
-        family: Helvetica;
-        size:30px;
-    }
+h2 {
+  font: {
+    weight: 400;
+  }
+}
+strong {
+  -webkit-font-smoothing: antialiased;
+}
+.bg-dark {
+  background: {
+    color: map-get($color, black) !important;
+  }
+}
+hr {
+  &.light {
+    border-color: map-get($color, theme-light-border);
+  }
+}
+.bg-primary {
+  background: {
+    color: map-get($color, blue) !important;
+  }
+}
 
+.header-title {
+  font: {
+    family: Helvetica;
+    size: 30px;
+  }
 }
-
 
 .full-height-conatainer {
-        min-height: calc(100vh - 64px) !important;
+  min-height: calc(100vh - 400px) !important;
+}
+hr {
+  opacity: map-get($color, border-line-opacity);
+  border-color: map-get($color, border-line);
+}
+
+#toggle_tooltip {
+  width: 39px !important;
+  margin: auto;
+  margin-right: 0;
+  > div {
+    width: 39px !important;
+  }
+}
+.tooltip {
+  padding: 0 0 15px;
+  .tooltip-inner {
+    font: {
+      family: "Roboto";
+      size: 12px;
+    }
+    position: relative;
+    padding: 4.5px 9.6px;
+    text-align: left;
+    background: {
+      color: #717171;
+    }
+    &::before {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+
+      border-top: 20px solid #717171;
+    }
+  }
+  .arrow {
+    display: none;
+  }
 }

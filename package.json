@@ -212,6 +212,7 @@
     "testRegex": "tests/.*\\.test\\.js$"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "6.23.0",
     "bcrypt-nodejs": "0.0.3",
     "bip39": "^2.5.0",
@@ -263,6 +264,7 @@
     "react-router-dom": "4.2.2",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-s-alert": "^1.4.1",
+    "react-toggle-button": "^2.2.0",
     "reactstrap": "^5.0.0",
     "redux": "^3.6.0",
     "redux-immutable": "4.0.0",
@@ -314,7 +316,7 @@
     "file-loader": "0.11.1",
     "html-loader": "0.4.5",
     "html-webpack-plugin": "2.29.0",
-    "image-webpack-loader": "^4.3.1",
+    "image-webpack-loader": "^4.6.0",
     "imports-loader": "0.7.1",
     "install-peers": "^1.0.2",
     "jest-cli": "20.0.4",

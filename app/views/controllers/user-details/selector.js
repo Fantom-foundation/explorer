@@ -9,9 +9,8 @@ const selectLoginUser = (state) => state.get('currentUserDetails');
  * Select the language locale
  */
 
-const getUserDetails = () => createSelector(
-  selectLoginUser,
-  (loginState) => {
+const getUserDetails = () =>
+  createSelector(selectLoginUser, (loginState) => {
     const userDetails = loginState.get('userDetails');
     let id = '';
     let email = '';
@@ -26,10 +25,6 @@ const getUserDetails = () => createSelector(
       email = userDetails.get('email');
     }
     return { id, email };
-  }
-);
+  });
 
-export {
-  selectLoginUser,
-  getUserDetails,
-};
+export { selectLoginUser, getUserDetails };

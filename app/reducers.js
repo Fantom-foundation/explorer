@@ -6,6 +6,8 @@ import { combineReducers } from 'redux-immutable';
 import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import userDetailsReducer from 'views/controllers/user-details/reducer';
+import realtimeUpdateReducer from 'views/controllers/realtime-blockchain-update/reducer';
+import setBlockDataReducer from 'views/controllers/blocks/reducer';
 
 import languageProviderReducer from 'views/containers/LanguageProvider/reducer';
 
@@ -45,6 +47,8 @@ export default function createReducer(injectedReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     currentUserDetails: userDetailsReducer,
+    realtimeUpdateReducer,
+    setBlockDataReducer,
     ...injectedReducers,
   });
 }

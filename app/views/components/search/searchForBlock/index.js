@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Row, Col, Table, TabContent, TabPane, Nav, NavItem, NavLink,
+import {
+  Row,
+  Col,
+  Table,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
 } from 'reactstrap';
 import classnames from 'classnames';
 
@@ -8,7 +16,6 @@ import classnames from 'classnames';
  */
 
 class SearchForBlock extends Component {
-
   showDetail(height, transactions) {
     if (transactions <= 0) {
       return;
@@ -20,17 +27,18 @@ class SearchForBlock extends Component {
   }
   render() {
     const { blocks } = this.props; // eslint-disable-line
-
     let height = '';
     let hash = '';
-    let parentHash = '';
+    let round = '';
     let transactions = '';
 
     if (blocks && blocks.length) {
       height = blocks[0].height;
       hash = blocks[0].hash;
-      parentHash = blocks[0].parentHash;
-      transactions = blocks[0].transactions;
+      round = blocks[0].round;
+      transactions = blocks[0].transactions
+        ? blocks[0].transactions
+        : blocks[0].transactionLength;
     }
     let transactionText = 'transactions';
     if (transactions <= 1) {
@@ -38,57 +46,38 @@ class SearchForBlock extends Component {
     }
 
     return (
-      <Row >
-        <Col>
-          <div id="theme-tab">
-            <Nav tabs className="mb-3 theme-nav">
-              <NavItem>
-                <NavLink
-                  className={classnames({ active: true })}
-                >Overview </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent className="theme-nav-tab-content" activeTab={'1'}>
-              <TabPane tabId="1">
-                <Row>
-                  <Col sm="12">
-                    <Row>
-                      <Col>
-                        <Table className="information-table" >
-                          <thead>
-                            <tr>
-                              <th>Block Information</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Height:</td>
-                              <td>{height}</td>
-                            </tr>
-                            <tr>
-                              <td>Transactions:</td>
-                              <td><span aria-hidden className="text-primary" style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }} onClick={() => this.showDetail(height, transactions)}>{transactions} {transactionText}</span></td>
-                            </tr>
-                            <tr>
-                              <td>Hash:</td>
-                              <td>{hash}</td>
-                            </tr>
-                            <tr>
-                              <td>Parent Hash:</td>
-                              <td><span className="text-primary">{parentHash}</span></td>
-                            </tr>
-                          </tbody>
-                        </Table>
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </TabPane>
-            </TabContent>
+      <React.Fragment>
+        <hr />
+        <div className="tran-blk-details">
+          <div>
+            <p>Height :</p>
+            <p className="text-ellipsis">{height}</p>
           </div>
-        </Col>
-      </Row >
+          <div>
+            <p>Transactions : </p>
+            <p className="text-ellipsis pointer">
+              <span
+                aria-hidden
+                className="text-primary"
+                style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }}
+                onClick={() => this.showDetail(height, transactions)}
+              >
+                {transactions} {transactionText}
+              </span>
+            </p>
+          </div>
+          <div>
+            <p>Hash :</p>
+            <p className="text-ellipsis">{hash}</p>
+          </div>
+          <div>
+            <p>Round :</p>
+            <p className="text-ellipsis">
+              <span className="text-primary">{round}</span>
+            </p>
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

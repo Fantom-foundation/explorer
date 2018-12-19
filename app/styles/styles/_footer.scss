@@ -1,4 +1,94 @@
-footer
-{
-    padding: 48px 0;
+footer {
+  color: #fff;
+  hr{@media(max-width:767px){display: none}}
+  .bordred{
+    @media(max-width:767px){
+      border-top: 1px solid rgba(map-get($color, border-line) ,map-get($color, border-line-opacity));
+      
+      padding: 10px 0;
+      &:nth-last-child(2){border-bottom: 1px solid rgba(map-get($color, border-line) ,map-get($color, border-line-opacity));}
+    }
+  }
+  .menus {
+    padding-top: 50px;
+    @media(max-width:767px){padding-top: 0px;}
+    h2 {
+      opacity: 0.6;
+      margin-bottom: 20px;
+      font: {
+        family:  map-get($font, footer-font);
+        size: 21.6px;
+      }
+      @media (max-width:1200px) { font: {size: 18px;} }
+    }
+    a {
+      font: {
+        family: map-get($font, footer-font);
+        size: 16.8px;
+      }
+      color: map-get($color, footer-link );
+      @media (max-width:1200px) { font: {size: 14px;} }
+    }
+    .social {
+      margin: 0 -11px;
+      a {
+        margin: 0 11px;
+        vertical-align: middle;
+        @media(max-width:567px){    font-size: 0;}
+        img {
+          margin-right: 11.3px;
+          transform: translateY(-2px);
+          @media (max-width:1200px) {
+            height: 20px; margin: 0 8px;
+          }
+        }
+      }
+    }
+    .page-menus{
+      @media (max-width:767px) {
+        h2{ display: none;}
+        text-align: center;
+        padding: {top:30px; bottom:30px;}
+      }
+      ul{
+        padding: 0;
+        margin: 0 -16px;
+        li{
+          display: inline-block;
+          line-height: 100%;
+          padding: 0 16px;
+          border-left: 1px solid rgba(255,255,255,.6);
+          &:nth-child(1){border-left: 0px;}
+        }
+      }
+    }
+    .fields{
+      @media (max-width:767px) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        h2{margin:0;}
+      }
+    }
+  }
+  .copyright{
+    padding: 91px 0;
+    text-align: center;
+    span {
+      color:map-get($color, footer-copyright);
+      font: {
+        family: map-get($font, footer-copyright);
+        size: 16.8px;
+      }
+      @media (max-width:767px) {
+        font: {size: 14px;}
+      }
+      @media (max-width:567px) {
+        font: {size: 12px;}
+      }
+    }
+    @media (max-width:767px) {
+      padding: 0px 0 40px;
+    }
+  }
 }

@@ -1,0 +1,31 @@
+
+$themeDark:#171717;
+$block-space:15;
+$color:
+(
+    white:#fff,
+    black:#000,
+    blue:#00b1ff,
+    header-bg:$themeDark,
+    header-menu:#717171,
+    header-menu-active:#fff,
+    footer-link:#999999,
+    footer-copyright:#999999,
+    border-line:#717171,
+    border-line-opacity:0.314,
+    primary:#00b1ff,
+    blue-hover:#3cc3ff,
+    grayText:#9B9B9B,
+    lightGrayText:#cbc8c8,
+    darkGrayText:#5E6875,
+    theme-light-border:#DEECFF,
+    table-head-bg: #979797,
+    table-head: #fff,
+    table-td: #fff,
+);
+$primaryFont: "Roboto";
+$font:
+(
+    footer-font:"Lato",
+    footer-copyright:"Helvetica",
+);

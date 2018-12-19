@@ -1,107 +1,190 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table } from 'reactstrap';
+import { Container, Row, Col, Table, Button } from 'reactstrap';
 import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
-// import Web3 from 'web3';
-
+import Footer from 'views/components/footer/footer';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
+import TxBlockPagination from '../pagination/txBlockPagination';
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
+import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
-
-function scientificToDecimal(num) {
-  const sign = Math.sign(num);
-  // if the number is in scientific notation remove it
-  if (/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
-    const zero = '0';
-    const parts = String(num).toLowerCase().split('e'); // split into coeff and exponent
-    const e = parts.pop(); // store the exponential part
-    let l = Math.abs(e); // get the number of zeros
-    const direction = e / l; // use to determine the zeroes on the left or right
-    const coeff_array = parts[0].split('.');
-
-    if (direction === -1) {
-      coeff_array[0] = Math.abs(coeff_array[0]);
-      num = `${zero}.${new Array(l).join(zero)}${coeff_array.join('')}`;
-    } else {
-      const dec = coeff_array[1];
-      if (dec) l -= dec.length;
-      num = coeff_array.join('') + new Array(l + 1).join(zero);
-    }
-  }
-
-  if (sign < 0) {
-    num = -num;
-  }
-
-  return num;
-}
-
-export default class Blocks extends Component {
+import { createSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
+import Wrapper from '../../wrapper/wrapper';
+import { setBlockData } from '../../controllers/blocks/action';
+class Transactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      transactionArray: [],
       searchText: '',
       transactionData: [],
       error: '',
+      isSearch: false,
+      cursor: '',
+      lastFetchedPage: 2,
+      currentPage: 0,
+      hasNextPage: true,
+      hasPrevPage: false,
+      isRoute: false,
+      currentPageVal: 0,
     };
   }
-  /**
-   * @api_key: send private key for security purpose
-   * here call a api get-transactions and get data from transactions table.
-   */
-  componentWillMount() {
-    return;
-    fetch('http://localhost:3000/api/get-transactions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        api_key: 'qscvfgrtmncefiur2345',
-        limit: 5,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        this.setState({ transactionArray: res.result });
-      })
-      .catch((error) => {
-        console.log('error is !!!', error);
-      });
-  }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.match.params.id) {
+      if (state.isSearch) {
+        return { ...state, isRoute: false };
+      }
+      const data = [
+        {
+          ...props.location.state.data,
+        },
+      ];
+      return {
+        isRoute: true,
+        transactionData: data,
+      };
+    }
+    return {
+      ...state,
+      isRoute: false,
+    };
+  }
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
     });
+
+    if (e.target.value === '') {
+      this.setState({
+        error: '',
+        isSearch: false,
+        transactionData: [],
+      });
+    }
   }
 
-  /**
-     * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
-     * @param {String} address : address to fetch transactions.
-     */
-  getFantomTransactionsFromApiAsync(searchTransactionHash) {
-    const url = 'http://18.221.128.6:8080';
-    console.log('inside getFantomTransactionsFromApiAsync ');
-    // const dummyAddress = '0x68a07a9dc6ff0052e42f4e7afa117e90fb896eda168211f040da69606a2aeddc';
-    fetch(`${url}/transaction/${searchTransactionHash}`)
+  onChangePage = (type) => {
+    const { currentPageVal } = this.state;
+    const { allBlockData } = this.props.blockDetails;
+    const { setBlocksData } = this.props;
+    const updatePageVal =
+      type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
+    if (updatePageVal < 0) {
+      return;
+    }
 
-      // fetch(configHelper.apiUrl+'/transactions/'+ dummyAddress)
-      .then((response) => {
-        if (response && response.status < 400) {
-          return response.json();
-        }
-        throw new Error((response.statusText || 'Internal Server Error'));
-      })
-      .then((responseJson) => {
-        if (responseJson) {
-          this.loadFantomTransactionData(responseJson);
+    const currentBlockDataLength = allBlockData.length;
+    if (
+      type === 'next' &&
+      (currentPageVal + 1) * 10 >= currentBlockDataLength
+    ) {
+      return;
+    }
+    const prevPageVal = currentPageVal;
+
+    this.setState({
+      currentPageVal: updatePageVal,
+    });
+    const cursor = allBlockData[allBlockData.length - 1].cursor;
+    if (type === 'next' && this.maxPageVal < updatePageVal) {
+      if (true) {
+        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+          query: `
+          {
+            blocks(first: 10, byDirection: "desc", after: "${cursor}") {
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                cursor,
+                node {
+                  id,
+                  payload
+                }
+              }
+            }
+          }`,
+        })
+          .then(
+            (res) => {
+              if (res && res.data) {
+                this.maxPageVal = updatePageVal;
+                const allData = res.data;
+                if (
+                  allData.data &&
+                  allData.data.blocks &&
+                  allData.data.blocks.edges &&
+                  allData.data.blocks.edges.length
+                ) {
+                  const blockDetails = {
+                    payload: allData.data.blocks.edges,
+                  };
+                  setBlocksData(blockDetails);
+                  this.setState((prevState) => ({
+                    lastFetchedPage: allData.data.blocks.pageInfo.hasNextPage
+                      ? prevState.lastFetchedPage + 1
+                      : prevState.lastFetchedPage,
+                    hasNextPage: allData.data.blocks.pageInfo.hasNextPage,
+                  }));
+                } else {
+                  console.log('else part');
+                }
+              }
+              return null;
+            },
+            () => {
+              console.log('1');
+            }
+          )
+          .catch((err) => {
+            console.log(err, 'err in graphql');
+          });
+      }
+    }
+  };
+
+  /**
+   * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
+   * @param {String} address : address to fetch transactions.
+   */
+  getFantomTransactionsFromApiAsync(searchTransactionHash) {
+    const transactionHash = `"${searchTransactionHash}"`;
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+      query{
+        transaction(hash: ${transactionHash}) {
+          id,
+          hash,
+          root
+          from,
+          to,
+          value,
+          gas,
+          used,
+          price,
+          cumulative,
+          contract,
+          logs,
+          status,
+          block,
+          error
+        }  
+        }`,
+    })
+
+      .then((res) => {
+        if (res && res.data && res.data.data && res.data.data.transaction) {
+          this.loadFantomTransactionData(res.data.data.transaction);
         } else {
           this.setState({
             transactionData: [],
             error: 'No Record Found',
           });
         }
-        return responseJson;
       })
       .catch((error) => {
         this.setState({
@@ -112,20 +195,29 @@ export default class Blocks extends Component {
   }
 
   /**
-    * loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
-    * @param {*} responseJson : Json of transaction response data from Api.
-    */
+   * loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
+   * @param {*} responseJson : Json of transaction response data from Api.
+   */
   loadFantomTransactionData(result) {
     let transactionData = [];
+    let txnStatus = 'Failed';
+    if (result.status === 0) {
+      txnStatus = 'Success';
+    }
     transactionData.push({
-      transaction_hash: result.transactionHash,
+      transaction_hash: result.hash,
       Block_id: '',
       address_from: result.from,
       address_to: result.to,
       value: result.value,
       txFee: '',
       createdAt: '',
-      gasUsed: result.gasUsed,
+      gasUsed: result.gas,
+      txnStatus,
+      contractAddress: result.contract,
+      cumulativeGasUsed: result.cumulative,
+      root: result.root,
+      logsBloom: result.logs,
     });
     transactionData = transactionData.reverse();
     this.setState({
@@ -135,7 +227,7 @@ export default class Blocks extends Component {
 
   isValidHash(hash) {
     const validHashLength = 66;
-    console.log('hash.length === validHashLength : ', hash.length === validHashLength);
+
     if (hash && hash.length === validHashLength) {
       return true;
     }
@@ -143,6 +235,9 @@ export default class Blocks extends Component {
   }
   searchHandler(e) {
     e.preventDefault();
+    this.setState({
+      isSearch: true,
+    });
     const { searchText } = this.state;
 
     if (searchText && searchText !== '') {
@@ -156,89 +251,231 @@ export default class Blocks extends Component {
         this.setState({
           transactionData: [],
           error: 'Please enter valid hash.',
+          isSearch: true,
         });
       }
+    } else {
+      this.setState({
+        transactionData: [],
+        error: '',
+        isSearch: false,
+      });
     }
   }
 
-  render() {
-    // let transactions = this.state.transactionArray;
-    const { searchText, transactionData, error } = this.state;
-    return (
-      <div>
-        <Header />
-        <section className="bg-theme full-height-conatainer">
-          <Container>
-            {/*= ========= make this title-header component start=================*/}
+  renderTransactionList() {
+    const { isSearch, currentPageVal, isRoute } = this.state;
+    const from = currentPageVal * 10;
+    const to = from + 10;
+    const { latestTransactions } = this.props.blockDetails;
 
-            <Row className="title-header pt-3">
-              <Col className="pt-3">
-                <Title h2>Transaction</Title>
-              </Col>
-              <Col>
-                <div className="form-element form-input">
-                  <form autoComplete="off" onSubmit={(e) => this.searchHandler(e)}>
-                    <input
-                      value={searchText}
-                      id="search"
-                      className="form-element-field"
-                      placeholder=" "
-                      type="search"
-                      required=""
-                      onChange={(e) => this.setSearchText(e)}
-                    />
-                    <div className="form-element-bar" />
-                    <label className="form-element-label" htmlFor="search"> Search by Txhash</label>
-                  </form>
-
-                </div>
-              </Col>
-            </Row>
-
-            {/*= ========= make this title-header component end=================*/}
-
-            <Row>
-              {transactionData.length > 0 && <SearchForTransaction transactions={transactionData} />}
-              {error !== '' && <p>{error}</p>}
-              {/* <Col>
-                <Table className="transactions-table">
-                  <thead className="dark">
-                    <tr>
-                      <th>txHash</th>
-                      {<th>Block</th>}
-                      <th>Age</th>
-                      <th>From</th>
-                      <th>To</th>
-                      <th>Value</th>
-                      <th>[TxFee]</th>
-                    </tr>
-                  </thead>
-                  <tbody className="scroll-theme-1">
-                    { transactions &&
-                      transactions.length &&
-                      transactions.length > 0 &&
-                      transactions.map((data, index) => (
-                        <tr key={index}>
-                         <td className="text-black">
+    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
+      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
+        from,
+        to
+      );
+      const transformedArray = [];
+      if (transformedBlockArray.length) {
+        for (const block of transformedBlockArray) {
+          block.transactions.forEach((transac) => {
+            transformedArray.push({
+              block_id: block.hash,
+              address_from: transac.from,
+              transaction_hash: transac.transactionHash,
+              address_to: transac.to,
+              value: transac.value,
+              gasUsed: transac.gas,
+              cumulativeGasUsed: transac.cumulativeGasUsed,
+              contractAddress: transac.contractAddress,
+              root: transac.root,
+              logsBloom: transac.logsBloom,
+              status: transac.status,
+            });
+          });
+        }
+      }
+      if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
+        if (!isSearch && !isRoute) {
+          return (
+            <Col>
+              <Table className="transactions-table">
+                <thead>
+                  <tr>
+                    <th>TxHash</th>
+                    <th>Block</th>
+                    {/* <th>Age</th> */}
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Value</th>
+                    {/* <th>[TxFee]</th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {transformedArray &&
+                    transformedArray.length > 0 &&
+                    transformedArray.map((data, index) => (
+                      <tr
+                        key={`tx_${index}`}
+                        onClick={() =>
+                          this.props.history.push({
+                            pathname: `/transactions/${data.transaction_hash}`,
+                            state: { data, type: 'transaction' },
+                          })
+                        }
+                      >
+                        <td
+                          data-head="TxHash"
+                          className="text-primary  text-ellipsis full head"
+                        >
+                          <span className="icon icon-transaction">
                             {data.transaction_hash}
-                          </td>
-                           <td className="text-black">{data.block_id}</td>
-                          <td className="text-black">
-                            {moment(parseInt(data.createdAt, 10)).fromNow()}
-                          </td>
-                       <td className="text-black">{data.address_from}</td>
-                          <td className="text-black">{data.address_to}</td>
-                          <td className="text-black">{data.value}</td>
-                        <td className="text-black">{txFee}</td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </Col> */}
-            </Row>
-          </Container>
-        </section>
-      </div>
-    );
+                          </span>
+                        </td>
+                        <td
+                          data-head="Block"
+                          className="text-primary  text-ellipsis half"
+                        >
+                          {data.block_id}
+                        </td>
+
+                        <td
+                          data-head="From"
+                          className="text-primary  text-ellipsis half"
+                        >
+                          {data.address_from}
+                        </td>
+                        <td
+                          data-head="To"
+                          className="text-primary  text-ellipsis half"
+                        >
+                          {data.address_to}
+                        </td>
+                        <td data-head="Value" className="half">
+                          <span className="o-5">{data.value}</span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </Col>
+          );
+        }
+      }
+      return null;
+    }
+    return null;
+  }
+
+  renderTransactionSearchView() {
+    const {
+      transactionData,
+      error,
+      searchText,
+      isRoute,
+      isSearch,
+    } = this.state;
+    if (isSearch) {
+      return (
+        <React.Fragment>
+          {transactionData.length > 0 && (
+            <SearchForTransaction transactions={transactionData} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
+    if (isRoute) {
+      return (
+        <React.Fragment>
+          {transactionData.length > 0 && (
+            <SearchForTransaction transactions={transactionData} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
+  }
+  onShowList = () => {
+    this.props.history.push('/transactions');
+    this.setState({
+      searchText: '',
+      isSearch: false,
+      isRoute: false,
+    });
+  };
+  render() {
+    const {
+      searchText,
+      transactionData,
+      hasNextPage,
+      currentPageVal,
+    } = this.state;
+    const { isSearch, isRoute } = this.state;
+    let txnHashText = '';
+    if (transactionData && transactionData.length) {
+      txnHashText = transactionData[0].transaction_hash;
+    }
+    let descriptionBlock = '';
+    const from = currentPageVal * 10;
+    const to = from + 10;
+    let totalBlocks = '';
+    const {
+      blockDetails: { allBlockData },
+    } = this.props;
+    if (allBlockData && allBlockData.length) {
+      const firstBlock = allBlockData[0];
+      totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
+    }
+
+    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
+      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
+        from,
+        to
+      );
+      if (transformedBlockArray && transformedBlockArray.length) {
+        const firstBlock = transformedBlockArray[0];
+        const lastBlock =
+          transformedBlockArray[transformedBlockArray.length - 1];
+        descriptionBlock = `Block #${lastBlock.height} To #${
+          firstBlock.height
+        } `;
+      }
+      return (
+        <div>
+          <Wrapper
+            onChangePage={this.onChangePage}
+            onShowList={this.onShowList}
+            icon={TitleIcon}
+            title="Transactions"
+            block={descriptionBlock}
+            total={totalBlocks}
+            isSearching={isSearch}
+            isRoute={isRoute}
+            currentPage={this.state.currentPageVal}
+            searchHandler={(e) => this.searchHandler(e)}
+            setSearchText={(e) => this.setSearchText(e)}
+            searchText={searchText}
+          >
+            {this.renderTransactionSearchView()}
+            <Row>{this.renderTransactionList()}</Row>
+          </Wrapper>
+        </div>
+      );
+    }
+    return null;
   }
 }
+const mapStateToProps = createSelector(
+  getBlockUpdateDetails(),
+  (blockDetails) => ({ blockDetails })
+);
+const mapDispatchToProps = (dispatch) => ({
+  setBlocksData: (blockData) => dispatch(setBlockData(blockData)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Transactions);

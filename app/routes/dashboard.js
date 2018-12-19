@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { isUserLoggedIn } from 'common/utility';
@@ -12,6 +11,9 @@ import VerifyEmail from 'views/containers/pages/verify-email';
 import Address from 'views/containers/address/index';
 import ModalComponent from 'views/containers/modal/index';
 import BlockTransactionDetail from '../views/components/search/searchForBlock/viewBlockDetail/index';
+import Resources from '../views/containers/resources/index';
+import DetailView from '../views/containers/detailView/index';
+import Wrapper from '../views/wrapper/wrapper';
 
 function renderLoggedInRoutes() {
   return (
@@ -25,11 +27,15 @@ function renderLoggedInRoutes() {
 function renderLoggedOutRoutes() {
   return (
     <Switch>
-      <Route path="/blocks" component={Blocks} />
+      <Route path="/blocks" exact component={Blocks} />
+      <Route path="/blocks/:id" component={Blocks} />
       <Route path="/address" component={Address} />
-      <Route path="/transactions" component={Transactions} />
+      <Route path="/transactions" exact component={Transactions} />
+      <Route path="/transactions/:id" component={Transactions} />
       <Route path="/details" component={Details} />
       <Route path="/block/:id" component={BlockTransactionDetail} />
+      <Route path="/resources" component={Resources} />
+      <Route path="/detail/:hash" component={DetailView} />
       {/* <Route path="/login" component={Login} />
       <Route path="/register" component={Register} /> */}
       {/* <Route path="/login-modal" component={ModalComponent} /> */}

@@ -1,78 +1,83 @@
 import React from 'react';
-import {
-    Row,
-    Col,
-} from 'reactstrap';
-import _ from 'lodash';
-import moment from 'moment';
-import blockIcon from 'images/icons/block-icon.svg';
+import { Row, Col } from 'reactstrap';
+import PropTypes from 'prop-types';
+// import moment from 'moment';
 import { Title } from 'views/components/coreComponent/index';
+import TitleIcon from '../../../images/icons/latest-blocks.svg';
+import blockIcon from '../../../images/icons/block.svg';
+import { Link } from 'react-router-dom';
 
+function onBlockClick(props, data) {
+  props.history.push({
+    pathname: `/blocks/${data.height}`,
+    state: { data, type: 'block' },
+  });
+}
+/**
+ * @method LatestBlocks : To display list of latest blocks of transactions.
+ * @param {array} latestBlocksArr : List of latest blocks.
+ */
+export default function LatestBlocks(props) {
+  const blocks = props.latestBlocksArr;
+  return (
+    <Col xs={12} md={6} className="right">
+      <div className="header">
+        <Title
+          h2
+          className="text-uppercase l-b"
+          style={{ backgroundImage: `url(${TitleIcon})` }}
+        >
+          Latest Blocks
+        </Title>
+        <Link to="/blocks" className="btn">
+          View all
+        </Link>
+      </div>
+      <Row className="blocks">
+        {blocks &&
+          blocks.length &&
+          blocks.map((data, index) => (
+            <Col
+              key={index}
+              xs={12}
+              className="details"
+              onClick={() => onBlockClick(props, data)}
+            >
+              {/* <p className="text-white"><img src={blockIcon} className="block-icon" />{data.block_number}</p> */}
+              <p
+                className="text-white ico"
+                style={{ backgroundImage: `url(${blockIcon})` }}
+              >
+                {data.height}
+              </p>
 
-export default class LatestBlocks extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      blockArray: [],
-    };
-  }
-  /**
-   * @api_key: send private key for security purpose
-   * here call a api get-blocks and get data from blocks table.
-   */
-  componentWillMount() {
-    fetch(
-      'http://localhost:3000/api/get-blocks',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          api_key: 'qscvfgrtmncefiur2345',
-        },
-      },
-    )
-    .then((res) => res.json())
-    .then((res) => {
-      this.setState({ blockArray: res.result });
-    }).catch((error) => {
-      console.log('error is !!!', error);
-    });
-  }
-  render() {
-    const blocks = this.state.blockArray;
-    return (
-      <Col xs={12} md={6} className="right">
-        <Row className="header bg-white mb-3 pt-2 pb-3">
-          <Col><Title h2 className="text-uppercase mb-0">Latest Blocks</Title></Col>
-          <Col className="link-column"><a href="/blocks" className="link pt-2 text-black">View all</a></Col>
-        </Row>
-        <Row className="blocks">
-          {blocks && blocks.length && blocks.length > 0 && blocks.map((data, index) => (
-            <Col key={index} xs={12} className="bg-white mb-3">
-              <Row>
-                <Col className="pr-0">
-                  <p className="text-black"><img src={blockIcon} className="block-icon" />{data.block_number}</p>
-                </Col>
-                <Col className="time-date-col pl-0">
-                  <p><span className="text-primary">{moment(parseInt(data.timestamp, 10)).fromNow()}</span></p>
-                </Col>
-              </Row>
-              <p className="hash-holder">
-                <span className="text-gray">Hash</span>&nbsp;
+              <p className="text-ellipsis">
+                <span className="text-white">Hash</span>
+                &nbsp;
                 <span className="text-primary hash-value">{data.hash}</span>
               </p>
-              <p>
-                <span className="text-gray">Mined by</span>&nbsp;
-                <span className="text-primary">John Doe</span>
+              <p className="text-ellipsis">
+                <span className="text-white">Round</span>
+                &nbsp;
+                <span className="text-primary">{data.round}</span>
               </p>
-              <p className="mb-0">
-                <span className="text-gray">Txns</span>&nbsp;
-                <span className="text-primary">{data.size}</span>
-              </p>
+              <div className="ammount-date">
+                <p className="mb-0">
+                  <span className="text-white">Txns</span>
+                  &nbsp;
+                  <span className="text-primary">{data.transactionLength}</span>
+                </p>
+                {/* <p className="time-date text-white">
+                  {moment(parseInt(data.timestamp, 10)).fromNow()}
+                </p> */}
+              </div>
             </Col>
-         ))}
-        </Row>
-      </Col>
-    );
-  }
+          ))}
+      </Row>
+    </Col>
+  );
 }
+
+LatestBlocks.propTypes = {
+  latestBlocksArr: PropTypes.array,
+};

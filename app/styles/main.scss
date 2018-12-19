@@ -1,27 +1,26 @@
-@import 'styles/fonts';
-@import 'styles/colors';
-@import 'styles/mixin';
-@import 'styles/typography';
+@import "styles/fonts";
+@import "styles/global-variables";
+@import "styles/container";
+@import "styles/mixin";
+@import "styles/typography";
 
+@import "styles/nav";
+@import "styles/button";
+@import "styles/style";
+@import "styles/table";
+@import "styles/intro";
+@import "styles/latest-blocks";
+@import "styles/tabs";
+@import "styles/comments";
+@import "styles/address-details";
 
+@import "styles/form";
 
-@import 'styles/nav';
-@import 'styles/button';
-@import 'styles/style';
-@import 'styles/table';
-@import 'styles/intro';
-@import 'styles/latest-blocks';
-@import 'styles/tabs';
-@import 'styles/comments';
-@import 'styles/address-details';
+@import "styles/overlay";
+@import "styles/animations";
+@import "styles/accordion";
+@import "styles/footer";
+@import "styles/pagination";
+@import "styles/resources";
 
-@import 'styles/form';
-
-
-@import 'styles/overlay';
-@import 'styles/animations';
-@import 'styles/accordion';
-@import 'styles/footer';
-
-@import 'styles/matrial';
-
+@import "styles/loader";
