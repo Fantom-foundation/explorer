@@ -13,7 +13,7 @@ const defaultState = {
   latestTransactions: [],
 };
 
-function getBlockAllDetails(state = defaultState, action) {
+function formatBlocksData(state = defaultState, action) {
   console.log('action', action);
   const edges = action;
   const latestTransactions = [];
@@ -63,7 +63,7 @@ function setBlockDataReducer(state = initialState, action) {
   console.log(' blockData action:  ', action);
   switch (action.type) {
     case SET_BLOCK_DATA:
-      const updatedState = getBlockAllDetails(state, action);
+      const updatedState = formatBlocksData(state, action);
       console.log('updatedState', updatedState);
       return {
         ...updatedState,

@@ -50,31 +50,6 @@ class Main extends React.Component {
               allData.data.blocks.edges &&
               allData.data.blocks.edges.length
             ) {
-              const edges = allData.data.blocks.edges;
-              let cursor;
-              const latestTransactions = [];
-              const allBlockData = [];
-
-              edges.forEach((val) => {
-                const {
-                  hash,
-                  index,
-                  stateHash,
-                  transactions,
-                  round,
-                } = val.node.payload;
-
-                latestTransactions.push(...val.node.payload.transactions);
-                cursor = val.cursor;
-                allBlockData.push({
-                  hash,
-                  height: index,
-                  parentHash: stateHash,
-                  transactionLength: transactions.length,
-                  round,
-                  transactions,
-                });
-              });
               const blockDetails = {
                 payload: allData.data.blocks.edges,
               };
