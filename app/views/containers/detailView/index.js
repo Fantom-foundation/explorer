@@ -9,6 +9,7 @@ import SearchBar from '../../components/search/searchBar/index';
 import TitleIconTransaction from '../../../images/icons/latest-transaction.svg';
 import TitleIconBlock from '../../../images/icons/latest-blocks.svg';
 
+
 export default class DetailView extends React.PureComponent {
 
   render() {
