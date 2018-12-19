@@ -34,26 +34,6 @@ class Blocks extends Component {
 
     this.showDetail = this.showDetail.bind(this);
   }
-  /**
-   * @api_key: send private key for security purpose
-   * here call a api get-blocks and get data from blocks table.
-   */
-  // componentWillMount() {
-  //   fetch('http://localhost:3000/api/get-blocks', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       api_key: 'qscvfgrtmncefiur2345',
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       this.setState({ blockArray: res.result });
-  //     })
-  //     .catch((error) => {
-  //       console.log('error is !!!', error);
-  //     });
-  // }
 
   setSearchText(e) {
     this.setState({
@@ -119,69 +99,6 @@ class Blocks extends Component {
   //             cursor,
   //           });
   //           console.log('allBlockData', allBlockData);
-  //         }
-  //         return null;
-  //       },
-  //       () => {
-  //         console.log('1');
-  //       }
-  //     )
-  //     .catch((err) => {
-  //       console.log(err, 'err in graphql');
-  //     });
-  // }
-
-  // componentDidMount() {
-  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-  //     query: `
-  //         {
-  //           blocks(first:30, byDirection: "desc") {
-  //             pageInfo {
-  //               hasNextPage
-  //               hasPreviousPage
-  //             }
-  //             edges {
-  //               cursor
-  //               node {
-  //                 payload
-  //               }
-  //             }
-  //           }
-  //         }`,
-  //   })
-  //     .then(
-  //       (res) => {
-  //         if (res && res.data) {
-  //           // this.formatTransactionList(res.data);
-  //           const allBlockData = [];
-  //           const edges = res.data.data.blocks.edges;
-  //           const hasNextPage = res.data.data.blocks.pageInfo.hasNextPage;
-  //           const hasPrevPage = res.data.data.blocks.pageInfo.hasPreviousPage;
-  //           let cursor;
-  //           edges.forEach((val) => {
-  //             const {
-  //               hash,
-  //               index,
-  //               stateHash,
-  //               transactions,
-  //               round,
-  //             } = val.node.payload;
-  //             cursor = val.cursor;
-  //             allBlockData.push({
-  //               hash,
-  //               height: index,
-  //               parentHash: stateHash,
-  //               transactions: transactions.length,
-  //               round,
-  //             });
-  //           });
-  //           this.setState({
-  //             blockArray: allBlockData,
-  //             cursor,
-  //             hasNextPage,
-  //             hasPrevPage,
-  //             lastFetchedPage: 2,
-  //           });
   //         }
   //         return null;
   //       },

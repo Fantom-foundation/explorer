@@ -15,36 +15,6 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 
-function scientificToDecimal(num) {
-  const sign = Math.sign(num);
-  // if the number is in scientific notation remove it
-  if (/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
-    const zero = '0';
-    const parts = String(num)
-      .toLowerCase()
-      .split('e'); // split into coeff and exponent
-    const e = parts.pop(); // store the exponential part
-    let l = Math.abs(e); // get the number of zeros
-    const direction = e / l; // use to determine the zeroes on the left or right
-    const coeff_array = parts[0].split('.');
-
-    if (direction === -1) {
-      coeff_array[0] = Math.abs(coeff_array[0]);
-      num = `${zero}.${new Array(l).join(zero)}${coeff_array.join('')}`;
-    } else {
-      const dec = coeff_array[1];
-      if (dec) l -= dec.length;
-      num = coeff_array.join('') + new Array(l + 1).join(zero);
-    }
-  }
-
-  if (sign < 0) {
-    num = -num;
-  }
-
-  return num;
-}
-
 class Transactions extends Component {
   constructor(props) {
     super(props);
@@ -61,28 +31,6 @@ class Transactions extends Component {
       hasPrevPage: false,
     };
   }
-  /**
-   * @api_key: send private key for security purpose
-   * here call a api get-transactions and get data from transactions table.
-   */
-  // componentWillMount() {
-  //   // return;
-  //   fetch('http://localhost:3000/api/get-transactions', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       api_key: 'qscvfgrtmncefiur2345',
-  //       limit: 5,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       this.setState({ transactionArray: res.result });
-  //     })
-  //     .catch((error) => {
-  //       console.log('error is !!!', error);
-  //     });
-  // }
 
   setSearchText(e) {
     this.setState({
@@ -97,83 +45,6 @@ class Transactions extends Component {
       });
     }
   }
-
-  // componentDidMount() {
-  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-  //     query: `
-  //     {
-  //       transactions(first:30) {
-  //         pageInfo {
-  //           hasNextPage
-  //         }
-  //         edges {
-  //           cursor
-  //           node {
-  //             hash
-  //             from
-  //             to
-  //             block
-  //             value
-  //             gas
-  //             cumulative
-  //             contract
-  //             root
-  //           }
-  //         }
-  //       }
-  //     }`,
-  //   })
-  //     .then(
-  //       (res) => {
-  //         if (res && res.data) {
-  //           // this.formatTransactionList(res.data);
-  //           const allTransactionData = [];
-  //           const edges = res.data.data.transactions.edges;
-  //           const hasNextPage = res.data.data.transactions.pageInfo.hasNextPage;
-  //           let cursor;
-  //           edges.forEach((val) => {
-  //             const {
-  //               block,
-  //               from,
-  //               hash,
-  //               to,
-  //               value,
-  //               gas,
-  //               cumulative,
-  //               contract,
-  //               root,
-  //             } = val.node;
-  //             cursor = val.cursor;
-
-  //             allTransactionData.push({
-  //               block_id: block,
-  //               address_from: from,
-  //               transaction_hash: hash,
-  //               address_to: to,
-  //               value,
-  //               gasUsed: gas,
-  //               cumulativeGasUsed: cumulative,
-  //               contractAddress: contract,
-  //               root,
-  //             });
-  //           });
-  //           this.setState({
-  //             transactionArray: allTransactionData,
-  //             cursor,
-  //             hasNextPage,
-  //             lastFetchedPage: 2,
-  //           });
-  //         }
-  //         return null;
-  //       },
-  //       () => {
-  //         console.log('1');
-  //       }
-  //     )
-  //     .catch((err) => {
-  //       console.log(err, 'err in graphql');
-  //     });
-  // }
 
   onChangePage = (type) => {
     const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
