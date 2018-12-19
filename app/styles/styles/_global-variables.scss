@@ -9,6 +9,8 @@ $color:
     header-bg:$themeDark,
     header-menu:#717171,
     header-menu-active:#fff,
+    footer-link:#999999,
+    footer-copyright:#999999,
     border-line:#717171,
     border-line-opacity:0.314,
     primary:#00b1ff,
@@ -24,5 +26,6 @@ $color:
 $primaryFont: "Roboto";
 $font:
 (
-   
+    footer-font:"Lato",
+    footer-copyright:"Helvetica",
 );

@@ -11,6 +11,7 @@ import HttpDataProvider from '../../../utils/httpProvider';
 import { createSelector } from 'reselect';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import { connect } from 'react-redux';
+import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
 
 class HomePage extends Component {
   constructor(props) {
@@ -131,6 +132,7 @@ class HomePage extends Component {
         >
           {' '}
           <Container className="intro-container">
+            {/* <img src={fantomIcon} className="icon" /> */}
             <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
             {/* <Row>
               <Col>

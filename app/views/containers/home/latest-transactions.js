@@ -8,6 +8,8 @@ import transactionIcon from '../../../images/icons/transactions.svg';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
+import { Link } from 'react-router-dom';
+
 /**
  * @class LatestTransactions : To display list of latest transactions.
  * @param {array} latestTransactionsArr : List of latest transactions.
@@ -63,7 +65,7 @@ class LatestTransactions extends React.Component {
 
   onTransactionClick(props, data) {
     props.history.push({
-      pathname: `/detail/${data.transaction_hash}`,
+      pathname: '/transactions',
       state: { data, type: 'transaction' },
     });
   }
@@ -81,9 +83,10 @@ class LatestTransactions extends React.Component {
           >
             Latest Transactions
           </Title>
-          <a href="/transactions" className="btn">
+
+          <Link to="/transactions" className="btn">
             View all
-          </a>
+          </Link>
         </div>
         <Row className="blocks">
           {transactions &&

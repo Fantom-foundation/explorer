@@ -52,7 +52,7 @@ class SearchForBlock extends Component {
             <p className="text-ellipsis">{height}</p>
           </div>
           <div>
-            <p>Transactions :</p>
+            <p>Transactions : </p>
             <p className="text-ellipsis">
               <span
                 aria-hidden

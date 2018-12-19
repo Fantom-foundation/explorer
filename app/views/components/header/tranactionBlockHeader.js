@@ -34,6 +34,7 @@ export default class TranactionBlockHeader extends React.PureComponent {
       isSearching,
       onShowList,
       currentPage,
+      isRoute,
     } = this.props;
     return (
       <Row>
@@ -51,14 +52,21 @@ export default class TranactionBlockHeader extends React.PureComponent {
           </Row>
         </Col>
         {windowWidth >= 768 && (
-          <Col md={6}>
-            {!isSearching ? (
+          <Col md={6} className={`${isSearching && 'text-right'}`}>
+            {!isSearching && !isRoute ? (
               <TxBlockPagination
+                className="mr-0"
                 onChangePage={this.props.onChangePage}
                 currentPage={this.props.currentPage}
               />
             ) : (
-              <Button onClick={() => onShowList()}>List</Button>
+              <Button
+                color="white"
+                className="list"
+                onClick={() => onShowList()}
+              >
+                List
+              </Button>
             )}
           </Col>
         )}

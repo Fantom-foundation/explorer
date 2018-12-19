@@ -101,7 +101,7 @@ class MarketCap extends React.Component {
     const { isOpenTooltip, tooltipText } = this.state;
     return (
       <Row className="market-cap">
-        <Col xs={12} md={6} className="discription">
+        <div  className="discription">
           <Title h2 className="text-white mb-0">
             Beyond
           </Title>
@@ -109,8 +109,8 @@ class MarketCap extends React.Component {
             Blockchain
           </Title>
           <p className="mb-0">The Future of Decentralized Ecosystem</p>
-        </Col>
-        <Col xs={12} md={6} className="pt-3">
+        </div>
+        <div className="pt-3">
           <div id="toggle_tooltip">
             <ToggleButton
               value={isRealtimeUpdate}
@@ -156,7 +156,7 @@ class MarketCap extends React.Component {
           >
             {tooltipText}
           </Tooltip>
-        </Col>
+        </div>
         {/* <Col xs={12} className="line">
           <hr />
         </Col>

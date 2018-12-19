@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import blockIcon from '../../../images/icons/block.svg';
+import { Link } from 'react-router-dom';
 
 function onBlockClick(props, data) {
   props.history.push({
-    pathname: `/detail/${data.hash}`,
+    pathname: '/blocks',
     state: { data, type: 'block' },
   });
 }
@@ -28,9 +29,9 @@ export default function LatestBlocks(props) {
         >
           Latest Blocks
         </Title>
-        <a href="/blocks" className="btn">
+        <Link to="/blocks" className="btn">
           View all
-        </a>
+        </Link>
       </div>
       <Row className="blocks">
         {blocks &&
@@ -52,28 +53,26 @@ export default function LatestBlocks(props) {
 
               <p className="text-ellipsis">
                 <span className="text-white">Hash</span>
-                  &nbsp;
+                &nbsp;
                 <span className="text-primary hash-value">{data.hash}</span>
               </p>
               <p className="text-ellipsis">
                 <span className="text-white">Round</span>
-                  &nbsp;
+                &nbsp;
                 <span className="text-primary">{data.round}</span>
               </p>
               <div className="ammount-date">
                 <p className="mb-0">
                   <span className="text-white">Txns</span>
-                    &nbsp;
-                  <span className="text-primary">
-                    {data.transactionLength}
-                  </span>
+                  &nbsp;
+                  <span className="text-primary">{data.transactionLength}</span>
                 </p>
                 {/* <p className="time-date text-white">
                   {moment(parseInt(data.timestamp, 10)).fromNow()}
                 </p> */}
               </div>
             </Col>
-            ))}
+          ))}
       </Row>
     </Col>
   );

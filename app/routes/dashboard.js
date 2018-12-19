@@ -13,6 +13,7 @@ import ModalComponent from 'views/containers/modal/index';
 import BlockTransactionDetail from '../views/components/search/searchForBlock/viewBlockDetail/index';
 import Resources from '../views/containers/resources/index';
 import DetailView from '../views/containers/detailView/index';
+import Wrapper from '../views/wrapper/wrapper';
 
 function renderLoggedInRoutes() {
   return (

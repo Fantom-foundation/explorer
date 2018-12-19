@@ -1,22 +1,21 @@
 import React from 'react';
-import { Col, Table, Row, TabContent, TabPane } from 'reactstrap';
+import { Container, Col, Table, Row, TabContent, TabPane } from 'reactstrap';
 import Header from '../../components/header/header';
+import Footer from '../../components/footer/footer';
+import SearchForBlock from '../../components/search/searchForBlock';
+import SearchForTransaction from '../../components/search/searchForTransaction';
+import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
+import SearchBar from '../../components/search/searchBar/index';
+import TitleIconTransaction from '../../../images/icons/latest-transaction.svg';
+import TitleIconBlock from '../../../images/icons/latest-blocks.svg';
 
 export default class DetailView extends React.PureComponent {
-  showDetail(height, transactions) {
-    if (transactions <= 0) {
-      return;
-    }
-    const { showDetail } = this.props; // eslint-disable-line
-    if (showDetail) {
-      showDetail(height);
-    }
-  }
   render() {
     const location = this.props.location;
     const state = location.state;
     const data = state.data;
     const type = state.type;
+
     if (type === 'transaction') {
       let txnStatus = 'Failed';
       if (data.status === 0) {
@@ -25,56 +24,38 @@ export default class DetailView extends React.PureComponent {
       return (
         <React.Fragment>
           <Header />
-          <div className="tran-blk-details" style={{ padding: '100px' }}>
-            <div>
-              <p>TxHash :</p>
-              <p className="text-ellipsis">{data.transaction_hash}</p>
-            </div>
-            <div>
-              <p>TxReceipt Status :</p>
-              <p className="text-ellipsis">{txnStatus}</p>
-            </div>
-            <div>
-              <p>From:</p>
-              <p className="text-ellipsis">{data.address_from}</p>
-            </div>
-            <div>
-              <p>To:</p>
-              <p className="text-ellipsis">{data.address_to}</p>
-            </div>
-            <div>
-              <p>Value:</p>
-              <p className="text-ellipsis">{data.gasUsed}</p>
-            </div>
-            <div>
-              <p>Gas used:</p>
-              <p className="text-ellipsis">{txnStatus}</p>
-            </div>
-            <div>
-              <p>Cumulative Gas used:</p>
-              <p className="text-ellipsis">{data.cumulativeGasUsed}</p>
-            </div>
-            <div>
-              <p>Contract Address:</p>
-              <p className="text-ellipsis">{data.contractAddress}</p>
-            </div>
-            <div>
-              <p>Root :</p>
-              <p className="text-ellipsis">{data.root}</p>
-            </div>
-            <div>
-              <p>Contract Address:</p>
-              <p className="text-ellipsis">{data.contractAddress}</p>
-            </div>
-            <div>
-              <p>Input Data:</p>
-              <p className="text-ellipsis text-primary">{data.logsBloom}</p>
-            </div>
-          </div>
+          <SearchBar />
+          <section>
+            <Container>
+              <TranactionBlockHeader
+                onChangePage={this.onChangePage}
+                onShowList={this.onShowList}
+                icon={TitleIconTransaction}
+                title="Transactions"
+                block="Block #683387 To #683390"
+                total="(Total of 683391 Blocks)"
+                isSearching={false}
+                currentPage={1}
+              />
+            </Container>
+          </section>
+          <section className="pb-3">
+            <Container>
+              <SearchForTransaction transactions={[data]} />
+            </Container>
+          </section>
+          <Footer />
         </React.Fragment>
       );
     } else if (type === 'block') {
       let transactionText = 'transactions';
+      const blocks = [];
+      const block = {};
+      block.height = data.height;
+      block.hash = data.hash;
+      block.round = data.round;
+      block.transactions = data.transactions.length;
+      blocks.push(block);
       if (data.transactions.length <= 1) {
         transactionText = 'transaction';
       }
@@ -82,39 +63,28 @@ export default class DetailView extends React.PureComponent {
       return (
         <React.Fragment>
           <Header />
-          <div className="tran-blk-details" style={{ padding: '100px' }}>
-            <div>
-              <p>Height :</p>
-              <p className="text-ellipsis">{data.height}</p>
-            </div>
-            <div>
-              <p>Transactions :</p>
-              <p className="text-ellipsis">
-                <span
-                  aria-hidden
-                  className="text-primary"
-                  style={{
-                    cursor: `${data.transactions >= 1 ? 'pointer' : ''}`,
-                  }}
-                  onClick={() =>
-                    this.showDetail(data.height, data.transactions)
-                  }
-                >
-                  {data.transactions.length} {transactionText}
-                </span>
-              </p>
-            </div>
-            <div>
-              <p>Hash :</p>
-              <p className="text-ellipsis">{data.hash}</p>
-            </div>
-            <div>
-              <p>Round :</p>
-              <p className="text-ellipsis">
-                <span className="text-primary">{data.round}</span>
-              </p>
-            </div>
-          </div>
+          {/* <SearchBar searchHandler={(e) => this.searchHandler(e) } setSearchText={ (e) => this.setSearchText(e)} searchText={searchText}/> */}
+          <SearchBar />
+          <section>
+            <Container>
+              <TranactionBlockHeader
+                onChangePage={this.onChangePage}
+                onShowList={this.onShowList}
+                icon={TitleIconBlock}
+                title="Blocks"
+                block="Block #683387 To #683390"
+                total="(Total of 683391 Blocks)"
+                isSearching={false}
+                currentPage={1}
+              />
+            </Container>
+          </section>
+          <section className="pb-3">
+            <Container>
+              <SearchForBlock blocks={blocks} />
+            </Container>
+          </section>
+          <Footer />
         </React.Fragment>
       );
     }

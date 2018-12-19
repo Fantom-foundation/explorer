@@ -44,7 +44,7 @@ hr {
 }
 
 .full-height-conatainer {
-  min-height: calc(100vh - 64px) !important;
+  min-height: calc(100vh - 400px) !important;
 }
 hr {
   opacity: map-get($color, border-line-opacity);

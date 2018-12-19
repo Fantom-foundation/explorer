@@ -1,5 +1,6 @@
 .resources {
   $image-position-top: 70px;
+  $image-position-top-991: 40px;
   $image-position-top-767: 15px;
   $image-position-left-gap: 54px;
   
@@ -34,6 +35,7 @@
       }
       border-left: 1px solid #fff;
       padding-left: 10px;
+      @media (max-width:567px){font: { size: 10.4px; }}
       &:nth-child(1) {
         padding-left: 0px;
         border-left: 0px;
@@ -43,14 +45,17 @@
   }
   .head {
     padding: 34px 0;
+    @media (max-width:567px){ padding: 34px 0 2px; }
     .col{
       padding-left: $image-position-left-gap + $block-space;
       background: { position: top 0 left 26px; }
     }
-    h2{ font: { size: 26px; } }
+    h2{ font: { size: 26px; }
+    @media (max-width:567px){font: { size: 16px; }} }
     p{
       font: { size: 16px; }
       margin-bottom: 0;
+      @media (max-width:567px){font: { size: 9.6px; }}
     }
   }
   
@@ -66,6 +71,9 @@
         x: 15px; y: $image-position-top;
      }
     }
+    @media (max-width:991px){
+      padding: { top:35px; bottom:35px; }
+      background: { position: { y: $image-position-top-991; } }}
     @media (max-width:767px){
       padding: { top:15px; bottom:15px; }
       background: { position: { y: $image-position-top-767; } }}
@@ -78,9 +86,11 @@
     &.others{ background-position: { x: 25px; }}
     h2{
       font: { size: 20px; }
+      @media (max-width:567px){font: { size: 16px; }}
     }
     p{
       font: { size: 12px; }
+      @media (max-width:567px){font: { size: 9.6px; }}
       
     }
   }

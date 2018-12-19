@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
 import Header from 'views/components/header/header';
+import Footer from 'views/components/footer/footer';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import TxBlockPagination from '../pagination/txBlockPagination';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
@@ -14,6 +15,7 @@ import SearchForTransaction from '../../components/search/searchForTransaction/i
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
+import Wrapper from '../../wrapper/wrapper';
 
 class Transactions extends Component {
   constructor(props) {
@@ -29,9 +31,26 @@ class Transactions extends Component {
       currentPage: 0,
       hasNextPage: true,
       hasPrevPage: false,
+      isRoute: false,
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.location.state) {
+      if (state.isSearch) {
+        return { ...state, isRoute: false };
+      }
+      const data = [
+        {
+          ...props.location.state.data,
+        },
+      ];
+      return {
+        isRoute: true,
+        transactionData: data,
+      };
+    }
+  }
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
@@ -270,7 +289,7 @@ class Transactions extends Component {
   }
 
   renderTransactionList() {
-    const { isSearch, currentPage } = this.state;
+    const { isSearch, currentPage, isRoute } = this.state;
     // const txFee = '0.0001';
     const from = currentPage * 10;
     const to = from + 10;
@@ -280,7 +299,7 @@ class Transactions extends Component {
       this.props.blockDetails.latestTransactions
     );
     const transformedArray = latestTransactions.slice(from, to);
-    if (!isSearch) {
+    if (!isSearch && !isRoute) {
       return (
         <Col>
           <Table className="transactions-table">
@@ -303,7 +322,7 @@ class Transactions extends Component {
                     key={`tx_${index}`}
                     onClick={() =>
                       this.props.history.push({
-                        pathname: `/detail/${data.transactionHash}`,
+                        pathname: '/transactions',
                         state: { data, type: 'transaction' },
                       })
                     }
@@ -352,17 +371,36 @@ class Transactions extends Component {
   }
 
   renderTransactionSearchView() {
-    const { transactionData, error, searchText } = this.state;
-
-    return (
-      <React.Fragment>
-        {transactionData.length > 0 && (
-          <SearchForTransaction transactions={transactionData} />
-        )}
-        {error !== '' &&
-          searchText !== '' && <p className="text-white">{error}</p>}
-      </React.Fragment>
-    );
+    const {
+      transactionData,
+      error,
+      searchText,
+      isRoute,
+      isSearch,
+    } = this.state;
+    console.log('isSearchblock', isSearch, isRoute);
+    if (isSearch) {
+      return (
+        <React.Fragment>
+          {transactionData.length > 0 && (
+            <SearchForTransaction transactions={transactionData} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
+    if (isRoute) {
+      return (
+        <React.Fragment>
+          {transactionData.length > 0 && (
+            <SearchForTransaction transactions={transactionData} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
   }
   onShowList = () => {
     this.setState({
@@ -372,48 +410,17 @@ class Transactions extends Component {
   };
   render() {
     const { searchText, transactionData, hasNextPage } = this.state;
-    console.log('this.props.blockDetails11', this.props.blockDetails);
-    const { isSearch } = this.state;
+    const { isSearch, isRoute } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;
     }
     return (
       <div>
-        <Header />
-        <SearchBar
-          searchHandler={(e) => this.searchHandler(e)}
-          setSearchText={(e) => this.setSearchText(e)}
-          searchText={searchText}
-        />
+        {/* <Header />
+        <SearchBar searchHandler={(e) => this.searchHandler(e) } setSearchText={ (e) => this.setSearchText(e)} searchText={searchText}/>
         <section className="bg-theme full-height-conatainer">
           <Container>
-            {/*= ========= make this title-header component start=================*/}
-
-            {/* <Row className="title-header">
-              <Col>
-
-                  <form
-                    autoComplete="off"
-                    onSubmit={(e) => this.searchHandler(e)}
-                  >
-                    <input
-                      value={searchText}
-                      id="search"
-                      className="form-element-field"
-                      placeholder=" "
-                      type="search"
-                      required=""
-                      onChange={(e) => this.setSearchText(e)}
-                    />
-                    <div className="form-element-bar" />
-
-                  </form>
-
-              </Col>
-            </Row> */}
-
-            {/*= ========= make this title-header component end=================*/}
             <TranactionBlockHeader
               onChangePage={this.onChangePage}
               onShowList={this.onShowList}
@@ -423,20 +430,32 @@ class Transactions extends Component {
               total="(Total of 683391 Blocks)"
               isSearching={isSearch}
               currentPage={this.state.currentPage}
-            />
-            {isSearch ? (
-              <Row>{this.renderTransactionSearchView()}</Row>
-            ) : (
-              <Row>{this.renderTransactionList()}</Row>
-            )}
-
-            <TxBlockPagination
+            /> */}
+        <Wrapper
+          onChangePage={this.onChangePage}
+          onShowList={this.onShowList}
+          icon={TitleIcon}
+          title="Transactions"
+          block="Block #683387 To #683390"
+          total="(Total of 683391 Blocks)"
+          isSearching={isSearch}
+          isRoute={isRoute}
+          currentPage={this.state.currentPage}
+          searchHandler={(e) => this.searchHandler(e)}
+          setSearchText={(e) => this.setSearchText(e)}
+          searchText={searchText}
+        >
+          {this.renderTransactionSearchView()}
+          <Row>{this.renderTransactionList()}</Row>
+        </Wrapper>
+        {/* <TxBlockPagination
               onChangePage={this.onChangePage}
               isSearching={isSearch}
               currentPage={this.state.currentPage}
             />
           </Container>
         </section>
+        <Footer /> */}
       </div>
     );
   }

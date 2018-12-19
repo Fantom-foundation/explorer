@@ -309,4 +309,20 @@ $icon-transaction:'../images/icons/tx.svg';
       padding-right: 12px;
     }
   }
+  textarea
+  {
+    width: 100%;
+    color: #fff;
+    height: 70px;
+    font-family: Roboto;
+    font-size: 16px;
+    @media(max-width:767px){
+      font-size: 14px;
+      height: 62px;
+    }
+    @media(max-width:576px){
+      font-size: 12px;
+      height: 52px;
+    }
+  }
 }

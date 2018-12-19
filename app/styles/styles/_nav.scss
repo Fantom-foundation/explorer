@@ -30,23 +30,22 @@ header
     nav
     {
         .btn{
-           
+           border-radius: 0px;
             position: fixed;
             
             @media (min-width:768px) {display: none;}
             padding: 0;
             &.open{
                 top: 19px;
-                right: 21px;
+                right: 26px;
                 height: 13px;
                 width: 19px;
-             
             }
             &.close{
                 opacity: 1 !important;
                 z-index: 99999;
                 top: 9px;
-                right: 15px;
+                right: 20px;
                 width: 31px;
                 height: 31px;
                 &.dim

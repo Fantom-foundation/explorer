@@ -46,81 +46,52 @@ class SearchForTransaction extends Component {
         root = `${txData.root}` || '--';
         inputData = `${txData.logsBloom}` || '--';
         return (
-          // <Row>
-          <Col key={index}>
-            <div id="theme-tab">
-              <TabContent className="theme-nav-tab-content" activeTab={'1'}>
-                <TabPane tabId="1">
-                  <Row>
-                    <Col sm="12">
-                      <Row>
-                        <Col>
-                          <Table className="information-table">
-                            <thead>
-                              <tr>
-                                <th className="w-nowrap">
-                                  Transaction Information
-                                </th>
-                                <th />
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>TxHash:</td>
-                                <td>{transactionHash}</td>
-                              </tr>
-                              <tr>
-                                <td>TxReceipt Status:</td>
-                                <td>{txnStatus}</td>
-                              </tr>
-                              <tr>
-                                <td>From:</td>
-                                <td className="text-primary">{addressFrom}</td>
-                              </tr>
-                              <tr>
-                                <td>To:</td>
-                                <td>{addressTo}</td>
-                              </tr>
-                              <tr>
-                                <td>Value:</td>
-                                <td>{value} FTM</td>
-                              </tr>
-                              <tr>
-                                <td>Gas used:</td>
-                                <td>{gasUsed}</td>
-                              </tr>
-                              <tr>
-                                <td>Cumulative Gas used:</td>
-                                <td>{cumulativeGasUsed}</td>
-                              </tr>
-                              <tr>
-                                <td>Contract Address:</td>
-                                <td>{contractAddress}</td>
-                              </tr>
-                              <tr>
-                                <td>Root:</td>
-                                <td>{root}</td>
-                              </tr>
-                              <tr>
-                                <td>Input Data:</td>
-                                <td>
-                                  {/* {inputData} */}
-                                  <textarea className="txn-inputdata">
-                                    {inputData}
-                                  </textarea>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </Table>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </TabPane>
-              </TabContent>
-            </div>
-          </Col>
-          // </Row>
+          <React.Fragment>
+          <hr />
+          <div className="tran-blk-details">
+                              <div>
+                                <p>TxHash:</p>
+                                <p className="text-ellipsis">{transactionHash}</p>
+                              </div>
+                              <div>
+                                <p>TxReceipt Status:</p>
+                                <p>{txnStatus}</p>
+                              </div>
+                              <div>
+                                <p>From:</p>
+                                <p className="text-primary text-ellipsis">{addressFrom}</p>
+                              </div>
+                              <div>
+                                <p>To:</p>
+                                <p className="text-ellipsis">{addressTo}</p>
+                              </div>
+                              <div>
+                                <p>Value:</p>
+                                <p>{value} FTM</p>
+                              </div>
+                              <div>
+                                <p>Gas used:</p>
+                                <p className="text-ellipsis">{gasUsed}</p>
+                              </div>
+                              <div>
+                                <p>Cumulative Gas used:</p>
+                                <p className="text-ellipsis">{cumulativeGasUsed}</p>
+                              </div>
+                              <div>
+                                <p>Contract Address:</p>
+                                <p className="text-ellipsis">{contractAddress}</p>
+                              </div>
+                              <div>
+                                <p>Root:</p>
+                                <p className="text-ellipsis">{root}</p>
+                              </div>
+                              <div>
+                                <p>Input Data:</p>
+                                <textarea>{inputData}</textarea>
+                              </div>
+                        
+                              </div>
+                </React.Fragment>
         );
       });
       return data;

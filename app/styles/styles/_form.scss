@@ -23,53 +23,42 @@ $input-placeholder:#717171;
         right:10px;
 
       }
-      @media (max-width:567px) {
-        width: 14px;
-        height: 14px;
-        right:8.8px;
 
+    }
+    input{
+      height: 42px;
+      width: 100%;
+      padding: {
+        left: 13.8px;
+        right: 50px;
       }
+      font-size: 15.4px;
+      
+      border-radius: 3.1px;
+      border: 1px solid #717171;
+      color:#fff;
+      &::-webkit-input-placeholder { 
+        color: $input-placeholder;
+      }
+      &::-moz-placeholder { 
+        color: $input-placeholder;
+      }
+      &:-ms-input-placeholder { 
+        color: $input-placeholder;
+      }
+      &:-moz-placeholder { 
+        color: $input-placeholder;
+      }
+      @media (max-width:767px) {
+        height: 40px;
+        font-size: 16px;
+        padding: {
+          left: 10px;
+          right: 30px;
+        }
+      }
+  
     }
   }
-  input{
-    height: 42px;
-    width: 100%;
-    padding: {
-      left: 13.8px;
-      right: 50px;
-    }
-    font-size: 15.4px;
-    
-    border-radius: 3.1px;
-    border: 1px solid #717171;
-    color:#fff;
-    &::-webkit-input-placeholder { 
-      color: $input-placeholder;
-    }
-    &::-moz-placeholder { 
-      color: $input-placeholder;
-    }
-    &:-ms-input-placeholder { 
-      color: $input-placeholder;
-    }
-    &:-moz-placeholder { 
-      color: $input-placeholder;
-    }
-    @media (max-width:767px) {
-      height: 30px;
-      font-size: 12px;
-      padding: {
-        left: 10px;
-        right: 30px;
-      }
-    }
-    @media (max-width:567px) {
-      height: 25px;
-      font-size: 9.2px;
-      padding: {
-        left: 8.3px;
-        right: 25px;
-      }
-    }
-  }
+  
 }
