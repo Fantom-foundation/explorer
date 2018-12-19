@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import { Container, Row, Col, Table, Button } from 'reactstrap';
 import TxBlockPagination from '../../containers/pagination/txBlockPagination';
 
