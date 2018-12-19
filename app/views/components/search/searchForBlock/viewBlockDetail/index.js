@@ -124,7 +124,9 @@ class BlockDetail extends Component {
           <Container>
             <Row className="title-header pt-3">
               <Col className="pt-3">
-                <Title h2>Transactions</Title>
+                <Title className="text-white" h2>
+                  Transactions
+                </Title>
               </Col>
             </Row>
             <Row>

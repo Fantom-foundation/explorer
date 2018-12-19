@@ -12,6 +12,8 @@ import { createSelector } from 'reselect';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import { connect } from 'react-redux';
 import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
+import fantomIconHalf from 'images/Logo/Fantom-Logo-icon-half.svg';
+import ToggleToolTip from './toggleToolTip';
 
 class HomePage extends Component {
   constructor(props) {
@@ -20,15 +22,15 @@ class HomePage extends Component {
       latestTransactionsArr: [],
       latestBlocksArr: [],
     };
-    this.handleRealTimeUpdate = this.handleRealTimeUpdate.bind(this);
+    // this.handleRealTimeUpdate = this.handleRealTimeUpdate.bind(this);
   }
 
   /**
    * @method handleRealTimeUpdate : To update list of latest blocks and transactions, If real time update is enabled.
    */
-  handleRealTimeUpdate() {
-    this.fetchLatestBlocks();
-  }
+  // handleRealTimeUpdate() {
+  //   this.fetchLatestBlocks();
+  // }
 
   render() {
     // const socket = io();
@@ -43,15 +45,19 @@ class HomePage extends Component {
           >
             {' '}
             <Container className="intro-container">
-              {/* <img src={fantomIcon} className="icon" /> */}
-              <MarketCap
-                handleRealTimeUpdate={this.props.handleRealTimeUpdate}
-              />
+              <img src={fantomIcon} className="icon" />
+              <MarketCap />
+              {/* <Row>
+                <Col>
+                  <Chart />
+                </Col>
+              </Row> */}
             </Container>
           </section>
           <section>
             <Container>
               <hr />
+              <ToggleToolTip />
             </Container>
           </section>
           <section id="latest-blocks" className="bg-theme">
