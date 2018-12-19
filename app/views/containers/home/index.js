@@ -8,6 +8,8 @@ import LatestBlocks from 'views/containers/home/latest-blocks';
 import MarketCap from 'views/containers/home/market-cap';
 import Chart from 'views/containers/chart/index';
 import HttpDataProvider from '../../../utils/httpProvider';
+import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
+
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -127,6 +129,7 @@ export default class HomePage extends Component {
         >
           {' '}
           <Container className="intro-container">
+          <img src={fantomIcon} className="icon" />
             <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
             {/* <Row>
               <Col>

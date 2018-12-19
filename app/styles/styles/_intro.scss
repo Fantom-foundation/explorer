@@ -1,9 +1,23 @@
 .market-cap{
     margin-bottom: 73.4px;
     @media (min-width:768px) {  margin-bottom: 38px }
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
 }
 .intro
 {
+    overflow: hidden;
+    .container{
+        position: relative;
+        .icon{
+            position: absolute;
+            right: 0;
+            top: -58px;
+            height: 609px;
+            opacity: .08;
+            z-index: -1;
+        }
+    }
     .line{
         @media (min-width:768px) {display: none;}
         hr{
