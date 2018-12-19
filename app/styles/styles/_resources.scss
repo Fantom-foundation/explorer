@@ -29,13 +29,17 @@
       list-style: none;
       margin-right: 10px;
       color: map-get($color, primary );
+      cursor: pointer;
+
       font: {
         family: "Roboto";
         size: 13px;
       }
       border-left: 1px solid #fff;
       padding-left: 10px;
+      transition: .3s all;
       @media (max-width:567px){font: { size: 10.4px; }}
+      &:hover{opacity: .7;}
       &:nth-child(1) {
         padding-left: 0px;
         border-left: 0px;

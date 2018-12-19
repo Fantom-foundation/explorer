@@ -35,9 +35,9 @@ class Resources extends Component {
               <h2>Exchanges</h2>
               <p>Places to buy and sell cryptocurrencies</p>
               <ul>
-                <li>CryptoExchanges</li>
-                <li>DEX</li>
-                <li>Flat exchanges</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>CryptoExchanges</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>DEX</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Flat exchanges</li>
               </ul>
             </Col>
             <Col
@@ -48,8 +48,8 @@ class Resources extends Component {
               <h2>Wallet</h2>
               <p>Used to receive and send assets</p>
               <ul>
-                <li>GUI Wallets</li>
-                <li>Hardware Wallets</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>GUI Wallets</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Hardware Wallets</li>
               </ul>
             </Col>
             <Col
@@ -60,9 +60,9 @@ class Resources extends Component {
               <h2>ICOs</h2>
               <p>Initial Coin Offerings</p>
               <ul>
-                <li>Benchmark Listing</li>
-                <li>Prince Watch</li>
-                <li>Services</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Benchmark Listing</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Prince Watch</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Services</li>
               </ul>
             </Col>
             <Col
@@ -73,8 +73,8 @@ class Resources extends Component {
               <h2>News And Events</h2>
               <p>Our community and events near you.</p>
               <ul>
-                <li>News</li>
-                <li>Events</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>News</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Events</li>
               </ul>
             </Col>
 
@@ -86,8 +86,8 @@ class Resources extends Component {
               <h2>Smart Contracts</h2>
               <p>For more advanced users</p>
               <ul>
-                <li>Smart Contracts Audit and Security</li>
-                <li>Smart Contracts Factory</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Smart Contracts Audit and Security</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Smart Contracts Factory</li>
               </ul>
             </Col>
             <Col
@@ -98,9 +98,9 @@ class Resources extends Component {
               <h2>Others</h2>
               <p>Extra Resources</p>
               <ul>
-                <li>Career</li>
-                <li>Grant</li>
-                <li>Tools</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Career</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Grant</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Tools</li>
               </ul>
             </Col>
           </Row>

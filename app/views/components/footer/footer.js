@@ -23,15 +23,15 @@ export default class Footer extends React.Component {
               <div className="fields">
                 <h2 className="text-uppercase">Channel</h2>
                 <div className="social">
-                  <a href="#">
+                  <a href="https://github.com/Fantom-Foundation" target="_black">
                     <img src={GithubIcon} />
                     Github
                   </a>
-                  <a href="#">
+                  <a href="https://fantom.foundation/" target="_black">
                     <img src={SlackIcon} />
                     Slack
                   </a>
-                  <a href="#">
+                  <a href="https://fantom.foundation/" target="_black">
                     <img src={LinkedInIcon} />
                     Linkedin
                   </a>
@@ -41,8 +41,8 @@ export default class Footer extends React.Component {
             <Col md={4}  lg={4} className="page-menus">
             <h2 className="text-uppercase">&nbsp;</h2>
             <ul className="">
-              <li><a href="#">About</a></li>
-              <li><a href="#">Term of services</a></li>
+              <li><a href="https://fantom.foundation/" target="_black">About</a></li>
+              <li><a href="https://fantom.foundation/" target="_black">Term of services</a></li>
             </ul>
             </Col>
           </Row>
