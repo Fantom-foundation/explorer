@@ -12,6 +12,8 @@ import { createSelector } from 'reselect';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import { connect } from 'react-redux';
 import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
+import fantomIconHalf from 'images/Logo/Fantom-Logo-icon-half.svg';
+import ToggleToolTip from './toggleToolTip';
 
 class HomePage extends Component {
   constructor(props) {
@@ -133,7 +135,7 @@ class HomePage extends Component {
           >
             {' '}
             <Container className="intro-container">
-              {/* <img src={fantomIcon} className="icon" /> */}
+              <img src={fantomIcon} className="icon" />
               <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
               {/* <Row>
                 <Col>
@@ -145,10 +147,12 @@ class HomePage extends Component {
           <section>
             <Container>
               <hr />
+              <ToggleToolTip handleRealTimeUpdate={this.handleRealTimeUpdate}  />
             </Container>
           </section>
           <section id="latest-blocks" className="bg-theme">
             <Container>
+
               <Row>
                 <LatestTransactions
                   latestTransactionsArr={this.props.blockDetails.latestTransactions.slice(

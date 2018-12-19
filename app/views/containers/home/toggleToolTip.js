@@ -13,7 +13,7 @@ import { getRealtimeUpdateDetails } from 'views/controllers/realtime-blockchain-
 const tooltipEnabledText = 'Realtime Updates Enabled, Click to Disable';
 const tooltipDisabledText = 'Realtime Updates Disabled, Click to Enable';
 
-class MarketCap extends React.Component {
+class ToggleToolTip extends React.Component {
   constructor(props) {
     super(props);
 
@@ -96,22 +96,12 @@ class MarketCap extends React.Component {
 
   render() {
     const { realtimeUpdate } = this.props;
-    console.log('this.props777', this.props);
+    
     const { isRealtimeUpdate } = realtimeUpdate;
     const { isOpenTooltip, tooltipText } = this.state;
     return (
-      <Row className="market-cap">
-        <div  className="discription">
-          <Title h2 className="text-white mb-0">
-            Beyond
-          </Title>
-          <Title h2 className="text-white">
-            Blockchain
-          </Title>
-          <p className="mb-0">The Future of Decentralized Ecosystem</p>
-        </div>
-        {/* <div className="pt-3">
-          <div id="toggle_tooltip">
+      <React.Fragment>
+        <div id="toggle_tooltip">
             <ToggleButton
               value={isRealtimeUpdate}
               onToggle={this.toggle}
@@ -156,63 +146,7 @@ class MarketCap extends React.Component {
           >
             {tooltipText}
           </Tooltip>
-        </div> */}
-        {/* <Col xs={12} className="line">
-          <hr />
-        </Col>
-        <Col xs={12} md={6} className="graph-info">
-          <Row className="title-info">
-            <Col
-              className="icon"
-              style={{ backgroundImage: `url(${logoIcon})` }}
-            >
-              <Title h2 className="mb-0 text-white text-uppercase">
-                Market Cap Of $28.956 Billion
-              </Title>
-              <Title h2 className="mb-0 text-white">
-                $285.47 @ 0.04267 FTM/ETH 1.13%
-              </Title>
-            </Col>
-          </Row>
-          <div className="result-info top">
-            <div className="left">
-              <Title h2 className="text-white text-uppercase mb-0">
-                Last Block
-              </Title>
-              <p>6192596 (14.2s)</p>
-            </div>
-
-
-            <div className="text-right right">
-              <Title h2 className="text-white text-uppercase mb-0">
-                Transactions
-              </Title>
-              <p>296.24 M (7.9 TPS)</p>
-            </div>
-          </div>
-          <hr />
-          <div className="result-info bottom">
-            <div className="left">
-              <Title h2 className="text-uppercase mb-0">
-                Hash Rate
-              </Title>
-              <p>286,235.71 GH/s</p>
-            </div>
-            <div className="middle">
-              <Title h2 className="text-uppercase mb-0">
-                Your Balance
-              </Title>
-              <p>149.00FTM</p>
-            </div>
-            <div className="text-right right">
-              <Title h2 className="text-uppercase mb-0">
-                Network Difficulty
-              </Title>
-              <p>3,583.35 TH</p>
-            </div>
-          </div>
-        </Col> */}
-      </Row>
+      </React.Fragment>
     );
   }
 }
@@ -227,7 +161,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(setRealtimeUpdateDetails(isRealtimeUpdate)),
 });
 
-MarketCap.propTypes = {
+ToggleToolTip.propTypes = {
   handleRealTimeUpdate: PropTypes.func,
   setRealtimeUpdateDetails: PropTypes.func,
   realtimeUpdate: PropTypes.object,
@@ -236,4 +170,4 @@ MarketCap.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MarketCap);
+)(ToggleToolTip);
