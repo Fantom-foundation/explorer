@@ -11,6 +11,7 @@ import SearchForBlock from '../../components/search/searchForBlock/index';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import SearchBar from '../../components/search/searchBar/index';
+import Wrapper from '../../wrapper/wrapper';
 
 export default class Blocks extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ export default class Blocks extends Component {
       isSearch: false,
       hasNextPage: true,
       hasPrevPage: false,
+      isRoute: false,
     };
 
     this.showDetail = this.showDetail.bind(this);
@@ -65,7 +67,23 @@ export default class Blocks extends Component {
       });
     }
   }
-
+  static getDerivedStateFromProps(props, state) {
+    if (props.location.state) {
+      if (state.isSearch) {
+        return { ...state, isRoute: false };
+      }
+      const data = [
+        {
+          ...props.location.state.data,
+          transactions: props.location.state.data.transaction,
+        },
+      ];
+      return {
+        isRoute: true,
+        blockData: data,
+      };
+    }
+  }
   // fetchNext(page) {
   //   const { lastFetchedPage } = this.state;
   //   let { cursor } = this.state;
@@ -376,11 +394,11 @@ export default class Blocks extends Component {
   }
 
   renderBlockList() {
-    const { isSearch, blockArray, currentPage } = this.state;
+    const { isSearch, blockArray, currentPage, isRoute } = this.state;
     const from = currentPage * 10;
     const to = from + 10;
     const transformedBlockArray = blockArray.slice(from, to);
-    if (!isSearch) {
+    if (!isSearch && !isRoute) {
       return (
         <Row>
           <Col>
@@ -402,7 +420,7 @@ export default class Blocks extends Component {
                       key={index}
                       onClick={() =>
                         this.props.history.push({
-                          pathname: `/detail/${data.hash}`,
+                          pathname: '/blocks',
                           state: { data, type: 'block' },
                         })
                       }
@@ -440,7 +458,8 @@ export default class Blocks extends Component {
   }
 
   renderBlockSearchView() {
-    const { error, searchText, blockData, isSearch } = this.state;
+    const { error, searchText, blockData, isSearch, isRoute } = this.state;
+    console.log('isSearchblock', isSearch, isRoute);
     if (isSearch) {
       return (
         <React.Fragment>
@@ -452,6 +471,18 @@ export default class Blocks extends Component {
         </React.Fragment>
       );
     }
+    if (isRoute) {
+      return (
+        <React.Fragment>
+          {blockData.length > 0 && (
+            <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
+
     return null;
   }
 
@@ -472,6 +503,7 @@ export default class Blocks extends Component {
       hasNextPage,
       hasPrevPage,
       isSearch,
+      isRoute,
     } = this.state;
 
     let blockNumberText = '';
@@ -482,51 +514,14 @@ export default class Blocks extends Component {
     }
     return (
       <div>
-        <Header />
-        <SearchBar searchHandler={(e) => this.searchHandler(e)} setSearchText={(e) => this.setSearchText(e)} searchText={searchText}/>
+        {/* <Header />
+        <SearchBar
+          searchHandler={(e) => this.searchHandler(e)}
+          setSearchText={(e) => this.setSearchText(e)}
+          searchText={searchText}
+        />
         <section className="bg-theme full-height-conatainer">
           <Container>
-            {/*= ========= make this title-header component start=================*/}
-
-            {/* <Row className="title-header pt-3">
-         
-              <Col>
-                <div className="form-element form-input">
-                  <form
-                    autoComplete="off"
-                    onSubmit={(e) => this.searchHandler(e)}
-                  >
-                    <input
-                      id="search"
-                      value={searchText}
-                      className="form-element-field"
-                      placeholder=" "
-                      type="search"
-                      required=""
-                      onChange={(e) => this.setSearchText(e)}
-                    />
-                    <div className="form-element-bar" />
-                    
-                    <label className="form-element-label" htmlFor="search">
-                      Search Block Number
-                    </label>
-                  </form>
-                </div>
-              </Col>
-            </Row> */}
-     
-            {/*= ========= make this title-header component end=================*/}
-
-            {/* <Row>
-  <Col md={6} className="table-title">
-   <Row>
-   <Col xs={6} md={12}><h2>Blocks</h2></Col>
-     <Col xs={6} md={12}><div className="info"><p>Block #683387 To #683390 </p><p>(Total of 683391 Blocks)</p></div></Col>
-     </Row>
-  </Col>
-  {windowWidth >= 768 && <Col md={6}><TxBlockPagination onChangePage={this.onChangePage}/></Col>}
-</Row> */}
-
             <TranactionBlockHeader
               onChangePage={this.onChangePage}
               icon={TitleIcon}
@@ -536,33 +531,32 @@ export default class Blocks extends Component {
               isSearching={isSearch}
               onShowList={this.onShowList}
               currentPage={this.state.currentPage}
-            />
-
-            {this.renderBlockSearchView()}
-            {this.renderBlockList()}
-
-            {/* <div>
-            <Button
-              // disabled={!hasPrevPage}
-              onClick={() => this.onChangePage('prev')}
-            >
-              Previous
-            </Button>
-            <Button
-              // disabled={!hasNextPage}
-              onClick={() => this.onChangePage('next')}
-            >
-              Next
-            </Button>
-          </div> */}
-            <TxBlockPagination
+            /> */}
+        <Wrapper
+          searchHandler={(e) => this.searchHandler(e)}
+          setSearchText={(e) => this.setSearchText(e)}
+          searchText={searchText}
+          onChangePage={this.onChangePage}
+          icon={TitleIcon}
+          title="Blocks"
+          block="Block #683387 To #683390"
+          total="(Total of 683391 Blocks)"
+          isSearching={isSearch}
+          isRoute={isRoute}
+          onShowList={this.onShowList}
+          currentPage={this.state.currentPage}
+        >
+          {this.renderBlockSearchView()}
+          {this.renderBlockList()}
+        </Wrapper>
+        {/* <TxBlockPagination
               onChangePage={this.onChangePage}
               isSearching={isSearch}
               currentPage={this.state.currentPage}
             />
           </Container>
         </section>
-        <Footer />
+        <Footer /> */}
       </div>
     );
   }

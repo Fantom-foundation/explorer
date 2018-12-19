@@ -8,7 +8,13 @@ import iconLast from './ic-last.svg';
 
 export default class TxBlockPagination extends React.PureComponent {
   render() {
-    const { onChangePage, isSearching, currentPage, className } = this.props;
+    const {
+      onChangePage,
+      isSearching,
+      currentPage,
+      className,
+      isRoute,
+    } = this.props;
     if (isSearching) {
       return null;
     }

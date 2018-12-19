@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import transactionIcon from '../../../images/icons/transactions.svg';
+import { Link } from 'react-router-dom';
 
 /**
  * @class LatestTransactions : To display list of latest transactions.
@@ -61,7 +62,7 @@ export default class LatestTransactions extends React.Component {
 
   onTransactionClick(props, data) {
     props.history.push({
-      pathname: `/detail/${data.transaction_hash}`,
+      pathname: '/transactions',
       state: { data, type: 'transaction' },
     });
   }
@@ -78,9 +79,10 @@ export default class LatestTransactions extends React.Component {
           >
             Latest Transactions
           </Title>
-          <a href="/transactions" className="btn">
+
+          <Link to="/transactions" className="btn">
             View all
-          </a>
+          </Link>
         </div>
         <Row className="blocks">
           {transactions &&

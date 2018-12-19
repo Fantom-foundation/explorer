@@ -12,6 +12,7 @@ import TranactionBlockHeader from '../../components/header/tranactionBlockHeader
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import SearchBar from '../../components/search/searchBar/index';
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
+import Wrapper from '../../wrapper/wrapper';
 
 function scientificToDecimal(num) {
   const sign = Math.sign(num);
@@ -57,6 +58,7 @@ export default class Transactions extends Component {
       currentPage: 0,
       hasNextPage: true,
       hasPrevPage: false,
+      isRoute: false,
     };
   }
   /**
@@ -82,6 +84,22 @@ export default class Transactions extends Component {
   //     });
   // }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.location.state) {
+      if (state.isSearch) {
+        return { ...state, isRoute: false };
+      }
+      const data = [
+        {
+          ...props.location.state.data,
+        },
+      ];
+      return {
+        isRoute: true,
+        transactionData: data,
+      };
+    }
+  }
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
@@ -397,12 +415,12 @@ export default class Transactions extends Component {
   }
 
   renderTransactionList() {
-    const { transactionArray, isSearch, currentPage } = this.state;
+    const { transactionArray, isSearch, currentPage, isRoute } = this.state;
     const txFee = '0.0001';
     const from = currentPage * 10;
     const to = from + 10;
     const transformedArray = transactionArray.slice(from, to);
-    if (!isSearch) {
+    if (!isSearch && !isRoute) {
       return (
         <Col>
           <Table className="transactions-table">
@@ -425,7 +443,7 @@ export default class Transactions extends Component {
                     key={`tx_${index}`}
                     onClick={() =>
                       this.props.history.push({
-                        pathname: `/detail/${data.transaction_hash}`,
+                        pathname: '/transactions',
                         state: { data, type: 'transaction' },
                       })
                     }
@@ -474,16 +492,36 @@ export default class Transactions extends Component {
   }
 
   renderTransactionSearchView() {
-    const { transactionData, error, searchText } = this.state;
-
-    return (
-      <React.Fragment>
-        {transactionData.length > 0 && (
-          <SearchForTransaction transactions={transactionData} />
-        )}
-        {error !== '' && searchText !== '' && <p className="text-white">{error}</p>}
-      </React.Fragment>
-    );
+    const {
+      transactionData,
+      error,
+      searchText,
+      isRoute,
+      isSearch,
+    } = this.state;
+    console.log('isSearchblock', isSearch, isRoute);
+    if (isSearch) {
+      return (
+        <React.Fragment>
+          {transactionData.length > 0 && (
+            <SearchForTransaction transactions={transactionData} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
+    if (isRoute) {
+      return (
+        <React.Fragment>
+          {transactionData.length > 0 && (
+            <SearchForTransaction transactions={transactionData} />
+          )}
+          {error !== '' &&
+            searchText !== '' && <p className="text-white">{error}</p>}
+        </React.Fragment>
+      );
+    }
   }
   onShowList = () => {
     this.setState({
@@ -493,44 +531,17 @@ export default class Transactions extends Component {
   };
   render() {
     const { searchText, transactionData, hasNextPage } = this.state;
-    const { isSearch } = this.state;
+    const { isSearch, isRoute } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;
     }
     return (
       <div>
-        <Header />
+        {/* <Header />
         <SearchBar searchHandler={(e) => this.searchHandler(e) } setSearchText={ (e) => this.setSearchText(e)} searchText={searchText}/>
         <section className="bg-theme full-height-conatainer">
           <Container>
-            {/*= ========= make this title-header component start=================*/}
-
-            {/* <Row className="title-header">
-              <Col>
-                
-                  <form
-                    autoComplete="off"
-                    onSubmit={(e) => this.searchHandler(e)}
-                  >
-                    <input
-                      value={searchText}
-                      id="search"
-                      className="form-element-field"
-                      placeholder=" "
-                      type="search"
-                      required=""
-                      onChange={(e) => this.setSearchText(e)}
-                    />
-                    <div className="form-element-bar" />
-                   
-                  </form>
-          
-              </Col>
-            </Row> */}
-            
-
-            {/*= ========= make this title-header component end=================*/}
             <TranactionBlockHeader
               onChangePage={this.onChangePage}
               onShowList={this.onShowList}
@@ -540,20 +551,32 @@ export default class Transactions extends Component {
               total="(Total of 683391 Blocks)"
               isSearching={isSearch}
               currentPage={this.state.currentPage}
-            />
-           
-              {this.renderTransactionSearchView()}
-              <Row>
-              {this.renderTransactionList()}
-            </Row>
-            <TxBlockPagination
+            /> */}
+        <Wrapper
+          onChangePage={this.onChangePage}
+          onShowList={this.onShowList}
+          icon={TitleIcon}
+          title="Transactions"
+          block="Block #683387 To #683390"
+          total="(Total of 683391 Blocks)"
+          isSearching={isSearch}
+          isRoute={isRoute}
+          currentPage={this.state.currentPage}
+          searchHandler={(e) => this.searchHandler(e)}
+          setSearchText={(e) => this.setSearchText(e)}
+          searchText={searchText}
+        >
+          {this.renderTransactionSearchView()}
+          <Row>{this.renderTransactionList()}</Row>
+        </Wrapper>
+        {/* <TxBlockPagination
               onChangePage={this.onChangePage}
               isSearching={isSearch}
               currentPage={this.state.currentPage}
             />
           </Container>
         </section>
-        <Footer />
+        <Footer /> */}
       </div>
     );
   }
