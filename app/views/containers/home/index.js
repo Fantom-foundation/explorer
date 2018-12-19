@@ -24,95 +24,6 @@ class HomePage extends Component {
   }
 
   /**
-   * Get list of latest blocks and latest transactions.
-   */
-  // componentDidMount() {
-  //   this.fetchLatestBlocks();
-  // }
-
-  /**
-   * @method fetchLatestBlocks : To get list of latest blocks and latest transactions.
-   */
-  // fetchLatestBlocks() {
-  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-  //     query: `
-  //     {
-  //       blocks(first: 10, by: "index", byDirection: "desc") {
-  //         pageInfo {
-  //           hasNextPage
-  //         }
-  //         edges {
-  //           cursor,
-  //           node {
-  //             id,
-  //             payload
-  //           }
-  //         }
-  //       }
-  //     }`,
-  //   })
-  //     .then(
-  //       (res) => {
-  //         if (res && res.data) {
-  //           const allData = res.data;
-  //           if (
-  //             allData.data &&
-  //             allData.data.blocks &&
-  //             allData.data.blocks.edges &&
-  //             allData.data.blocks.edges.length
-  //           ) {
-  //             const edges = allData.data.blocks.edges;
-  //             let cursor;
-  //             const latestTransactions = [];
-  //             const allBlockData = [];
-
-  //             edges.forEach((val) => {
-  //               const {
-  //                 hash,
-  //                 index,
-  //                 stateHash,
-  //                 transactions,
-  //                 round,
-  //               } = val.node.payload;
-
-  //               latestTransactions.push(...val.node.payload.transactions);
-  //               cursor = val.cursor;
-  //               allBlockData.push({
-  //                 hash,
-  //                 height: index,
-  //                 parentHash: stateHash,
-  //                 transactionLength: transactions.length,
-  //                 round,
-  //                 transactions,
-  //               });
-  //             });
-  //             this.setState({
-  //               latestBlocksArr: allBlockData,
-  //               cursor,
-  //               latestTransactionsArr: latestTransactions,
-  //             });
-  //           } else {
-  //             this.setState({
-  //               latestBlocksArr: [],
-  //               latestTransactionsArr: [],
-  //             });
-  //           }
-  //         }
-  //         return null;
-  //       },
-  //       () => {
-  //         console.log('1');
-  //       }
-  //     )
-  //     .catch(() => {
-  //       this.setState({
-  //         latestBlocksArr: [],
-  //         latestTransactionsArr: [],
-  //       });
-  //     });
-  // }
-
-  /**
    * @method handleRealTimeUpdate : To update list of latest blocks and transactions, If real time update is enabled.
    */
   handleRealTimeUpdate() {
@@ -121,7 +32,6 @@ class HomePage extends Component {
 
   render() {
     // const socket = io();
-    console.log('this.props.blockDetails11', this.props.blockDetails);
     const { latestBlocksArr, latestTransactionsArr } = this.state;
     if (this.props.blockDetails && this.props.blockDetails.latestTransactions) {
       return (
@@ -134,12 +44,9 @@ class HomePage extends Component {
             {' '}
             <Container className="intro-container">
               {/* <img src={fantomIcon} className="icon" /> */}
-              <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
-              {/* <Row>
-                <Col>
-                  <Chart />
-                </Col>
-              </Row> */}
+              <MarketCap
+                handleRealTimeUpdate={this.props.handleRealTimeUpdate}
+              />
             </Container>
           </section>
           <section>

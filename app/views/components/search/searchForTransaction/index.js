@@ -32,7 +32,7 @@ class SearchForTransaction extends Component {
     if (transactions && transactions.length) {
       const data = transactions.map((txData, index) => {
         transactionHash = txData.transaction_hash || '--';
-        txnStatus = txData.txnStatus || '--';
+        txnStatus = txData.status === 0 ? 'Success' : 'Failed';
         addressFrom = txData.address_from || '--';
         addressTo = txData.address_to || '--';
         value = `${txData.value}` || '--';
@@ -47,51 +47,50 @@ class SearchForTransaction extends Component {
         inputData = `${txData.logsBloom}` || '--';
         return (
           <React.Fragment>
-          <hr />
-          <div className="tran-blk-details">
-                              <div>
-                                <p>TxHash:</p>
-                                <p className="text-ellipsis">{transactionHash}</p>
-                              </div>
-                              <div>
-                                <p>TxReceipt Status:</p>
-                                <p>{txnStatus}</p>
-                              </div>
-                              <div>
-                                <p>From:</p>
-                                <p className="text-primary text-ellipsis">{addressFrom}</p>
-                              </div>
-                              <div>
-                                <p>To:</p>
-                                <p className="text-ellipsis">{addressTo}</p>
-                              </div>
-                              <div>
-                                <p>Value:</p>
-                                <p>{value} FTM</p>
-                              </div>
-                              <div>
-                                <p>Gas used:</p>
-                                <p className="text-ellipsis">{gasUsed}</p>
-                              </div>
-                              <div>
-                                <p>Cumulative Gas used:</p>
-                                <p className="text-ellipsis">{cumulativeGasUsed}</p>
-                              </div>
-                              <div>
-                                <p>Contract Address:</p>
-                                <p className="text-ellipsis">{contractAddress}</p>
-                              </div>
-                              <div>
-                                <p>Root:</p>
-                                <p className="text-ellipsis">{root}</p>
-                              </div>
-                              <div>
-                                <p>Input Data:</p>
-                                <textarea>{inputData}</textarea>
-                              </div>
-                        
-                              </div>
-                </React.Fragment>
+            <hr />
+            <div className="tran-blk-details">
+              <div>
+                <p>TxHash:</p>
+                <p className="text-ellipsis">{transactionHash}</p>
+              </div>
+              <div>
+                <p>TxReceipt Status:</p>
+                <p>{txnStatus}</p>
+              </div>
+              <div>
+                <p>From:</p>
+                <p className="text-primary text-ellipsis">{addressFrom}</p>
+              </div>
+              <div>
+                <p>To:</p>
+                <p className="text-ellipsis">{addressTo}</p>
+              </div>
+              <div>
+                <p>Value:</p>
+                <p>{value} FTM</p>
+              </div>
+              <div>
+                <p>Gas used:</p>
+                <p className="text-ellipsis">{gasUsed}</p>
+              </div>
+              <div>
+                <p>Cumulative Gas used:</p>
+                <p className="text-ellipsis">{cumulativeGasUsed}</p>
+              </div>
+              <div>
+                <p>Contract Address:</p>
+                <p className="text-ellipsis">{contractAddress}</p>
+              </div>
+              <div>
+                <p>Root:</p>
+                <p className="text-ellipsis">{root}</p>
+              </div>
+              <div>
+                <p>Input Data:</p>
+                <textarea>{inputData}</textarea>
+              </div>
+            </div>
+          </React.Fragment>
         );
       });
       return data;

@@ -11,10 +11,11 @@ import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
-
+import PropTypes from 'prop-types';
+import { setBlockData } from '../../controllers/blocks/action';
+import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import SearchBar from '../../components/search/searchBar/index';
 import { connect } from 'react-redux';
-import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 
 class Blocks extends Component {
@@ -33,7 +34,11 @@ class Blocks extends Component {
       hasNextPage: true,
       hasPrevPage: false,
       isRoute: false,
+
+      currentPageVal: 0,
     };
+
+    this.maxPageVal = 0;
 
     this.showDetail = this.showDetail.bind(this);
   }
@@ -52,7 +57,7 @@ class Blocks extends Component {
     }
   }
   static getDerivedStateFromProps(props, state) {
-    if (props.location.state) {
+    if (props.match.params.id) {
       if (state.isSearch) {
         return { ...state, isRoute: false };
       }
@@ -67,136 +72,78 @@ class Blocks extends Component {
         blockData: data,
       };
     }
+    return {
+      ...state,
+      isRoute: false,
+    };
   }
-  // fetchNext(page) {
-  //   const { lastFetchedPage } = this.state;
-  //   let { cursor } = this.state;
-  //   if (page < lastFetchedPage) {
-  //     return;
-  //   }
-  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-  //     query: `
-  //         {
-  //           blocks(after:${cursor}) {
-  //             pageInfo {
-  //               hasNextPage
-  //             }
-  //             edges {
-  //               cursor
-  //               node {
-  //                 payload
-  //               }
-  //             }
-  //           }
-  //         }`,
-  //   })
-  //     .then(
-  //       (res) => {
-  //         if (res && res.data) {
-  //           // this.formatTransactionList(res.data);
-  //           const allBlockData = [];
-  //           const edges = res.data.data.blocks.edges;
-
-  //           edges.forEach((val) => {
-  //             const {
-  //               hash,
-  //               index,
-
-  //               stateHash,
-  //               transactions,
-  //             } = val.node.payload;
-  //             cursor = val.cursor;
-  //             allBlockData.push({
-  //               hash,
-  //               height: index,
-  //               parentHash: stateHash,
-  //               transactions: transactions.length,
-  //             });
-  //           });
-  //           this.setState({
-  //             allBlockData,
-  //             cursor,
-  //           });
-  //           console.log('allBlockData', allBlockData);
-  //         }
-  //         return null;
-  //       },
-  //       () => {
-  //         console.log('1');
-  //       }
-  //     )
-  //     .catch((err) => {
-  //       console.log(err, 'err in graphql');
-  //     });
-  // }
 
   onChangePage = (type) => {
-    const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
-    console.log('this.props.blockDetails66', this.props.blockDetails);
-    let showPage = type === 'next' ? currentPage + 1 : currentPage - 1;
-    if (showPage < 0) {
-      showPage = 0;
-    }
-    if (showPage > lastFetchedPage) {
+    const { currentPageVal } = this.state;
+    const { allBlockData } = this.props.blockDetails;
+    const { setBlocksData } = this.props;
+    const updatePageVal =
+      type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
+    if (updatePageVal < 0) {
       return;
     }
-    this.setState({
-      currentPage: showPage,
-    });
 
-    const fetch = lastFetchedPage - showPage === 1;
-    if (type === 'next' && fetch) {
-      if (hasNextPage) {
+    const currentBlockDataLength = allBlockData.length;
+    if (
+      type === 'next' &&
+      (currentPageVal + 1) * 10 >= currentBlockDataLength
+    ) {
+      return;
+    }
+    const prevPageVal = currentPageVal;
+
+    this.setState({
+      currentPageVal: updatePageVal,
+    });
+    const cursor = allBlockData[allBlockData.length - 1].cursor;
+    if (type === 'next' && this.maxPageVal < updatePageVal) {
+      if (true) {
         HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
           query: `
-            {
-              blocks(first:30,after:"${this.props.blockDetails.cursor}") {
-                pageInfo {
-                  hasNextPage
-                  hasPreviousPage
-                }
-                edges {
-                  cursor
-                  node {
-                    payload
-                  }
+          {
+            blocks(first: 10, byDirection: "desc", after: "${cursor}") {
+              pageInfo {
+                hasNextPage
+              }
+              edges {
+                cursor,
+                node {
+                  id,
+                  payload
                 }
               }
-            }`,
+            }
+          }`,
         })
           .then(
             (res) => {
               if (res && res.data) {
-                // this.formatTransactionList(res.data);
-                const allBlockData = [];
-                const edges = res.data.data.blocks.edges;
-                const changedNextPage =
-                  res.data.data.blocks.pageInfo.hasNextPage;
-                const changedPrevPage =
-                  res.data.data.blocks.pageInfo.hasPreviousPage;
-                let changedCursor;
-                edges.forEach((val) => {
-                  const {
-                    hash,
-                    index,
-                    stateHash,
-                    transactions,
-                  } = val.node.payload;
-                  changedCursor = val.cursor;
-                  allBlockData.push({
-                    hash,
-                    height: index,
-                    parentHash: stateHash,
-                    transactions: transactions.length,
-                  });
-                });
-                this.setState((prevState) => ({
-                  blockArray: [...prevState.blockArray, ...allBlockData],
-                  cursor: changedCursor,
-                  lastFetchedPage: prevState.lastFetchedPage + 3,
-                  hasNextPage: changedNextPage,
-                  hasPrevPage: changedPrevPage,
-                }));
+                this.maxPageVal = updatePageVal;
+                const allData = res.data;
+                if (
+                  allData.data &&
+                  allData.data.blocks &&
+                  allData.data.blocks.edges &&
+                  allData.data.blocks.edges.length
+                ) {
+                  const blockDetails = {
+                    payload: allData.data.blocks.edges,
+                  };
+                  setBlocksData(blockDetails);
+                  this.setState((prevState) => ({
+                    lastFetchedPage: allData.data.blocks.pageInfo.hasNextPage
+                      ? prevState.lastFetchedPage + 1
+                      : prevState.lastFetchedPage,
+                    hasNextPage: allData.data.blocks.pageInfo.hasNextPage,
+                  }));
+                } else {
+                  console.log('else part');
+                }
               }
               return null;
             },
@@ -210,6 +157,7 @@ class Blocks extends Component {
       }
     }
   };
+
   /**
    * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
    * @param {String} searchBlockIndex : Index to fetch block.
@@ -316,80 +264,91 @@ class Blocks extends Component {
   }
 
   renderBlockList() {
-    const { isSearch, blockArray, currentPage, isRoute } = this.state;
+    const {
+      isSearch,
+      blockArray,
+      currentPage,
+      isRoute,
+      currentPageVal,
+    } = this.state;
     const { blockData } = this.props.blockDetails;
     console.log(
       ' this.props.blockDetails',
       this.props.blockDetails.allBlockData
     );
-    const from = currentPage * 10;
+    const from = currentPageVal * 10;
     const to = from + 10;
-    const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-      from,
-      to
-    );
-    if (!isSearch && !isRoute) {
-      return (
-        <Row>
-          <Col>
-            <Table className="blocks-table">
-              <thead>
-                <tr>
-                  <th>Height</th>
-                  {/* <th>Age</th> */}
-                  <th>Txn</th>
-                  <th>hash</th>
-                  <th>Round</th>
-                </tr>
-              </thead>
-              <tbody className="">
-                {transformedBlockArray &&
-                  transformedBlockArray.length > 0 &&
-                  transformedBlockArray.map((data, index) => (
-                    <tr
-                      key={index}
-                      onClick={() =>
-                        this.props.history.push({
-                          pathname: '/blocks',
-                          state: { data, type: 'block' },
-                        })
-                      }
-                    >
-                      <td data-head="Height" className="text-primary full head">
-                        <span className="icon icon-block">{data.height}</span>
-                      </td>
-                      {/* <td className="">
+
+    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
+      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
+        from,
+        to
+      );
+      if (!isSearch && !isRoute) {
+        return (
+          <Row>
+            <Col>
+              <Table className="blocks-table">
+                <thead>
+                  <tr>
+                    <th>Height</th>
+                    {/* <th>Age</th> */}
+                    <th>Txn</th>
+                    <th>hash</th>
+                    <th>Round</th>
+                  </tr>
+                </thead>
+                <tbody className="">
+                  {transformedBlockArray &&
+                    transformedBlockArray.length > 0 &&
+                    transformedBlockArray.map((data, index) => (
+                      <tr
+                        key={index}
+                        onClick={() =>
+                          this.props.history.push({
+                            pathname: `/blocks/${data.height}`,
+                            state: { data, type: 'block' },
+                          })
+                        }
+                      >
+                        <td
+                          data-head="Height"
+                          className="text-primary full head"
+                        >
+                          <span className="icon icon-block">{data.height}</span>
+                        </td>
+                        {/* <td className="">
                         {moment(parseInt(data.timestamp, 10)).fromNow()}
                       </td> */}
-                      <td
-                        data-head="Txn"
-                        className="text-primary full-wrap txn"
-                      >
-                        {data.transactions.length}
-                      </td>
-                      <td
-                        data-head="hash"
-                        className="text-primary full-wrap hash text-ellipsis"
-                      >
-                        {data.hash}
-                      </td>
-                      <td data-head="Round" className=" full-wrap round">
-                        <span className="o-5">{data.round}</span>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </Col>
-        </Row>
-      );
+                        <td
+                          data-head="Txn"
+                          className="text-primary full-wrap txn"
+                        >
+                          {data.transactions.length}
+                        </td>
+                        <td
+                          data-head="hash"
+                          className="text-primary full-wrap hash text-ellipsis"
+                        >
+                          {data.hash}
+                        </td>
+                        <td data-head="Round" className=" full-wrap round">
+                          <span className="o-5">{data.round}</span>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        );
+      }
     }
     return null;
   }
 
   renderBlockSearchView() {
     const { error, searchText, blockData, isSearch, isRoute } = this.state;
-    console.log('isSearchblock', isSearch, isRoute);
     if (isSearch) {
       return (
         <React.Fragment>
@@ -417,9 +376,11 @@ class Blocks extends Component {
   }
 
   onShowList = () => {
+    this.props.history.push('/blocks');
     this.setState({
       searchText: '',
       isSearch: false,
+      isRoute: false,
     });
   };
 
@@ -434,6 +395,7 @@ class Blocks extends Component {
       hasPrevPage,
       isSearch,
       isRoute,
+      currentPageVal,
     } = this.state;
 
     let blockNumberText = '';
@@ -442,26 +404,37 @@ class Blocks extends Component {
       blockNumberText = blockData[0].height;
       hashSymbol = '#';
     }
+    let descriptionBlock = '';
+    const from = currentPageVal * 10;
+    const to = from + 10;
+    let totalBlocks = '';
+    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
+      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
+        from,
+        to
+      );
+
+      const {
+        blockDetails: { allBlockData },
+      } = this.props;
+      if (allBlockData.length) {
+        const firstBlock = allBlockData[0];
+        totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
+      }
+
+      if (transformedBlockArray && transformedBlockArray.length) {
+        const firstBlock = transformedBlockArray[0];
+        const lastBlock =
+          transformedBlockArray[transformedBlockArray.length - 1];
+        descriptionBlock = `Block #${lastBlock.height} To #${
+          firstBlock.height
+        } `;
+      }
+
+      //
+    }
     return (
       <div>
-        {/* <Header />
-        <SearchBar
-          searchHandler={(e) => this.searchHandler(e)}
-          setSearchText={(e) => this.setSearchText(e)}
-          searchText={searchText}
-        />
-        <section className="bg-theme full-height-conatainer">
-          <Container>
-            <TranactionBlockHeader
-              onChangePage={this.onChangePage}
-              icon={TitleIcon}
-              title="Blocks"
-              block="Block #683387 To #683390"
-              total="(Total of 683391 Blocks)"
-              isSearching={isSearch}
-              onShowList={this.onShowList}
-              currentPage={this.state.currentPage}
-            /> */}
         <Wrapper
           searchHandler={(e) => this.searchHandler(e)}
           setSearchText={(e) => this.setSearchText(e)}
@@ -469,35 +442,34 @@ class Blocks extends Component {
           onChangePage={this.onChangePage}
           icon={TitleIcon}
           title="Blocks"
-          block="Block #683387 To #683390"
-          total="(Total of 683391 Blocks)"
+          block={descriptionBlock}
+          total={totalBlocks}
           isSearching={isSearch}
           isRoute={isRoute}
           onShowList={this.onShowList}
-          currentPage={this.state.currentPage}
+          currentPage={this.state.currentPageVal}
         >
           {this.renderBlockSearchView()}
           {this.renderBlockList()}
         </Wrapper>
-        {/* <TxBlockPagination
-              onChangePage={this.onChangePage}
-              isSearching={isSearch}
-              currentPage={this.state.currentPage}
-            />
-          </Container>
-        </section>
-        <Footer /> */}
       </div>
     );
   }
 }
+
+Blocks.propTypes = {
+  setBlockData: PropTypes.func,
+};
 
 const mapStateToProps = createSelector(
   getBlockUpdateDetails(),
   (blockDetails) => ({ blockDetails })
 );
 
+const mapDispatchToProps = (dispatch) => ({
+  setBlocksData: (blockData) => dispatch(setBlockData(blockData)),
+});
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Blocks);

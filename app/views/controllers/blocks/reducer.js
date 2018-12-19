@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
 import { SET_BLOCK_DATA } from '../constants';
+import _uniqBy from 'lodash/uniqBy';
 
 const initialState = fromJS({
   blockDetails: {
@@ -9,24 +10,22 @@ const initialState = fromJS({
 });
 
 const defaultState = {
-  allBlockData: [],
-  latestTransactions: [],
+  blockDetails: {
+    allBlockData: [],
+    latestTransactions: [],
+  },
 };
 
 function formatBlocksData(state = defaultState, action) {
-  console.log('action', action);
   const edges = action;
   const latestTransactions = [];
   const allBlockData = [];
 
   edges.blocksDetails.forEach((val) => {
     const { hash, index, stateHash, transactions, round } = val.node.payload;
-    console.log('val11', val);
 
     // eslint-disable-next-line no-undef
-    console.log('latestTransactions', latestTransactions);
     val.node.payload.transactions.forEach((transac) => {
-      console.log('transac66', transac);
       latestTransactions.push({
         block_id: val.node.payload.hash,
         address_from: transac.from,
@@ -41,7 +40,6 @@ function formatBlocksData(state = defaultState, action) {
         status: transac.status,
       });
     });
-    console.log('alldata', hash, index, stateHash, transactions, round);
     allBlockData.push({
       hash,
       height: index,
@@ -49,9 +47,24 @@ function formatBlocksData(state = defaultState, action) {
       transactionLength: transactions.length,
       round,
       transactions,
+      cursor: val.cursor,
     });
   });
-  console.log('allBlockData', allBlockData, latestTransactions);
+  if (state && state.allBlockData) {
+    let newAllBlockData = [...state.allBlockData].concat(allBlockData);
+    let newAllTransactions = [...state.latestTransactions].concat(
+      latestTransactions
+    );
+    newAllBlockData = _uniqBy(newAllBlockData, (e) => e.hash);
+    newAllTransactions = _uniqBy(newAllTransactions, (e) => e.transaction_hash);
+
+    return {
+      ...state,
+      allBlockData: newAllBlockData,
+      latestTransactions: newAllTransactions,
+    };
+  }
+
   return {
     ...state,
     allBlockData,
@@ -60,15 +73,12 @@ function formatBlocksData(state = defaultState, action) {
 }
 
 function setBlockDataReducer(state = initialState, action) {
-  console.log(' blockData action:  ', action);
   switch (action.type) {
     case SET_BLOCK_DATA:
       const updatedState = formatBlocksData(state, action);
-      console.log('updatedState', updatedState);
       return {
         ...updatedState,
       };
-    // return state.set('blocksDetails', action.blocksDetails);
     default:
       return state;
   }

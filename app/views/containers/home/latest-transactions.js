@@ -65,14 +65,13 @@ class LatestTransactions extends React.Component {
 
   onTransactionClick(props, data) {
     props.history.push({
-      pathname: '/transactions',
+      pathname: `/transactions/${data.transaction_hash}`,
       state: { data, type: 'transaction' },
     });
   }
 
   render() {
     const transactions = this.props.blockDetails.latestTransactions.slice(0, 9);
-    console.log('transactions111', transactions);
     return (
       <Col xs={12} md={6} className="left">
         <div className="header">

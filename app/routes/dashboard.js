@@ -27,9 +27,11 @@ function renderLoggedInRoutes() {
 function renderLoggedOutRoutes() {
   return (
     <Switch>
-      <Route path="/blocks" component={Blocks} />
+      <Route path="/blocks" exact component={Blocks} />
+      <Route path="/blocks/:id" component={Blocks} />
       <Route path="/address" component={Address} />
-      <Route path="/transactions" component={Transactions} />
+      <Route path="/transactions" exact component={Transactions} />
+      <Route path="/transactions/:id" component={Transactions} />
       <Route path="/details" component={Details} />
       <Route path="/block/:id" component={BlockTransactionDetail} />
       <Route path="/resources" component={Resources} />

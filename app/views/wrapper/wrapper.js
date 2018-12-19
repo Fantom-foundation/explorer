@@ -22,9 +22,9 @@ class Wrapper extends Component {
             <TransactionHeader
               onChangePage={this.props.onChangePage}
               icon={TitleIcon}
-              title="Blocks"
-              block="Block #683387 To #683390"
-              total="(Total of 683391 Blocks)"
+              title={this.props.title}
+              block={this.props.block}
+              total={this.props.total}
               isSearching={this.props.isSearching}
               onShowList={this.props.onShowList}
               currentPage={this.props.currentPage}

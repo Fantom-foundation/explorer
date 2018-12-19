@@ -11,8 +11,6 @@ const getBlockData = (state) => state.get('setBlockDataReducer');
 
 const getBlockUpdateDetails = () =>
   createSelector(getBlockData, (blockDataUpdateState) => {
-    console.log('blockDataUpdateState', blockDataUpdateState);
-    // const getAllBlockData = blockDataUpdateState.get('allBlockData');
     let allBlockData = '';
     let latestTransactions = '';
     if (blockDataUpdateState) {
@@ -25,9 +23,6 @@ const getBlockUpdateDetails = () =>
     if (latestTransactions === undefined) {
       latestTransactions = blockDataUpdateState.get('latestTransactions');
     }
-
-    console.log('blockData123', allBlockData);
-    console.log('latestTransactions123', latestTransactions);
 
     return { allBlockData, latestTransactions };
   });

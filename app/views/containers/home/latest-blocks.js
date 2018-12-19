@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 function onBlockClick(props, data) {
   props.history.push({
-    pathname: '/blocks',
+    pathname: `/blocks/${data.height}`,
     state: { data, type: 'block' },
   });
 }

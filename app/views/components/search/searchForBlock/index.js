@@ -36,7 +36,9 @@ class SearchForBlock extends Component {
       height = blocks[0].height;
       hash = blocks[0].hash;
       round = blocks[0].round;
-      transactions = blocks[0].transactions;
+      transactions = blocks[0].transactions
+        ? blocks[0].transactions
+        : blocks[0].transactionLength;
     }
     let transactionText = 'transactions';
     if (transactions <= 1) {

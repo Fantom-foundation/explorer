@@ -27,30 +27,15 @@ class MarketCap extends React.Component {
     this.toggleTooltip = this.toggleTooltip.bind(this);
 
     if (isRealtimeUpdate) {
-      this.handleRealTimeUpdate();
       tooltipText = tooltipEnabledText;
     } else {
-      clearInterval(this.realtimeUpdateInterval);
+      // clearInterval(this.realtimeUpdateInterval);
     }
 
     this.state = {
       isOpenTooltip: false,
       tooltipText,
     };
-  }
-
-  /**
-   * @method handleRealTimeUpdate  : To fetch real time updates of blockchain if realtime updataion is enabled.
-   */
-  handleRealTimeUpdate() {
-    const { handleRealTimeUpdate } = this.props;
-    if (handleRealTimeUpdate) {
-      this.realtimeUpdateInterval = setInterval(() => {
-        handleRealTimeUpdate();
-      }, 4000);
-    } else {
-      clearInterval(this.realtimeUpdateInterval);
-    }
   }
 
   /**
@@ -65,7 +50,6 @@ class MarketCap extends React.Component {
 
     const { isRealtimeUpdate } = realtimeUpdate;
     if (!isRealtimeUpdate) {
-      this.handleRealTimeUpdate();
       if (setRealtimeUpdateDetails) {
         setRealtimeUpdateDetails({ isRealtimeUpdate: true });
         this.setState({
@@ -79,7 +63,7 @@ class MarketCap extends React.Component {
           tooltipText: tooltipDisabledText,
         });
       }
-      clearInterval(this.realtimeUpdateInterval);
+      // clearInterval(this.realtimeUpdateInterval);
     }
   }
 
@@ -96,12 +80,11 @@ class MarketCap extends React.Component {
 
   render() {
     const { realtimeUpdate } = this.props;
-    console.log('this.props777', this.props);
     const { isRealtimeUpdate } = realtimeUpdate;
     const { isOpenTooltip, tooltipText } = this.state;
     return (
       <Row className="market-cap">
-        <div  className="discription">
+        <div className="discription">
           <Title h2 className="text-white mb-0">
             Beyond
           </Title>
@@ -228,7 +211,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 MarketCap.propTypes = {
-  handleRealTimeUpdate: PropTypes.func,
   setRealtimeUpdateDetails: PropTypes.func,
   realtimeUpdate: PropTypes.object,
 };

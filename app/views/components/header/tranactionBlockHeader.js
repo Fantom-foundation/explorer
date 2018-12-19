@@ -25,7 +25,6 @@ export default class TranactionBlockHeader extends React.PureComponent {
 
   render() {
     const { windowWidth } = this.state;
-
     const {
       title,
       block,
@@ -52,7 +51,7 @@ export default class TranactionBlockHeader extends React.PureComponent {
           </Row>
         </Col>
         {windowWidth >= 768 && (
-          <Col md={6} className={`${isSearching && 'text-right'}`}>
+          <Col md={6} className={isSearching || isRoute ? 'text-right' : ''}>
             {!isSearching && !isRoute ? (
               <TxBlockPagination
                 className="mr-0"

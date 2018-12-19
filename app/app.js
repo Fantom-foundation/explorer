@@ -50,7 +50,6 @@ store.subscribe(() => {
   saveState(store.getState());
 });
 const render = () => {
-  console.log('initial');
   ReactDOM.render(<Main store={store} />, MOUNT_NODE);
 };
 
