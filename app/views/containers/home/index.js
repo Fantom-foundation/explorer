@@ -123,55 +123,58 @@ class HomePage extends Component {
     // const socket = io();
     console.log('this.props.blockDetails11', this.props.blockDetails);
     const { latestBlocksArr, latestTransactionsArr } = this.state;
-    return (
-      <div>
-        <Header {...this.props} />
-        <section
-          className="intro"
-          style={{ paddingTop: '89px', paddingBottom: '27px' }}
-        >
-          {' '}
-          <Container className="intro-container">
-            {/* <img src={fantomIcon} className="icon" /> */}
-            <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
-            {/* <Row>
-              <Col>
-                <Chart />
-              </Col>
-            </Row> */}
-          </Container>
-        </section>
-        <section>
-          <Container>
-            <hr />
-          </Container>
-        </section>
-        <section id="latest-blocks" className="bg-theme">
-          <Container>
-            <Row>
-              <LatestTransactions
-                latestTransactionsArr={this.props.blockDetails.latestTransactions.slice(
-                  0,
-                  9
-                )}
-                history={this.props.history}
-              />
-              <Col className="middle" xs={12}>
-                <hr />
-              </Col>
-              <LatestBlocks
-                latestBlocksArr={this.props.blockDetails.allBlockData.slice(
-                  0,
-                  9
-                )}
-                history={this.props.history}
-              />
-            </Row>
-          </Container>
-        </section>
-        <Footer />
-      </div>
-    );
+    if (this.props.blockDetails && this.props.blockDetails.latestTransactions) {
+      return (
+        <div>
+          <Header {...this.props} />
+          <section
+            className="intro"
+            style={{ paddingTop: '89px', paddingBottom: '27px' }}
+          >
+            {' '}
+            <Container className="intro-container">
+              {/* <img src={fantomIcon} className="icon" /> */}
+              <MarketCap handleRealTimeUpdate={this.handleRealTimeUpdate} />
+              {/* <Row>
+                <Col>
+                  <Chart />
+                </Col>
+              </Row> */}
+            </Container>
+          </section>
+          <section>
+            <Container>
+              <hr />
+            </Container>
+          </section>
+          <section id="latest-blocks" className="bg-theme">
+            <Container>
+              <Row>
+                <LatestTransactions
+                  latestTransactionsArr={this.props.blockDetails.latestTransactions.slice(
+                    0,
+                    9
+                  )}
+                  history={this.props.history}
+                />
+                <Col className="middle" xs={12}>
+                  <hr />
+                </Col>
+                <LatestBlocks
+                  latestBlocksArr={this.props.blockDetails.allBlockData.slice(
+                    0,
+                    9
+                  )}
+                  history={this.props.history}
+                />
+              </Row>
+            </Container>
+          </section>
+          <Footer />
+        </div>
+      );
+    }
+    return null;
   }
 }
 
