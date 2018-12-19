@@ -96,6 +96,7 @@ class MarketCap extends React.Component {
 
   render() {
     const { realtimeUpdate } = this.props;
+    console.log('this.props777', this.props);
     const { isRealtimeUpdate } = realtimeUpdate;
     const { isOpenTooltip, tooltipText } = this.state;
     return (

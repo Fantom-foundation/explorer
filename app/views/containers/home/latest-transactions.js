@@ -5,13 +5,15 @@ import PropTypes from 'prop-types';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import transactionIcon from '../../../images/icons/transactions.svg';
-
+import { createSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 /**
  * @class LatestTransactions : To display list of latest transactions.
  * @param {array} latestTransactionsArr : List of latest transactions.
  */
 
-export default class LatestTransactions extends React.Component {
+class LatestTransactions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,44 +22,44 @@ export default class LatestTransactions extends React.Component {
     this.onTransactionClick = this.onTransactionClick.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.latestTransactionsArr &&
-      nextProps.latestTransactionsArr.length
-    ) {
-      const transactions = [];
-      nextProps.latestTransactionsArr.forEach((val) => {
-        const {
-          contractAddress,
-          cumulativeGasUsed,
-          from,
-          gas,
-          root,
-          to,
-          transactionHash,
-          value,
-          logsBloom,
-          status,
-        } = val;
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     nextProps.latestTransactionsArr &&
+  //     nextProps.latestTransactionsArr.length
+  //   ) {
+  //     const transactions = [];
+  //     nextProps.latestTransactionsArr.forEach((val) => {
+  //       const {
+  //         contractAddress,
+  //         cumulativeGasUsed,
+  //         from,
+  //         gas,
+  //         root,
+  //         to,
+  //         transactionHash,
+  //         value,
+  //         logsBloom,
+  //         status,
+  //       } = val;
 
-        transactions.push({
-          address_from: from,
-          transaction_hash: transactionHash,
-          address_to: to,
-          value,
-          gasUsed: gas,
-          cumulativeGasUsed,
-          contractAddress,
-          root,
-          logsBloom,
-          status,
-        });
-      });
-      this.setState({
-        transactionArray: transactions,
-      });
-    }
-  }
+  //       transactions.push({
+  //         address_from: from,
+  //         transaction_hash: transactionHash,
+  //         address_to: to,
+  //         value,
+  //         gasUsed: gas,
+  //         cumulativeGasUsed,
+  //         contractAddress,
+  //         root,
+  //         logsBloom,
+  //         status,
+  //       });
+  //     });
+  //     this.setState({
+  //       transactionArray: transactions,
+  //     });
+  //   }
+  // }
 
   onTransactionClick(props, data) {
     props.history.push({
@@ -67,7 +69,8 @@ export default class LatestTransactions extends React.Component {
   }
 
   render() {
-    const transactions = this.state.transactionArray;
+    const transactions = this.props.blockDetails.latestTransactions.slice(0, 9);
+    console.log('transactions111', transactions);
     return (
       <Col xs={12} md={6} className="left">
         <div className="header">
@@ -140,3 +143,13 @@ export default class LatestTransactions extends React.Component {
 LatestTransactions.propTypes = {
   latestTransactionsArr: PropTypes.array,
 };
+
+const mapStateToProps = createSelector(
+  getBlockUpdateDetails(),
+  (blockDetails) => ({ blockDetails })
+);
+
+export default connect(
+  mapStateToProps,
+  null
+)(LatestTransactions);

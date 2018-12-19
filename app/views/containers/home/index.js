@@ -8,8 +8,11 @@ import LatestBlocks from 'views/containers/home/latest-blocks';
 import MarketCap from 'views/containers/home/market-cap';
 import Chart from 'views/containers/chart/index';
 import HttpDataProvider from '../../../utils/httpProvider';
+import { createSelector } from 'reselect';
+import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
+import { connect } from 'react-redux';
 
-export default class HomePage extends Component {
+class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,91 +25,91 @@ export default class HomePage extends Component {
   /**
    * Get list of latest blocks and latest transactions.
    */
-  componentDidMount() {
-    this.fetchLatestBlocks();
-  }
+  // componentDidMount() {
+  //   this.fetchLatestBlocks();
+  // }
 
   /**
    * @method fetchLatestBlocks : To get list of latest blocks and latest transactions.
    */
-  fetchLatestBlocks() {
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-      {
-        blocks(first: 10, by: "index", byDirection: "desc") {
-          pageInfo {
-            hasNextPage
-          }
-          edges {
-            cursor,
-            node {
-              id,
-              payload
-            }
-          }
-        }
-      }`,
-    })
-      .then(
-        (res) => {
-          if (res && res.data) {
-            const allData = res.data;
-            if (
-              allData.data &&
-              allData.data.blocks &&
-              allData.data.blocks.edges &&
-              allData.data.blocks.edges.length
-            ) {
-              const edges = allData.data.blocks.edges;
-              let cursor;
-              const latestTransactions = [];
-              const allBlockData = [];
+  // fetchLatestBlocks() {
+  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+  //     query: `
+  //     {
+  //       blocks(first: 10, by: "index", byDirection: "desc") {
+  //         pageInfo {
+  //           hasNextPage
+  //         }
+  //         edges {
+  //           cursor,
+  //           node {
+  //             id,
+  //             payload
+  //           }
+  //         }
+  //       }
+  //     }`,
+  //   })
+  //     .then(
+  //       (res) => {
+  //         if (res && res.data) {
+  //           const allData = res.data;
+  //           if (
+  //             allData.data &&
+  //             allData.data.blocks &&
+  //             allData.data.blocks.edges &&
+  //             allData.data.blocks.edges.length
+  //           ) {
+  //             const edges = allData.data.blocks.edges;
+  //             let cursor;
+  //             const latestTransactions = [];
+  //             const allBlockData = [];
 
-              edges.forEach((val) => {
-                const {
-                  hash,
-                  index,
-                  stateHash,
-                  transactions,
-                  round,
-                } = val.node.payload;
+  //             edges.forEach((val) => {
+  //               const {
+  //                 hash,
+  //                 index,
+  //                 stateHash,
+  //                 transactions,
+  //                 round,
+  //               } = val.node.payload;
 
-                latestTransactions.push(...val.node.payload.transactions);
-                cursor = val.cursor;
-                allBlockData.push({
-                  hash,
-                  height: index,
-                  parentHash: stateHash,
-                  transactionLength: transactions.length,
-                  round,
-                  transactions,
-                });
-              });
-              this.setState({
-                latestBlocksArr: allBlockData,
-                cursor,
-                latestTransactionsArr: latestTransactions,
-              });
-            } else {
-              this.setState({
-                latestBlocksArr: [],
-                latestTransactionsArr: [],
-              });
-            }
-          }
-          return null;
-        },
-        () => {
-          console.log('1');
-        }
-      )
-      .catch(() => {
-        this.setState({
-          latestBlocksArr: [],
-          latestTransactionsArr: [],
-        });
-      });
-  }
+  //               latestTransactions.push(...val.node.payload.transactions);
+  //               cursor = val.cursor;
+  //               allBlockData.push({
+  //                 hash,
+  //                 height: index,
+  //                 parentHash: stateHash,
+  //                 transactionLength: transactions.length,
+  //                 round,
+  //                 transactions,
+  //               });
+  //             });
+  //             this.setState({
+  //               latestBlocksArr: allBlockData,
+  //               cursor,
+  //               latestTransactionsArr: latestTransactions,
+  //             });
+  //           } else {
+  //             this.setState({
+  //               latestBlocksArr: [],
+  //               latestTransactionsArr: [],
+  //             });
+  //           }
+  //         }
+  //         return null;
+  //       },
+  //       () => {
+  //         console.log('1');
+  //       }
+  //     )
+  //     .catch(() => {
+  //       this.setState({
+  //         latestBlocksArr: [],
+  //         latestTransactionsArr: [],
+  //       });
+  //     });
+  // }
 
   /**
    * @method handleRealTimeUpdate : To update list of latest blocks and transactions, If real time update is enabled.
@@ -117,6 +120,7 @@ export default class HomePage extends Component {
 
   render() {
     // const socket = io();
+    console.log('this.props.blockDetails11', this.props.blockDetails);
     const { latestBlocksArr, latestTransactionsArr } = this.state;
     return (
       <div>
@@ -144,14 +148,20 @@ export default class HomePage extends Component {
           <Container>
             <Row>
               <LatestTransactions
-                latestTransactionsArr={latestTransactionsArr}
+                latestTransactionsArr={this.props.blockDetails.latestTransactions.slice(
+                  0,
+                  9
+                )}
                 history={this.props.history}
               />
               <Col className="middle" xs={12}>
                 <hr />
               </Col>
               <LatestBlocks
-                latestBlocksArr={latestBlocksArr}
+                latestBlocksArr={this.props.blockDetails.allBlockData.slice(
+                  0,
+                  9
+                )}
                 history={this.props.history}
               />
             </Row>
@@ -162,3 +172,13 @@ export default class HomePage extends Component {
     );
   }
 }
+
+const mapStateToProps = createSelector(
+  getBlockUpdateDetails(),
+  (blockDetails) => ({ blockDetails })
+);
+
+export default connect(
+  mapStateToProps,
+  null
+)(HomePage);

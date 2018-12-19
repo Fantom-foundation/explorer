@@ -11,6 +11,9 @@ import TranactionBlockHeader from '../../components/header/tranactionBlockHeader
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import SearchBar from '../../components/search/searchBar/index';
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
+import { createSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 
 function scientificToDecimal(num) {
   const sign = Math.sign(num);
@@ -42,11 +45,11 @@ function scientificToDecimal(num) {
   return num;
 }
 
-export default class Transactions extends Component {
+class Transactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      transactionArray: [],
+      // transactionArray: [],
       searchText: '',
       transactionData: [],
       error: '',
@@ -95,82 +98,82 @@ export default class Transactions extends Component {
     }
   }
 
-  componentDidMount() {
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-      {
-        transactions(first:30) {
-          pageInfo {
-            hasNextPage
-          }
-          edges {
-            cursor
-            node {
-              hash
-              from
-              to
-              block
-              value
-              gas
-              cumulative
-              contract
-              root
-            }
-          }
-        }
-      }`,
-    })
-      .then(
-        (res) => {
-          if (res && res.data) {
-            // this.formatTransactionList(res.data);
-            const allTransactionData = [];
-            const edges = res.data.data.transactions.edges;
-            const hasNextPage = res.data.data.transactions.pageInfo.hasNextPage;
-            let cursor;
-            edges.forEach((val) => {
-              const {
-                block,
-                from,
-                hash,
-                to,
-                value,
-                gas,
-                cumulative,
-                contract,
-                root,
-              } = val.node;
-              cursor = val.cursor;
+  // componentDidMount() {
+  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+  //     query: `
+  //     {
+  //       transactions(first:30) {
+  //         pageInfo {
+  //           hasNextPage
+  //         }
+  //         edges {
+  //           cursor
+  //           node {
+  //             hash
+  //             from
+  //             to
+  //             block
+  //             value
+  //             gas
+  //             cumulative
+  //             contract
+  //             root
+  //           }
+  //         }
+  //       }
+  //     }`,
+  //   })
+  //     .then(
+  //       (res) => {
+  //         if (res && res.data) {
+  //           // this.formatTransactionList(res.data);
+  //           const allTransactionData = [];
+  //           const edges = res.data.data.transactions.edges;
+  //           const hasNextPage = res.data.data.transactions.pageInfo.hasNextPage;
+  //           let cursor;
+  //           edges.forEach((val) => {
+  //             const {
+  //               block,
+  //               from,
+  //               hash,
+  //               to,
+  //               value,
+  //               gas,
+  //               cumulative,
+  //               contract,
+  //               root,
+  //             } = val.node;
+  //             cursor = val.cursor;
 
-              allTransactionData.push({
-                block_id: block,
-                address_from: from,
-                transaction_hash: hash,
-                address_to: to,
-                value,
-                gasUsed: gas,
-                cumulativeGasUsed: cumulative,
-                contractAddress: contract,
-                root,
-              });
-            });
-            this.setState({
-              transactionArray: allTransactionData,
-              cursor,
-              hasNextPage,
-              lastFetchedPage: 2,
-            });
-          }
-          return null;
-        },
-        () => {
-          console.log('1');
-        }
-      )
-      .catch((err) => {
-        console.log(err, 'err in graphql');
-      });
-  }
+  //             allTransactionData.push({
+  //               block_id: block,
+  //               address_from: from,
+  //               transaction_hash: hash,
+  //               address_to: to,
+  //               value,
+  //               gasUsed: gas,
+  //               cumulativeGasUsed: cumulative,
+  //               contractAddress: contract,
+  //               root,
+  //             });
+  //           });
+  //           this.setState({
+  //             transactionArray: allTransactionData,
+  //             cursor,
+  //             hasNextPage,
+  //             lastFetchedPage: 2,
+  //           });
+  //         }
+  //         return null;
+  //       },
+  //       () => {
+  //         console.log('1');
+  //       }
+  //     )
+  //     .catch((err) => {
+  //       console.log(err, 'err in graphql');
+  //     });
+  // }
 
   onChangePage = (type) => {
     const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
@@ -185,96 +188,96 @@ export default class Transactions extends Component {
       currentPage: showPage,
     });
     const fetch = lastFetchedPage - showPage === 1;
-    if (type === 'next' && fetch) {
-      if (hasNextPage) {
-        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-          query: `
-        {
-          transactions(first:10,after:"${cursor}") {
-            pageInfo {
-              hasNextPage
-            }
-            edges {
-              cursor
-              node {
-                hash
-                from
-                to
-                block
-                value
-                gas
-                cumulative
-                contract
-                root
-                logs 
-                status 
-              }
-            }
-          }
-        }`,
-        })
-          .then(
-            (res) => {
-              if (res && res.data) {
-                // this.formatTransactionList(res.data);
-                const allTransactionData = [];
-                const edges = res.data.data.transactions.edges;
-                const changedNextPage =
-                  res.data.data.transactions.pageInfo.hasNextPage;
-                const changedPrevPage =
-                  res.data.data.transactions.pageInfo.hasPreviousPage;
-                let changedCursor;
-                edges.forEach((val) => {
-                  const {
-                    block,
-                    from,
-                    hash,
-                    to,
-                    value,
-                    gas,
-                    cumulative,
-                    contract,
-                    root,
-                    logs,
-                    status,
-                  } = val.node;
-                  changedCursor = val.cursor;
-                  allTransactionData.push({
-                    block_id: block,
-                    address_from: from,
-                    transaction_hash: hash,
-                    address_to: to,
-                    value,
-                    gasUsed: gas,
-                    cumulativeGasUsed: cumulative,
-                    contractAddress: contract,
-                    root,
-                    logs,
-                    status,
-                  });
-                });
-                this.setState((prevState) => ({
-                  transactionArray: [
-                    ...prevState.transactionArray,
-                    ...allTransactionData,
-                  ],
-                  cursor: changedCursor,
-                  lastFetchedPage: prevState.lastFetchedPage + 1,
-                  hasNextPage: changedNextPage,
-                  hasPrevPage: changedPrevPage,
-                }));
-              }
-              return null;
-            },
-            () => {
-              console.log('1');
-            }
-          )
-          .catch((err) => {
-            console.log(err, 'err in graphql');
-          });
-      }
-    }
+    // if (type === 'next' && fetch) {
+    //   if (hasNextPage) {
+    //     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+    //       query: `
+    //     {
+    //       transactions(first:10,after:"${cursor}") {
+    //         pageInfo {
+    //           hasNextPage
+    //         }
+    //         edges {
+    //           cursor
+    //           node {
+    //             hash
+    //             from
+    //             to
+    //             block
+    //             value
+    //             gas
+    //             cumulative
+    //             contract
+    //             root
+    //             logs
+    //             status
+    //           }
+    //         }
+    //       }
+    //     }`,
+    //     })
+    //       .then(
+    //         (res) => {
+    //           if (res && res.data) {
+    //             // this.formatTransactionList(res.data);
+    //             const allTransactionData = [];
+    //             const edges = res.data.data.transactions.edges;
+    //             const changedNextPage =
+    //               res.data.data.transactions.pageInfo.hasNextPage;
+    //             const changedPrevPage =
+    //               res.data.data.transactions.pageInfo.hasPreviousPage;
+    //             let changedCursor;
+    //             edges.forEach((val) => {
+    //               const {
+    //                 block,
+    //                 from,
+    //                 hash,
+    //                 to,
+    //                 value,
+    //                 gas,
+    //                 cumulative,
+    //                 contract,
+    //                 root,
+    //                 logs,
+    //                 status,
+    //               } = val.node;
+    //               changedCursor = val.cursor;
+    //               allTransactionData.push({
+    //                 block_id: block,
+    //                 address_from: from,
+    //                 transaction_hash: hash,
+    //                 address_to: to,
+    //                 value,
+    //                 gasUsed: gas,
+    //                 cumulativeGasUsed: cumulative,
+    //                 contractAddress: contract,
+    //                 root,
+    //                 logs,
+    //                 status,
+    //               });
+    //             });
+    //             this.setState((prevState) => ({
+    //               transactionArray: [
+    //                 ...prevState.transactionArray,
+    //                 ...allTransactionData,
+    //               ],
+    //               cursor: changedCursor,
+    //               lastFetchedPage: prevState.lastFetchedPage + 1,
+    //               hasNextPage: changedNextPage,
+    //               hasPrevPage: changedPrevPage,
+    //             }));
+    //           }
+    //           return null;
+    //         },
+    //         () => {
+    //           console.log('1');
+    //         }
+    //       )
+    //       .catch((err) => {
+    //         console.log(err, 'err in graphql');
+    //       });
+    //   }
+    // }
   };
   /**
    * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
@@ -396,11 +399,16 @@ export default class Transactions extends Component {
   }
 
   renderTransactionList() {
-    const { transactionArray, isSearch, currentPage } = this.state;
-    const txFee = '0.0001';
+    const { isSearch, currentPage } = this.state;
+    // const txFee = '0.0001';
     const from = currentPage * 10;
     const to = from + 10;
-    const transformedArray = transactionArray.slice(from, to);
+    const { latestTransactions } = this.props.blockDetails;
+    console.log(
+      'this.props.blockDetails787',
+      this.props.blockDetails.latestTransactions
+    );
+    const transformedArray = latestTransactions.slice(from, to);
     if (!isSearch) {
       return (
         <Col>
@@ -424,7 +432,7 @@ export default class Transactions extends Component {
                     key={`tx_${index}`}
                     onClick={() =>
                       this.props.history.push({
-                        pathname: `/detail/${data.transaction_hash}`,
+                        pathname: `/detail/${data.transactionHash}`,
                         state: { data, type: 'transaction' },
                       })
                     }
@@ -493,6 +501,7 @@ export default class Transactions extends Component {
   };
   render() {
     const { searchText, transactionData, hasNextPage } = this.state;
+    console.log('this.props.blockDetails11', this.props.blockDetails);
     const { isSearch } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
@@ -561,3 +570,13 @@ export default class Transactions extends Component {
     );
   }
 }
+
+const mapStateToProps = createSelector(
+  getBlockUpdateDetails(),
+  (blockDetails) => ({ blockDetails })
+);
+
+export default connect(
+  mapStateToProps,
+  null
+)(Transactions);

@@ -5,13 +5,17 @@ import Header from 'views/components/header/header';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import { Title } from '../../components/coreComponent';
 import _ from 'lodash'; // eslint-disable-line
+import { createSelector } from 'reselect';
 import TxBlockPagination from '../pagination/txBlockPagination';
 import SearchForBlock from '../../components/search/searchForBlock/index';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
-import SearchBar from '../../components/search/searchBar/index';
 
-export default class Blocks extends Component {
+import SearchBar from '../../components/search/searchBar/index';
+import { connect } from 'react-redux';
+import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
+
+class Blocks extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +25,7 @@ export default class Blocks extends Component {
       allBlockData: [],
       error: '',
       cursor: '',
-      lastFetchedPage: 0,
+      lastFetchedPage: 2,
       currentPage: 0,
       isSearch: false,
       hasNextPage: true,
@@ -127,71 +131,72 @@ export default class Blocks extends Component {
   //     });
   // }
 
-  componentDidMount() {
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-          {
-            blocks(first:30, byDirection: "desc") {
-              pageInfo {
-                hasNextPage
-                hasPreviousPage
-              }
-              edges {
-                cursor
-                node {
-                  payload
-                }
-              }
-            }
-          }`,
-    })
-      .then(
-        (res) => {
-          if (res && res.data) {
-            // this.formatTransactionList(res.data);
-            const allBlockData = [];
-            const edges = res.data.data.blocks.edges;
-            const hasNextPage = res.data.data.blocks.pageInfo.hasNextPage;
-            const hasPrevPage = res.data.data.blocks.pageInfo.hasPreviousPage;
-            let cursor;
-            edges.forEach((val) => {
-              const {
-                hash,
-                index,
-                stateHash,
-                transactions,
-                round,
-              } = val.node.payload;
-              cursor = val.cursor;
-              allBlockData.push({
-                hash,
-                height: index,
-                parentHash: stateHash,
-                transactions: transactions.length,
-                round,
-              });
-            });
-            this.setState({
-              blockArray: allBlockData,
-              cursor,
-              hasNextPage,
-              hasPrevPage,
-              lastFetchedPage: 2,
-            });
-          }
-          return null;
-        },
-        () => {
-          console.log('1');
-        }
-      )
-      .catch((err) => {
-        console.log(err, 'err in graphql');
-      });
-  }
+  // componentDidMount() {
+  //   HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+  //     query: `
+  //         {
+  //           blocks(first:30, byDirection: "desc") {
+  //             pageInfo {
+  //               hasNextPage
+  //               hasPreviousPage
+  //             }
+  //             edges {
+  //               cursor
+  //               node {
+  //                 payload
+  //               }
+  //             }
+  //           }
+  //         }`,
+  //   })
+  //     .then(
+  //       (res) => {
+  //         if (res && res.data) {
+  //           // this.formatTransactionList(res.data);
+  //           const allBlockData = [];
+  //           const edges = res.data.data.blocks.edges;
+  //           const hasNextPage = res.data.data.blocks.pageInfo.hasNextPage;
+  //           const hasPrevPage = res.data.data.blocks.pageInfo.hasPreviousPage;
+  //           let cursor;
+  //           edges.forEach((val) => {
+  //             const {
+  //               hash,
+  //               index,
+  //               stateHash,
+  //               transactions,
+  //               round,
+  //             } = val.node.payload;
+  //             cursor = val.cursor;
+  //             allBlockData.push({
+  //               hash,
+  //               height: index,
+  //               parentHash: stateHash,
+  //               transactions: transactions.length,
+  //               round,
+  //             });
+  //           });
+  //           this.setState({
+  //             blockArray: allBlockData,
+  //             cursor,
+  //             hasNextPage,
+  //             hasPrevPage,
+  //             lastFetchedPage: 2,
+  //           });
+  //         }
+  //         return null;
+  //       },
+  //       () => {
+  //         console.log('1');
+  //       }
+  //     )
+  //     .catch((err) => {
+  //       console.log(err, 'err in graphql');
+  //     });
+  // }
 
   onChangePage = (type) => {
     const { cursor, lastFetchedPage, currentPage, hasNextPage } = this.state;
+    console.log('this.props.blockDetails66', this.props.blockDetails);
     let showPage = type === 'next' ? currentPage + 1 : currentPage - 1;
     if (showPage < 0) {
       showPage = 0;
@@ -202,13 +207,14 @@ export default class Blocks extends Component {
     this.setState({
       currentPage: showPage,
     });
+
     const fetch = lastFetchedPage - showPage === 1;
     if (type === 'next' && fetch) {
       if (hasNextPage) {
         HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
           query: `
             {
-              blocks(first:30,after:"${cursor}") {
+              blocks(first:30,after:"${this.props.blockDetails.cursor}") {
                 pageInfo {
                   hasNextPage
                   hasPreviousPage
@@ -370,15 +376,22 @@ export default class Blocks extends Component {
     if (blockNumber === '') {
       return;
     }
-
     this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
   }
 
   renderBlockList() {
     const { isSearch, blockArray, currentPage } = this.state;
+    const { blockData } = this.props.blockDetails;
+    console.log(
+      ' this.props.blockDetails',
+      this.props.blockDetails.allBlockData
+    );
     const from = currentPage * 10;
     const to = from + 10;
-    const transformedBlockArray = blockArray.slice(from, to);
+    const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
+      from,
+      to
+    );
     if (!isSearch) {
       return (
         <Row>
@@ -416,7 +429,7 @@ export default class Blocks extends Component {
                         data-head="Txn"
                         className="text-primary full-wrap txn"
                       >
-                        {data.transactions}
+                        {data.transactions.length}
                       </td>
                       <td
                         data-head="hash"
@@ -578,3 +591,13 @@ export default class Blocks extends Component {
     );
   }
 }
+
+const mapStateToProps = createSelector(
+  getBlockUpdateDetails(),
+  (blockDetails) => ({ blockDetails })
+);
+
+export default connect(
+  mapStateToProps,
+  null
+)(Blocks);
