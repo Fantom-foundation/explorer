@@ -27,7 +27,7 @@ export default class Footer extends React.Component {
                     <img src={GithubIcon} />
                     Github
                   </a>
-                  <a href="https://fantom.foundation/" target="_black">
+                  <a href="https://join.slack.com/t/fantomdevelopers/shared_invite/enQtNDEwODI0NTg0NTE2LTZkYTg0NTQxMjVkNzM4NDM0MGRkOTZlNDE0YTMwMTZlNTY5N2JjYTM5YTE1MDJmNmVjOGJjMzY1MmJhYzNiZjY" target="_black">
                     <img src={SlackIcon} />
                     Slack
                   </a>
