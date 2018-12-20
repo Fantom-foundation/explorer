@@ -31,9 +31,11 @@ footer {
     }
     .social {
       margin: 0 -11px;
+      @media(min-width:768px) and ( max-width:991px){margin: 0 -5px;}
       a {
         margin: 0 11px;
         vertical-align: middle;
+        @media(min-width:768px) and ( max-width:991px){margin: 0 5px;}
         @media(max-width:567px){    font-size: 0;}
         img {
           margin-right: 11.3px;
@@ -41,6 +43,8 @@ footer {
           @media (max-width:1200px) {
             height: 20px; margin: 0 8px;
           }
+          @media(min-width:768px) and ( max-width:991px){margin: 0 5px;}
+          
         }
       }
     }
