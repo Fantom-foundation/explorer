@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
+import Web3 from 'web3';
 
 class Transactions extends Component {
   constructor(props) {
@@ -271,12 +272,15 @@ class Transactions extends Component {
    */
   loadFantomTransactionData(result) {
     let transactionData = [];
+
+    const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
+
     transactionData.push({
       transaction_hash: result.hash,
       Block_id: '',
       address_from: result.from,
       address_to: result.to,
-      value: result.value,
+      value: newVal,
       txFee: '',
       createdAt: '',
       gasUsed: result.gas,
@@ -372,15 +376,19 @@ class Transactions extends Component {
         to
       );
       const transformedArray = [];
+      const newTransformedArr = [];
+      let newValue = '';
       if (transformedBlockArray.length) {
         for (const block of transformedBlockArray) {
           block.transactions.forEach((transac) => {
+            const value = Web3.utils.fromWei(`${transac.value}`, 'ether');
+            newValue = Number(value).toFixed(4);
             transformedArray.push({
               block_id: block.hash,
               address_from: transac.from,
               transaction_hash: transac.transactionHash,
               address_to: transac.to,
-              value: transac.value,
+              value,
               gasUsed: transac.gas,
               cumulativeGasUsed: transac.cumulativeGasUsed,
               contractAddress: transac.contractAddress,
@@ -448,7 +456,7 @@ class Transactions extends Component {
                           {data.address_to}
                         </td>
                         <td data-head="Value" className="half">
-                          <span className="o-5">{data.value}</span>
+                          <span className="o-5">{newValue}</span>
                         </td>
                       </tr>
                     ))}

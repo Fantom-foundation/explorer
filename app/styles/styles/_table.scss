@@ -12,9 +12,7 @@ $icon-transaction:'../images/icons/tx.svg';
     &.icon-block{  background: { image: url($icon-block); }}
     &.icon-transaction{     padding-left: 27px; background: { image: url($icon-transaction); }}
   }
-    
   }
-
    th, td{
     border-top: 1px solid map-get($color, border-line );
     font: { family: "Roboto"; weight: 400; }
@@ -33,9 +31,6 @@ $icon-transaction:'../images/icons/tx.svg';
       }
     }
   }
-
-
- 
   tbody {
     tr {
       td {
@@ -56,11 +51,15 @@ $icon-transaction:'../images/icons/tx.svg';
     }
   }
   &.blocks-table,&.transactions-table  {
-    tr{
-      cursor: pointer;
+    tbody
+    {
+      tr
+      {
+        cursor: pointer;
+      }
     }
     @media (max-width: 767px) {
-      font:{ size:12px; }
+      font: { size:12px; }
       display: -webkit-box;
       display: -webkit-flex;
       display: -ms-flexbox;

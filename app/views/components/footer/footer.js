@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import GithubIcon from '../../../images/social/github.svg';
-import LinkedInIcon from '../../../images/social/linked-in.svg';
-import SlackIcon from '../../../images/social/slack.svg';
+import TeleygramIcon from '../../../images/social/telegram.svg';
+import FacebookIcon from '../../../images/social/facebook.svg';
 
 export default class Footer extends React.Component {
   render() {
@@ -19,26 +19,26 @@ export default class Footer extends React.Component {
                 </a>
               </div>
             </Col>
-            <Col md={5} lg={4}  className="bordred">
+            <Col md={5} lg={5}  className="bordred">
               <div className="fields">
                 <h2 className="text-uppercase">Channel</h2>
                 <div className="social">
-                  <a href="https://github.com/Fantom-Foundation" target="_black">
+                  <a href="https://github.com/Fantom-foundation" target="_black">
                     <img src={GithubIcon} />
                     Github
                   </a>
-                  <a href="https://fantom.foundation/" target="_black">
-                    <img src={SlackIcon} />
-                    Slack
+                  <a href="https://www.facebook.com/Fantom.Foundation.English/" target="_black">
+                    <img src={FacebookIcon} />
+                    Facebook
                   </a>
-                  <a href="https://fantom.foundation/" target="_black">
-                    <img src={LinkedInIcon} />
-                    Linkedin
+                  <a href="https://t.me/Fantom_English" target="_black">
+                    <img src={TeleygramIcon} />
+                    Teleygram
                   </a>
                 </div>
               </div>
             </Col>
-            <Col md={4}  lg={4} className="page-menus">
+            <Col md={4}  lg={3} className="page-menus">
             <h2 className="text-uppercase">&nbsp;</h2>
             <ul className="">
               <li><a href="https://fantom.foundation/" target="_black">About</a></li>

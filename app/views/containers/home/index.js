@@ -63,20 +63,14 @@ class HomePage extends Component {
           <section id="latest-blocks" className="bg-theme">
             <Container>
               <Row>
-                <LatestTransactions
-                  latestTransactionsArr={this.props.blockDetails.latestTransactions.slice(
-                    0,
-                    9
-                  )}
-                  history={this.props.history}
-                />
+                <LatestTransactions history={this.props.history} />
                 <Col className="middle" xs={12}>
                   <hr />
                 </Col>
                 <LatestBlocks
                   latestBlocksArr={this.props.blockDetails.allBlockData.slice(
                     0,
-                    9
+                    10
                   )}
                   history={this.props.history}
                 />

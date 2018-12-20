@@ -36,10 +36,10 @@ class SearchForTransaction extends Component {
         addressFrom = txData.address_from || '--';
         addressTo = txData.address_to || '--';
         value = `${txData.value}` || '--';
-        if (value !== '--') {
-          value = Web3.utils.fromWei(`${value}`, 'ether');
-          value = Number(value).toFixed(4);
-        }
+        // if (value !== '--') {
+        //   value = Web3.utils.fromWei(`${value}`, 'ether');
+        //   value = Number(value).toFixed(4);
+        // }
         gasUsed = `${txData.gasUsed}` || '--';
         cumulativeGasUsed = `${txData.cumulativeGasUsed}` || '--';
         contractAddress = `${txData.contractAddress}` || '--';

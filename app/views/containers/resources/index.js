@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import resources from '../../../images/resources/resources.svg';
-import exchange from '../../../images/resources/exchange.svg';
-import icos from '../../../images/resources/icos.svg';
+import documentIcon from '../../../images/resources/document.svg';
 import newsEvent from '../../../images/resources/news-event.svg';
-import smartContract from '../../../images/resources/smart-contract.svg';
 import wallet from '../../../images/resources/wallet.svg';
 import others from '../../../images/resources/others.svg';
 
@@ -29,15 +27,15 @@ class Resources extends Component {
           <Row>
             <Col
               className="resource-card exchange"
-              style={{ backgroundImage: `url(${exchange})` }}
+              style={{ backgroundImage: `url(${documentIcon})` }}
               md={6} lg={4}
             >
-              <h2>Exchanges</h2>
-              <p>Places to buy and sell cryptocurrencies</p>
+              <h2>Documentation</h2>
+              <p>Find out how Fantom works</p>
               <ul>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>CryptoExchanges</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>DEX</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Flat exchanges</li>
+                <li onClick={()=>window.open('https://github.com/Fantom-foundation')}>Github</li>
+                <li onClick={()=>window.open('https://github.com/Fantom-foundation/go-lachesis/wiki')}>Wiki</li>
+                <li onClick={()=>window.open('https://fantom.foundation/developers/')}>Developers</li>
               </ul>
             </Col>
             <Col
@@ -46,48 +44,23 @@ class Resources extends Component {
               md={6} lg={4}
             >
               <h2>Wallet</h2>
-              <p>Used to receive and send assets</p>
+              <p>Send and receive assets</p>
               <ul>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>GUI Wallets</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Hardware Wallets</li>
+                <li onClick={()=>window.open('https://fantom.foundation/')}>Mobile</li>
+                <li onClick={()=>window.open('https://github.com/Fantom-foundation/desktop-wallet/releases')}>Desktop</li>
+                <li onClick={()=>window.open('https://wallet.fantom.foundation/')}>Web</li>
               </ul>
             </Col>
-            <Col
-              className="resource-card iocs"
-              style={{ backgroundImage: `url(${icos})` }}
-              md={6} lg={4}
-            >
-              <h2>ICOs</h2>
-              <p>Initial Coin Offerings</p>
-              <ul>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Benchmark Listing</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Prince Watch</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Services</li>
-              </ul>
-            </Col>
+ 
             <Col
               className="resource-card news-event"
               style={{ backgroundImage: `url(${newsEvent})` }}
               md={6} lg={4}
             >
               <h2>News And Events</h2>
-              <p>Our community and events near you.</p>
+              <p>Stay up to date with the latest from Fantom.</p>
               <ul>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>News</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Events</li>
-              </ul>
-            </Col>
-
-            <Col
-              className="resource-card smart-contract"
-              style={{ backgroundImage: `url(${smartContract})` }}
-              md={6} lg={4}
-            >
-              <h2>Smart Contracts</h2>
-              <p>For more advanced users</p>
-              <ul>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Smart Contracts Audit and Security</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Smart Contracts Factory</li>
+                <li onClick={()=>window.open('https://fantom.foundation/news-updates/')}>News and Updates</li>
               </ul>
             </Col>
             <Col
@@ -98,9 +71,9 @@ class Resources extends Component {
               <h2>Others</h2>
               <p>Extra Resources</p>
               <ul>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Career</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Grant</li>
-                <li onClick={()=>window.open('https://fantom.foundation/')}>Tools</li>
+                <li><a href="mailto:jobs@fantom.foundation">Jobs</a></li>
+                <li onClick={()=>window.open('https://fantom.foundation/contents/data/2018files/10/Fantom_Paper_vRelease.pdf')}>Lachesis</li>
+                <li onClick={()=>window.open('https://fantom.foundation/contents/data/2018files/10/TP_arXiv_v51.pdf')}>Fantom Framework</li>
               </ul>
             </Col>
           </Row>

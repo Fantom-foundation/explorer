@@ -57,7 +57,7 @@ function formatBlocksData(state = defaultState, action) {
     );
     newAllBlockData = _uniqBy(newAllBlockData, (e) => e.hash);
     newAllTransactions = _uniqBy(newAllTransactions, (e) => e.transaction_hash);
-
+    newAllBlockData.sort((a, b) => b.height - a.height);
     return {
       ...state,
       allBlockData: newAllBlockData,
