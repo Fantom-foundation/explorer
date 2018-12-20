@@ -11,7 +11,7 @@ export default class Footer extends React.Component {
         <Container className="footer-container">
           <hr />
           <Row className="menus">
-            <Col md={3}   className="bordred">
+            <Col md={3}  lg={4}  className="bordred">
               <div className="fields">
                 <h2 className="text-uppercase">Support</h2>
                 <a href="mailto:contact@fantom.foundation">
@@ -19,7 +19,7 @@ export default class Footer extends React.Component {
                 </a>
               </div>
             </Col>
-            <Col md={5}   className="bordred">
+            <Col md={5} lg={5}  className="bordred">
               <div className="fields">
                 <h2 className="text-uppercase">Channel</h2>
                 <div className="social">
@@ -38,7 +38,7 @@ export default class Footer extends React.Component {
                 </div>
               </div>
             </Col>
-            <Col md={4}  className="page-menus">
+            <Col md={4}  lg={3} className="page-menus">
             <h2 className="text-uppercase">&nbsp;</h2>
             <ul className="">
               <li><a href="https://fantom.foundation/" target="_black">About</a></li>
