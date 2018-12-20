@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
+
 class Transactions extends Component {
   constructor(props) {
     super(props);
@@ -35,9 +36,9 @@ class Transactions extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.id) {
-      if (state.isSearch) {
-        return { ...state, isRoute: false };
-      }
+      // if (state.isSearch) {
+      //   return { ...state, isRoute: false };
+      // }
       const data = [
         {
           ...props.location.state.data,
@@ -146,12 +147,82 @@ class Transactions extends Component {
       }
     }
   };
+  /**
+   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
+   * @param {*} responseJson : Json of block response data from Api.
+   */
+  loadFantomBlockData(allData) {
+    const result = allData.payload;
+    let blockData = [];
+    const txLength =
+      allData.payload.transactions !== null
+        ? allData.payload.transactions.length
+        : 0;
+    blockData.push({
+      height: result.index,
+      hash: result.hash,
+      round: result.round,
+      transactions: txLength,
+    });
+    this.props.history.push({
+      pathname: `/blocks/${result.index}`,
+      state: {
+        data: {
+          height: result.index,
+          hash: result.hash,
+          round: result.round,
+          transactions: txLength,
+        },
+        type: 'block',
+      },
+    });
+    blockData = blockData.reverse();
+    this.setState({
+      blockData,
+    });
+  }
 
+  /**
+   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
+   * @param {String} searchBlockIndex : Index to fetch block.
+   */
+  getFantomBlocks(searchText) {
+    const searchQuery = `index:${searchText}`;
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+          {
+           block(${searchQuery}) {
+            id,payload
+          }
+          }`,
+    })
+      .then((response) => {
+        if (
+          response &&
+          response.data &&
+          response.data.data &&
+          response.data.data.block
+        ) {
+          this.loadFantomBlockData(response.data.data.block);
+        } else {
+          this.setState({
+            blockData: [],
+            error: 'No Record Found',
+          });
+        }
+      })
+      .catch((error) => {
+        this.setState({
+          blockData: [],
+          error: error.message || 'Internal Server Error',
+        });
+      });
+  }
   /**
    * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
    * @param {String} address : address to fetch transactions.
    */
-  getFantomTransactionsFromApiAsync(searchTransactionHash) {
+  getFantomTransactionsFromApiAsync(searchTransactionHash, type) {
     const transactionHash = `"${searchTransactionHash}"`;
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
@@ -200,10 +271,6 @@ class Transactions extends Component {
    */
   loadFantomTransactionData(result) {
     let transactionData = [];
-    let txnStatus = 'Failed';
-    if (result.status === 0) {
-      txnStatus = 'Success';
-    }
     transactionData.push({
       transaction_hash: result.hash,
       Block_id: '',
@@ -213,13 +280,35 @@ class Transactions extends Component {
       txFee: '',
       createdAt: '',
       gasUsed: result.gas,
-      txnStatus,
+      status: result.status,
       contractAddress: result.contract,
       cumulativeGasUsed: result.cumulative,
       root: result.root,
       logsBloom: result.logs,
     });
     transactionData = transactionData.reverse();
+    this.props.history.push({
+      // eslint-disable-line
+      pathname: `/transactions/${result.hash}`,
+      state: {
+        data: {
+          transaction_hash: result.hash,
+          Block_id: '',
+          address_from: result.from,
+          address_to: result.to,
+          value: result.value,
+          txFee: '',
+          createdAt: '',
+          gasUsed: result.gas,
+          status: result.status,
+          contractAddress: result.contract,
+          cumulativeGasUsed: result.cumulative,
+          root: result.root,
+          logsBloom: result.logs,
+        },
+        type: 'transaction',
+      },
+    });
     this.setState({
       transactionData,
     });
@@ -227,25 +316,33 @@ class Transactions extends Component {
 
   isValidHash(hash) {
     const validHashLength = 66;
-
+    const indexVal = Number(hash);
     if (hash && hash.length === validHashLength) {
-      return true;
+      return { isValid: true, type: 'hash' };
+    } else if (indexVal >= 0 && Number.isInteger(indexVal)) {
+      return { isValid: true, type: 'number' };
     }
-    return false;
+    return { isValid: false };
   }
+
   searchHandler(e) {
     e.preventDefault();
-    this.setState({
-      isSearch: true,
-    });
+    // this.setState({
+    //   isSearch: true,
+    // });
     const { searchText } = this.state;
-
     if (searchText && searchText !== '') {
-      const isValid = this.isValidHash(searchText);
+      const { isValid, type } = this.isValidHash(searchText);
       if (isValid) {
-        this.getFantomTransactionsFromApiAsync(searchText);
+        if (type === 'number') {
+          this.getFantomBlocks(searchText);
+        } else if (type === 'hash') {
+          this.getFantomTransactionsFromApiAsync(searchText);
+        }
+
         this.setState({
           error: '',
+          isSearch: true,
         });
       } else {
         this.setState({
@@ -374,6 +471,9 @@ class Transactions extends Component {
       isRoute,
       isSearch,
     } = this.state;
+    if (error) {
+      return <p className="text-white">{error}</p>;
+    }
     if (isSearch) {
       return (
         <React.Fragment>
@@ -402,6 +502,7 @@ class Transactions extends Component {
     this.setState({
       searchText: '',
       isSearch: false,
+      error: '',
       isRoute: false,
     });
   };
@@ -457,6 +558,7 @@ class Transactions extends Component {
             searchHandler={(e) => this.searchHandler(e)}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}
+            placeHolder="Search by Transaction Hash / Block Number"
           >
             {this.renderTransactionSearchView()}
             <Row>{this.renderTransactionList()}</Row>

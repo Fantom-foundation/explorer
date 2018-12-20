@@ -16,6 +16,7 @@ class Wrapper extends Component {
           searchHandler={(e) => this.props.searchHandler(e)}
           setSearchText={(e) => this.props.setSearchText(e)}
           searchText={this.props.searchText}
+          placeHolder={this.props.placeHolder}
         />
         <section className="bg-theme full-height-conatainer">
           <Container>

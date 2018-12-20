@@ -17,10 +17,6 @@ export default class DetailView extends React.PureComponent {
     const type = state.type;
 
     if (type === 'transaction') {
-      let txnStatus = 'Failed';
-      if (data.status === 0) {
-        txnStatus = 'Success';
-      }
       return (
         <React.Fragment>
           <Header />
