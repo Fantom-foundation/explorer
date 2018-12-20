@@ -102,32 +102,19 @@ header
                             align-items: center;
 
                             @media (max-width:767px) {
-                                // right:-$mobile-width;
-
                                 align-items: flex-start;
                                 padding: 75px 35px 0;
-                               
                                 width: 100%;
                                 height:100%;
-                                
                                 box-shadow: -3px 2px 4px 0 rgba(0, 0, 0, 0.5);
                                 background-image: linear-gradient(156deg, #171717, #797979);
                                 z-index: 9999;
-
-
                                 position: absolute;
                                 right:0;
                                 top: 0;
                                 width: $mobile-width;
                                 height: 100vh;
-
                             }
-
-
-
-
-
-
                             .nav-item
                             {
                                 margin:  0 7px;
@@ -154,7 +141,6 @@ header
                                         background: map-get($color, white );
                                         }
                                     }
-                                
                                     &.active{
                                         color: map-get($color, header-menu-active);
                                         position: relative;
@@ -176,8 +162,6 @@ header
                             }
                         }
                     }
-             
-         
         }
     }
 }
