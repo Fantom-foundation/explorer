@@ -17,7 +17,7 @@ import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
 import Web3 from 'web3';
 
-class Transactions extends Component {
+class TransactionDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,6 +33,7 @@ class Transactions extends Component {
       isRoute: false,
       currentPageVal: 0,
     };
+    this.getFantomTransactionsFromApiAsync(props.match.params.id);
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -56,6 +57,12 @@ class Transactions extends Component {
       ...state,
       isRoute: false,
     };
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.getFantomTransactionsFromApiAsync(this.props.match.params.id);
+    }
   }
   setSearchText(e) {
     this.setState({
@@ -227,6 +234,9 @@ class Transactions extends Component {
    */
   getFantomTransactionsFromApiAsync(searchTransactionHash, type) {
     const transactionHash = `"${searchTransactionHash}"`;
+    // this.setState({
+    //   transactionData: [],
+    // });
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
       query{
@@ -276,47 +286,48 @@ class Transactions extends Component {
     const transactionData = [];
 
     const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
-    // transactionData.push({
-    //   transaction_hash: result.hash,
-    //   Block_id: '',
-    //   address_from: result.from,
-    //   address_to: result.to,
-    //   value: newVal,
-    //   txFee: '',
-    //   createdAt: '',
-    //   gasUsed: result.gas,
-    //   status: result.status,
-    //   contractAddress: result.contract,
-    //   cumulativeGasUsed: result.cumulative,
-    //   root: result.root,
-    //   logsBloom: result.logs,
-    // });
-    // transactionData = transactionData.reverse();
-    this.props.history.push({
-      // eslint-disable-line
-      pathname: `/transactions/${result.hash}`,
-      state: {
-        data: {
-          transaction_hash: result.hash,
-          Block_id: '',
-          address_from: result.from,
-          address_to: result.to,
-          value: newVal,
-          txFee: '',
-          createdAt: '',
-          gasUsed: result.gas,
-          status: result.status,
-          contractAddress: result.contract,
-          cumulativeGasUsed: result.cumulative,
-          root: result.root,
-          logsBloom: result.logs,
-        },
-        type: 'transaction',
-      },
+    console.log('newVal', newVal);
+    transactionData.push({
+      transaction_hash: result.hash,
+      Block_id: '',
+      address_from: result.from,
+      address_to: result.to,
+      value: newVal,
+      txFee: '',
+      createdAt: '',
+      gasUsed: result.gas,
+      status: result.status,
+      contractAddress: result.contract,
+      cumulativeGasUsed: result.cumulative,
+      root: result.root,
+      logsBloom: result.logs,
     });
-    // this.setState({
-    //   transactionData,
+    // transactionData = transactionData.reverse();
+    // this.props.history.push({
+    //   // eslint-disable-line
+    //   pathname: `/transactions/${result.hash}`,
+    //   state: {
+    //     data: {
+    //       transaction_hash: result.hash,
+    //       Block_id: '',
+    //       address_from: result.from,
+    //       address_to: result.to,
+    //       value: newVal,
+    //       txFee: '',
+    //       createdAt: '',
+    //       gasUsed: result.gas,
+    //       status: result.status,
+    //       contractAddress: result.contract,
+    //       cumulativeGasUsed: result.cumulative,
+    //       root: result.root,
+    //       logsBloom: result.logs,
+    //     },
+    //     type: 'transaction',
+    //   },
     // });
+    this.setState({
+      transactionData,
+    });
   }
 
   isValidHash(hash) {
@@ -401,7 +412,7 @@ class Transactions extends Component {
         }
       }
       if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-        if (true) {
+        if (!isSearch && !isRoute) {
           return (
             <Col>
               <Table className="transactions-table">
@@ -483,28 +494,30 @@ class Transactions extends Component {
     if (error) {
       return <p className="text-white">{error}</p>;
     }
-    if (isSearch) {
+    if (transactionData.length <= 0) {
       return (
-        <React.Fragment>
-          {transactionData.length > 0 && (
-            <SearchForTransaction transactions={transactionData} />
-          )}
-          {error !== '' &&
-            searchText !== '' && <p className="text-white">{error}</p>}
-        </React.Fragment>
+        <div className="loader">
+          <div className="holder">
+            <div className="lds-ellipsis">
+              <div />
+              <div />
+              <div />
+              <div />
+            </div>
+          </div>
+        </div>
       );
     }
-    if (isRoute) {
-      return (
-        <React.Fragment>
-          {transactionData.length > 0 && (
-            <SearchForTransaction transactions={transactionData} />
-          )}
-          {error !== '' &&
-            searchText !== '' && <p className="text-white">{error}</p>}
-        </React.Fragment>
-      );
-    }
+
+    return (
+      <React.Fragment>
+        {transactionData.length > 0 && (
+          <SearchForTransaction transactions={transactionData} />
+        )}
+        {error !== '' &&
+          searchText !== '' && <p className="text-white">{error}</p>}
+      </React.Fragment>
+    );
   }
   onShowList = () => {
     this.props.history.push('/transactions');
@@ -544,14 +557,8 @@ class Transactions extends Component {
         from,
         to
       );
-      if (transformedBlockArray && transformedBlockArray.length) {
-        const firstBlock = transformedBlockArray[0];
-        const lastBlock =
-          transformedBlockArray[transformedBlockArray.length - 1];
-        descriptionBlock = `Transactions of Block #${lastBlock.height} To #${
-          firstBlock.height
-        } `;
-      }
+      descriptionBlock = 'Txn Hash: ';
+      totalBlocks = `${this.props.match.params.id}`;
       return (
         <div>
           <Wrapper
@@ -570,12 +577,8 @@ class Transactions extends Component {
             history={this.props.history}
             placeHolder="Search by Transaction Hash / Block Number"
           >
-            {/* {this.renderTransactionSearchView()} */}
-            {this.state.error ? (
-              <p className="text-white">{this.state.error}</p>
-            ) : (
-              <Row>{this.renderTransactionList()}</Row>
-            )}
+            {this.renderTransactionSearchView()}
+            {/* <Row>{this.renderTransactionList()}</Row> */}
           </Wrapper>
         </div>
       );
@@ -594,4 +597,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Transactions);
+)(TransactionDetail);

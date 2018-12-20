@@ -5,6 +5,7 @@ import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import { Title } from '../../components/coreComponent';
+import Web3 from 'web3';
 import _ from 'lodash'; // eslint-disable-line
 import { createSelector } from 'reselect';
 import TxBlockPagination from '../pagination/txBlockPagination';
@@ -34,7 +35,6 @@ class Blocks extends Component {
       hasNextPage: true,
       hasPrevPage: false,
       isRoute: false,
-
       currentPageVal: 0,
     };
 
@@ -57,23 +57,34 @@ class Blocks extends Component {
     }
   }
   static getDerivedStateFromProps(props, state) {
+    // if (state.error) {
+    //   return {
+    //     ...state,
+    //     error: '',
+    //   };
+    // }
     if (props.match.params.id) {
       // if (state.isSearch) {
       //   return { ...state, isRoute: false };
       // }
-      const data = [
-        {
-          ...props.location.state.data,
-          transactions: props.location.state.data.transaction,
-        },
-      ];
-      return {
-        isRoute: true,
-        blockData: data,
-      };
+      if (props.location.state) {
+        const data = [
+          {
+            ...props.location.state.data,
+            transactions: props.location.state.data.transaction,
+          },
+        ];
+        return {
+          isRoute: true,
+
+          blockData: data,
+        };
+      }
     }
+
     return {
       ...state,
+      isSearch: false,
       isRoute: false,
     };
   }
@@ -297,6 +308,7 @@ class Blocks extends Component {
     //   logsBloom: result.logs,
     // });
     // transactionData = transactionData.reverse();
+    const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
     this.props.history.push({
       pathname: `/transactions/${result.hash}`,
       state: {
@@ -305,7 +317,7 @@ class Blocks extends Component {
           Block_id: '',
           address_from: result.from,
           address_to: result.to,
-          value: result.value,
+          value: newVal,
           txFee: '',
           createdAt: '',
           gasUsed: result.gas,
@@ -337,9 +349,11 @@ class Blocks extends Component {
   searchHandler(e) {
     e.preventDefault();
     const { searchText } = this.state;
+
     if (searchText && searchText !== '') {
       const { isValid, type } = this.isValidHash(searchText);
       if (isValid) {
+        this.setState({ isSearchActive: true });
         if (type === 'number') {
           this.getFantomBlocks(searchText);
         } else if (type === 'hash') {
@@ -394,7 +408,7 @@ class Blocks extends Component {
         from,
         to
       );
-      if (!isSearch && !isRoute) {
+      if (true) {
         return (
           <Row>
             <Col>
@@ -562,10 +576,16 @@ class Blocks extends Component {
           isRoute={isRoute}
           onShowList={this.onShowList}
           currentPage={this.state.currentPageVal}
+          history={this.props.history}
           placeHolder="Search by Transaction Hash / Block Number"
         >
-          {this.renderBlockSearchView()}
-          {this.renderBlockList()}
+          {/* {this.renderBlockSearchView()} */}
+
+          {this.state.error ? (
+            <p className="text-white">{this.state.error}</p>
+          ) : (
+            this.renderBlockList()
+          )}
         </Wrapper>
       </div>
     );

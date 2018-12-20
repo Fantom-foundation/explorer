@@ -6,16 +6,6 @@ export default class Header extends React.Component {
     return (
       <header>
         <Navigation {...this.props} />
-        {/* <div className="loader">
-          <div className="holder">
-            <div className="lds-ellipsis">
-              <div />
-              <div />
-              <div />
-              <div />
-            </div>
-          </div>
-        </div> */}
       </header>
     );
   }

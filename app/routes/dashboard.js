@@ -14,7 +14,8 @@ import BlockTransactionDetail from '../views/components/search/searchForBlock/vi
 import Resources from '../views/containers/resources/index';
 import DetailView from '../views/containers/detailView/index';
 import Wrapper from '../views/wrapper/wrapper';
-
+import BlockDetail from '../views/containers/blockDetail/index';
+import TransactionDetail from '../views/containers/transactionDetail/index';
 function renderLoggedInRoutes() {
   return (
     <Switch>
@@ -28,10 +29,10 @@ function renderLoggedOutRoutes() {
   return (
     <Switch>
       <Route path="/blocks" exact component={Blocks} />
-      <Route path="/blocks/:id" component={Blocks} />
+      <Route path="/blocks/:id" component={BlockDetail} />
       <Route path="/address" component={Address} />
       <Route path="/transactions" exact component={Transactions} />
-      <Route path="/transactions/:id" component={Transactions} />
+      <Route path="/transactions/:id" component={TransactionDetail} />
       <Route path="/details" component={Details} />
       <Route path="/block/:id" component={BlockTransactionDetail} />
       <Route path="/resources" component={Resources} />

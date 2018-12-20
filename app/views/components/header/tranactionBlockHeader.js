@@ -45,7 +45,7 @@ export default class TranactionBlockHeader extends React.PureComponent {
             <Col xs={6} md={12}>
               <div className="info">
                 <p>{block} </p>
-                <p>{total}</p>
+                <p style={{ marginLeft: 5 }}>{total}</p>
               </div>
             </Col>
           </Row>
