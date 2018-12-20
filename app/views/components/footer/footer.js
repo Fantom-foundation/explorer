@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import GithubIcon from '../../../images/social/github.svg';
-import TeleygramIcon from '../../../images/social/telegram.svg';
+import TelegramIcon from '../../../images/social/telegram.svg';
 import FacebookIcon from '../../../images/social/facebook.svg';
 
 export default class Footer extends React.Component {
@@ -32,8 +32,8 @@ export default class Footer extends React.Component {
                     Facebook
                   </a>
                   <a href="https://t.me/Fantom_English" target="_black">
-                    <img src={TeleygramIcon} />
-                    Teleygram
+                    <img src={TelegramIcon} />
+                    Telegram
                   </a>
                 </div>
               </div>
