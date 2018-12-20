@@ -9,10 +9,9 @@ import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import { Link } from 'react-router-dom';
-
+import Web3 from 'web3';
 /**
  * @class LatestTransactions : To display list of latest transactions.
- * @param {array} latestTransactionsArr : List of latest transactions.
  */
 
 class LatestTransactions extends React.Component {
@@ -24,45 +23,6 @@ class LatestTransactions extends React.Component {
     this.onTransactionClick = this.onTransactionClick.bind(this);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (
-  //     nextProps.latestTransactionsArr &&
-  //     nextProps.latestTransactionsArr.length
-  //   ) {
-  //     const transactions = [];
-  //     nextProps.latestTransactionsArr.forEach((val) => {
-  //       const {
-  //         contractAddress,
-  //         cumulativeGasUsed,
-  //         from,
-  //         gas,
-  //         root,
-  //         to,
-  //         transactionHash,
-  //         value,
-  //         logsBloom,
-  //         status,
-  //       } = val;
-
-  //       transactions.push({
-  //         address_from: from,
-  //         transaction_hash: transactionHash,
-  //         address_to: to,
-  //         value,
-  //         gasUsed: gas,
-  //         cumulativeGasUsed,
-  //         contractAddress,
-  //         root,
-  //         logsBloom,
-  //         status,
-  //       });
-  //     });
-  //     this.setState({
-  //       transactionArray: transactions,
-  //     });
-  //   }
-  // }
-
   onTransactionClick(props, data) {
     props.history.push({
       pathname: `/transactions/${data.transaction_hash}`,
@@ -71,7 +31,38 @@ class LatestTransactions extends React.Component {
   }
 
   render() {
-    const transactions = this.props.blockDetails.latestTransactions.slice(0, 9);
+    const transactions = this.props.blockDetails.allBlockData.slice(0, 9);
+    const transformedArray = [];
+    let value = '';
+
+    let transactionArr = [];
+    if (transactions.length) {
+      for (const block of transactions) {
+        block.transactions.forEach((transac) => {
+          value = `${transac.value}` || '--';
+          if (transac.value !== '--') {
+            value = Web3.utils.fromWei(`${value}`, 'ether');
+            value = Number(value).toFixed(4);
+          }
+          const newVal = Web3.utils.fromWei(`${transac.value}`, 'ether');
+          transactionArr = {
+            block_id: block.hash,
+            address_from: transac.from,
+            transaction_hash: transac.transactionHash,
+            address_to: transac.to,
+            value: newVal,
+            gasUsed: transac.gas,
+            cumulativeGasUsed: transac.cumulativeGasUsed,
+            contractAddress: transac.contractAddress,
+            root: transac.root,
+            logsBloom: transac.logsBloom,
+            status: transac.status,
+          };
+
+          transformedArray.push(transactionArr);
+        });
+      }
+    }
     return (
       <Col xs={12} md={6} className="left">
         <div className="header">
@@ -88,9 +79,9 @@ class LatestTransactions extends React.Component {
           </Link>
         </div>
         <Row className="blocks">
-          {transactions &&
-            transactions.length &&
-            transactions.map((data, index) => (
+          {transformedArray &&
+            transformedArray.length &&
+            transformedArray.map((data, index) => (
               <Col
                 key={index}
                 xs={12}
@@ -128,7 +119,7 @@ class LatestTransactions extends React.Component {
                   <p className="mb-0">
                     <span className="text-white">Amount </span>
                     &nbsp;
-                    <span className="text-primary">{data.value} FTM</span>
+                    <span className="text-primary">{value.toString()} FTM</span>
                   </p>
                   {/* <p className="time-date text-white">
                     {moment(parseInt(data.createdAt, 10)).fromNow()}
@@ -142,9 +133,9 @@ class LatestTransactions extends React.Component {
   }
 }
 
-LatestTransactions.propTypes = {
-  latestTransactionsArr: PropTypes.array,
-};
+// LatestTransactions.propTypes = {
+//   latestTransactionsArr: PropTypes.array,
+// };
 
 const mapStateToProps = createSelector(
   getBlockUpdateDetails(),
