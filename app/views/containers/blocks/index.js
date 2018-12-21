@@ -22,30 +22,9 @@ class Blocks extends Component {
       hasNextPage: true,
       currentPageVal: 0,
     };
-
+    this.onChangePage = this.onChangePage.bind(this);
     this.maxPageVal = 0;
   }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-            transactions: props.location.state.data.transaction,
-          },
-        ];
-        return {
-          blockData: data,
-        };
-      }
-    }
-
-    return {
-      ...state,
-    };
-  }
-
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
@@ -141,14 +120,12 @@ class Blocks extends Component {
 
   renderBlockList() {
     const { currentPageVal } = this.state;
+    const { blockDetails, history } = this.props;
     const from = currentPageVal * 10;
     const to = from + 10;
 
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
+    if (blockDetails && blockDetails.allBlockData) {
+      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       if (true) {
         return (
           <Row>
@@ -170,7 +147,7 @@ class Blocks extends Component {
                       <tr
                         key={index}
                         onClick={() =>
-                          this.props.history.push({
+                          history.push({
                             pathname: `/blocks/${data.height}`,
                             state: { data, type: 'block' },
                           })
@@ -210,7 +187,8 @@ class Blocks extends Component {
   }
 
   onShowList = () => {
-    this.props.history.push('/blocks');
+    const { history } = this.props;
+    history.push('/blocks');
     this.setState({
       searchText: '',
       error: '',
@@ -218,18 +196,15 @@ class Blocks extends Component {
   };
 
   render() {
-    const { searchText, isRoute, currentPageVal } = this.state;
-
+    const { searchText, currentPageVal } = this.state;
+    const { blockDetails, history } = this.props;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
     let totalBlocks = '';
 
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
+    if (blockDetails && blockDetails.allBlockData) {
+      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
 
       const {
         blockDetails: { allBlockData },
@@ -260,7 +235,7 @@ class Blocks extends Component {
           total={totalBlocks}
           onShowList={this.onShowList}
           currentPage={this.state.currentPageVal}
-          history={this.props.history}
+          history={history}
           placeHolder="Search by Transaction Hash / Block Number"
         >
           {this.state.error ? (
