@@ -18,6 +18,7 @@ class TransactionDetail extends Component {
       error: '',
     };
     this.getFantomTransactionsFromApiAsync(props.match.params.id);
+    this.onShowList = this.onShowList.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -25,9 +26,16 @@ class TransactionDetail extends Component {
       this.getFantomTransactionsFromApiAsync(this.props.match.params.id);
     }
   }
-  setSearchText(e) {
+
+  /**
+   * onShowList() :  Function to show list of all transactions
+   */
+  onShowList() {
+    const { history, blockDetails } = this.props;
+    history.push('/transactions');
     this.setState({
-      searchText: e.target.value,
+      searchText: '',
+      error: '',
     });
   }
 
@@ -35,7 +43,7 @@ class TransactionDetail extends Component {
    * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
    * @param {String} address : address to fetch transactions.
    */
-  getFantomTransactionsFromApiAsync(searchTransactionHash, type) {
+  getFantomTransactionsFromApiAsync(searchTransactionHash) {
     const transactionHash = `"${searchTransactionHash}"`;
 
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
@@ -77,6 +85,12 @@ class TransactionDetail extends Component {
           error: error.message || 'Internal Server Error',
         });
       });
+  }
+
+  setSearchText(e) {
+    this.setState({
+      searchText: e.target.value,
+    });
   }
 
   /**
@@ -138,20 +152,12 @@ class TransactionDetail extends Component {
     );
   }
 
-  onShowList = () => {
-    const { history, blockDetails } = this.props;
-    history.push('/transactions');
-    this.setState({
-      searchText: '',
-      error: '',
-    });
-  };
   render() {
     const { searchText } = this.state;
     let descriptionBlock = '';
 
     let totalBlocks = '';
-    const { blockDetails } = this.props;
+    const { blockDetails, history } = this.props;
     const {
       blockDetails: { allBlockData },
     } = this.props;
@@ -175,7 +181,7 @@ class TransactionDetail extends Component {
             pagination={false}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}
-            history={this.props.history}
+            history={history}
             placeHolder="Search by Transaction Hash / Block Number"
           >
             {this.renderTransactionSearchView()}

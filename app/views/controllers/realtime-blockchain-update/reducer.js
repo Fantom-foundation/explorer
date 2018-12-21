@@ -8,7 +8,6 @@ const initialState = fromJS({
 });
 
 function realtimeUpdateReducer(state = initialState, action) {
-  console.log(' realtimeUpdate action:  ', action);
   switch (action.type) {
     case SET_REALTIME_UPDATE:
       return state.set('realtimeUpdate', action.realtimeUpdate);

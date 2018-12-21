@@ -45,7 +45,6 @@ class Blocks extends Component {
     if (updatePageVal < 0) {
       return;
     }
-
     const currentBlockDataLength = allBlockData.length;
     if (
       type === 'next' &&
@@ -53,7 +52,6 @@ class Blocks extends Component {
     ) {
       return;
     }
-    const prevPageVal = currentPageVal;
 
     this.setState({
       currentPageVal: updatePageVal,

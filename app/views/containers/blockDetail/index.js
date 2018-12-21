@@ -21,6 +21,7 @@ class BlockDetail extends Component {
     };
 
     this.showDetail = this.showDetail.bind(this);
+    this.onShowList = this.onShowList.bind(this);
     this.getFantomBlocks(props.match.params.id);
   }
 
@@ -28,6 +29,10 @@ class BlockDetail extends Component {
     if (this.props.match.params.id !== prevProps.match.params.id) {
       this.getFantomBlocks(this.props.match.params.id);
     }
+  }
+  onShowList() {
+    const { history } = this.props;
+    history.push('/blocks');
   }
 
   setSearchText(e) {
@@ -99,7 +104,7 @@ class BlockDetail extends Component {
   }
 
   /**
-   * loadFantomBlockData() :  Function to show details of particular block number
+   * showDetail() :  Function to show details of particular block number
    * @param {String} blockNumber : Block number used for getting details
    */
   showDetail(blockNumber) {
@@ -140,11 +145,6 @@ class BlockDetail extends Component {
       </React.Fragment>
     );
   }
-
-  onShowList = () => {
-    const { history } = this.props;
-    history.push('/blocks');
-  };
 
   render() {
     const { searchText } = this.state;

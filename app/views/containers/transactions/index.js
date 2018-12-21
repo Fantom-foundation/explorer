@@ -206,14 +206,14 @@ class Transactions extends Component {
     return null;
   }
 
-  onShowList = () => {
+  onShowList() {
     const { history } = this.props;
     history.push('/transactions');
     this.setState({
       searchText: '',
       error: '',
     });
-  };
+  }
 
   render() {
     const { searchText, currentPageVal } = this.state;
