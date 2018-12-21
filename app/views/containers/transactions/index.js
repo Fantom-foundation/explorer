@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Web3 from 'web3';
+import { createSelector } from 'reselect';
 import { Row, Col, Table } from 'reactstrap';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
-
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
-import { createSelector } from 'reselect';
-import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
-import Web3 from 'web3';
 
 class Transactions extends Component {
   constructor(props) {
     super(props);
     this.state = {
       searchText: '',
-      transactionData: [],
       error: '',
-      cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
       hasNextPage: true,
-      hasPrevPage: false,
       currentPageVal: 0,
     };
   }
@@ -34,7 +30,6 @@ class Transactions extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-        transactionData: [],
       });
     }
   }
@@ -48,7 +43,6 @@ class Transactions extends Component {
     if (updatePageVal < 0) {
       return;
     }
-
     const currentBlockDataLength = allBlockData.length;
     if (
       type === 'next' &&
@@ -124,14 +118,10 @@ class Transactions extends Component {
     const from = currentPageVal * 10;
     const to = from + 10;
     const { latestTransactions } = this.props.blockDetails;
-
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
+    const { blockDetails } = this.props;
+    if (blockDetails && blockDetails.allBlockData) {
+      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       const transformedArray = [];
-      const newTransformedArr = [];
       let newValue = '';
       if (transformedBlockArray.length) {
         for (const block of transformedBlockArray) {
@@ -154,7 +144,7 @@ class Transactions extends Component {
           });
         }
       }
-      if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
+      if (blockDetails && blockDetails.allBlockData) {
         if (true) {
           return (
             <Col>
@@ -163,11 +153,9 @@ class Transactions extends Component {
                   <tr>
                     <th>TxHash</th>
                     <th>Block</th>
-                    {/* <th>Age</th> */}
                     <th>From</th>
                     <th>To</th>
                     <th>Value</th>
-                    {/* <th>[TxFee]</th> */}
                   </tr>
                 </thead>
                 <tbody>
@@ -236,7 +224,7 @@ class Transactions extends Component {
 
   render() {
     const { searchText, currentPageVal } = this.state;
-
+    const { history, blockDetails } = this.props;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
@@ -249,11 +237,8 @@ class Transactions extends Component {
       totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
     }
 
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
+    if (blockDetails && blockDetails.allBlockData) {
+      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       if (transformedBlockArray && transformedBlockArray.length) {
         const firstBlock = transformedBlockArray[0];
         const lastBlock =
@@ -275,7 +260,7 @@ class Transactions extends Component {
             currentPage={this.state.currentPageVal}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}
-            history={this.props.history}
+            history={history}
             placeHolder="Search by Transaction Hash / Block Number"
           >
             {this.state.error ? (
