@@ -28,7 +28,7 @@ class TransactionDetail extends Component {
   }
 
   /**
-   * onShowList() :  Function to show list of all transactions
+   * @method onShowList() :  Function to show list of all transactions
    */
   onShowList() {
     const { history, blockDetails } = this.props;
@@ -94,7 +94,7 @@ class TransactionDetail extends Component {
   }
 
   /**
-   * loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
+   * @method loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
    * @param {*} responseJson : Json of transaction response data from Api.
    */
   loadFantomTransactionData(result) {

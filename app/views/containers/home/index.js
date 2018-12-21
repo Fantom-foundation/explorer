@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 // import io from 'socket.io-client';
+import { connect } from 'react-redux';
 import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
+import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
 import LatestTransactions from 'views/containers/home/latest-transactions';
 import LatestBlocks from 'views/containers/home/latest-blocks';
 import MarketCap from 'views/containers/home/market-cap';
-import Chart from 'views/containers/chart/index';
-import HttpDataProvider from '../../../utils/httpProvider';
 import { createSelector } from 'reselect';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-import { connect } from 'react-redux';
-import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
-import fantomIconHalf from 'images/Logo/Fantom-Logo-icon-half.svg';
 import ToggleToolTip from './toggleToolTip';
 
 class HomePage extends Component {
@@ -22,19 +19,12 @@ class HomePage extends Component {
       latestTransactionsArr: [],
       latestBlocksArr: [],
     };
-    // this.handleRealTimeUpdate = this.handleRealTimeUpdate.bind(this);
   }
-
-  /**
-   * @method handleRealTimeUpdate : To update list of latest blocks and transactions, If real time update is enabled.
-   */
-  // handleRealTimeUpdate() {
-  //   this.fetchLatestBlocks();
-  // }
 
   render() {
     // const socket = io();
     const { latestBlocksArr, latestTransactionsArr } = this.state;
+    const { blockDetails, history } = this.props;
     if (this.props.blockDetails && this.props.blockDetails.latestTransactions) {
       return (
         <div>
@@ -68,11 +58,8 @@ class HomePage extends Component {
                   <hr />
                 </Col>
                 <LatestBlocks
-                  latestBlocksArr={this.props.blockDetails.allBlockData.slice(
-                    0,
-                    10
-                  )}
-                  history={this.props.history}
+                  latestBlocksArr={blockDetails.allBlockData.slice(0, 10)}
+                  history={history}
                 />
               </Row>
             </Container>
