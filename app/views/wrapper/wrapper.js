@@ -80,16 +80,19 @@ class Wrapper extends Component {
     return (
       <React.Fragment>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Error</ModalHeader>
+          <ModalHeader toggle={this.toggle} />
           <ModalBody>
-            Invalid Block Number or Transaction Hash. Please enter a valid Block
-            Number or Transaction Hash.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.toggle}>
+            <div className="content">
+              <h2 className="title">Error</h2>
+              <p className="error">
+                Invalid Block Number or Transaction Hash. Please enter a valid
+                Block Number or Transaction Hash.
+              </p>
+            </div>
+            <Button color="primary" className="w-100" onClick={this.toggle}>
               OK
-            </Button>{' '}
-          </ModalFooter>
+            </Button>
+          </ModalBody>
         </Modal>
 
         <Header />

@@ -1,47 +1,47 @@
-.btn
-{
+.btn {
+  border-radius: 3.8px;
+  font: {
+    family: Roboto;
+    size: 13px;
+  }
+  border-radius: 4px;
+  &.btn-white {
+    color: #fff;
+    box-shadow: 0 0 0 0.5px #fff;
     border-radius: 3.8px;
+  }
+  &.btn-primary {
+    color: map-get($color, primary);
+    color: #fff;
+  }
+  &.list {
     font: {
-        family:Roboto;
-        size:13px;
+      size: 16px;
     }
-    border-radius: 4px;
-    &.btn-white{
-        color: #fff;
-       box-shadow: 0 0 0 .5px #fff;
-       border-radius: 3.8px;
+    width: 91px;
+    height: 31px;
+    padding: 0;
+  }
+  &.btn-red {
+    background: #ff6e6e;
+    border: 0px;
+    box-shadow: none !important;
+    color: #fff;
+    &:hover {
+      background: {
+        color: #ec8c8c;
+      }
     }
-    &.list{
-        font: {
-            size:16px;
-        }
-        width: 91px;
-        height: 31px;
-        padding: 0;
+  }
+  &.btn-green {
+    background: #50e3c2;
+    color: #fff;
+    border: 0px;
+    box-shadow: none !important;
+    &:hover {
+      background: {
+        color: #70ecd0;
+      }
     }
-    &.btn-red
-    {
-        background: #ff6e6e;
-        border: 0px;
-        box-shadow: none !important;
-        color:#fff;
-        &:hover
-        {
-            background: {color:#ec8c8c;}
-        }
-    }
-    &.btn-green
-    {
-        background: #50e3c2;
-        color:#fff;
-        border: 0px;
-        box-shadow: none !important;
-        &:hover
-        {
-            background: {color:#70ecd0;}
-        }
-    }
+  }
 }
-
-
-
