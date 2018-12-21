@@ -311,7 +311,6 @@ class Transactions extends Component {
             title="Transactions"
             block={descriptionBlock}
             total={totalBlocks}
-            isSearching={isSearch}
             isRoute={isRoute}
             currentPage={this.state.currentPageVal}
             setSearchText={(e) => this.setSearchText(e)}

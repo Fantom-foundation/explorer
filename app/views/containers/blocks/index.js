@@ -31,7 +31,6 @@ class Blocks extends Component {
       cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
-      isSearch: false,
       hasNextPage: true,
       hasPrevPage: false,
       isRoute: false,
@@ -60,7 +59,6 @@ class Blocks extends Component {
 
     return {
       ...state,
-      isSearch: false,
       isRoute: false,
     };
   }
@@ -73,7 +71,6 @@ class Blocks extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-        isSearch: false,
         blockData: [],
       });
     }
@@ -233,7 +230,6 @@ class Blocks extends Component {
     this.props.history.push('/blocks');
     this.setState({
       searchText: '',
-      isSearch: false,
       error: '',
       isRoute: false,
     });
@@ -241,7 +237,7 @@ class Blocks extends Component {
 
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
-    const { searchText, isSearch, isRoute, currentPageVal } = this.state;
+    const { searchText, isRoute, currentPageVal } = this.state;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
@@ -280,7 +276,6 @@ class Blocks extends Component {
           title="Blocks"
           block={descriptionBlock}
           total={totalBlocks}
-          isSearching={isSearch}
           isRoute={isRoute}
           onShowList={this.onShowList}
           currentPage={this.state.currentPageVal}

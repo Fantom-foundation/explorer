@@ -372,7 +372,6 @@ class BlockDetail extends Component {
           title="Blocks"
           block={descriptionBlock}
           total={totalBlocks}
-          isSearching
           isRoute
           onShowList={this.onShowList}
           history={this.props.history}

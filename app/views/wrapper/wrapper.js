@@ -97,16 +97,14 @@ class Wrapper extends Component {
               title={this.props.title}
               block={this.props.block}
               total={this.props.total}
-              isSearching={this.props.isSearching}
               onShowList={this.props.onShowList}
               currentPage={this.props.currentPage}
               isRoute={this.props.isRoute}
             />
             {this.props.children}
-            {!this.props.isSearching && !this.props.isRoute ? (
+            {!this.props.isRoute ? (
               <TxBlockPagination
                 onChangePage={this.props.onChangePage}
-                isSearching={this.props.isSearch}
                 currentPage={this.props.currentPage}
               />
             ) : null}

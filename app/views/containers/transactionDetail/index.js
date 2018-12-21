@@ -367,7 +367,6 @@ class TransactionDetail extends Component {
             title="Transactions"
             block={descriptionBlock}
             total={totalBlocks}
-            isSearching
             isRoute
             currentPage={this.state.currentPageVal}
             searchHandler={(e) => this.searchHandler(e)}

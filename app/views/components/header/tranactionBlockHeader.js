@@ -30,7 +30,6 @@ export default class TranactionBlockHeader extends React.PureComponent {
       block,
       total,
       icon,
-      isSearching,
       onShowList,
       currentPage,
       isRoute,
@@ -51,8 +50,8 @@ export default class TranactionBlockHeader extends React.PureComponent {
           </Row>
         </Col>
         {windowWidth >= 768 && (
-          <Col md={6} className={isSearching || isRoute ? 'text-right' : ''}>
-            {!isSearching && !isRoute ? (
+          <Col md={6} className={isRoute ? 'text-right' : ''}>
+            {!isRoute ? (
               <TxBlockPagination
                 className="mr-0"
                 onChangePage={this.props.onChangePage}
