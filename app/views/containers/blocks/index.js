@@ -30,13 +30,6 @@ class Blocks extends Component {
     this.setState({
       searchText: e.target.value,
     });
-
-    if (e.target.value === '') {
-      this.setState({
-        error: '',
-        blockData: [],
-      });
-    }
   }
 
   onChangePage = (type) => {

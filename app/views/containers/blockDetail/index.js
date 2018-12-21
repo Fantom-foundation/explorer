@@ -41,13 +41,6 @@ class BlockDetail extends Component {
     this.setState({
       searchText: e.target.value,
     });
-
-    if (e.target.value === '') {
-      this.setState({
-        error: '',
-        blockData: [],
-      });
-    }
   }
 
   /**
@@ -70,6 +63,7 @@ class BlockDetail extends Component {
 
     this.setState({
       blockData,
+      error: '',
     });
   }
 
@@ -148,17 +142,15 @@ class BlockDetail extends Component {
           searchText !== '' && <p className="text-white">{error}</p>}
       </React.Fragment>
     );
-
-    return null;
   }
 
   onShowList = () => {
     const { history } = this.props;
     history.push('/blocks');
-    this.setState({
-      searchText: '',
-      error: '',
-    });
+    // this.setState({
+    //   searchText: '',
+    //   error: '',
+    // });
   };
 
   render() {
