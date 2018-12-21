@@ -9,11 +9,9 @@ import VerifyEmail from 'views/containers/pages/verify-email';
 // import Register from 'views/containers/register/index';
 // import Login from 'views/containers/login/index';
 import Address from 'views/containers/address/index';
-import ModalComponent from 'views/containers/modal/index';
+// import ModalComponent from 'views/containers/modal/index';
 import BlockTransactionDetail from '../views/components/search/searchForBlock/viewBlockDetail/index';
 import Resources from '../views/containers/resources/index';
-import DetailView from '../views/containers/detailView/index';
-import Wrapper from '../views/wrapper/wrapper';
 import BlockDetail from '../views/containers/blockDetail/index';
 import TransactionDetail from '../views/containers/transactionDetail/index';
 function renderLoggedInRoutes() {
@@ -36,7 +34,6 @@ function renderLoggedOutRoutes() {
       <Route path="/details" component={Details} />
       <Route path="/block/:id" component={BlockTransactionDetail} />
       <Route path="/resources" component={Resources} />
-      <Route path="/detail/:hash" component={DetailView} />
       {/* <Route path="/login" component={Login} />
       <Route path="/register" component={Register} /> */}
       {/* <Route path="/login-modal" component={ModalComponent} /> */}
