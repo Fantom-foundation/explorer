@@ -26,8 +26,9 @@ class BlockDetail extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.match.params.id !== prevProps.match.params.id) {
-      this.getFantomBlocks(this.props.match.params.id);
+    const { match } = this.props;
+    if (match.params.id !== prevProps.match.params.id) {
+      this.getFantomBlocks(match.params.id);
     }
   }
   onShowList() {
@@ -111,7 +112,8 @@ class BlockDetail extends Component {
     if (blockNumber === '') {
       return;
     }
-    this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
+    const { history } = this.props;
+    history.push(`/block/${blockNumber}`); // eslint-disable-line
   }
 
   renderBlockSearchView() {
@@ -148,13 +150,13 @@ class BlockDetail extends Component {
 
   render() {
     const { searchText } = this.state;
-    const { blockDetails } = this.props;
+    const { blockDetails, match, history } = this.props;
     let descriptionBlock = '';
 
     let totalBlocks = '';
     if (blockDetails && blockDetails.allBlockData) {
       descriptionBlock = 'Block Number: ';
-      totalBlocks = `${this.props.match.params.id}`;
+      totalBlocks = `${match.params.id}`;
     }
     return (
       <div>
@@ -167,7 +169,7 @@ class BlockDetail extends Component {
           total={totalBlocks}
           pagination={false}
           onShowList={this.onShowList}
-          history={this.props.history}
+          history={history}
           placeHolder="Search by Transaction Hash / Block Number"
         >
           {this.renderBlockSearchView()}

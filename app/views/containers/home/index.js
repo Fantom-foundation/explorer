@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import { Title } from 'views/components/coreComponent/index';
 // import io from 'socket.io-client';
 import Header from 'views/components/header/header';
 import Footer from 'views/components/footer/footer';
 import LatestTransactions from 'views/containers/home/latest-transactions';
 import LatestBlocks from 'views/containers/home/latest-blocks';
-import MarketCap from 'views/containers/home/market-cap';
-import Chart from 'views/containers/chart/index';
-import HttpDataProvider from '../../../utils/httpProvider';
+// import MarketCap from 'views/containers/home/market-cap';
+// import Chart from 'views/containers/chart/index';
+// import HttpDataProvider from '../../../utils/httpProvider';
 import { createSelector } from 'reselect';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import { connect } from 'react-redux';
 import fantomIcon from 'images/Logo/Fantom-Logo-icon.svg';
-import fantomIconHalf from 'images/Logo/Fantom-Logo-icon-half.svg';
+// import fantomIconHalf from 'images/Logo/Fantom-Logo-icon-half.svg';
 import ToggleToolTip from './toggleToolTip';
 
 class HomePage extends Component {
@@ -33,9 +34,9 @@ class HomePage extends Component {
   // }
 
   render() {
-    // const socket = io();
-    const { latestBlocksArr, latestTransactionsArr } = this.state;
-    if (this.props.blockDetails && this.props.blockDetails.latestTransactions) {
+    const { blockDetails, history } = this.props;
+    const { latestTransactions, allBlockData } = blockDetails;
+    if (blockDetails && latestTransactions) {
       return (
         <div>
           <Header {...this.props} />
@@ -46,12 +47,17 @@ class HomePage extends Component {
             {' '}
             <Container className="intro-container">
               <img src={fantomIcon} className="icon" />
-              <MarketCap />
-              {/* <Row>
-                <Col>
-                  <Chart />
-                </Col>
-              </Row> */}
+              <Row className="market-cap">
+                <div className="discription">
+                  <Title h2 className="text-white mb-0">
+                    Beyond
+                  </Title>
+                  <Title h2 className="text-white">
+                    Blockchain
+                  </Title>
+                  <p className="mb-0">The Future of Decentralized Ecosystem</p>
+                </div>
+              </Row>
             </Container>
           </section>
           <section>
@@ -63,16 +69,13 @@ class HomePage extends Component {
           <section id="latest-blocks" className="bg-theme">
             <Container>
               <Row>
-                <LatestTransactions history={this.props.history} />
+                <LatestTransactions history={history} />
                 <Col className="middle" xs={12}>
                   <hr />
                 </Col>
                 <LatestBlocks
-                  latestBlocksArr={this.props.blockDetails.allBlockData.slice(
-                    0,
-                    10
-                  )}
-                  history={this.props.history}
+                  latestBlocksArr={allBlockData.slice(0, 10)}
+                  history={history}
                 />
               </Row>
             </Container>

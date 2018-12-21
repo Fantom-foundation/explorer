@@ -38,8 +38,8 @@ class Blocks extends Component {
    */
   onChangePage = (type) => {
     const { currentPageVal } = this.state;
-    const { allBlockData } = this.props.blockDetails;
-    const { setBlocksData } = this.props;
+    const { setBlocksData, blockDetails } = this.props;
+    const { allBlockData } = blockDetails;
     const updatePageVal =
       type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
     if (updatePageVal < 0) {
@@ -97,8 +97,6 @@ class Blocks extends Component {
                       : prevState.lastFetchedPage,
                     hasNextPage: allData.data.blocks.pageInfo.hasNextPage,
                   }));
-                } else {
-                  console.log('else part');
                 }
               }
               return null;
@@ -117,10 +115,11 @@ class Blocks extends Component {
   renderBlockList() {
     const { currentPageVal } = this.state;
     const { blockDetails, history } = this.props;
+    const { allBlockData } = blockDetails;
     const from = currentPageVal * 10;
     const to = from + 10;
-    if (blockDetails && blockDetails.allBlockData) {
-      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
+    if (blockDetails && allBlockData) {
+      const transformedBlockArray = allBlockData.slice(from, to);
 
       return (
         <Row>
@@ -180,10 +179,10 @@ class Blocks extends Component {
   onShowList = () => {
     const { history } = this.props;
     history.push('/blocks');
-    this.setState({
-      searchText: '',
-      error: '',
-    });
+    // this.setState({
+    //   searchText: '',
+    //   error: '',
+    // });
   };
 
   render() {

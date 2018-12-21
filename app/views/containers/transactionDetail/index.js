@@ -22,8 +22,9 @@ class TransactionDetail extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.match.params.id !== prevProps.match.params.id) {
-      this.getFantomTransactionsFromApiAsync(this.props.match.params.id);
+    const { match } = this.props;
+    if (match.params.id !== prevProps.match.params.id) {
+      this.getFantomTransactionsFromApiAsync(match.params.id);
     }
   }
 
@@ -33,10 +34,10 @@ class TransactionDetail extends Component {
   onShowList() {
     const { history, blockDetails } = this.props;
     history.push('/transactions');
-    this.setState({
-      searchText: '',
-      error: '',
-    });
+    // this.setState({
+    //   searchText: '',
+    //   error: '',
+    // });
   }
 
   /**
@@ -157,7 +158,7 @@ class TransactionDetail extends Component {
     let descriptionBlock = '';
 
     let totalBlocks = '';
-    const { blockDetails, history } = this.props;
+    const { blockDetails, history, match } = this.props;
     const {
       blockDetails: { allBlockData },
     } = this.props;
@@ -169,7 +170,7 @@ class TransactionDetail extends Component {
 
     if (blockDetails && blockDetails.allBlockData) {
       descriptionBlock = 'Txn Hash: ';
-      totalBlocks = `${this.props.match.params.id}`;
+      totalBlocks = `${match.params.id}`;
       return (
         <div>
           <Wrapper

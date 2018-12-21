@@ -30,8 +30,9 @@ class Transactions extends Component {
 
   onChangePage = (type) => {
     const { currentPageVal } = this.state;
-    const { allBlockData } = this.props.blockDetails;
-    const { setBlocksData } = this.props;
+    const { setBlocksData, blockDetails } = this.props;
+    const { allBlockData } = blockDetails;
+
     const updatePageVal =
       type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
     if (updatePageVal < 0) {
@@ -108,13 +109,14 @@ class Transactions extends Component {
   };
 
   renderTransactionList() {
+    const { blockDetails, history } = this.props;
+    const { latestTransactions, allBlockData } = blockDetails;
     const { currentPageVal } = this.state;
     const from = currentPageVal * 10;
     const to = from + 10;
-    const { latestTransactions } = this.props.blockDetails;
-    const { blockDetails } = this.props;
-    if (blockDetails && blockDetails.allBlockData) {
-      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
+
+    if (blockDetails && allBlockData) {
+      const transformedBlockArray = allBlockData.slice(from, to);
       const transformedArray = [];
       let newValue = '';
       if (transformedBlockArray.length) {
@@ -158,7 +160,7 @@ class Transactions extends Component {
                     <tr
                       key={`tx_${index}`}
                       onClick={() =>
-                        this.props.history.push({
+                        history.push({
                           pathname: `/transactions/${data.transaction_hash}`,
                           state: { data, type: 'transaction' },
                         })
@@ -209,10 +211,10 @@ class Transactions extends Component {
   onShowList() {
     const { history } = this.props;
     history.push('/transactions');
-    this.setState({
-      searchText: '',
-      error: '',
-    });
+    // this.setState({
+    //   searchText: '',
+    //   error: '',
+    // });
   }
 
   render() {
