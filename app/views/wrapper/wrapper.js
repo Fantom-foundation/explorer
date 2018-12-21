@@ -64,6 +64,19 @@ class Wrapper extends Component {
   }
 
   render() {
+    const {
+      searchText,
+      placeHolder,
+      onChangePage,
+      title,
+      block,
+      total,
+      onShowList,
+      currentPage,
+      pagination,
+      setSearchText,
+    } = this.props;
+
     return (
       <React.Fragment>
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
@@ -84,27 +97,27 @@ class Wrapper extends Component {
           searchHandler={(e) => {
             this.searchHandler(e);
           }}
-          setSearchText={(e) => this.props.setSearchText(e)}
-          searchText={this.props.searchText}
-          placeHolder={this.props.placeHolder}
+          setSearchText={(e) => setSearchText(e)}
+          searchText={searchText}
+          placeHolder={placeHolder}
         />
         <section className="bg-theme full-height-conatainer">
           <Container>
             <TransactionHeader
-              onChangePage={this.props.onChangePage}
+              onChangePage={onChangePage}
               icon={TitleIcon}
-              title={this.props.title}
-              block={this.props.block}
-              total={this.props.total}
-              onShowList={this.props.onShowList}
-              currentPage={this.props.currentPage}
-              pagination={this.props.pagination}
+              title={title}
+              block={block}
+              total={total}
+              onShowList={onShowList}
+              currentPage={currentPage}
+              pagination={pagination}
             />
             {this.props.children}
-            {this.props.pagination ? (
+            {pagination ? (
               <TxBlockPagination
-                onChangePage={this.props.onChangePage}
-                currentPage={this.props.currentPage}
+                onChangePage={onChangePage}
+                currentPage={currentPage}
               />
             ) : null}
           </Container>

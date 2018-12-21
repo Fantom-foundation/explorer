@@ -3,10 +3,10 @@ import Alert from 'react-s-alert';
 import Dashboard from './dashboard';
 
 export default function Routes() {
- return (
-   <div>
-     <Dashboard />
-     <Alert timeout={2000} />
-   </div>
- );
+  return (
+    <div>
+      <Dashboard />
+      <Alert timeout={2000} />
+    </div>
+  );
 }
