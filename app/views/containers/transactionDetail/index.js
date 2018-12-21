@@ -16,10 +16,6 @@ class TransactionDetail extends Component {
       searchText: '',
       transactionData: [],
       error: '',
-      lastFetchedPage: 2,
-      currentPage: 0,
-      hasNextPage: true,
-      currentPageVal: 0,
     };
     this.getFantomTransactionsFromApiAsync(props.match.params.id);
   }
@@ -151,10 +147,9 @@ class TransactionDetail extends Component {
     });
   };
   render() {
-    const { searchText, currentPageVal } = this.state;
+    const { searchText } = this.state;
     let descriptionBlock = '';
-    const from = currentPageVal * 10;
-    const to = from + 10;
+
     let totalBlocks = '';
     const { blockDetails } = this.props;
     const {
@@ -167,7 +162,6 @@ class TransactionDetail extends Component {
     }
 
     if (blockDetails && blockDetails.allBlockData) {
-      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       descriptionBlock = 'Txn Hash: ';
       totalBlocks = `${this.props.match.params.id}`;
       return (
@@ -179,7 +173,6 @@ class TransactionDetail extends Component {
             block={descriptionBlock}
             total={totalBlocks}
             pagination={false}
-            currentPage={this.state.currentPageVal}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}
             history={this.props.history}

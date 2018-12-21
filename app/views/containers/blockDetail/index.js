@@ -18,15 +18,8 @@ class BlockDetail extends Component {
       blockData: [],
       allBlockData: [],
       error: '',
-      cursor: '',
-      lastFetchedPage: 2,
-      currentPage: 0,
-      hasNextPage: true,
-      hasPrevPage: false,
-      currentPageVal: 0,
     };
 
-    this.maxPageVal = 0;
     this.showDetail = this.showDetail.bind(this);
     this.getFantomBlocks(props.match.params.id);
   }
@@ -44,32 +37,8 @@ class BlockDetail extends Component {
   }
 
   /**
-   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-   * @param {*} responseJson : Json of block response data from Api.
-   */
-  loadFantomBlockData(allData) {
-    const result = allData.payload;
-    const blockData = [];
-    const txLength =
-      allData.payload.transactions !== null
-        ? allData.payload.transactions.length
-        : 0;
-    blockData.push({
-      height: result.index,
-      hash: result.hash,
-      round: result.round,
-      transactions: txLength,
-    });
-
-    this.setState({
-      blockData,
-      error: '',
-    });
-  }
-
-  /**
    * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-   * @param {String} searchBlockIndex : Index to fetch block.
+   * @param {String} searchText : Text to fetch block.
    */
   getFantomBlocks(searchText) {
     const searchQuery = `index:${searchText}`;
@@ -105,6 +74,34 @@ class BlockDetail extends Component {
       });
   }
 
+  /**
+   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
+   * @param {*} responseJson : Json of block response data from Api.
+   */
+  loadFantomBlockData(allData) {
+    const result = allData.payload;
+    const blockData = [];
+    const txLength =
+      allData.payload.transactions !== null
+        ? allData.payload.transactions.length
+        : 0;
+    blockData.push({
+      height: result.index,
+      hash: result.hash,
+      round: result.round,
+      transactions: txLength,
+    });
+
+    this.setState({
+      blockData,
+      error: '',
+    });
+  }
+
+  /**
+   * loadFantomBlockData() :  Function to show details of particular block number
+   * @param {String} blockNumber : Block number used for getting details
+   */
   showDetail(blockNumber) {
     if (blockNumber === '') {
       return;
@@ -147,21 +144,15 @@ class BlockDetail extends Component {
   onShowList = () => {
     const { history } = this.props;
     history.push('/blocks');
-    // this.setState({
-    //   searchText: '',
-    //   error: '',
-    // });
   };
 
   render() {
-    const { searchText, currentPageVal } = this.state;
+    const { searchText } = this.state;
     const { blockDetails } = this.props;
     let descriptionBlock = '';
-    const from = currentPageVal * 10;
-    const to = from + 10;
+
     let totalBlocks = '';
     if (blockDetails && blockDetails.allBlockData) {
-      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       descriptionBlock = 'Block Number: ';
       totalBlocks = `${this.props.match.params.id}`;
     }
@@ -177,7 +168,6 @@ class BlockDetail extends Component {
           pagination={false}
           onShowList={this.onShowList}
           history={this.props.history}
-          currentPage={this.state.currentPageVal}
           placeHolder="Search by Transaction Hash / Block Number"
         >
           {this.renderBlockSearchView()}

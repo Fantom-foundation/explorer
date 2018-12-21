@@ -139,69 +139,67 @@ class Transactions extends Component {
         }
       }
       if (blockDetails && blockDetails.allBlockData) {
-        if (true) {
-          return (
-            <Col>
-              <Table className="transactions-table">
-                <thead>
-                  <tr>
-                    <th>TxHash</th>
-                    <th>Block</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Value</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transformedArray &&
-                    transformedArray.length > 0 &&
-                    transformedArray.map((data, index) => (
-                      <tr
-                        key={`tx_${index}`}
-                        onClick={() =>
-                          this.props.history.push({
-                            pathname: `/transactions/${data.transaction_hash}`,
-                            state: { data, type: 'transaction' },
-                          })
-                        }
+        return (
+          <Col>
+            <Table className="transactions-table">
+              <thead>
+                <tr>
+                  <th>TxHash</th>
+                  <th>Block</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {transformedArray &&
+                  transformedArray.length > 0 &&
+                  transformedArray.map((data, index) => (
+                    <tr
+                      key={`tx_${index}`}
+                      onClick={() =>
+                        this.props.history.push({
+                          pathname: `/transactions/${data.transaction_hash}`,
+                          state: { data, type: 'transaction' },
+                        })
+                      }
+                    >
+                      <td
+                        data-head="TxHash"
+                        className="text-primary  text-ellipsis full head"
                       >
-                        <td
-                          data-head="TxHash"
-                          className="text-primary  text-ellipsis full head"
-                        >
-                          <span className="icon icon-transaction">
-                            {data.transaction_hash}
-                          </span>
-                        </td>
-                        <td
-                          data-head="Block"
-                          className="text-primary  text-ellipsis half"
-                        >
-                          {data.block_id}
-                        </td>
+                        <span className="icon icon-transaction">
+                          {data.transaction_hash}
+                        </span>
+                      </td>
+                      <td
+                        data-head="Block"
+                        className="text-primary  text-ellipsis half"
+                      >
+                        {data.block_id}
+                      </td>
 
-                        <td
-                          data-head="From"
-                          className="text-primary  text-ellipsis half"
-                        >
-                          {data.address_from}
-                        </td>
-                        <td
-                          data-head="To"
-                          className="text-primary  text-ellipsis half"
-                        >
-                          {data.address_to}
-                        </td>
-                        <td data-head="Value" className="half">
-                          <span className="o-5">{newValue}</span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </Col>
-          );
-        }
+                      <td
+                        data-head="From"
+                        className="text-primary  text-ellipsis half"
+                      >
+                        {data.address_from}
+                      </td>
+                      <td
+                        data-head="To"
+                        className="text-primary  text-ellipsis half"
+                      >
+                        {data.address_to}
+                      </td>
+                      <td data-head="Value" className="half">
+                        <span className="o-5">{newValue}</span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </Col>
+        );
       }
       return null;
     }
@@ -209,7 +207,8 @@ class Transactions extends Component {
   }
 
   onShowList = () => {
-    this.props.history.push('/transactions');
+    const { history } = this.props;
+    history.push('/transactions');
     this.setState({
       searchText: '',
       error: '',

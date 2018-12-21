@@ -32,6 +32,10 @@ class Blocks extends Component {
     });
   }
 
+  /**
+   * onChangePage() :  Function to handle pagination
+   * @param {String} type : Type defines whether it is previous page or next page
+   */
   onChangePage = (type) => {
     const { currentPageVal } = this.state;
     const { allBlockData } = this.props.blockDetails;
@@ -117,65 +121,60 @@ class Blocks extends Component {
     const { blockDetails, history } = this.props;
     const from = currentPageVal * 10;
     const to = from + 10;
-
     if (blockDetails && blockDetails.allBlockData) {
       const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
-      if (true) {
-        return (
-          <Row>
-            <Col>
-              <Table className="blocks-table">
-                <thead>
-                  <tr>
-                    <th>Height</th>
-                    {/* <th>Age</th> */}
-                    <th>Txn</th>
-                    <th>hash</th>
-                    <th>Round</th>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  {transformedBlockArray &&
-                    transformedBlockArray.length > 0 &&
-                    transformedBlockArray.map((data, index) => (
-                      <tr
-                        key={index}
-                        onClick={() =>
-                          history.push({
-                            pathname: `/blocks/${data.height}`,
-                            state: { data, type: 'block' },
-                          })
-                        }
+
+      return (
+        <Row>
+          <Col>
+            <Table className="blocks-table">
+              <thead>
+                <tr>
+                  <th>Height</th>
+                  {/* <th>Age</th> */}
+                  <th>Txn</th>
+                  <th>hash</th>
+                  <th>Round</th>
+                </tr>
+              </thead>
+              <tbody className="">
+                {transformedBlockArray &&
+                  transformedBlockArray.length > 0 &&
+                  transformedBlockArray.map((data, index) => (
+                    <tr
+                      key={index}
+                      onClick={() =>
+                        history.push({
+                          pathname: `/blocks/${data.height}`,
+                          state: { data, type: 'block' },
+                        })
+                      }
+                    >
+                      <td data-head="Height" className="text-primary full head">
+                        <span className="icon icon-block">{data.height}</span>
+                      </td>
+                      <td
+                        data-head="Txn"
+                        className="text-primary full-wrap txn"
                       >
-                        <td
-                          data-head="Height"
-                          className="text-primary full head"
-                        >
-                          <span className="icon icon-block">{data.height}</span>
-                        </td>
-                        <td
-                          data-head="Txn"
-                          className="text-primary full-wrap txn"
-                        >
-                          {data.transactions.length}
-                        </td>
-                        <td
-                          data-head="hash"
-                          className="text-primary full-wrap hash text-ellipsis"
-                        >
-                          {data.hash}
-                        </td>
-                        <td data-head="Round" className=" full-wrap round">
-                          <span className="o-5">{data.round}</span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        );
-      }
+                        {data.transactions.length}
+                      </td>
+                      <td
+                        data-head="hash"
+                        className="text-primary full-wrap hash text-ellipsis"
+                      >
+                        {data.hash}
+                      </td>
+                      <td data-head="Round" className=" full-wrap round">
+                        <span className="o-5">{data.round}</span>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </Col>
+        </Row>
+      );
     }
     return null;
   }
