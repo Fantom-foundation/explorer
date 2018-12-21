@@ -30,7 +30,6 @@ class TransactionDetail extends Component {
       currentPage: 0,
       hasNextPage: true,
       hasPrevPage: false,
-      isRoute: false,
       currentPageVal: 0,
     };
     this.getFantomTransactionsFromApiAsync(props.match.params.id);
@@ -38,9 +37,6 @@ class TransactionDetail extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.id) {
-      // if (state.isSearch) {
-      //   return { ...state, isRoute: false };
-      // }
       if (props.location.state) {
         const data = [
           {
@@ -48,14 +44,12 @@ class TransactionDetail extends Component {
           },
         ];
         return {
-          isRoute: true,
           transactionData: data,
         };
       }
     }
     return {
       ...state,
-      isRoute: false,
     };
   }
 
@@ -287,7 +281,7 @@ class TransactionDetail extends Component {
       transactionData,
       error,
       searchText,
-      isRoute,
+
       isSearch,
     } = this.state;
     if (error) {
@@ -324,7 +318,6 @@ class TransactionDetail extends Component {
       searchText: '',
       isSearch: false,
       error: '',
-      isRoute: false,
     });
   };
   render() {
@@ -334,7 +327,7 @@ class TransactionDetail extends Component {
       hasNextPage,
       currentPageVal,
     } = this.state;
-    const { isSearch, isRoute } = this.state;
+    const { isSearch } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;

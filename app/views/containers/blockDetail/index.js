@@ -34,7 +34,6 @@ class BlockDetail extends Component {
       isSearch: false,
       hasNextPage: true,
       hasPrevPage: false,
-      isRoute: false,
       currentPageVal: 0,
     };
 
@@ -74,8 +73,6 @@ class BlockDetail extends Component {
           },
         ];
         return {
-          isRoute: true,
-
           blockData: data,
         };
       }
@@ -84,7 +81,6 @@ class BlockDetail extends Component {
     return {
       ...state,
       isSearch: false,
-      isRoute: false,
     };
   }
 
@@ -197,9 +193,7 @@ class BlockDetail extends Component {
    */
   getFantomBlocks(searchText) {
     const searchQuery = `index:${searchText}`;
-    // this.setState({
-    //   blockData: [],
-    // });
+
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
           {
@@ -283,7 +277,7 @@ class BlockDetail extends Component {
   }
 
   renderBlockSearchView() {
-    const { error, searchText, blockData, isSearch, isRoute } = this.state;
+    const { error, searchText, blockData, isSearch } = this.state;
     if (error) {
       return <p className="text-white">{error}</p>;
     }
@@ -322,7 +316,6 @@ class BlockDetail extends Component {
       searchText: '',
       isSearch: false,
       error: '',
-      isRoute: false,
     });
   };
 
@@ -336,7 +329,6 @@ class BlockDetail extends Component {
       hasNextPage,
       hasPrevPage,
       isSearch,
-      isRoute,
       currentPageVal,
     } = this.state;
 
