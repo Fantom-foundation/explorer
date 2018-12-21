@@ -31,6 +31,10 @@ class BlockDetail extends Component {
       this.getFantomBlocks(match.params.id);
     }
   }
+
+  /**
+   * @method onShowList():  Function to show list of blocks
+   */
   onShowList() {
     const { history } = this.props;
     history.push('/blocks');
@@ -43,7 +47,7 @@ class BlockDetail extends Component {
   }
 
   /**
-   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
+   * @method getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
    * @param {String} searchText : Text to fetch block.
    */
   getFantomBlocks(searchText) {
@@ -81,7 +85,7 @@ class BlockDetail extends Component {
   }
 
   /**
-   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
+   * @method loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
    * @param {*} responseJson : Json of block response data from Api.
    */
   loadFantomBlockData(allData) {
@@ -105,7 +109,7 @@ class BlockDetail extends Component {
   }
 
   /**
-   * showDetail() :  Function to show details of particular block number
+   * @method showDetail() :  Function to show details of particular block number
    * @param {String} blockNumber : Block number used for getting details
    */
   showDetail(blockNumber) {

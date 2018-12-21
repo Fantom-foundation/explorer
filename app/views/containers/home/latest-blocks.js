@@ -1,12 +1,15 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
+import { Link } from 'react-router-dom';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import blockIcon from '../../../images/icons/block.svg';
-import { Link } from 'react-router-dom';
 
+/**
+ * @method onBlockClick() :  Function to show block details
+ * @param {object} data : Block detail object
+ */
 function onBlockClick(props, data) {
   props.history.push({
     pathname: `/blocks/${data.height}`,

@@ -12,11 +12,9 @@ import {
 } from 'reactstrap';
 import classnames from 'classnames';
 import Header from 'views/components/header/header';
-
-import ChatTab from '../../components/chat/chatTab';
-
-import { Title } from '../../components/coreComponent';
 import _ from 'lodash';
+import ChatTab from '../../components/chat/chatTab';
+import { Title } from '../../components/coreComponent';
 
 export default class Deatails extends Component {
   constructor(props) {

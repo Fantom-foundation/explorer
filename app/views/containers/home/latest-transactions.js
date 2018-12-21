@@ -2,18 +2,18 @@ import React from 'react';
 import { Row, Col } from 'reactstrap';
 // import moment from 'moment';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import Web3 from 'web3';
+import { createSelector } from 'reselect';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import transactionIcon from '../../../images/icons/transactions.svg';
-import { createSelector } from 'reselect';
-import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-import { Link } from 'react-router-dom';
-import Web3 from 'web3';
+
 /**
  * @class LatestTransactions : To display list of latest transactions.
  */
-
 class LatestTransactions extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,10 @@ class LatestTransactions extends React.Component {
     this.onTransactionClick = this.onTransactionClick.bind(this);
   }
 
+  /**
+   * @method onTransactionClick() :  Function to show transaction details
+   * @param {object} data : Transaction detail object
+   */
   onTransactionClick(props, data) {
     props.history.push({
       pathname: `/transactions/${data.transaction_hash}`,
@@ -132,10 +136,6 @@ class LatestTransactions extends React.Component {
     );
   }
 }
-
-// LatestTransactions.propTypes = {
-//   latestTransactionsArr: PropTypes.array,
-// };
 
 const mapStateToProps = createSelector(
   getBlockUpdateDetails(),

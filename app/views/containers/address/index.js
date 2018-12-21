@@ -88,7 +88,6 @@ export default class Blocks extends Component {
    * getFantomBalanceFromApiAsync() :  Api to fetch wallet balance for given address of Fantom own endpoint.
    * @param { String } address : address to fetch wallet balance.
    */
-
   getFantomBalanceFromApiAsync(address) {
     const url = 'http://18.221.128.6:8080';
     console.log('address : ', address);
@@ -128,6 +127,9 @@ export default class Blocks extends Component {
       });
   }
 
+  /**
+   * searchHandler() :  Function to handle text written in search bar
+   */
   searchHandler(e) {
     e.preventDefault();
     const { searchText } = this.state;
@@ -149,8 +151,6 @@ export default class Blocks extends Component {
   }
 
   render() {
-    // let transactions = this.state.transactionArray;
-
     const { searchText, walletDetail, address, error } = this.state;
 
     let addressText = '';

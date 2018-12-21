@@ -28,6 +28,10 @@ class Transactions extends Component {
     });
   }
 
+  /**
+   * @method onChangePage():  Function to handle pagination
+   * @param {String} type : Type tells whether it is previous page or next page
+   */
   onChangePage = (type) => {
     const { currentPageVal } = this.state;
     const { setBlocksData, blockDetails } = this.props;
@@ -108,6 +112,9 @@ class Transactions extends Component {
     }
   };
 
+  /**
+   * @method renderTransactionList():  Function to render all transactions list
+   */
   renderTransactionList() {
     const { blockDetails, history } = this.props;
     const { latestTransactions, allBlockData } = blockDetails;
@@ -208,6 +215,9 @@ class Transactions extends Component {
     return null;
   }
 
+  /**
+   * @method onChangePage():  Function to show all list of transactions
+   */
   onShowList() {
     const { history } = this.props;
     history.push('/transactions');

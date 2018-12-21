@@ -26,14 +26,8 @@ class Blocks extends Component {
     this.maxPageVal = 0;
   }
 
-  setSearchText(e) {
-    this.setState({
-      searchText: e.target.value,
-    });
-  }
-
   /**
-   * onChangePage() :  Function to handle pagination
+   * @method onChangePage() :  Function to handle pagination
    * @param {String} type : Type defines whether it is previous page or next page
    */
   onChangePage = (type) => {
@@ -112,6 +106,15 @@ class Blocks extends Component {
     }
   };
 
+  setSearchText(e) {
+    this.setState({
+      searchText: e.target.value,
+    });
+  }
+
+  /**
+   * @method renderBlockList() :  Function to render all list of blocks
+   */
   renderBlockList() {
     const { currentPageVal } = this.state;
     const { blockDetails, history } = this.props;
@@ -176,6 +179,10 @@ class Blocks extends Component {
     return null;
   }
 
+  /**
+   * @method onShowList() :  Function to show all list of blocks
+   * @param {String} type : Type defines whether it is previous page or next page
+   */
   onShowList = () => {
     const { history } = this.props;
     history.push('/blocks');
