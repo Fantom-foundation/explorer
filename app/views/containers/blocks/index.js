@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table, Button } from 'reactstrap';
-import moment from 'moment'; // eslint-disable-line
-import Header from 'views/components/header/header';
-import Footer from 'views/components/footer/footer';
+import { Row, Col, Table } from 'reactstrap';
+import moment from 'moment'; // eslint-disable-lin
 import HttpDataProvider from '../../../../app/utils/httpProvider';
-import { Title } from '../../components/coreComponent';
-import Web3 from 'web3';
 import _ from 'lodash'; // eslint-disable-line
 import { createSelector } from 'reselect';
-import TxBlockPagination from '../pagination/txBlockPagination';
-import SearchForBlock from '../../components/search/searchForBlock/index';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import PropTypes from 'prop-types';
 import { setBlockData } from '../../controllers/blocks/action';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-import SearchBar from '../../components/search/searchBar/index';
 import { connect } from 'react-redux';
 import Wrapper from '../../wrapper/wrapper';
 
@@ -23,23 +15,18 @@ class Blocks extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blockArray: [],
       searchText: '',
       blockData: [],
-      allBlockData: [],
       error: '',
-      cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
       isSearch: false,
       hasNextPage: true,
-      hasPrevPage: false,
-      isRoute: false,
+
       currentPageVal: 0,
     };
 
     this.maxPageVal = 0;
-
     this.showDetail = this.showDetail.bind(this);
   }
 
@@ -57,16 +44,7 @@ class Blocks extends Component {
     }
   }
   static getDerivedStateFromProps(props, state) {
-    // if (state.error) {
-    //   return {
-    //     ...state,
-    //     error: '',
-    //   };
-    // }
     if (props.match.params.id) {
-      // if (state.isSearch) {
-      //   return { ...state, isRoute: false };
-      // }
       if (props.location.state) {
         const data = [
           {
@@ -75,8 +53,6 @@ class Blocks extends Component {
           },
         ];
         return {
-          isRoute: true,
-
           blockData: data,
         };
       }
@@ -85,7 +61,6 @@ class Blocks extends Component {
     return {
       ...state,
       isSearch: false,
-      isRoute: false,
     };
   }
 
@@ -249,18 +224,9 @@ class Blocks extends Component {
   }
 
   renderBlockList() {
-    const {
-      isSearch,
-      blockArray,
-      currentPage,
-      isRoute,
-      currentPageVal,
-    } = this.state;
+    const { isSearch, currentPage, currentPageVal } = this.state;
     const { blockData } = this.props.blockDetails;
-    console.log(
-      ' this.props.blockDetails',
-      this.props.blockDetails.allBlockData
-    );
+
     const from = currentPageVal * 10;
     const to = from + 10;
 
@@ -302,9 +268,6 @@ class Blocks extends Component {
                         >
                           <span className="icon icon-block">{data.height}</span>
                         </td>
-                        {/* <td className="">
-                        {moment(parseInt(data.timestamp, 10)).fromNow()}
-                      </td> */}
                         <td
                           data-head="Txn"
                           className="text-primary full-wrap txn"
@@ -338,30 +301,21 @@ class Blocks extends Component {
       searchText: '',
       isSearch: false,
       error: '',
-      isRoute: false,
+      // isRoute: false,
     });
   };
 
   render() {
-    const blocks = this.state.blockArray; // eslint-disable-line
+    // const blocks = this.state.blockArray; // eslint-disable-line
     const {
       searchText,
       blockData,
       error,
       allBlockData,
-      hasNextPage,
-      hasPrevPage,
       isSearch,
-      isRoute,
       currentPageVal,
     } = this.state;
 
-    let blockNumberText = '';
-    let hashSymbol = '';
-    if (blockData && blockData.length) {
-      blockNumberText = blockData[0].height;
-      hashSymbol = '#';
-    }
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
@@ -388,13 +342,10 @@ class Blocks extends Component {
           firstBlock.height
         } `;
       }
-
-      //
     }
     return (
       <div>
         <Wrapper
-          searchHandler={(e) => this.searchHandler(e)}
           setSearchText={(e) => this.setSearchText(e)}
           searchText={searchText}
           onChangePage={this.onChangePage}
@@ -403,7 +354,6 @@ class Blocks extends Component {
           block={descriptionBlock}
           total={totalBlocks}
           isSearching={isSearch}
-          isRoute={isRoute}
           onShowList={this.onShowList}
           currentPage={this.state.currentPageVal}
           history={this.props.history}
