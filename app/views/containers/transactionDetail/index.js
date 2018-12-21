@@ -1,13 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table, Button } from 'reactstrap';
-import moment from 'moment';
-import { Title } from '../../components/coreComponent';
-import _ from 'lodash';
-import Header from 'views/components/header/header';
-import Footer from 'views/components/footer/footer';
-import HttpDataProvider from '../../../../app/utils/httpProvider';
-import TxBlockPagination from '../pagination/txBlockPagination';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
+import Web3 from 'web3';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
 import { createSelector } from 'reselect';
@@ -15,26 +7,10 @@ import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
-import Web3 from 'web3';
+
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 class TransactionDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      transactionData: [],
-      error: '',
-      isSearch: false,
-      cursor: '',
-      lastFetchedPage: 2,
-      currentPage: 0,
-      hasNextPage: true,
-      hasPrevPage: false,
-      currentPageVal: 0,
-    };
-    this.getFantomTransactionsFromApiAsync(props.match.params.id);
-  }
-
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.id) {
       if (props.location.state) {
@@ -52,6 +28,21 @@ class TransactionDetail extends Component {
       ...state,
     };
   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchText: '',
+      transactionData: [],
+      error: '',
+      cursor: '',
+      lastFetchedPage: 2,
+      currentPage: 0,
+      hasNextPage: true,
+      hasPrevPage: false,
+      currentPageVal: 0,
+    };
+    this.getFantomTransactionsFromApiAsync(props.match.params.id);
+  }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.match.params.id !== prevProps.match.params.id) {
@@ -66,7 +57,6 @@ class TransactionDetail extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-        isSearch: false,
         transactionData: [],
       });
     }
@@ -230,60 +220,8 @@ class TransactionDetail extends Component {
     });
   }
 
-  isValidHash(hash) {
-    const validHashLength = 66;
-    const indexVal = Number(hash);
-    if (hash && hash.length === validHashLength) {
-      return { isValid: true, type: 'hash' };
-    } else if (indexVal >= 0 && Number.isInteger(indexVal)) {
-      return { isValid: true, type: 'number' };
-    }
-    return { isValid: false };
-  }
-
-  searchHandler(e) {
-    e.preventDefault();
-    // this.setState({
-    //   isSearch: true,
-    // });
-    const { searchText } = this.state;
-    if (searchText && searchText !== '') {
-      const { isValid, type } = this.isValidHash(searchText);
-      if (isValid) {
-        if (type === 'number') {
-          this.getFantomBlocks(searchText);
-        } else if (type === 'hash') {
-          this.getFantomTransactionsFromApiAsync(searchText);
-        }
-
-        this.setState({
-          error: '',
-          isSearch: true,
-        });
-      } else {
-        this.setState({
-          transactionData: [],
-          error: 'Please enter valid hash.',
-          isSearch: true,
-        });
-      }
-    } else {
-      this.setState({
-        transactionData: [],
-        error: '',
-        isSearch: false,
-      });
-    }
-  }
-
   renderTransactionSearchView() {
-    const {
-      transactionData,
-      error,
-      searchText,
-
-      isSearch,
-    } = this.state;
+    const { transactionData, error, searchText } = this.state;
     if (error) {
       return <p className="text-white">{error}</p>;
     }
@@ -312,26 +250,16 @@ class TransactionDetail extends Component {
       </React.Fragment>
     );
   }
+
   onShowList = () => {
     this.props.history.push('/transactions');
     this.setState({
       searchText: '',
-      isSearch: false,
       error: '',
     });
   };
   render() {
-    const {
-      searchText,
-      transactionData,
-      hasNextPage,
-      currentPageVal,
-    } = this.state;
-    const { isSearch } = this.state;
-    let txnHashText = '';
-    if (transactionData && transactionData.length) {
-      txnHashText = transactionData[0].transaction_hash;
-    }
+    const { searchText, currentPageVal } = this.state;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
@@ -339,6 +267,7 @@ class TransactionDetail extends Component {
     const {
       blockDetails: { allBlockData },
     } = this.props;
+
     if (allBlockData && allBlockData.length) {
       const firstBlock = allBlockData[0];
       totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
@@ -360,9 +289,8 @@ class TransactionDetail extends Component {
             title="Transactions"
             block={descriptionBlock}
             total={totalBlocks}
-            isRoute
+            pagination={false}
             currentPage={this.state.currentPageVal}
-            searchHandler={(e) => this.searchHandler(e)}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}
             history={this.props.history}

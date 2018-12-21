@@ -5,6 +5,7 @@ import TransactionHeader from '../components/header/tranactionBlockHeader';
 import SearchBar from '../components/search/searchBar/index';
 import TitleIcon from '../../images/icons/latest-blocks.svg';
 import TxBlockPagination from '../containers/pagination/txBlockPagination';
+
 import {
   Container,
   Button,
@@ -99,10 +100,10 @@ class Wrapper extends Component {
               total={this.props.total}
               onShowList={this.props.onShowList}
               currentPage={this.props.currentPage}
-              isRoute={this.props.isRoute}
+              pagination={this.props.pagination}
             />
             {this.props.children}
-            {!this.props.isRoute ? (
+            {this.props.pagination ? (
               <TxBlockPagination
                 onChangePage={this.props.onChangePage}
                 currentPage={this.props.currentPage}

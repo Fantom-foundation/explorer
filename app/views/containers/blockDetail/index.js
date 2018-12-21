@@ -11,6 +11,25 @@ import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 
 class BlockDetail extends Component {
+  static getDerivedStateFromProps(props, state) {
+    if (props.match.params.id) {
+      if (props.location.state) {
+        const data = [
+          {
+            ...props.location.state.data,
+            transactions: props.location.state.data.transaction,
+          },
+        ];
+        return {
+          blockData: data,
+        };
+      }
+    }
+
+    return {
+      ...state,
+    };
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -21,7 +40,6 @@ class BlockDetail extends Component {
       cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
-
       hasNextPage: true,
       hasPrevPage: false,
       currentPageVal: 0,
@@ -46,7 +64,6 @@ class BlockDetail extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-
         blockData: [],
       });
     }
@@ -111,46 +128,6 @@ class BlockDetail extends Component {
           error: error.message || 'Internal Server Error',
         });
       });
-  }
-
-  isValidHash(hash) {
-    const validHashLength = 66;
-    const indexVal = Number(hash);
-    if (hash && hash.length === validHashLength) {
-      return { isValid: true, type: 'hash' };
-    } else if (indexVal >= 0 && Number.isInteger(indexVal)) {
-      return { isValid: true, type: 'number' };
-    }
-    return { isValid: false };
-  }
-
-  searchHandler(e) {
-    e.preventDefault();
-    const { searchText } = this.state;
-    if (searchText && searchText !== '') {
-      const { isValid, type } = this.isValidHash(searchText);
-      if (isValid) {
-        if (type === 'number') {
-          this.getFantomBlocks(searchText);
-        } else if (type === 'hash') {
-          this.getFantomTransactionsFromApiAsync(searchText);
-        }
-
-        this.setState({
-          error: '',
-        });
-      } else {
-        this.setState({
-          blockData: [],
-          error: 'Please enter valid hash.',
-        });
-      }
-    } else {
-      this.setState({
-        blockData: [],
-        error: '',
-      });
-    }
   }
 
   showDetail(blockNumber) {
@@ -224,7 +201,7 @@ class BlockDetail extends Component {
           title="Blocks"
           block={descriptionBlock}
           total={totalBlocks}
-          isRoute
+          pagination={false}
           onShowList={this.onShowList}
           history={this.props.history}
           currentPage={this.state.currentPageVal}

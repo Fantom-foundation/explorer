@@ -25,6 +25,7 @@ class Blocks extends Component {
     this.onChangePage = this.onChangePage.bind(this);
     this.maxPageVal = 0;
   }
+
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
@@ -237,6 +238,7 @@ class Blocks extends Component {
           currentPage={this.state.currentPageVal}
           history={history}
           placeHolder="Search by Transaction Hash / Block Number"
+          pagination
         >
           {this.state.error ? (
             <p className="text-white">{this.state.error}</p>
