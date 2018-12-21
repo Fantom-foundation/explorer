@@ -1,29 +1,19 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table, Button } from 'reactstrap';
-import moment from 'moment'; // eslint-disable-line
-import Header from 'views/components/header/header';
-import Footer from 'views/components/footer/footer';
-import HttpDataProvider from '../../../../app/utils/httpProvider';
-import { Title } from '../../components/coreComponent';
-import Web3 from 'web3';
-import _ from 'lodash'; // eslint-disable-line
-import { createSelector } from 'reselect';
-import TxBlockPagination from '../pagination/txBlockPagination';
-import SearchForBlock from '../../components/search/searchForBlock/index';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
-import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+import HttpDataProvider from '../../../../app/utils/httpProvider';
+import _ from 'lodash'; // eslint-disable-line
+import SearchForBlock from '../../components/search/searchForBlock/index';
+import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import { setBlockData } from '../../controllers/blocks/action';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-import SearchBar from '../../components/search/searchBar/index';
-import { connect } from 'react-redux';
 import Wrapper from '../../wrapper/wrapper';
 
 class BlockDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blockArray: [],
       searchText: '',
       blockData: [],
       allBlockData: [],
@@ -31,16 +21,14 @@ class BlockDetail extends Component {
       cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
-      isSearch: false,
+
       hasNextPage: true,
       hasPrevPage: false,
       currentPageVal: 0,
     };
 
     this.maxPageVal = 0;
-
     this.showDetail = this.showDetail.bind(this);
-
     this.getFantomBlocks(props.match.params.id);
   }
 
@@ -58,111 +46,11 @@ class BlockDetail extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-        isSearch: false,
+
         blockData: [],
       });
     }
   }
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-            transactions: props.location.state.data.transaction,
-          },
-        ];
-        return {
-          blockData: data,
-        };
-      }
-    }
-
-    return {
-      ...state,
-      isSearch: false,
-    };
-  }
-
-  onChangePage = (type) => {
-    const { currentPageVal } = this.state;
-    const { allBlockData } = this.props.blockDetails;
-    const { setBlocksData } = this.props;
-    const updatePageVal =
-      type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
-    if (updatePageVal < 0) {
-      return;
-    }
-
-    const currentBlockDataLength = allBlockData.length;
-    if (
-      type === 'next' &&
-      (currentPageVal + 1) * 10 >= currentBlockDataLength
-    ) {
-      return;
-    }
-    const prevPageVal = currentPageVal;
-
-    this.setState({
-      currentPageVal: updatePageVal,
-    });
-    const cursor = allBlockData[allBlockData.length - 1].cursor;
-    if (type === 'next' && this.maxPageVal < updatePageVal) {
-      if (true) {
-        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-          query: `
-          {
-            blocks(first: 10, byDirection: "desc", after: "${cursor}") {
-              pageInfo {
-                hasNextPage
-              }
-              edges {
-                cursor,
-                node {
-                  id,
-                  payload
-                }
-              }
-            }
-          }`,
-        })
-          .then(
-            (res) => {
-              if (res && res.data) {
-                this.maxPageVal = updatePageVal;
-                const allData = res.data;
-                if (
-                  allData.data &&
-                  allData.data.blocks &&
-                  allData.data.blocks.edges &&
-                  allData.data.blocks.edges.length
-                ) {
-                  const blockDetails = {
-                    payload: allData.data.blocks.edges,
-                  };
-                  setBlocksData(blockDetails);
-                  this.setState((prevState) => ({
-                    lastFetchedPage: allData.data.blocks.pageInfo.hasNextPage
-                      ? prevState.lastFetchedPage + 1
-                      : prevState.lastFetchedPage,
-                    hasNextPage: allData.data.blocks.pageInfo.hasNextPage,
-                  }));
-                } else {
-                  console.log('else part');
-                }
-              }
-              return null;
-            },
-            () => {
-              console.log('1');
-            }
-          )
-          .catch((err) => {
-            console.log(err, 'err in graphql');
-          });
-      }
-    }
-  };
 
   /**
    * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
@@ -242,7 +130,6 @@ class BlockDetail extends Component {
     if (searchText && searchText !== '') {
       const { isValid, type } = this.isValidHash(searchText);
       if (isValid) {
-        this.setState({ isSearchActive: true });
         if (type === 'number') {
           this.getFantomBlocks(searchText);
         } else if (type === 'hash') {
@@ -251,20 +138,17 @@ class BlockDetail extends Component {
 
         this.setState({
           error: '',
-          isSearch: true,
         });
       } else {
         this.setState({
           blockData: [],
           error: 'Please enter valid hash.',
-          isSearch: true,
         });
       }
     } else {
       this.setState({
         blockData: [],
         error: '',
-        isSearch: false,
       });
     }
   }
@@ -277,7 +161,7 @@ class BlockDetail extends Component {
   }
 
   renderBlockSearchView() {
-    const { error, searchText, blockData, isSearch } = this.state;
+    const { error, searchText, blockData } = this.state;
     if (error) {
       return <p className="text-white">{error}</p>;
     }
@@ -311,55 +195,31 @@ class BlockDetail extends Component {
   }
 
   onShowList = () => {
-    this.props.history.push('/blocks');
+    const { history } = this.props;
+    history.push('/blocks');
     this.setState({
       searchText: '',
-      isSearch: false,
       error: '',
     });
   };
 
   render() {
-    const blocks = this.state.blockArray; // eslint-disable-line
-    const {
-      searchText,
-      blockData,
-      error,
-      allBlockData,
-      hasNextPage,
-      hasPrevPage,
-      isSearch,
-      currentPageVal,
-    } = this.state;
-
-    let blockNumberText = '';
-    let hashSymbol = '';
-    if (blockData && blockData.length) {
-      blockNumberText = blockData[0].height;
-      hashSymbol = '#';
-    }
+    const { searchText, currentPageVal } = this.state;
+    const { blockDetails } = this.props;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
     let totalBlocks = '';
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
-
+    if (blockDetails && blockDetails.allBlockData) {
+      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       descriptionBlock = 'Block Number: ';
       totalBlocks = `${this.props.match.params.id}`;
-
-      //
     }
     return (
       <div>
         <Wrapper
-          searchHandler={(e) => this.searchHandler(e)}
           setSearchText={(e) => this.setSearchText(e)}
           searchText={searchText}
-          onChangePage={this.onChangePage}
           icon={TitleIcon}
           title="Blocks"
           block={descriptionBlock}

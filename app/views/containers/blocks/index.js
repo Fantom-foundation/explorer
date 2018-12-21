@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Row, Col, Table } from 'reactstrap';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+import PropTypes from 'prop-types';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import _ from 'lodash'; // eslint-disable-line
-import { createSelector } from 'reselect';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
-import PropTypes from 'prop-types';
 import { setBlockData } from '../../controllers/blocks/action';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-import { connect } from 'react-redux';
 import Wrapper from '../../wrapper/wrapper';
 
 class Blocks extends Component {
