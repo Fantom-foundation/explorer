@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
-
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 class TransactionDetail extends Component {
@@ -17,11 +16,9 @@ class TransactionDetail extends Component {
       searchText: '',
       transactionData: [],
       error: '',
-      cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
       hasNextPage: true,
-      hasPrevPage: false,
       currentPageVal: 0,
     };
     this.getFantomTransactionsFromApiAsync(props.match.params.id);
@@ -38,95 +35,13 @@ class TransactionDetail extends Component {
     });
   }
 
-  onChangePage = (type) => {
-    const { currentPageVal } = this.state;
-    const { allBlockData } = this.props.blockDetails;
-    const { setBlocksData } = this.props;
-    const updatePageVal =
-      type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
-    if (updatePageVal < 0) {
-      return;
-    }
-
-    const currentBlockDataLength = allBlockData.length;
-    if (
-      type === 'next' &&
-      (currentPageVal + 1) * 10 >= currentBlockDataLength
-    ) {
-      return;
-    }
-    const prevPageVal = currentPageVal;
-
-    this.setState({
-      currentPageVal: updatePageVal,
-    });
-    const cursor = allBlockData[allBlockData.length - 1].cursor;
-    if (type === 'next' && this.maxPageVal < updatePageVal) {
-      if (true) {
-        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-          query: `
-          {
-            blocks(first: 10, byDirection: "desc", after: "${cursor}") {
-              pageInfo {
-                hasNextPage
-              }
-              edges {
-                cursor,
-                node {
-                  id,
-                  payload
-                }
-              }
-            }
-          }`,
-        })
-          .then(
-            (res) => {
-              if (res && res.data) {
-                this.maxPageVal = updatePageVal;
-                const allData = res.data;
-                if (
-                  allData.data &&
-                  allData.data.blocks &&
-                  allData.data.blocks.edges &&
-                  allData.data.blocks.edges.length
-                ) {
-                  const blockDetails = {
-                    payload: allData.data.blocks.edges,
-                  };
-                  setBlocksData(blockDetails);
-                  this.setState((prevState) => ({
-                    lastFetchedPage: allData.data.blocks.pageInfo.hasNextPage
-                      ? prevState.lastFetchedPage + 1
-                      : prevState.lastFetchedPage,
-                    hasNextPage: allData.data.blocks.pageInfo.hasNextPage,
-                  }));
-                } else {
-                  console.log('else part');
-                }
-              }
-              return null;
-            },
-            () => {
-              console.log('1');
-            }
-          )
-          .catch((err) => {
-            console.log(err, 'err in graphql');
-          });
-      }
-    }
-  };
-
   /**
    * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
    * @param {String} address : address to fetch transactions.
    */
   getFantomTransactionsFromApiAsync(searchTransactionHash, type) {
     const transactionHash = `"${searchTransactionHash}"`;
-    // this.setState({
-    //   transactionData: [],
-    // });
+
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
       query{
@@ -174,7 +89,6 @@ class TransactionDetail extends Component {
    */
   loadFantomTransactionData(result) {
     const transactionData = [];
-
     const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
     transactionData.push({
       transaction_hash: result.hash,
@@ -229,7 +143,8 @@ class TransactionDetail extends Component {
   }
 
   onShowList = () => {
-    this.props.history.push('/transactions');
+    const { history, blockDetails } = this.props;
+    history.push('/transactions');
     this.setState({
       searchText: '',
       error: '',
@@ -241,6 +156,7 @@ class TransactionDetail extends Component {
     const from = currentPageVal * 10;
     const to = from + 10;
     let totalBlocks = '';
+    const { blockDetails } = this.props;
     const {
       blockDetails: { allBlockData },
     } = this.props;
@@ -250,17 +166,13 @@ class TransactionDetail extends Component {
       totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
     }
 
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
+    if (blockDetails && blockDetails.allBlockData) {
+      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
       descriptionBlock = 'Txn Hash: ';
       totalBlocks = `${this.props.match.params.id}`;
       return (
         <div>
           <Wrapper
-            onChangePage={this.onChangePage}
             onShowList={this.onShowList}
             icon={TitleIcon}
             title="Transactions"
