@@ -157,77 +157,7 @@ class TransactionDetail extends Component {
       }
     }
   };
-  /**
-   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-   * @param {*} responseJson : Json of block response data from Api.
-   */
-  loadFantomBlockData(allData) {
-    const result = allData.payload;
-    let blockData = [];
-    const txLength =
-      allData.payload.transactions !== null
-        ? allData.payload.transactions.length
-        : 0;
-    blockData.push({
-      height: result.index,
-      hash: result.hash,
-      round: result.round,
-      transactions: txLength,
-    });
-    this.props.history.push({
-      pathname: `/blocks/${result.index}`,
-      state: {
-        data: {
-          height: result.index,
-          hash: result.hash,
-          round: result.round,
-          transactions: txLength,
-        },
-        type: 'block',
-      },
-    });
-    blockData = blockData.reverse();
-    this.setState({
-      blockData,
-    });
-  }
 
-  /**
-   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-   * @param {String} searchBlockIndex : Index to fetch block.
-   */
-  getFantomBlocks(searchText) {
-    const searchQuery = `index:${searchText}`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-          {
-           block(${searchQuery}) {
-            id,payload
-          }
-          }`,
-    })
-      .then((response) => {
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.block
-        ) {
-          this.loadFantomBlockData(response.data.data.block);
-        } else {
-          this.setState({
-            blockData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          blockData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
   /**
    * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
    * @param {String} address : address to fetch transactions.
@@ -286,7 +216,6 @@ class TransactionDetail extends Component {
     const transactionData = [];
 
     const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
-    console.log('newVal', newVal);
     transactionData.push({
       transaction_hash: result.hash,
       Block_id: '',
@@ -302,29 +231,6 @@ class TransactionDetail extends Component {
       root: result.root,
       logsBloom: result.logs,
     });
-    // transactionData = transactionData.reverse();
-    // this.props.history.push({
-    //   // eslint-disable-line
-    //   pathname: `/transactions/${result.hash}`,
-    //   state: {
-    //     data: {
-    //       transaction_hash: result.hash,
-    //       Block_id: '',
-    //       address_from: result.from,
-    //       address_to: result.to,
-    //       value: newVal,
-    //       txFee: '',
-    //       createdAt: '',
-    //       gasUsed: result.gas,
-    //       status: result.status,
-    //       contractAddress: result.contract,
-    //       cumulativeGasUsed: result.cumulative,
-    //       root: result.root,
-    //       logsBloom: result.logs,
-    //     },
-    //     type: 'transaction',
-    //   },
-    // });
     this.setState({
       transactionData,
     });
@@ -374,113 +280,6 @@ class TransactionDetail extends Component {
         isSearch: false,
       });
     }
-  }
-
-  renderTransactionList() {
-    const { isSearch, currentPageVal, isRoute } = this.state;
-    const from = currentPageVal * 10;
-    const to = from + 10;
-    const { latestTransactions } = this.props.blockDetails;
-
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
-      const transformedArray = [];
-      const newTransformedArr = [];
-      let newValue = '';
-      if (transformedBlockArray.length) {
-        for (const block of transformedBlockArray) {
-          block.transactions.forEach((transac) => {
-            const value = Web3.utils.fromWei(`${transac.value}`, 'ether');
-            newValue = Number(value).toFixed(4);
-            transformedArray.push({
-              block_id: block.hash,
-              address_from: transac.from,
-              transaction_hash: transac.transactionHash,
-              address_to: transac.to,
-              value,
-              gasUsed: transac.gas,
-              cumulativeGasUsed: transac.cumulativeGasUsed,
-              contractAddress: transac.contractAddress,
-              root: transac.root,
-              logsBloom: transac.logsBloom,
-              status: transac.status,
-            });
-          });
-        }
-      }
-      if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-        if (!isSearch && !isRoute) {
-          return (
-            <Col>
-              <Table className="transactions-table">
-                <thead>
-                  <tr>
-                    <th>TxHash</th>
-                    <th>Block</th>
-                    {/* <th>Age</th> */}
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Value</th>
-                    {/* <th>[TxFee]</th> */}
-                  </tr>
-                </thead>
-                <tbody>
-                  {transformedArray &&
-                    transformedArray.length > 0 &&
-                    transformedArray.map((data, index) => (
-                      <tr
-                        key={`tx_${index}`}
-                        onClick={() =>
-                          this.props.history.push({
-                            pathname: `/transactions/${data.transaction_hash}`,
-                            state: { data, type: 'transaction' },
-                          })
-                        }
-                      >
-                        <td
-                          data-head="TxHash"
-                          className="text-primary  text-ellipsis full head"
-                        >
-                          <span className="icon icon-transaction">
-                            {data.transaction_hash}
-                          </span>
-                        </td>
-                        <td
-                          data-head="Block"
-                          className="text-primary  text-ellipsis half"
-                        >
-                          {data.block_id}
-                        </td>
-
-                        <td
-                          data-head="From"
-                          className="text-primary  text-ellipsis half"
-                        >
-                          {data.address_from}
-                        </td>
-                        <td
-                          data-head="To"
-                          className="text-primary  text-ellipsis half"
-                        >
-                          {data.address_to}
-                        </td>
-                        <td data-head="Value" className="half">
-                          <span className="o-5">{newValue}</span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </Col>
-          );
-        }
-      }
-      return null;
-    }
-    return null;
   }
 
   renderTransactionSearchView() {
@@ -578,7 +377,6 @@ class TransactionDetail extends Component {
             placeHolder="Search by Transaction Hash / Block Number"
           >
             {this.renderTransactionSearchView()}
-            {/* <Row>{this.renderTransactionList()}</Row> */}
           </Wrapper>
         </div>
       );

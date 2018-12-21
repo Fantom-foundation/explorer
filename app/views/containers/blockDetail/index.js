@@ -66,9 +66,6 @@ class BlockDetail extends Component {
   }
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.id) {
-      // if (state.isSearch) {
-      //   return { ...state, isRoute: false };
-      // }
       if (props.location.state) {
         const data = [
           {
@@ -188,19 +185,7 @@ class BlockDetail extends Component {
       round: result.round,
       transactions: txLength,
     });
-    // this.props.history.push({
-    //   pathname: `/blocks/${result.index}`,
-    //   state: {
-    //     data: {
-    //       height: result.index,
-    //       hash: result.hash,
-    //       round: result.round,
-    //       transactions: txLength,
-    //     },
-    //     type: 'block',
-    //   },
-    // });
-    // blockData = blockData.reverse();
+
     this.setState({
       blockData,
     });
@@ -245,100 +230,6 @@ class BlockDetail extends Component {
         });
       });
   }
-  /**
-   * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
-   * @param {String} address : address to fetch transactions.
-   */
-  getFantomTransactionsFromApiAsync(searchText) {
-    const searchQuery = `hash:"${searchText}"`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-      {
-        transaction(${searchQuery}) {
-          id,
-          hash,
-          root
-          from,
-          to,
-          value,
-          gas,
-          used,
-          price,
-          cumulative,
-          contract,
-          logs,
-          status,
-          block,
-          error
-        }  
-        }`,
-    })
-
-      .then((res) => {
-        if (res && res.data && res.data.data && res.data.data.transaction) {
-          this.loadFantomTransactionData(res.data.data.transaction);
-        } else {
-          this.setState({
-            transactionData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          transactionData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
-  /**
-   * loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
-   * @param {*} responseJson : Json of transaction response data from Api.
-   */
-  loadFantomTransactionData = (result) => {
-    const transactionData = [];
-    // transactionData.push({
-    //   transaction_hash: result.hash,
-    //   Block_id: '',
-    //   address_from: result.from,
-    //   address_to: result.to,
-    //   value: result.value,
-    //   txFee: '',
-    //   createdAt: '',
-    //   gasUsed: result.gas,
-    //   status: result.status,
-    //   contractAddress: result.contract,
-    //   cumulativeGasUsed: result.cumulative,
-    //   root: result.root,
-    //   logsBloom: result.logs,
-    // });
-    // transactionData = transactionData.reverse();
-    const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
-    this.props.history.push({
-      pathname: `/transactions/${result.hash}`,
-      state: {
-        data: {
-          transaction_hash: result.hash,
-          Block_id: '',
-          address_from: result.from,
-          address_to: result.to,
-          value: newVal,
-          txFee: '',
-          createdAt: '',
-          gasUsed: result.gas,
-          status: result.status,
-          contractAddress: result.contract,
-          cumulativeGasUsed: result.cumulative,
-          root: result.root,
-          logsBloom: result.logs,
-        },
-        type: 'transaction',
-      },
-    });
-    this.setState({
-      transactionData,
-    });
-  };
 
   isValidHash(hash) {
     const validHashLength = 66;
@@ -389,90 +280,6 @@ class BlockDetail extends Component {
       return;
     }
     this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
-  }
-
-  renderBlockList() {
-    const {
-      isSearch,
-      blockArray,
-      currentPage,
-      isRoute,
-      currentPageVal,
-    } = this.state;
-    const { blockData } = this.props.blockDetails;
-    console.log(
-      ' this.props.blockDetails',
-      this.props.blockDetails.allBlockData
-    );
-    const from = currentPageVal * 10;
-    const to = from + 10;
-
-    if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
-      const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
-        from,
-        to
-      );
-      if (!isSearch && !isRoute) {
-        return (
-          <Row>
-            <Col>
-              <Table className="blocks-table">
-                <thead>
-                  <tr>
-                    <th>Height</th>
-                    {/* <th>Age</th> */}
-                    <th>Txn</th>
-                    <th>hash</th>
-                    <th>Round</th>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  {transformedBlockArray &&
-                    transformedBlockArray.length > 0 &&
-                    transformedBlockArray.map((data, index) => (
-                      <tr
-                        key={index}
-                        onClick={() =>
-                          this.props.history.push({
-                            pathname: `/blocks/${data.height}`,
-                            state: { data, type: 'block' },
-                          })
-                        }
-                      >
-                        <td
-                          data-head="Height"
-                          className="text-primary full head"
-                        >
-                          <span className="icon icon-block">{data.height}</span>
-                        </td>
-                        {/* <td className="">
-                        {moment(parseInt(data.timestamp, 10)).fromNow()}
-                      </td> */}
-                        <td
-                          data-head="Txn"
-                          className="text-primary full-wrap txn"
-                        >
-                          {data.transactions.length}
-                        </td>
-                        <td
-                          data-head="hash"
-                          className="text-primary full-wrap hash text-ellipsis"
-                        >
-                          {data.hash}
-                        </td>
-                        <td data-head="Round" className=" full-wrap round">
-                          <span className="o-5">{data.round}</span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-        );
-      }
-    }
-    return null;
   }
 
   renderBlockSearchView() {
@@ -573,7 +380,6 @@ class BlockDetail extends Component {
           placeHolder="Search by Transaction Hash / Block Number"
         >
           {this.renderBlockSearchView()}
-          {/* {this.renderBlockList()} */}
         </Wrapper>
       </div>
     );

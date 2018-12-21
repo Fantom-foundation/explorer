@@ -240,145 +240,6 @@ class Blocks extends Component {
         });
       });
   }
-  /**
-   * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
-   * @param {String} address : address to fetch transactions.
-   */
-  getFantomTransactionsFromApiAsync(searchText) {
-    const searchQuery = `hash:"${searchText}"`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-      {
-        transaction(${searchQuery}) {
-          id,
-          hash,
-          root
-          from,
-          to,
-          value,
-          gas,
-          used,
-          price,
-          cumulative,
-          contract,
-          logs,
-          status,
-          block,
-          error
-        }  
-        }`,
-    })
-
-      .then((res) => {
-        if (res && res.data && res.data.data && res.data.data.transaction) {
-          this.loadFantomTransactionData(res.data.data.transaction);
-        } else {
-          this.setState({
-            transactionData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          transactionData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
-  /**
-   * loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
-   * @param {*} responseJson : Json of transaction response data from Api.
-   */
-  loadFantomTransactionData = (result) => {
-    const transactionData = [];
-    // transactionData.push({
-    //   transaction_hash: result.hash,
-    //   Block_id: '',
-    //   address_from: result.from,
-    //   address_to: result.to,
-    //   value: result.value,
-    //   txFee: '',
-    //   createdAt: '',
-    //   gasUsed: result.gas,
-    //   status: result.status,
-    //   contractAddress: result.contract,
-    //   cumulativeGasUsed: result.cumulative,
-    //   root: result.root,
-    //   logsBloom: result.logs,
-    // });
-    // transactionData = transactionData.reverse();
-    const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
-    this.props.history.push({
-      pathname: `/transactions/${result.hash}`,
-      state: {
-        data: {
-          transaction_hash: result.hash,
-          Block_id: '',
-          address_from: result.from,
-          address_to: result.to,
-          value: newVal,
-          txFee: '',
-          createdAt: '',
-          gasUsed: result.gas,
-          status: result.status,
-          contractAddress: result.contract,
-          cumulativeGasUsed: result.cumulative,
-          root: result.root,
-          logsBloom: result.logs,
-        },
-        type: 'transaction',
-      },
-    });
-    this.setState({
-      transactionData,
-    });
-  };
-
-  isValidHash(hash) {
-    const validHashLength = 66;
-    const indexVal = Number(hash);
-    if (hash && hash.length === validHashLength) {
-      return { isValid: true, type: 'hash' };
-    } else if (indexVal >= 0 && Number.isInteger(indexVal)) {
-      return { isValid: true, type: 'number' };
-    }
-    return { isValid: false };
-  }
-
-  searchHandler(e) {
-    e.preventDefault();
-    const { searchText } = this.state;
-
-    if (searchText && searchText !== '') {
-      const { isValid, type } = this.isValidHash(searchText);
-      if (isValid) {
-        this.setState({ isSearchActive: true });
-        if (type === 'number') {
-          this.getFantomBlocks(searchText);
-        } else if (type === 'hash') {
-          this.getFantomTransactionsFromApiAsync(searchText);
-        }
-
-        this.setState({
-          error: '',
-          isSearch: true,
-        });
-      } else {
-        this.setState({
-          blockData: [],
-          error: 'Please enter valid hash.',
-          isSearch: true,
-        });
-      }
-    } else {
-      this.setState({
-        blockData: [],
-        error: '',
-        isSearch: false,
-      });
-    }
-  }
 
   showDetail(blockNumber) {
     if (blockNumber === '') {
@@ -471,37 +332,6 @@ class Blocks extends Component {
     return null;
   }
 
-  renderBlockSearchView() {
-    const { error, searchText, blockData, isSearch, isRoute } = this.state;
-    if (error) {
-      return <p className="text-white">{error}</p>;
-    }
-    if (isSearch) {
-      return (
-        <React.Fragment>
-          {blockData.length > 0 && (
-            <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
-          )}
-          {error !== '' &&
-            searchText !== '' && <p className="text-white">{error}</p>}
-        </React.Fragment>
-      );
-    }
-    if (isRoute) {
-      return (
-        <React.Fragment>
-          {blockData.length > 0 && (
-            <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
-          )}
-          {error !== '' &&
-            searchText !== '' && <p className="text-white">{error}</p>}
-        </React.Fragment>
-      );
-    }
-
-    return null;
-  }
-
   onShowList = () => {
     this.props.history.push('/blocks');
     this.setState({
@@ -579,8 +409,6 @@ class Blocks extends Component {
           history={this.props.history}
           placeHolder="Search by Transaction Hash / Block Number"
         >
-          {/* {this.renderBlockSearchView()} */}
-
           {this.state.error ? (
             <p className="text-white">{this.state.error}</p>
           ) : (

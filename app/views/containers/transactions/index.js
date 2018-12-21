@@ -9,7 +9,7 @@ import HttpDataProvider from '../../../../app/utils/httpProvider';
 import TxBlockPagination from '../pagination/txBlockPagination';
 import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
-import SearchForTransaction from '../../components/search/searchForTransaction/index';
+// import SearchForTransaction from '../../components/search/searchForTransaction/index';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
@@ -276,24 +276,7 @@ class Transactions extends Component {
     const transactionData = [];
 
     const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
-    // transactionData.push({
-    //   transaction_hash: result.hash,
-    //   Block_id: '',
-    //   address_from: result.from,
-    //   address_to: result.to,
-    //   value: newVal,
-    //   txFee: '',
-    //   createdAt: '',
-    //   gasUsed: result.gas,
-    //   status: result.status,
-    //   contractAddress: result.contract,
-    //   cumulativeGasUsed: result.cumulative,
-    //   root: result.root,
-    //   logsBloom: result.logs,
-    // });
-    // transactionData = transactionData.reverse();
     this.props.history.push({
-      // eslint-disable-line
       pathname: `/transactions/${result.hash}`,
       state: {
         data: {
@@ -314,55 +297,6 @@ class Transactions extends Component {
         type: 'transaction',
       },
     });
-    // this.setState({
-    //   transactionData,
-    // });
-  }
-
-  isValidHash(hash) {
-    const validHashLength = 66;
-    const indexVal = Number(hash);
-    if (hash && hash.length === validHashLength) {
-      return { isValid: true, type: 'hash' };
-    } else if (indexVal >= 0 && Number.isInteger(indexVal)) {
-      return { isValid: true, type: 'number' };
-    }
-    return { isValid: false };
-  }
-
-  searchHandler(e) {
-    e.preventDefault();
-    // this.setState({
-    //   isSearch: true,
-    // });
-    const { searchText } = this.state;
-    if (searchText && searchText !== '') {
-      const { isValid, type } = this.isValidHash(searchText);
-      if (isValid) {
-        if (type === 'number') {
-          this.getFantomBlocks(searchText);
-        } else if (type === 'hash') {
-          this.getFantomTransactionsFromApiAsync(searchText);
-        }
-
-        this.setState({
-          error: '',
-          isSearch: true,
-        });
-      } else {
-        this.setState({
-          transactionData: [],
-          error: 'Please enter valid hash.',
-          isSearch: true,
-        });
-      }
-    } else {
-      this.setState({
-        transactionData: [],
-        error: '',
-        isSearch: false,
-      });
-    }
   }
 
   renderTransactionList() {
@@ -472,40 +406,6 @@ class Transactions extends Component {
     return null;
   }
 
-  renderTransactionSearchView() {
-    const {
-      transactionData,
-      error,
-      searchText,
-      isRoute,
-      isSearch,
-    } = this.state;
-    if (error) {
-      return <p className="text-white">{error}</p>;
-    }
-    if (isSearch) {
-      return (
-        <React.Fragment>
-          {transactionData.length > 0 && (
-            <SearchForTransaction transactions={transactionData} />
-          )}
-          {error !== '' &&
-            searchText !== '' && <p className="text-white">{error}</p>}
-        </React.Fragment>
-      );
-    }
-    if (isRoute) {
-      return (
-        <React.Fragment>
-          {transactionData.length > 0 && (
-            <SearchForTransaction transactions={transactionData} />
-          )}
-          {error !== '' &&
-            searchText !== '' && <p className="text-white">{error}</p>}
-        </React.Fragment>
-      );
-    }
-  }
   onShowList = () => {
     this.props.history.push('/transactions');
     this.setState({
@@ -515,6 +415,7 @@ class Transactions extends Component {
       isRoute: false,
     });
   };
+
   render() {
     const {
       searchText,
@@ -570,7 +471,6 @@ class Transactions extends Component {
             history={this.props.history}
             placeHolder="Search by Transaction Hash / Block Number"
           >
-            {/* {this.renderTransactionSearchView()} */}
             {this.state.error ? (
               <p className="text-white">{this.state.error}</p>
             ) : (
