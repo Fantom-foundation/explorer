@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, Table } from 'reactstrap';
-import moment from 'moment'; // eslint-disable-lin
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 import _ from 'lodash'; // eslint-disable-line
 import { createSelector } from 'reselect';
@@ -20,29 +19,13 @@ class Blocks extends Component {
       error: '',
       lastFetchedPage: 2,
       currentPage: 0,
-      isSearch: false,
       hasNextPage: true,
-
       currentPageVal: 0,
     };
 
     this.maxPageVal = 0;
-    this.showDetail = this.showDetail.bind(this);
   }
 
-  setSearchText(e) {
-    this.setState({
-      searchText: e.target.value,
-    });
-
-    if (e.target.value === '') {
-      this.setState({
-        error: '',
-        isSearch: false,
-        blockData: [],
-      });
-    }
-  }
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.id) {
       if (props.location.state) {
@@ -60,8 +43,20 @@ class Blocks extends Component {
 
     return {
       ...state,
-      isSearch: false,
     };
+  }
+
+  setSearchText(e) {
+    this.setState({
+      searchText: e.target.value,
+    });
+
+    if (e.target.value === '') {
+      this.setState({
+        error: '',
+        blockData: [],
+      });
+    }
   }
 
   onChangePage = (type) => {
@@ -144,89 +139,8 @@ class Blocks extends Component {
     }
   };
 
-  /**
-   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-   * @param {*} responseJson : Json of block response data from Api.
-   */
-  loadFantomBlockData(allData) {
-    const result = allData.payload;
-    let blockData = [];
-    const txLength =
-      allData.payload.transactions !== null
-        ? allData.payload.transactions.length
-        : 0;
-    blockData.push({
-      height: result.index,
-      hash: result.hash,
-      round: result.round,
-      transactions: txLength,
-    });
-    this.props.history.push({
-      pathname: `/blocks/${result.index}`,
-      state: {
-        data: {
-          height: result.index,
-          hash: result.hash,
-          round: result.round,
-          transactions: txLength,
-        },
-        type: 'block',
-      },
-    });
-    blockData = blockData.reverse();
-    this.setState({
-      blockData,
-    });
-  }
-
-  /**
-   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-   * @param {String} searchBlockIndex : Index to fetch block.
-   */
-  getFantomBlocks(searchText) {
-    const searchQuery = `index:${searchText}`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-          {
-           block(${searchQuery}) {
-            id,payload
-          }
-          }`,
-    })
-      .then((response) => {
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.block
-        ) {
-          this.loadFantomBlockData(response.data.data.block);
-        } else {
-          this.setState({
-            blockData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          blockData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
-
-  showDetail(blockNumber) {
-    if (blockNumber === '') {
-      return;
-    }
-    this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
-  }
-
   renderBlockList() {
-    const { isSearch, currentPage, currentPageVal } = this.state;
-    const { blockData } = this.props.blockDetails;
-
+    const { currentPageVal } = this.state;
     const from = currentPageVal * 10;
     const to = from + 10;
 
@@ -299,27 +213,18 @@ class Blocks extends Component {
     this.props.history.push('/blocks');
     this.setState({
       searchText: '',
-      isSearch: false,
       error: '',
-      // isRoute: false,
     });
   };
 
   render() {
-    // const blocks = this.state.blockArray; // eslint-disable-line
-    const {
-      searchText,
-      blockData,
-      error,
-      allBlockData,
-      isSearch,
-      currentPageVal,
-    } = this.state;
+    const { searchText, isRoute, currentPageVal } = this.state;
 
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
     let totalBlocks = '';
+
     if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
       const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
         from,
@@ -353,7 +258,6 @@ class Blocks extends Component {
           title="Blocks"
           block={descriptionBlock}
           total={totalBlocks}
-          isSearching={isSearch}
           onShowList={this.onShowList}
           currentPage={this.state.currentPageVal}
           history={this.props.history}

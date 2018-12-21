@@ -37,9 +37,6 @@ class Transactions extends Component {
 
   static getDerivedStateFromProps(props, state) {
     if (props.match.params.id) {
-      // if (state.isSearch) {
-      //   return { ...state, isRoute: false };
-      // }
       if (props.location.state) {
         const data = [
           {
@@ -150,154 +147,6 @@ class Transactions extends Component {
       }
     }
   };
-  /**
-   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-   * @param {*} responseJson : Json of block response data from Api.
-   */
-  loadFantomBlockData(allData) {
-    const result = allData.payload;
-    let blockData = [];
-    const txLength =
-      allData.payload.transactions !== null
-        ? allData.payload.transactions.length
-        : 0;
-    blockData.push({
-      height: result.index,
-      hash: result.hash,
-      round: result.round,
-      transactions: txLength,
-    });
-    this.props.history.push({
-      pathname: `/blocks/${result.index}`,
-      state: {
-        data: {
-          height: result.index,
-          hash: result.hash,
-          round: result.round,
-          transactions: txLength,
-        },
-        type: 'block',
-      },
-    });
-    blockData = blockData.reverse();
-    this.setState({
-      blockData,
-    });
-  }
-
-  /**
-   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-   * @param {String} searchBlockIndex : Index to fetch block.
-   */
-  getFantomBlocks(searchText) {
-    const searchQuery = `index:${searchText}`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-          {
-           block(${searchQuery}) {
-            id,payload
-          }
-          }`,
-    })
-      .then((response) => {
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.block
-        ) {
-          this.loadFantomBlockData(response.data.data.block);
-        } else {
-          this.setState({
-            blockData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          blockData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
-  /**
-   * getFantomTransactionsFromApiAsync():  Api to fetch transactions for given address of Fantom own endpoint.
-   * @param {String} address : address to fetch transactions.
-   */
-  getFantomTransactionsFromApiAsync(searchTransactionHash, type) {
-    const transactionHash = `"${searchTransactionHash}"`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-      query{
-        transaction(hash: ${transactionHash}) {
-          id,
-          hash,
-          root
-          from,
-          to,
-          value,
-          gas,
-          used,
-          price,
-          cumulative,
-          contract,
-          logs,
-          status,
-          block,
-          error
-        }  
-        }`,
-    })
-
-      .then((res) => {
-        if (res && res.data && res.data.data && res.data.data.transaction) {
-          this.loadFantomTransactionData(res.data.data.transaction);
-        } else {
-          this.setState({
-            transactionData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          transactionData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
-
-  /**
-   * loadFantomTransactionData() :  Function to create array of objects from response of Api calling for storing transactions.
-   * @param {*} responseJson : Json of transaction response data from Api.
-   */
-  loadFantomTransactionData(result) {
-    const transactionData = [];
-
-    const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
-    this.props.history.push({
-      pathname: `/transactions/${result.hash}`,
-      state: {
-        data: {
-          transaction_hash: result.hash,
-          Block_id: '',
-          address_from: result.from,
-          address_to: result.to,
-          value: newVal,
-          txFee: '',
-          createdAt: '',
-          gasUsed: result.gas,
-          status: result.status,
-          contractAddress: result.contract,
-          cumulativeGasUsed: result.cumulative,
-          root: result.root,
-          logsBloom: result.logs,
-        },
-        type: 'transaction',
-      },
-    });
-  }
 
   renderTransactionList() {
     const { isSearch, currentPageVal, isRoute } = this.state;
@@ -462,10 +311,8 @@ class Transactions extends Component {
             title="Transactions"
             block={descriptionBlock}
             total={totalBlocks}
-            isSearching={isSearch}
             isRoute={isRoute}
             currentPage={this.state.currentPageVal}
-            searchHandler={(e) => this.searchHandler(e)}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}
             history={this.props.history}

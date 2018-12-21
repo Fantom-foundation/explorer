@@ -30,7 +30,6 @@ export default class DetailView extends React.PureComponent {
                 title="Transactions"
                 block="Block #683387 To #683390"
                 total="(Total of 683391 Blocks)"
-                isSearching={false}
                 currentPage={1}
               />
             </Container>
@@ -70,7 +69,6 @@ export default class DetailView extends React.PureComponent {
                 title="Blocks"
                 block="Block #683387 To #683390"
                 total="(Total of 683391 Blocks)"
-                isSearching={false}
                 currentPage={1}
               />
             </Container>
