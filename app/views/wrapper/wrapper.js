@@ -42,8 +42,6 @@ class Wrapper extends Component {
     if (searchText && searchText !== '') {
       const { isValid, type } = this.isValidHash(searchText);
       if (isValid) {
-        this.setState({ isSearchActive: true });
-
         if (type === 'number') {
           this.props.history.push({
             pathname: `/blocks/${searchText}`,

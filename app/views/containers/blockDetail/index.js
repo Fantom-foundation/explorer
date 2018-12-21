@@ -11,25 +11,6 @@ import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 
 class BlockDetail extends Component {
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-            transactions: props.location.state.data.transaction,
-          },
-        ];
-        return {
-          blockData: data,
-        };
-      }
-    }
-
-    return {
-      ...state,
-    };
-  }
   constructor(props) {
     super(props);
     this.state = {

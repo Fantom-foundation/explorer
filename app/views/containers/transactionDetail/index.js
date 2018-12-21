@@ -11,23 +11,6 @@ import { setBlockData } from '../../controllers/blocks/action';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 class TransactionDetail extends Component {
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-          },
-        ];
-        return {
-          transactionData: data,
-        };
-      }
-    }
-    return {
-      ...state,
-    };
-  }
   constructor(props) {
     super(props);
     this.state = {
