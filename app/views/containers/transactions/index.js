@@ -24,36 +24,15 @@ class Transactions extends Component {
       searchText: '',
       transactionData: [],
       error: '',
-      isSearch: false,
       cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
       hasNextPage: true,
       hasPrevPage: false,
-      isRoute: false,
       currentPageVal: 0,
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-          },
-        ];
-        return {
-          isRoute: true,
-          transactionData: data,
-        };
-      }
-    }
-    return {
-      ...state,
-      isRoute: false,
-    };
-  }
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,
@@ -62,7 +41,6 @@ class Transactions extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-        isSearch: false,
         transactionData: [],
       });
     }
@@ -149,7 +127,7 @@ class Transactions extends Component {
   };
 
   renderTransactionList() {
-    const { isSearch, currentPageVal, isRoute } = this.state;
+    const { currentPageVal } = this.state;
     const from = currentPageVal * 10;
     const to = from + 10;
     const { latestTransactions } = this.props.blockDetails;
@@ -259,9 +237,7 @@ class Transactions extends Component {
     this.props.history.push('/transactions');
     this.setState({
       searchText: '',
-      isSearch: false,
       error: '',
-      isRoute: false,
     });
   };
 
@@ -272,7 +248,6 @@ class Transactions extends Component {
       hasNextPage,
       currentPageVal,
     } = this.state;
-    const { isSearch, isRoute } = this.state;
     let txnHashText = '';
     if (transactionData && transactionData.length) {
       txnHashText = transactionData[0].transaction_hash;
@@ -311,7 +286,7 @@ class Transactions extends Component {
             title="Transactions"
             block={descriptionBlock}
             total={totalBlocks}
-            isRoute={isRoute}
+            isRoute={false}
             currentPage={this.state.currentPageVal}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}

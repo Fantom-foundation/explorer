@@ -218,7 +218,7 @@ class Blocks extends Component {
   };
 
   render() {
-    const { searchText, isRoute, currentPageVal } = this.state;
+    const { searchText, currentPageVal } = this.state;
 
     let descriptionBlock = '';
     const from = currentPageVal * 10;
@@ -261,6 +261,7 @@ class Blocks extends Component {
           onShowList={this.onShowList}
           currentPage={this.state.currentPageVal}
           history={this.props.history}
+          isRoute={false}
           placeHolder="Search by Transaction Hash / Block Number"
         >
           {this.state.error ? (

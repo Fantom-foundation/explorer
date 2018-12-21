@@ -13,7 +13,6 @@ export default class TxBlockPagination extends React.PureComponent {
 
       currentPage,
       className,
-      isRoute,
     } = this.props;
 
     return (
