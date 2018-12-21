@@ -26,26 +26,6 @@ class Blocks extends Component {
     this.maxPageVal = 0;
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-            transactions: props.location.state.data.transaction,
-          },
-        ];
-        return {
-          blockData: data,
-        };
-      }
-    }
-
-    return {
-      ...state,
-    };
-  }
-
   setSearchText(e) {
     this.setState({
       searchText: e.target.value,

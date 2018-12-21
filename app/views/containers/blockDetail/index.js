@@ -1,25 +1,41 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table, Button } from 'reactstrap';
 import moment from 'moment'; // eslint-disable-line
-import Header from 'views/components/header/header';
-import Footer from 'views/components/footer/footer';
+
 import HttpDataProvider from '../../../../app/utils/httpProvider';
-import { Title } from '../../components/coreComponent';
-import Web3 from 'web3';
+
 import _ from 'lodash'; // eslint-disable-line
 import { createSelector } from 'reselect';
-import TxBlockPagination from '../pagination/txBlockPagination';
+
 import SearchForBlock from '../../components/search/searchForBlock/index';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
+
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import PropTypes from 'prop-types';
 import { setBlockData } from '../../controllers/blocks/action';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-import SearchBar from '../../components/search/searchBar/index';
+
 import { connect } from 'react-redux';
 import Wrapper from '../../wrapper/wrapper';
 
 class BlockDetail extends Component {
+  static getDerivedStateFromProps(props, state) {
+    if (props.match.params.id) {
+      if (props.location.state) {
+        const data = [
+          {
+            ...props.location.state.data,
+            transactions: props.location.state.data.transaction,
+          },
+        ];
+        return {
+          blockData: data,
+        };
+      }
+    }
+
+    return {
+      ...state,
+    };
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -31,7 +47,6 @@ class BlockDetail extends Component {
       cursor: '',
       lastFetchedPage: 2,
       currentPage: 0,
-      isSearch: false,
       hasNextPage: true,
       hasPrevPage: false,
       currentPageVal: 0,
@@ -58,30 +73,9 @@ class BlockDetail extends Component {
     if (e.target.value === '') {
       this.setState({
         error: '',
-        isSearch: false,
         blockData: [],
       });
     }
-  }
-  static getDerivedStateFromProps(props, state) {
-    if (props.match.params.id) {
-      if (props.location.state) {
-        const data = [
-          {
-            ...props.location.state.data,
-            transactions: props.location.state.data.transaction,
-          },
-        ];
-        return {
-          blockData: data,
-        };
-      }
-    }
-
-    return {
-      ...state,
-      isSearch: false,
-    };
   }
 
   onChangePage = (type) => {
@@ -225,50 +219,6 @@ class BlockDetail extends Component {
       });
   }
 
-  isValidHash(hash) {
-    const validHashLength = 66;
-    const indexVal = Number(hash);
-    if (hash && hash.length === validHashLength) {
-      return { isValid: true, type: 'hash' };
-    } else if (indexVal >= 0 && Number.isInteger(indexVal)) {
-      return { isValid: true, type: 'number' };
-    }
-    return { isValid: false };
-  }
-
-  searchHandler(e) {
-    e.preventDefault();
-    const { searchText } = this.state;
-    if (searchText && searchText !== '') {
-      const { isValid, type } = this.isValidHash(searchText);
-      if (isValid) {
-        this.setState({ isSearchActive: true });
-        if (type === 'number') {
-          this.getFantomBlocks(searchText);
-        } else if (type === 'hash') {
-          this.getFantomTransactionsFromApiAsync(searchText);
-        }
-
-        this.setState({
-          error: '',
-          isSearch: true,
-        });
-      } else {
-        this.setState({
-          blockData: [],
-          error: 'Please enter valid hash.',
-          isSearch: true,
-        });
-      }
-    } else {
-      this.setState({
-        blockData: [],
-        error: '',
-        isSearch: false,
-      });
-    }
-  }
-
   showDetail(blockNumber) {
     if (blockNumber === '') {
       return;
@@ -277,7 +227,7 @@ class BlockDetail extends Component {
   }
 
   renderBlockSearchView() {
-    const { error, searchText, blockData, isSearch } = this.state;
+    const { error, searchText, blockData } = this.state;
     if (error) {
       return <p className="text-white">{error}</p>;
     }
@@ -314,30 +264,14 @@ class BlockDetail extends Component {
     this.props.history.push('/blocks');
     this.setState({
       searchText: '',
-      isSearch: false,
+
       error: '',
     });
   };
 
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
-    const {
-      searchText,
-      blockData,
-      error,
-      allBlockData,
-      hasNextPage,
-      hasPrevPage,
-      isSearch,
-      currentPageVal,
-    } = this.state;
-
-    let blockNumberText = '';
-    let hashSymbol = '';
-    if (blockData && blockData.length) {
-      blockNumberText = blockData[0].height;
-      hashSymbol = '#';
-    }
+    const { searchText, blockData, currentPageVal } = this.state;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
@@ -356,7 +290,6 @@ class BlockDetail extends Component {
     return (
       <div>
         <Wrapper
-          searchHandler={(e) => this.searchHandler(e)}
           setSearchText={(e) => this.setSearchText(e)}
           searchText={searchText}
           onChangePage={this.onChangePage}

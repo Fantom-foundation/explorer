@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Table, Button } from 'reactstrap';
-import moment from 'moment';
-import { Title } from '../../components/coreComponent';
-import _ from 'lodash';
-import Header from 'views/components/header/header';
-import Footer from 'views/components/footer/footer';
+import { Row, Col, Table } from 'reactstrap';
 import HttpDataProvider from '../../../../app/utils/httpProvider';
-import TxBlockPagination from '../pagination/txBlockPagination';
-import TranactionBlockHeader from '../../components/header/tranactionBlockHeader';
+
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
-// import SearchForTransaction from '../../components/search/searchForTransaction/index';
 import { createSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
@@ -242,16 +235,8 @@ class Transactions extends Component {
   };
 
   render() {
-    const {
-      searchText,
-      transactionData,
-      hasNextPage,
-      currentPageVal,
-    } = this.state;
-    let txnHashText = '';
-    if (transactionData && transactionData.length) {
-      txnHashText = transactionData[0].transaction_hash;
-    }
+    const { searchText, currentPageVal } = this.state;
+
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;

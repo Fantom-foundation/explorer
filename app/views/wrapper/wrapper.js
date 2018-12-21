@@ -5,6 +5,7 @@ import TransactionHeader from '../components/header/tranactionBlockHeader';
 import SearchBar from '../components/search/searchBar/index';
 import TitleIcon from '../../images/icons/latest-blocks.svg';
 import TxBlockPagination from '../containers/pagination/txBlockPagination';
+
 import {
   Container,
   Button,
