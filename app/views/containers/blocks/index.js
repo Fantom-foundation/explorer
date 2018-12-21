@@ -238,6 +238,7 @@ class Blocks extends Component {
           currentPage={this.state.currentPageVal}
           history={history}
           placeHolder="Search by Transaction Hash / Block Number"
+          pagination
         >
           {this.state.error ? (
             <p className="text-white">{this.state.error}</p>

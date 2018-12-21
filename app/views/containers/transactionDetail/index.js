@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Web3 from 'web3';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import SearchForTransaction from '../../components/search/searchForTransaction/index';
 import { createSelector } from 'reselect';
@@ -7,7 +7,8 @@ import { connect } from 'react-redux';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
-import Web3 from 'web3';
+
+import HttpDataProvider from '../../../../app/utils/httpProvider';
 
 class TransactionDetail extends Component {
   static getDerivedStateFromProps(props, state) {
@@ -288,7 +289,7 @@ class TransactionDetail extends Component {
             title="Transactions"
             block={descriptionBlock}
             total={totalBlocks}
-            isRoute
+            pagination={false}
             currentPage={this.state.currentPageVal}
             setSearchText={(e) => this.setSearchText(e)}
             searchText={searchText}

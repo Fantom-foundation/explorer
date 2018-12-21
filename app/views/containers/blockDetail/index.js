@@ -297,7 +297,7 @@ class BlockDetail extends Component {
           title="Blocks"
           block={descriptionBlock}
           total={totalBlocks}
-          isRoute
+          pagination={false}
           onShowList={this.onShowList}
           history={this.props.history}
           currentPage={this.state.currentPageVal}
