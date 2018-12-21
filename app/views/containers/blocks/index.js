@@ -39,34 +39,10 @@ class Blocks extends Component {
     };
 
     this.maxPageVal = 0;
-
-    this.showDetail = this.showDetail.bind(this);
   }
 
-  setSearchText(e) {
-    this.setState({
-      searchText: e.target.value,
-    });
-
-    if (e.target.value === '') {
-      this.setState({
-        error: '',
-        isSearch: false,
-        blockData: [],
-      });
-    }
-  }
   static getDerivedStateFromProps(props, state) {
-    // if (state.error) {
-    //   return {
-    //     ...state,
-    //     error: '',
-    //   };
-    // }
     if (props.match.params.id) {
-      // if (state.isSearch) {
-      //   return { ...state, isRoute: false };
-      // }
       if (props.location.state) {
         const data = [
           {
@@ -87,6 +63,20 @@ class Blocks extends Component {
       isSearch: false,
       isRoute: false,
     };
+  }
+
+  setSearchText(e) {
+    this.setState({
+      searchText: e.target.value,
+    });
+
+    if (e.target.value === '') {
+      this.setState({
+        error: '',
+        isSearch: false,
+        blockData: [],
+      });
+    }
   }
 
   onChangePage = (type) => {
@@ -169,98 +159,8 @@ class Blocks extends Component {
     }
   };
 
-  /**
-   * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-   * @param {*} responseJson : Json of block response data from Api.
-   */
-  loadFantomBlockData(allData) {
-    const result = allData.payload;
-    let blockData = [];
-    const txLength =
-      allData.payload.transactions !== null
-        ? allData.payload.transactions.length
-        : 0;
-    blockData.push({
-      height: result.index,
-      hash: result.hash,
-      round: result.round,
-      transactions: txLength,
-    });
-    this.props.history.push({
-      pathname: `/blocks/${result.index}`,
-      state: {
-        data: {
-          height: result.index,
-          hash: result.hash,
-          round: result.round,
-          transactions: txLength,
-        },
-        type: 'block',
-      },
-    });
-    blockData = blockData.reverse();
-    this.setState({
-      blockData,
-    });
-  }
-
-  /**
-   * getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-   * @param {String} searchBlockIndex : Index to fetch block.
-   */
-  getFantomBlocks(searchText) {
-    const searchQuery = `index:${searchText}`;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
-      query: `
-          {
-           block(${searchQuery}) {
-            id,payload
-          }
-          }`,
-    })
-      .then((response) => {
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.block
-        ) {
-          this.loadFantomBlockData(response.data.data.block);
-        } else {
-          this.setState({
-            blockData: [],
-            error: 'No Record Found',
-          });
-        }
-      })
-      .catch((error) => {
-        this.setState({
-          blockData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
-
-  showDetail(blockNumber) {
-    if (blockNumber === '') {
-      return;
-    }
-    this.props.history.push(`/block/${blockNumber}`); // eslint-disable-line
-  }
-
   renderBlockList() {
-    const {
-      isSearch,
-      blockArray,
-      currentPage,
-      isRoute,
-      currentPageVal,
-    } = this.state;
-    const { blockData } = this.props.blockDetails;
-    console.log(
-      ' this.props.blockDetails',
-      this.props.blockDetails.allBlockData
-    );
+    const { currentPageVal } = this.state;
     const from = currentPageVal * 10;
     const to = from + 10;
 
@@ -302,9 +202,6 @@ class Blocks extends Component {
                         >
                           <span className="icon icon-block">{data.height}</span>
                         </td>
-                        {/* <td className="">
-                        {moment(parseInt(data.timestamp, 10)).fromNow()}
-                      </td> */}
                         <td
                           data-head="Txn"
                           className="text-primary full-wrap txn"
@@ -344,28 +241,12 @@ class Blocks extends Component {
 
   render() {
     const blocks = this.state.blockArray; // eslint-disable-line
-    const {
-      searchText,
-      blockData,
-      error,
-      allBlockData,
-      hasNextPage,
-      hasPrevPage,
-      isSearch,
-      isRoute,
-      currentPageVal,
-    } = this.state;
-
-    let blockNumberText = '';
-    let hashSymbol = '';
-    if (blockData && blockData.length) {
-      blockNumberText = blockData[0].height;
-      hashSymbol = '#';
-    }
+    const { searchText, isSearch, isRoute, currentPageVal } = this.state;
     let descriptionBlock = '';
     const from = currentPageVal * 10;
     const to = from + 10;
     let totalBlocks = '';
+
     if (this.props.blockDetails && this.props.blockDetails.allBlockData) {
       const transformedBlockArray = this.props.blockDetails.allBlockData.slice(
         from,
@@ -388,13 +269,10 @@ class Blocks extends Component {
           firstBlock.height
         } `;
       }
-
-      //
     }
     return (
       <div>
         <Wrapper
-          searchHandler={(e) => this.searchHandler(e)}
           setSearchText={(e) => this.setSearchText(e)}
           searchText={searchText}
           onChangePage={this.onChangePage}

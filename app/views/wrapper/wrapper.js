@@ -7,9 +7,6 @@ import TitleIcon from '../../images/icons/latest-blocks.svg';
 import TxBlockPagination from '../containers/pagination/txBlockPagination';
 import {
   Container,
-  Row,
-  Col,
-  Table,
   Button,
   Modal,
   ModalHeader,
@@ -39,8 +36,6 @@ class Wrapper extends Component {
 
   searchHandler(e) {
     e.preventDefault();
-    // this.props.searchHandler(e)
-    console.log('searchHandler');
     const { searchText } = this.props;
 
     if (searchText && searchText !== '') {
@@ -52,29 +47,14 @@ class Wrapper extends Component {
           this.props.history.push({
             pathname: `/blocks/${searchText}`,
           });
-          // this.getFantomBlocks(searchText);
         } else if (type === 'hash') {
           this.props.history.push({
             pathname: `/transactions/${searchText}`,
           });
-          // this.getFantomTransactionsFromApiAsync(searchText);
         }
       } else {
-        // alert('Please enter valid block number or transaction hash.');
         this.toggle();
-
-        // this.setState({
-        //   blockData: [],
-        //   error: 'Please enter valid hash.',
-        //   isSearch: true,
-        // });
       }
-    } else {
-      // this.setState({
-      //   blockData: [],
-      //   error: '',
-      //   isSearch: false,
-      // });
     }
   }
 
