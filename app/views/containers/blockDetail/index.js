@@ -53,7 +53,7 @@ class BlockDetail extends Component {
   getFantomBlocks(searchText) {
     const searchQuery = `index:${searchText}`;
 
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
       query: `
           {
            block(${searchQuery}) {

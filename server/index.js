@@ -47,7 +47,7 @@ fs.readdirSync(`${__dirname}/controllers`).forEach((file) => {
     router = require(pathToController)(app);
     app.use(pathToController, rMyRoute);
   }
-  db.sync();
+  // db.sync();
 });
 
 app.post('/api/hello', (req, res) => {

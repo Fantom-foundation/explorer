@@ -53,7 +53,7 @@ class Blocks extends Component {
     const cursor = allBlockData[allBlockData.length - 1].cursor;
     if (type === 'next' && this.maxPageVal < updatePageVal) {
       if (true) {
-        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+        HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
           query: `
           {
             blocks(first: 10, byDirection: "desc", after: "${cursor}") {

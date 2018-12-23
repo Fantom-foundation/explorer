@@ -47,7 +47,7 @@ class TransactionDetail extends Component {
   getFantomTransactionsFromApiAsync(searchTransactionHash) {
     const transactionHash = `"${searchTransactionHash}"`;
 
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
       query: `
       query{
         transaction(hash: ${transactionHash}) {
@@ -100,7 +100,12 @@ class TransactionDetail extends Component {
    */
   loadFantomTransactionData(result) {
     const transactionData = [];
-    const newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
+    console.log('result.value', result);
+    let newVal = '';
+    if (result.value) {
+      newVal = Web3.utils.fromWei(`${result.value}`, 'ether');
+    }
+
     transactionData.push({
       transaction_hash: result.hash,
       Block_id: '',

@@ -57,7 +57,7 @@ class Transactions extends Component {
     const cursor = allBlockData[allBlockData.length - 1].cursor;
     if (type === 'next' && this.maxPageVal < updatePageVal) {
       if (true) {
-        HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+        HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
           query: `
           {
             blocks(first: 10, byDirection: "desc", after: "${cursor}") {
@@ -129,14 +129,18 @@ class Transactions extends Component {
       if (transformedBlockArray.length) {
         for (const block of transformedBlockArray) {
           block.transactions.forEach((transac) => {
-            const value = Web3.utils.fromWei(`${transac.value}`, 'ether');
-            newValue = Number(value).toFixed(4);
+            console.log(transac.value);
+            if (transac.value) {
+              const value = Web3.utils.fromWei(`${transac.value}`, 'ether');
+              newValue = Number(value).toFixed(4);
+            }
+
             transformedArray.push({
               block_id: block.hash,
               address_from: transac.from,
               transaction_hash: transac.transactionHash,
               address_to: transac.to,
-              value,
+              value: newValue,
               gasUsed: transac.gas,
               cumulativeGasUsed: transac.cumulativeGasUsed,
               contractAddress: transac.contractAddress,
@@ -201,7 +205,7 @@ class Transactions extends Component {
                         {data.address_to}
                       </td>
                       <td data-head="Value" className="half">
-                        <span className="o-5">{newValue}</span>
+                        <span className="o-5">{data.value}</span>
                       </td>
                     </tr>
                   ))}

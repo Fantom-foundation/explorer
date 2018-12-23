@@ -36,7 +36,7 @@ class LatestTransactions extends React.Component {
 
   render() {
     const transactions = this.props.blockDetails.allBlockData.slice(0, 9);
-    const transformedArray = [];
+    let transformedArray = [];
     let value = '';
 
     let transactionArr = [];
@@ -67,6 +67,8 @@ class LatestTransactions extends React.Component {
         });
       }
     }
+
+    transformedArray = transformedArray.slice(0, 10);
     return (
       <Col xs={12} md={6} className="left">
         <div className="header">

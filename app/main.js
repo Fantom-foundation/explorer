@@ -64,7 +64,7 @@ class Main extends React.Component {
     const { setBlocksData } = this.props;
 
     const initialValue = 30;
-    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
       query: `
     {
       blocks(first: ${initialValue}, by: "index", byDirection: "desc") {
