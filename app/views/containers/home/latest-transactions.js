@@ -37,30 +37,31 @@ class LatestTransactions extends React.Component {
   render() {
     const transactions = this.props.blockDetails.allBlockData.slice(0, 9);
     let transformedArray = [];
-    let value = '';
-
     let transactionArr = [];
+    let newValue = '';
+    let valueOnClick = '';
     if (transactions.length) {
       for (const block of transactions) {
         block.transactions.forEach((transac) => {
-          value = `${transac.value}` || '--';
-          if (transac.value !== '--') {
-            value = Web3.utils.fromWei(`${value}`, 'ether');
-            value = Number(value).toFixed(4);
+          if (transac.value) {
+            const ftmValue = Web3.utils.fromWei(`${transac.value}`, 'ether');
+            valueOnClick = ftmValue;
+            newValue = Number(ftmValue).toFixed(4);
           }
-          const newVal = Web3.utils.fromWei(`${transac.value}`, 'ether');
+
           transactionArr = {
             block_id: block.hash,
             address_from: transac.from,
             transaction_hash: transac.transactionHash,
             address_to: transac.to,
-            value: newVal,
+            value: valueOnClick,
             gasUsed: transac.gas,
             cumulativeGasUsed: transac.cumulativeGasUsed,
             contractAddress: transac.contractAddress,
             root: transac.root,
             logsBloom: transac.logsBloom,
             status: transac.status,
+            homePageValue: newValue,
           };
 
           transformedArray.push(transactionArr);
@@ -125,7 +126,9 @@ class LatestTransactions extends React.Component {
                   <p className="mb-0">
                     <span className="text-white">Amount </span>
                     &nbsp;
-                    <span className="text-primary">{value.toString()} FTM</span>
+                    <span className="text-primary">
+                      {data.homePageValue} FTM
+                    </span>
                   </p>
                   {/* <p className="time-date text-white">
                     {moment(parseInt(data.createdAt, 10)).fromNow()}
