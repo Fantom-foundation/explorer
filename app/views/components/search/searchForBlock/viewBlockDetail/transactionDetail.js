@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Col, Table } from 'reactstrap';
 import Web3 from 'web3';
+import { toFixed } from '../../../../../common/utility';
 
 /**
  * TransactionDetail :  A component meant for displaying details of Transaction.
@@ -26,18 +27,51 @@ class TransactionDetail extends Component {
         value = txData.value + '' || '--';
         if (value !== '--') {
           value = Web3.utils.fromWei(`${value}`, 'ether');
-          value = Number(value).toFixed(4);
+          const valToNum = Number(value);
+          value = toFixed(valToNum, 4);
         }
         gasUsed = txData.gasUsed + '' || '--';
 
         return (
           <tr key={index}>
-            {<td data-head="TxHash" className="text-primary full head text-ellipsis"><span className="icon icon-transaction">{transaction_hash}</span></td>}
-            {<td data-head="Block" className="text-primary half text-ellipsis">{block_id}</td>}
-            {<td data-head="From" className="text-primary half text-ellipsis">{address_from}</td>}
-            {<td data-head="To" className="text-primary half text-ellipsis">{address_to}</td>}
-            {<td data-head="Value" className="text-primary half text-ellipsis">{value} FTM</td>}
-            {<td data-head="gasUsed" className="text-primary half text-ellipsis">{gasUsed}</td>}
+            {
+              <td
+                data-head="TxHash"
+                className="text-primary full head text-ellipsis"
+              >
+                <span className="icon icon-transaction">
+                  {transaction_hash}
+                </span>
+              </td>
+            }
+            {
+              <td data-head="Block" className="text-primary half text-ellipsis">
+                {block_id}
+              </td>
+            }
+            {
+              <td data-head="From" className="text-primary half text-ellipsis">
+                {address_from}
+              </td>
+            }
+            {
+              <td data-head="To" className="text-primary half text-ellipsis">
+                {address_to}
+              </td>
+            }
+            {
+              <td data-head="Value" className="text-primary half text-ellipsis">
+                {value} FTM
+              </td>
+            }
+            {
+              <td
+                data-head="gasUsed"
+                className="text-primary half text-ellipsis"
+              >
+                {gasUsed}
+              </td>
+            }
           </tr>
         );
       });

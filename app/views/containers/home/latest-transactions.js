@@ -10,7 +10,7 @@ import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import transactionIcon from '../../../images/icons/transactions.svg';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
-
+import { toFixed } from '../../../common/utility';
 /**
  * @class LatestTransactions : To display list of latest transactions.
  */
@@ -46,7 +46,8 @@ class LatestTransactions extends React.Component {
           if (transac.value) {
             const ftmValue = Web3.utils.fromWei(`${transac.value}`, 'ether');
             valueOnClick = ftmValue;
-            newValue = Number(ftmValue).toFixed(4);
+            const value = Number(ftmValue);
+            newValue = toFixed(value, 4);
           }
 
           transactionArr = {

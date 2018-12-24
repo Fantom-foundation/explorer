@@ -8,6 +8,7 @@ import TitleIcon from '../../../images/icons/latest-transaction.svg';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 import { setBlockData } from '../../controllers/blocks/action';
+import { toFixed } from '../../../common/utility';
 
 class Transactions extends Component {
   constructor(props) {
@@ -129,10 +130,10 @@ class Transactions extends Component {
       if (transformedBlockArray.length) {
         for (const block of transformedBlockArray) {
           block.transactions.forEach((transac) => {
-            console.log(transac.value);
             if (transac.value) {
               const value = Web3.utils.fromWei(`${transac.value}`, 'ether');
-              newValue = Number(value).toFixed(4);
+              const valueToNum = Number(value);
+              newValue = toFixed(valueToNum, 4);
             }
 
             transformedArray.push({
@@ -205,7 +206,7 @@ class Transactions extends Component {
                         {data.address_to}
                       </td>
                       <td data-head="Value" className="half">
-                        <span className="o-5">{data.value}</span>
+                        <span className="o-5">{data.value} FTM</span>
                       </td>
                     </tr>
                   ))}
