@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 26"  width="26" heigth="26"><defs><style>.cls-1{fill:#fff;}</style></defs><title>asset</title><path class="cls-1" d="M13,26A13,13,0,1,1,26,13,13,13,0,0,1,13,26ZM13,1A12,12,0,1,0,25,13,12,12,0,0,0,13,1Z"/><circle class="cls-1" cx="13" cy="13" r="2.04"/><circle class="cls-1" cx="18.47" cy="13" r="2.04"/><circle class="cls-1" cx="7.53" cy="13" r="2.04"/></svg>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 27.7 27.7" width='27' height='27' style="enable-background:new 0 0 27.7 27.7;" xml:space="preserve">
+<style type="text/css">
+    .st0{fill:#FFFFFF;}
+</style>
+
+<circle class="st0" cx="19.3" cy="13.8" r="2"/>
+<circle class="st0" cx="8.4" cy="13.8" r="2"/>
+<path class="st0" d="M13.8,26.8c-7.2,0-13-5.8-13-13s5.8-13,13-13s13,5.8,13,13S21,26.8,13.8,26.8z M13.8,1.8c-6.6,0-12,5.4-12,12
+    s5.4,12,12,12s12-5.4,12-12S20.5,1.8,13.8,1.8z"/>
+<circle class="st0" cx="13.8" cy="13.8" r="2"/>
+</svg>
