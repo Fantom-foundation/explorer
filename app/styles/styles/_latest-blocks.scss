@@ -35,12 +35,13 @@
 
       @media (max-width: 991px) {
         height: auto;
+        padding: 10px;
         padding-left: 30px;
         font: {
           size: 14px;
         }
         background: {
-          size: auto 100%;
+          size: 23px;
         }
       }
       @media (max-width: 767px) {
@@ -53,16 +54,16 @@
           size: 12px;
         }
       }
-      &.l-b {
-        @media (max-width: 991px) {
-          padding-left: 24px;
-        }
-      }
+      // &.l-b {
+      //   @media (max-width: 991px) {
+      //     padding-left: 35px;
+      //   }
+      // }
     }
 
     .btn {
       padding: 3px 16px;
-      box-shadow: 0 0 0 0.5px #fff;
+      box-shadow: 0 0 0 1px rgba(#fff,.5 );
       font: {
         family: Roboto;
         size: 16px;
@@ -134,10 +135,11 @@
     .details {
       cursor: pointer;
       border-radius: 3.8px;
-      box-shadow: 0 0 0 0.5px #fff;
+      box-shadow: 0 0 0 1px rgba(#fff,.5 );
       padding: 14px 18px 16px;
       margin-bottom: 9px;
-
+      border-collapse: separate;
+      
       @media (min-width: 992px) {
         min-height: 130px;
       }
@@ -145,12 +147,19 @@
         padding: 8px 9px;
         margin-bottom: 5px;
       }
+
+      span{
+        display: inline;
+      }
+
       .s-to-r {
         display: -ms-flexbox;
         display: flex;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
         margin-bottom: 16px;
+        
+        
         @media (max-width: 991px) {
           margin-bottom: 9px;
         }
@@ -160,7 +169,12 @@
         }
         p {
           padding-right: 20px;
+          color:map-get($color, primary);
           @include responsive-width(50%);
+
+          span{
+            display: inline;
+          }
         }
       }
       .ammount-date {
@@ -172,11 +186,15 @@
         &.ico {
           padding-left: 28px;
           background: {
-            size: auto 100%;
+            // size: auto 100%;
+            size: 20px;
             repeat: no-repeat;
           }
           @media (max-width: 767px) {
             padding-left: 23px;
+            background: {
+              size: 17px;
+            }
           }
         }
         &.tx-holder {
