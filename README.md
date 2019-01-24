@@ -18,6 +18,9 @@ For our stack we are using
 ```
 $ npm install
 ```
+## Code Quality
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a152f6c9bae64406926231e312720f09)](https://www.codacy.com/app/Fantom/explorer?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Fantom-foundation/explorer&amp;utm_campaign=Badge_Grade)
 
 ## Build
 Run the App.
