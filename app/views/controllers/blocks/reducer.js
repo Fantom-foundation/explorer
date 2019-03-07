@@ -22,7 +22,14 @@ function formatBlocksData(state = defaultState, action) {
   const allBlockData = [];
 
   edges.blocksDetails.forEach((val) => {
-    const { hash, index, stateHash, transactions, round } = val.node.payload;
+    const {
+      hash,
+      index,
+      stateHash,
+      transactions,
+      round,
+      createdTime,
+    } = val.node.payload;
 
     // eslint-disable-next-line no-undef
     val.node.payload.transactions.forEach((transac) => {
@@ -48,6 +55,7 @@ function formatBlocksData(state = defaultState, action) {
       round,
       transactions,
       cursor: val.cursor,
+      createdTime,
     });
   });
   if (state && state.allBlockData) {
