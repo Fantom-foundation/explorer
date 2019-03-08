@@ -17,6 +17,14 @@ import moment from 'moment';
  */
 
 class SearchForBlock extends Component {
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.forceUpdate();
+    }, 2000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
   showDetail(height, transactions) {
     if (transactions <= 0) {
       return;
@@ -26,6 +34,7 @@ class SearchForBlock extends Component {
       showDetail(height);
     }
   }
+
   render() {
     const { blocks } = this.props; // eslint-disable-line
     let height = '';

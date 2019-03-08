@@ -22,8 +22,16 @@ class HomePage extends Component {
       latestBlocksArr: [],
     };
   }
-
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.forceUpdate();
+    }, 2000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
   render() {
+    console.log('Hello!@@@');
     const { blockDetails, history } = this.props;
     const { latestTransactions, allBlockData } = blockDetails;
     if (blockDetails && latestTransactions) {
