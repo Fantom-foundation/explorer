@@ -100,6 +100,7 @@ class BlockDetail extends Component {
       hash: result.hash,
       round: result.round,
       transactions: txLength,
+      createdTime: result.createdTime,
     });
 
     this.setState({

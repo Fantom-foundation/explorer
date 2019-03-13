@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom';
 import { Title } from 'views/components/coreComponent/index';
 import TitleIcon from '../../../images/icons/latest-blocks.svg';
 import blockIcon from '../../../images/icons/block.svg';
+import moment from 'moment';
 
 /**
  * @method onBlockClick() :  Function to show block details
  * @param {object} data : Block detail object
  */
 function onBlockClick(props, data) {
+  console.log('Data****', data);
   props.history.push({
     pathname: `/blocks/${data.height}`,
     state: { data, type: 'block' },
@@ -70,9 +72,9 @@ export default function LatestBlocks(props) {
                   &nbsp;
                   <span className="text-primary">{data.transactionLength}</span>
                 </p>
-                {/* <p className="time-date text-white">
-                  {moment(parseInt(data.timestamp, 10)).fromNow()}
-                </p> */}
+                <p className="time-date text-white">
+                  {moment(new Date(data.createdTime * 1000)).fromNow()}
+                </p>
               </div>
             </Col>
           ))}

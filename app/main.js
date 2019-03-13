@@ -75,7 +75,8 @@ class Main extends React.Component {
           cursor,
           node {
             id,
-            payload
+            payload,
+            created
           }
         }
       }

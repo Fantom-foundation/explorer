@@ -10,6 +10,8 @@ import { setBlockData } from '../../controllers/blocks/action';
 import { getBlockUpdateDetails } from '../../controllers/blocks/selector';
 import Wrapper from '../../wrapper/wrapper';
 
+import moment from 'moment';
+
 class Blocks extends Component {
   constructor(props) {
     super(props);
@@ -112,6 +114,14 @@ class Blocks extends Component {
     });
   }
 
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.forceUpdate();
+    }, 2000);
+  }
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
   /**
    * @method renderBlockList() :  Function to render all list of blocks
    */
@@ -131,7 +141,7 @@ class Blocks extends Component {
               <thead>
                 <tr>
                   <th>Height</th>
-                  {/* <th>Age</th> */}
+                  <th>Time</th>
                   <th>Txn</th>
                   <th>hash</th>
                   <th>Round</th>
@@ -152,6 +162,12 @@ class Blocks extends Component {
                     >
                       <td data-head="Height" className="text-primary full head">
                         <span className="icon icon-block">{data.height}</span>
+                      </td>
+                      <td
+                        data-head="Txn"
+                        className="text-primary full-wrap txn"
+                      >
+                        {moment(new Date(data.createdTime * 1000)).fromNow()}
                       </td>
                       <td
                         data-head="Txn"
