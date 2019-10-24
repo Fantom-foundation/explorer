@@ -64,24 +64,25 @@ class Main extends React.Component {
     const { setBlocksData } = this.props;
 
     const initialValue = 30;
-    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
-      query: `
-    {
-      blocks(first: ${initialValue}, by: "index", byDirection: "desc") {
-        pageInfo {
-          hasNextPage
-        }
-        edges {
-          cursor,
-          node {
-            id,
-            payload,
-            created
-          }
-        }
-      }
-    }`,
-    })
+    // HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
+    //   query: `
+    // {
+    //   blocks(first: ${initialValue}, by: "index", byDirection: "desc") {
+    //     pageInfo {
+    //       hasNextPage
+    //     }
+    //     edges {
+    //       cursor,
+    //       node {
+    //         id,
+    //         payload,
+    //         created
+    //       }
+    //     }
+    //   }
+    // }`,
+    // })
+    Promise.reject([])
       .then(
         (res) => {
           if (res && res.data) {
@@ -102,12 +103,12 @@ class Main extends React.Component {
           }
           return null;
         },
-        () => {
-          console.log('1');
-        }
       )
       .catch(() => {
         console.log('error');
+        setBlocksData({
+          payload: [],
+        });
       });
   }
   render() {
