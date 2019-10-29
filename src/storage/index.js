@@ -3,8 +3,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'connected-react-router/immutable';
-
 import createSagaMiddleware from 'redux-saga';
+
+import type { Map } from 'immutable';
 
 import createReducer from './reducers';
 import { loadState, persistMiddleware } from './localStorage';
@@ -40,22 +41,23 @@ export default function configureStore() {
     /* eslint-enable */
     const rootReducer = createReducer(history);
 
-    const store = createStore(
-        rootReducer,
-        persistedState,
-        composeEnhancers(...enhancers),
-    );
-
-    // Extensions
-    store.runSaga = sagaMiddleware.run;
-    store.injectedReducers = {}; // Reducer registry
-    store.injectedSagas = {}; // Saga registry
+    const store = {
+        ...createStore<Map<mixed, mixed>, mixed, any>( // TODO: correct flow store types
+            rootReducer,
+            persistedState,
+            composeEnhancers(...enhancers),
+        ),
+        // Extensions
+        runSaga: sagaMiddleware.run,
+        injectedReducers: {},
+        injectedSagas: {},
+    };
 
     // Make reducers hot reloadable, see http://mxs.is/googmo
 
     if (module.hot) {
         module.hot.accept('./reducers', () => {
-            store.replaceReducer(createReducer(store.injectedReducers));
+            store.replaceReducer(createReducer(history, store.injectedReducers));
         });
     }
 

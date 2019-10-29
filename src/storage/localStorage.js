@@ -1,25 +1,25 @@
 // @flow
 
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
-import type { Map } from 'immutable';
+import type { Map as MapType } from 'immutable';
 import type { Middleware } from 'redux';
 
-export const loadState = (): ?mixed => {
+export const loadState = (): MapType<mixed, mixed> => {
     try {
         const serializedState = localStorage.getItem('state');
 
         if (serializedState === null || serializedState === undefined) {
-            return undefined;
+            return Map();
         }
 
         return fromJS(JSON.parse(serializedState));
     } catch (err) {
-        return undefined;
+        return Map();
     }
 };
 
-const saveState = (state: Map<mixed, mixed>) => {
+const saveState = (state: MapType<mixed, mixed>) => {
     try {
         const objState = state.filter((_, key) => !['router'].includes(key)).toJS();
         const serializedState = JSON.stringify(objState);
@@ -30,7 +30,7 @@ const saveState = (state: Map<mixed, mixed>) => {
     }
 };
 
-export const persistMiddleware: Middleware<Map<mixed, mixed>, any> = (store) => (next) => (action) => {
+export const persistMiddleware: Middleware<MapType<mixed, mixed>, any> = (store) => (next) => (action) => {
     next(action);
     saveState(store.getState());
 };
