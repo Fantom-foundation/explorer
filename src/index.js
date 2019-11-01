@@ -2,16 +2,29 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import { translationMessages } from './i18n';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router/immutable';
 
+import configureStore, { history } from 'src/storage';
+
+// import { translationMessages } from './i18n';
 import Main from './main';
 
 import './global-style';
 
 const MOUNT_NODE = document.getElementById('root');
+const store = configureStore();
+
+const Root = () => (
+    <Provider store={store}>
+        <ConnectedRouter history={history}>
+            <Main />
+        </ConnectedRouter>
+    </Provider>
+);
 
 if (MOUNT_NODE) {
-    ReactDOM.render(<Main />, MOUNT_NODE);
+    ReactDOM.render(<Root />, MOUNT_NODE);
 } else {
     console.log('Element with id "root" not found.');
 }

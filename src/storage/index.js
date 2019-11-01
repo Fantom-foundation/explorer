@@ -9,8 +9,16 @@ import type { Map } from 'immutable';
 
 import createReducer from './reducers';
 import { loadState, persistMiddleware } from './localStorage';
+import { rootSaga } from 'src/storage/sagas';
+import ApiProvider from 'src/utils/web3Provider';
 
-const sagaMiddleware = createSagaMiddleware();
+const api = new ApiProvider();
+
+const sagaMiddleware = createSagaMiddleware({
+    context: {
+        api,
+    },
+});
 const persistedState = loadState();
 
 export const history = createBrowserHistory();
@@ -33,7 +41,7 @@ export default function configureStore() {
         process.env.NODE_ENV !== 'production' && typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
             ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
                 // TODO Try to remove when `react-router-redux` is out of beta, LOCATION_CHANGE should not be fired more than once after hot reloading
-                // Prevent recomputing reducers for `replaceReducer`
+                // Prevent recomputing reducers.js for `replaceReducer`
                 shouldHotReload: false,
             })
             : compose;
@@ -53,7 +61,9 @@ export default function configureStore() {
         injectedSagas: {},
     };
 
-    // Make reducers hot reloadable, see http://mxs.is/googmo
+    store.runSaga(rootSaga);
+
+    // Make reducers.js hot reloadable, see http://mxs.is/googmo
 
     if (module.hot) {
         module.hot.accept('./reducers', () => {

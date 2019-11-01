@@ -1,21 +1,17 @@
 // @flow
 
 import React from 'react';
-import { connect, Provider } from 'react-redux';
 import { createSelector } from 'reselect';
-import { ConnectedRouter } from 'connected-react-router/immutable';
 
 // import { setBlockData } from './views/controllers/blocks/action';
 // import { getBlockUpdateDetails } from './views/controllers/blocks/selector';
 // import { getRealtimeUpdateDetails } from './views/controllers/realtime-blockchain-update/selector';
 
-import configureStore, { history } from 'src/storage';
-
 import Routes from 'src/routes';
+import Header from 'src/views/components/header/header';
+import Footer from 'src/views/components/footer/footer';
 
-const store = configureStore();
-
-class Main extends React.Component<{}> {
+export default function Main() {
     // constructor(props) {
     //   super(props);
     //   this.getBlockData = this.getBlockData.bind(this);
@@ -107,17 +103,15 @@ class Main extends React.Component<{}> {
     //       });
     //     });
     // }
+    // const { setBlockData, store } = this.props;
 
-    render() {
-        // const { setBlockData, store } = this.props;
-        return (
-            <Provider store={store}>
-                <ConnectedRouter history={history}>
-                    <Routes />
-                </ConnectedRouter>
-            </Provider>
-        );
-    }
+    return (
+        <>
+            <Header />
+            <Routes />
+            <Footer />
+        </>
+    );
 }
 
 // Main.propTypes = {
@@ -136,5 +130,3 @@ class Main extends React.Component<{}> {
 //     mapStateToProps,
 //     mapDispatchToProps
 // )(Main);
-
-export default Main;

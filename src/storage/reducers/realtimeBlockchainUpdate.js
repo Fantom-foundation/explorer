@@ -1,19 +1,27 @@
-import { fromJS } from 'immutable';
+// @flow
+
+import { fromJS, Map } from 'immutable';
 import { SET_REALTIME_UPDATE } from '../constants';
 
+import type { RealTimeUpdateAction } from 'src/storage/types';
+
 const initialState = fromJS({
-  realtimeUpdate: {
-    isRealtimeUpdate: false,
-  },
+    realtimeUpdate: {
+        isRealtimeUpdate: false,
+    },
 });
 
-function realtimeUpdateReducer(state = initialState, action) {
-  switch (action.type) {
-    case SET_REALTIME_UPDATE:
-      return state.set('realtimeUpdate', action.realtimeUpdate);
-    default:
-      return state;
-  }
+function realtimeUpdateReducer(state = initialState, action: RealTimeUpdateAction) {
+    switch (action.type) {
+        case SET_REALTIME_UPDATE:
+            return state.mergeIn(['realtimeUpdate'], Map(action.realtimeUpdate));
+        default:
+            return state;
+    }
 }
 
 export default realtimeUpdateReducer;
+
+export {
+    initialState,
+};

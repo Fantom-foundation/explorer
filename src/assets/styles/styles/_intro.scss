@@ -6,9 +6,12 @@
 }
 .intro
 {
-   
+    padding-top: 90px;
+    padding-bottom: 27px;
+
     .container{
         position: relative;
+
         .icon{
             position: absolute;
             right: 0;
@@ -18,13 +21,15 @@
             z-index: -1;
         }
     }
+
     .line{
         @media (min-width:768px) {display: none;}
         hr{
             margin: 25px 0 15px;
         }
     }
-    .discription
+
+    .description
     {
         @media (min-width:992px) { @include responsive-width(calc(100% - 567px)) }
         .title,p { font: { family: 'Roboto';}}
@@ -33,7 +38,7 @@
             @media (max-width:991px) { font: { size: 55px; }}
             @media (max-width:767px) { font: { size: 45px; }}
             @media (max-width:567px) { font: { size: 35px; }}
-            }
+        }
         p {
             color: #d8d8d8;
             font: { size: 20px; weight: 400; }
@@ -45,7 +50,7 @@
     }
     .graph-info
     {
-        @media (min-width:992px) { 
+        @media (min-width:992px) {
             padding-top: 20px;
             @include responsive-width(567px);
         }
@@ -75,11 +80,11 @@
                 @media (max-width:567px) { font: { size: 12px; margin-bottom: 14px; }}
                 @media (max-width:400px) { font: { size: 10px; margin-bottom: 11px;}}
             }
-           
+
         }
     }
     .result-info
-    {   
+    {
         display: -ms-flexbox;
         display: flex;
         justify-content: space-between;
@@ -90,7 +95,7 @@
             }
         }
         .title
-        {    
+        {
             font: {
                 size: 16.8px;
             }

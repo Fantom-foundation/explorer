@@ -13,7 +13,7 @@ describe('configureStore', () => {
   });
 
   describe('injectedReducers', () => {
-    it('should contain an object for reducers', () => {
+    it('should contain an object for reducers.js', () => {
       expect(typeof store.injectedReducers).toBe('object');
     });
   });

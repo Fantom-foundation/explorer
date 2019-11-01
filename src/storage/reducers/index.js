@@ -1,7 +1,7 @@
 // @flow
 
 /**
- * Combine all reducers in this file and export the combined reducers.
+ * Combine all reducers.js in this file and export the combined reducers.js.
  */
 
 import { combineReducers } from 'redux-immutable';
