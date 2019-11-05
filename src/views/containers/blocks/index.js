@@ -228,19 +228,21 @@ class Blocks extends React.Component<BlocksProps, BlocksState> {
     };
 
     render() {
-        const { searchText, currentPageVal } = this.state;
+        const { searchText, currentPageVal, error } = this.state;
         const { blockDetails, historyPush } = this.props;
         let descriptionBlock = '';
         const from = currentPageVal * 10;
         const to = from + 10;
         let totalBlocks = '';
 
+        console.log(historyPush);
+
         if (blockDetails && blockDetails.allBlockData) {
             const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
-
             const {
                 blockDetails: { allBlockData },
             } = this.props;
+
             if (allBlockData.length) {
                 const firstBlock = allBlockData[0];
                 totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
@@ -248,11 +250,8 @@ class Blocks extends React.Component<BlocksProps, BlocksState> {
 
             if (transformedBlockArray && transformedBlockArray.length) {
                 const firstBlock = transformedBlockArray[0];
-                const lastBlock =
-                    transformedBlockArray[transformedBlockArray.length - 1];
-                descriptionBlock = `Block #${lastBlock.height} To #${
-                    firstBlock.height
-                } `;
+                const lastBlock = transformedBlockArray[transformedBlockArray.length - 1];
+                descriptionBlock = `Block #${ lastBlock.height } To #${ firstBlock.height } `;
             }
         }
 
@@ -267,13 +266,13 @@ class Blocks extends React.Component<BlocksProps, BlocksState> {
                     block={descriptionBlock}
                     total={totalBlocks}
                     onShowList={this.onShowList}
-                    currentPage={this.state.currentPageVal}
+                    currentPage={currentPageVal}
                     history={historyPush}
                     placeHolder="Search by Transaction Hash / Block Number"
                     pagination
                 >
-                    {this.state.error ? (
-                        <p className="text-white">{this.state.error}</p>
+                    {error ? (
+                        <p className="text-white">{error}</p>
                     ) : (
                         this.renderBlockList()
                     )}
@@ -288,9 +287,9 @@ const mapStateToProps = createSelector(
     (blockDetails) => ({ blockDetails })
 );
 
-const mapDispatchToProps = (dispatch) => ({
-    setBlocksData: (blockData) => dispatch(setBlockData(blockData)),
-    historyPush: (data) => dispatch(push(data)),
+const mapDispatchToProps = ({
+    setBlocksData: setBlockData,
+    historyPush: push,
 });
 
 export default connect(

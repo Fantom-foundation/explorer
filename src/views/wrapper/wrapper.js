@@ -43,11 +43,11 @@ class Wrapper extends React.Component<any, { modal: boolean }> { // TODO: compon
                 const { history: historyPush } = this.props;
 
                 if (type === 'number') {
-                    this.props.history.push({
+                    historyPush({
                         pathname: `/blocks/${searchText}`,
                     });
                 } else if (type === 'hash') {
-                    this.props.history.push({
+                    historyPush({
                         pathname: `/transactions/${searchText}`,
                     });
                 }

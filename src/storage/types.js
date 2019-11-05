@@ -1,5 +1,7 @@
 // @flow
 
+import type { Map } from 'immutable';
+
 import { SET_REALTIME_UPDATE } from './constants';
 
 type Transaction = {
@@ -44,3 +46,5 @@ export type BlocksState = {
 
 export type BlockAction = Action<'@@INIT'> | Action<string> & { blocksDetails?: Array<Node> };
 export type RealTimeUpdateAction = Action<'@@INIT'> | Action<SET_REALTIME_UPDATE> & { realtimeUpdate: { isRealtimeUpdate: boolean } }
+
+export type ReduxRootStateType = Map<any, any>;

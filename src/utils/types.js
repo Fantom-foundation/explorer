@@ -1,5 +1,7 @@
 // @flow
 
+import type { Map } from 'immutable';
+
 export type Transaction = {|
     blockHash: string,
     blockNumber: number,

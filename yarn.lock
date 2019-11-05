@@ -2605,9 +2605,9 @@ chardet@^0.7.0:
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
 "chokidar@>=2.0.0 <4.0.0":
-  version "3.2.2"
-  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.2.2.tgz#a433973350021e09f2b853a2287781022c0dc935"
-  integrity sha512-bw3pm7kZ2Wa6+jQWYP/c7bAZy3i4GwiIiMO2EeRjrE48l8vBqC/WvFhSF0xyM8fQiPEGvwMY/5bqDG7sSEOuhg==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.3.0.tgz#12c0714668c55800f659e262d4962a97faf554a6"
+  integrity sha512-dGmKLDdT3Gdl7fBUe8XK+gAtGmzy5Fn0XkkWQuYxGIgWVPPse2CxFA5mtrlD0TOHaHjEUqkWNyP1XdHoJES/4A==
   dependencies:
     anymatch "~3.1.1"
     braces "~3.0.2"
@@ -4615,9 +4615,9 @@ flatten@^1.0.2:
   integrity sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
 
 flow-bin@^0.111.0:
-  version "0.111.0"
-  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.111.0.tgz#dda5d07911df2268ef0f9061fb3c8d71bbb3bc3d"
-  integrity sha512-RQQMJ23r9zdGJjmYDoAoKqFy3TAudqbf/QGpsgsZvzMPg/qgIPK6e0hDLJe4aARR6B1+Gs0xBbVRBcFEFK8jyg==
+  version "0.111.1"
+  resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.111.1.tgz#bfc1ff91927d0500aa869b0b3a48dd4b060c15c0"
+  integrity sha512-fOFFy4rsvV4zYXUqpNY2bChpzEMYbmumO6DlbcpndbJIHY3W8+UzyiWb8+iRDf2ME1YJgTIvKSJCzHpQ40OBOQ==
 
 flush-write-stream@^1.0.0:
   version "1.1.1"
@@ -7937,9 +7937,9 @@ performance-now@^2.1.0:
   integrity sha1-Ywn04OX6kT7BxpMHrjZLSzd8nns=
 
 picomatch@^2.0.4:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.0.7.tgz#514169d8c7cd0bdbeecc8a2609e34a7163de69f6"
-  integrity sha512-oLHIdio3tZ0qH76NybpeneBhYVj0QFTfXEFTc/B3zKQspYfYYkWYgFsmzo+4kvId/bQRcNkVeguI3y+CD22BtA==
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.1.0.tgz#0fd042f568d08b1ad9ff2d3ec0f0bfb3cb80e177"
+  integrity sha512-uhnEDzAbrcJ8R3g2fANnSuXZMBtkpSjxTTgn2LeSiQlfmq72enQJWdQllXW24MBLYnA1SBD2vfvx2o0Zw3Ielw==
 
 pify@^2.0.0, pify@^2.3.0:
   version "2.3.0"
@@ -9689,9 +9689,9 @@ sass-loader@7.2.0:
     semver "^5.5.0"
 
 sass@^1.23.2:
-  version "1.23.2"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.23.2.tgz#eef0163c7670c80e8824ff75e76a5b4004fe2fd2"
-  integrity sha512-ZfOl81QxcWmjxOgjPbyog3uELzOxd4X9OaqEIAi9r/d2kEjtEYaMAD9a3E+xgjcKeP3NDLMhU9GB/WMv+rAeSw==
+  version "1.23.3"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.23.3.tgz#f07503b9e8d2bcf06ef69e8beea5d085589b1620"
+  integrity sha512-1DKRZxJMOh4Bme16AbWTyYeJAjTlrvw2+fWshHHaepeJfGq2soFZTnt0YhWit+bohtDu4LdyPoEj6VFD4APHog==
   dependencies:
     chokidar ">=2.0.0 <4.0.0"
 

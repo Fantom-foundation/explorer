@@ -9,7 +9,13 @@ import type { BlocksState, BlockAction } from '../types.js';
 
 const initialState = fromJS({
     blockDetails: {
-        allBlockData: [],
+        allBlockData: [{
+            hash: 0xd653ebade48c62391f6852de7b49fdfe28a15eda28c48bafb45b26def596a167,
+            height: 8877020,
+            round: 0,
+            transactionLength: 180,
+            createdTime: Date.now(),
+        }],
         latestTransactions: [],
     },
 });

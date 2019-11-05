@@ -13,11 +13,12 @@ import setBlockDataReducer from 'src/storage/reducers/blocks';
 import languageProviderReducer from 'src/views/containers/LanguageProvider/reducer';
 
 import type { BrowserHistory } from 'history';
+import type { Map } from 'immutable';
 
 /**
  * Creates the main reducer with the dynamically injected ones
  */
-export default function createReducer(history: BrowserHistory, injectedReducers: {} = {}) {
+export default function createReducer(history: BrowserHistory, injectedReducers: {} = {}): Map<any, any> { // TODO: set correct Redux State types
     return combineReducers({
         router: connectRouter(history),
         language: languageProviderReducer,

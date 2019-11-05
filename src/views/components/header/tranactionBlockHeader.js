@@ -41,6 +41,8 @@ export default class TranactionBlockHeader extends React.PureComponent<any, any>
             icon,
             onShowList,
             pagination,
+            currentPage,
+            onChangePage,
         } = this.props;
 
         return (
@@ -63,14 +65,14 @@ export default class TranactionBlockHeader extends React.PureComponent<any, any>
                         {pagination ? (
                             <TxBlockPagination
                                 className="mr-0"
-                                onChangePage={this.props.onChangePage}
-                                currentPage={this.props.currentPage}
+                                onChangePage={onChangePage}
+                                currentPage={currentPage}
                             />
                         ) : (
                             <Button
                                 color="white"
                                 className="list"
-                                onClick={() => onShowList()}
+                                onClick={onShowList}
                             >
                                 List
                             </Button>
