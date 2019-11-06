@@ -15,23 +15,20 @@ import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
 
 import ToggleToolTip from './toggleToolTip';
 
-type HomePageProps = {
-    blockDetails?: {
-        latestTransactions?: Array<any>,
+type HomePageProps = $ReadOnly<{|
+    blockDetails: ?{
         allBlockData?: Array<any>,
     },
-};
+|}>;
 
 function HomePage(props: HomePageProps) {
-    const {
-        blockDetails,
-        blockDetails: {
-            latestTransactions = [],
-            allBlockData = [],
-        } = {},
-    } = props;
+    const { blockDetails } = props;
 
-    if (blockDetails && latestTransactions) {
+    const {
+        allBlockData,
+    } = blockDetails || {};
+
+    if (blockDetails) {
         return (
             <div>
                 <section className="intro">
@@ -66,7 +63,7 @@ function HomePage(props: HomePageProps) {
                             <Col className="middle" xs={12}>
                                 <hr />
                             </Col>
-                            <LatestBlocks latestBlocksArr={allBlockData.slice(0, 10)} />
+                            <LatestBlocks latestBlocksArr={allBlockData && allBlockData.slice(0, 10)} />
                         </Row>
                     </Container>
                 </section>
@@ -82,4 +79,4 @@ const mapStateToProps = createSelector(
     (blockDetails) => ({ blockDetails })
 );
 
-export default connect(mapStateToProps)(HomePage);
+export default connect<HomePageProps, {||}, _, _, _, _>(mapStateToProps)(HomePage);

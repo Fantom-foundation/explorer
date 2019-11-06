@@ -1,201 +1,194 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import * as React from 'react';
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
-import HttpDataProvider from 'src/utils/httpProvider';
-import SearchForBlock from '../../components/search/searchForBlock/index';
+import { push, createMatchSelector } from 'connected-react-router/immutable';
+
+import SearchForBlock from 'src/views/components/search/searchForBlock/index';
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
-import { setBlockData } from '../../../storage/actions/blocks';
-import { getBlockUpdateDetails } from '../../../storage/selectors/blocks';
-import Wrapper from '../../wrapper/wrapper';
+import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
+import Wrapper from 'src/views/wrapper/wrapper';
 
-class BlockDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      blockData: [],
-      allBlockData: [],
-      error: '',
-    };
+import type { Match } from 'react-router-dom';
 
-    this.showDetail = this.showDetail.bind(this);
-    this.onShowList = this.onShowList.bind(this);
-    this.getFantomBlocks(props.match.params.id);
-  }
+type BlockDetailProps = {|
+    historyPush: (path: string) => void,
+    blockData: Array<string>,
+    match: Match,
+|};
 
-  componentDidUpdate(prevProps, prevState) {
-    const { match } = this.props;
-    if (match.params.id !== prevProps.match.params.id) {
-      this.getFantomBlocks(match.params.id);
-    }
-  }
+/**
+ *  Return block detail component
+ * @param props
+ * @returns {*}
+ * @constructor
+ */
 
-  /**
-   * @method onShowList():  Function to show list of blocks
-   */
-  onShowList() {
-    const { history } = this.props;
-    history.push('/blocks');
-  }
+function BlockDetail(props: BlockDetailProps) {
+    const {
+        historyPush,
+        blockData = [],
+        match,
+    } = props;
+    const { params: { id: blockHeight } } = match;
+    const [searchText, setSearchText] = React.useState('');
+    const [error, setError] = React.useState('');
 
-  setSearchText(e) {
-    this.setState({
-      searchText: e.target.value,
-    });
-  }
+    const setSearchTextCallback = React.useCallback((e: SyntheticEvent<HTMLInputElement>) => {
+        const { value } = e.currentTarget;
 
-  /**
-   * @method getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
-   * @param {String} searchText : Text to fetch block.
-   */
-  getFantomBlocks(searchText) {
-    const searchQuery = `index:${searchText}`;
+        setSearchText(value);
+    }, []);
 
-    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
-      query: `
-          {
-           block(${searchQuery}) {
-            id,payload
-          }
-          }`,
-    })
-      .then((response) => {
-        if (
-          response &&
-          response.data &&
-          response.data.data &&
-          response.data.data.block
-        ) {
-          this.loadFantomBlockData(response.data.data.block);
-        } else {
-          this.setState({
-            blockData: [],
-            error: 'No Record Found',
-          });
+    const showDetail = React.useCallback((blockNumber) => {
+        if (blockNumber === '') {
+            return;
         }
-      })
-      .catch((error) => {
-        this.setState({
-          blockData: [],
-          error: error.message || 'Internal Server Error',
-        });
-      });
-  }
 
-  /**
-   * @method loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-   * @param {*} responseJson : Json of block response data from Api.
-   */
-  loadFantomBlockData(allData) {
-    const result = allData.payload;
-    const blockData = [];
-    const txLength =
-      allData.payload.transactions !== null
-        ? allData.payload.transactions.length
-        : 0;
-    blockData.push({
-      height: result.index,
-      hash: result.hash,
-      round: result.round,
-      transactions: txLength,
-      createdTime: result.createdTime,
-    });
+        historyPush(`/block/${blockNumber}`);
+    }, [historyPush]);
 
-    this.setState({
-      blockData,
-      error: '',
-    });
-  }
+    /**
+     * @method onShowList():  Function to show list of blocks
+     */
 
-  /**
-   * @method showDetail() :  Function to show details of particular block number
-   * @param {String} blockNumber : Block number used for getting details
-   */
-  showDetail(blockNumber) {
-    if (blockNumber === '') {
-      return;
-    }
-    const { history } = this.props;
-    history.push(`/block/${blockNumber}`); // eslint-disable-line
-  }
+    const onShowList = React.useCallback(() => {
+        historyPush('/blocks');
+    }, [historyPush]);
 
-  renderBlockSearchView() {
-    const { error, searchText, blockData } = this.state;
-    if (error) {
-      return <p className="text-white">{error}</p>;
-    }
+    React.useEffect(() => {
+        console.log(blockHeight);
 
-    if (blockData.length <= 0) {
-      return (
-        <div className="loader">
-          <div className="holder">
-            <div className="lds-ellipsis">
-              <div />
-              <div />
-              <div />
-              <div />
-            </div>
-          </div>
+        return () => console.log('Unmount!');
+    }, [blockHeight]);
+
+
+
+    /**
+     * @method getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
+     * @param {String} searchText : Text to fetch block.
+     */
+    // getFantomBlocks(searchText) {
+    //     const searchQuery = `index:${searchText}`;
+    //
+    //     HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
+    //         query: `
+    //       {
+    //        block(${searchQuery}) {
+    //         id,payload
+    //       }
+    //       }`,
+    //     })
+    //         .then((response) => {
+    //             if (
+    //                 response &&
+    //                 response.data &&
+    //                 response.data.data &&
+    //                 response.data.data.block
+    //             ) {
+    //                 this.loadFantomBlockData(response.data.data.block);
+    //             } else {
+    //                 this.setState({
+    //                     blockData: [],
+    //                     error: 'No Record Found',
+    //                 });
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             this.setState({
+    //                 blockData: [],
+    //                 error: error.message || 'Internal Server Error',
+    //             });
+    //         });
+    // }
+
+    /**
+     * @method loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
+     * @param {*} responseJson : Json of block response data from Api.
+     */
+    // loadFantomBlockData(allData) {
+    //     const result = allData.payload;
+    //     const blockData = [];
+    //     const txLength =
+    //         allData.payload.transactions !== null
+    //             ? allData.payload.transactions.length
+    //             : 0;
+    //     blockData.push({
+    //         height: result.index,
+    //         hash: result.hash,
+    //         round: result.round,
+    //         transactions: txLength,
+    //         createdTime: result.createdTime,
+    //     });
+    //
+    //     this.setState({
+    //         blockData,
+    //         error: '',
+    //     });
+    // }
+
+    /**
+     * @method showDetail() :  Function to show details of particular block number
+     * @param {String} blockNumber : Block number used for getting details
+     */
+
+    return (
+        <div>
+            <Wrapper
+                setSearchText={setSearchTextCallback}
+                searchText={searchText}
+                icon={TitleIcon}
+                title="Block Number:"
+                block="Transactions"
+                total={blockHeight}
+                pagination={false}
+                onShowList={onShowList}
+                history={historyPush}
+                placeHolder="Search by Transaction Hash / Block Number"
+            >
+                {
+                    error ? (<p className="text-white">{error}</p>) :
+                    blockData.length <= 0 ? (
+                        <div className="loader">
+                            <div className="holder">
+                                <div className="lds-ellipsis">
+                                    <div />
+                                    <div />
+                                    <div />
+                                    <div />
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <React.Fragment>
+                            {blockData.length > 0 && (
+                                <SearchForBlock blocks={blockData} showDetail={showDetail} />
+                            )}
+                            {error !== '' &&
+                            searchText !== '' && <p className="text-white">{error}</p>}
+                        </React.Fragment>
+                    )
+                }
+            </Wrapper>
         </div>
-      );
-    }
-
-    return (
-      <React.Fragment>
-        {blockData.length > 0 && (
-          <SearchForBlock blocks={blockData} showDetail={this.showDetail} />
-        )}
-        {error !== '' &&
-          searchText !== '' && <p className="text-white">{error}</p>}
-      </React.Fragment>
     );
-  }
-
-  render() {
-    const { searchText } = this.state;
-    const { blockDetails, match, history } = this.props;
-    let descriptionBlock = '';
-
-    let totalBlocks = '';
-    if (blockDetails && blockDetails.allBlockData) {
-      descriptionBlock = 'Block Number: ';
-      totalBlocks = `${match.params.id}`;
-    }
-    return (
-      <div>
-        <Wrapper
-          setSearchText={(e) => this.setSearchText(e)}
-          searchText={searchText}
-          icon={TitleIcon}
-          title="Blocks"
-          block={descriptionBlock}
-          total={totalBlocks}
-          pagination={false}
-          onShowList={this.onShowList}
-          history={history}
-          placeHolder="Search by Transaction Hash / Block Number"
-        >
-          {this.renderBlockSearchView()}
-        </Wrapper>
-      </div>
-    );
-  }
 }
 
-BlockDetail.propTypes = {
-  setBlockData: PropTypes.func,
+const mapStateToProps = (state, props) => {
+    const matchSelector = createMatchSelector('/blocks/:id');
+    const match = matchSelector(state);
+
+    return {
+        blockData: getBlockUpdateDetails()(state, props),
+        match,
+    };
 };
 
-const mapStateToProps = createSelector(
-  getBlockUpdateDetails(),
-  (blockDetails) => ({ blockDetails })
-);
+const mapDispatchToProps = {
+    historyPush: push,
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  setBlocksData: (blockData) => dispatch(setBlockData(blockData)),
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default connect<BlockDetailProps, {||}, _, _, _, _>(
+    mapStateToProps,
+    mapDispatchToProps
 )(BlockDetail);

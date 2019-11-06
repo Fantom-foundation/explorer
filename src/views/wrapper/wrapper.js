@@ -15,7 +15,7 @@ import TxBlockPagination from '../containers/pagination/txBlockPagination';
 
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
 
-class Wrapper extends React.Component<any, { modal: boolean }> { // TODO: component refactor
+class Wrapper extends React.Component<{||}, { modal: boolean }> { // TODO: component refactor
     state = {
         modal: false,
     }

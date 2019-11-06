@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import {
     Collapse,
@@ -15,7 +15,7 @@ import Logo from 'src/assets/images/Logo/main-logo.svg';
 import hamburgerBtn from 'src/assets/images/icons/hamburger.svg';
 import closeBtn from 'src/assets/images/icons/close.svg';
 
-export default class Navigation extends React.Component<any, any> { // TODO: Add flow types
+export default class Navigation extends React.Component<{}, any> { // TODO: Add flow types
     state = {
         isShow: false,
         closing: false,

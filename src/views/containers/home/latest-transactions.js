@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Row, Col } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,13 +14,39 @@ import transactionIcon from 'src/assets/images/icons/transactions.svg';
 import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
 import { toFixed } from 'src/common/utility';
 
+import type { LocationShape } from 'react-router-dom';
+
+type LatestTransactionsProps = {|
+    push: (string | LocationShape) => void,
+    blockDetails: ?{
+        allBlockData?: Array<{
+            hash: string,
+            transactions: Array<{
+                value: string,
+                from: string,
+                transactionHash: string,
+                to: string,
+                gas: string,
+                cumulativeGasUsed: string,
+                contractAddress: string,
+                root: any,
+                logsBloom: any,
+                status: number,
+            }>,
+        }>,
+    },
+|};
+
 /**
  * @class LatestTransactions : To display list of latest transactions.
  */
 
-function LatestTransactions(props) {
-    const { push } = props;
-    const [transactionArray, setTransactionArray] = useState([]);
+function LatestTransactions(props: LatestTransactionsProps) {
+    const {
+        blockDetails,
+        push,
+    } = props;
+    const { allBlockData: transactions } = blockDetails || {};
     const onTransactionClick = useCallback((e: SyntheticEvent<HTMLDivElement>) => {
         const { dataset: { txHash } } = e.currentTarget;
 
@@ -29,17 +55,12 @@ function LatestTransactions(props) {
         });
     }, [push]);
 
-    const {
-        blockDetails: {
-            allBlockData: transactions = [],
-        } = {},
-    } = props;
     let transformedArray = [];
     let transactionArr = [];
     let newValue = '';
     let valueOnClick = '';
 
-    if (transactions.length) {
+    if (transactions && transactions.length) {
         for (const block of transactions) {
             block.transactions.forEach((transac) => {
                 if (transac.value) {
@@ -145,7 +166,7 @@ const mapStateToProps = createSelector(
     (blockDetails) => ({ blockDetails })
 );
 
-export default connect(
+export default connect<LatestTransactionsProps, {||}, _, _, _, _>(
     mapStateToProps,
     { push },
 )(LatestTransactions);

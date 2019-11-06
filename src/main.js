@@ -106,11 +106,13 @@ export default function Main() {
     // const { setBlockData, store } = this.props;
 
     return (
-        <>
+        <div className="app-container">
             <Header />
-            <Routes />
+            <main>
+                <Routes />
+            </main>
             <Footer />
-        </>
+        </div>
     );
 }
 

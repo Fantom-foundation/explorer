@@ -1,16 +1,14 @@
+$mobile-width: 285px;
 
-
-$mobile-width:285px;
-header
-{
+header {
     background: {
-        color:map-get($color, header-bg );
+        color: map-get($color, header-bg);
     }
     position: sticky;
     top: 0;
     z-index: 999;
-    .container
-    {
+
+    .container {
         position: relative;
        
         @media(max-width: 991px){max-width: 100%;}

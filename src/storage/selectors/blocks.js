@@ -11,7 +11,7 @@ import type { ReduxRootStateType } from 'src/storage/types';
  * Select the language locale
  */
 
-const getBlockData = (state: ReduxRootStateType) => state.get('setBlockDataReducer');
+const getBlockData = (state: ReduxRootStateType): MapType<any, any> => state.get('setBlockDataReducer');
 
 /**
  * Direct selector to the languageToggle state domain
