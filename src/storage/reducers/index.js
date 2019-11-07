@@ -11,6 +11,7 @@ import userDetailsReducer from 'src/storage/reducers/userDetails';
 import realtimeUpdateReducer from 'src/storage/reducers/realtimeBlockchainUpdate';
 import setBlockDataReducer from 'src/storage/reducers/blocks';
 import languageProviderReducer from 'src/views/containers/LanguageProvider/reducer';
+import latestBlockData from 'src/storage/reducers/latestBlocksData';
 
 import type { BrowserHistory } from 'history';
 import type { Map } from 'immutable';
@@ -25,6 +26,7 @@ export default function createReducer(history: BrowserHistory, injectedReducers:
         currentUserDetails: userDetailsReducer,
         realtimeUpdateReducer,
         setBlockDataReducer,
+        latestBlockData,
         ...injectedReducers,
     });
 }

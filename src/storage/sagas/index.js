@@ -8,6 +8,8 @@ import {
     getContext,
 } from 'redux-saga/effects';
 
+import watchGetLatestBlockData from 'src/storage/sagas/latestBlockData';
+
 import { setBlockData } from 'src/storage/actions/blocks';
 
 import type { Saga } from 'redux-saga';
@@ -23,5 +25,8 @@ function* watchIncrementAsync() {
 }
 
 export function* rootSaga(): Saga<void> {
-    yield all([watchIncrementAsync()]);
+    yield all([
+        watchIncrementAsync(),
+        watchGetLatestBlockData(),
+    ]);
 }

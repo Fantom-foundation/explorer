@@ -2,39 +2,19 @@
 
 import React, { useCallback } from 'react';
 import { Row, Col } from 'reactstrap';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Web3 from 'web3';
-import { createSelector } from 'reselect';
-import { push } from 'connected-react-router';
 
 import { Title } from 'src/views/components/coreComponent/index';
 import TitleIcon from 'src/assets/images/icons/latest-transaction.svg';
 import transactionIcon from 'src/assets/images/icons/transactions.svg';
-import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
 import { toFixed } from 'src/common/utility';
 
 import type { LocationShape } from 'react-router-dom';
 
 type LatestTransactionsProps = {|
-    push: (string | LocationShape) => void,
-    blockDetails: ?{
-        allBlockData?: Array<{
-            hash: string,
-            transactions: Array<{
-                value: string,
-                from: string,
-                transactionHash: string,
-                to: string,
-                gas: string,
-                cumulativeGasUsed: string,
-                contractAddress: string,
-                root: any,
-                logsBloom: any,
-                status: number,
-            }>,
-        }>,
-    },
+    historyPush: (string | LocationShape) => void,
+    latestTransactionsArr: Array<string>,
 |};
 
 /**
@@ -43,17 +23,18 @@ type LatestTransactionsProps = {|
 
 function LatestTransactions(props: LatestTransactionsProps) {
     const {
-        blockDetails,
-        push,
+        latestTransactionsArr,
+        historyPush,
     } = props;
-    const { allBlockData: transactions } = blockDetails || {};
+    const { allBlockData: transactions } = latestTransactionsArr || {};
+
     const onTransactionClick = useCallback((e: SyntheticEvent<HTMLDivElement>) => {
         const { dataset: { txHash } } = e.currentTarget;
 
-        push({
+        historyPush({
             pathname: `/transactions/${txHash}`,
         });
-    }, [push]);
+    }, [historyPush]);
 
     let transformedArray = [];
     let transactionArr = [];
@@ -161,12 +142,4 @@ function LatestTransactions(props: LatestTransactionsProps) {
     );
 }
 
-const mapStateToProps = createSelector(
-    getBlockUpdateDetails(),
-    (blockDetails) => ({ blockDetails })
-);
-
-export default connect<LatestTransactionsProps, {||}, _, _, _, _>(
-    mapStateToProps,
-    { push },
-)(LatestTransactions);
+export default LatestTransactions;

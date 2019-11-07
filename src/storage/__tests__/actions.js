@@ -3,11 +3,13 @@
 import { setBlockData } from 'src/storage/actions/blocks';
 import { setRealtimeUpdateDetails } from 'src/storage/actions/realtimeBlockchainUpdate';
 import { setUserDetails } from 'src/storage/actions/userDetails';
+import { setLatestBlocksData } from 'src/storage/actions/latestBlocksData';
 
 import {
     SET_BLOCK_DATA,
     SET_REALTIME_UPDATE,
     SET_USER_DETAILS,
+    SET_LATEST_BLOCK_DATA,
 } from 'src/storage/constants';
 
 describe('Redux actions: blocks', function blocksActions() {
@@ -45,6 +47,19 @@ describe('Redux actions: userDetails', function userDetails() {
         });
     });
 });
+
+describe('Redux actions: latestBlocksData', function latestBlocksData() {
+    it('should return correct setLatestBlocksData object', function () {
+        const dataMock = { blocks: [{ hash: 'hash' }] };
+        const setLatestBlocksDataAction = setLatestBlocksData(dataMock);
+
+        expect(setLatestBlocksDataAction).toEqual({
+            type: SET_LATEST_BLOCK_DATA,
+            payload: dataMock,
+        });
+    });
+});
+
 
 
 

@@ -1,82 +1,25 @@
 // @flow
 
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
-import { createSelector } from 'reselect';
-import { connect } from 'react-redux';
+import { Container } from 'reactstrap';
 
-import { Title } from 'src/views/components/coreComponent';
-import LatestTransactions from 'src/views/containers/home/latest-transactions';
-import LatestBlocks from 'src/views/containers/home/latest-blocks';
+import ToggleToolTip from 'src/views/containers/home/ToggleToolTip';
+import Intro from 'src/views/containers/home/Intro';
+import LatestBlocksDataContainer from 'src/views/containers/home/LatestBlocksDataContainer';
 
-import fantomIcon from 'src/assets/images/Logo/Fantom-Logo-icon.svg';
-
-import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
-
-import ToggleToolTip from './toggleToolTip';
-
-type HomePageProps = $ReadOnly<{|
-    blockDetails: ?{
-        allBlockData?: Array<any>,
-    },
-|}>;
-
-function HomePage(props: HomePageProps) {
-    const { blockDetails } = props;
-
-    const {
-        allBlockData,
-    } = blockDetails || {};
-
-    if (blockDetails) {
-        return (
-            <div>
-                <section className="intro">
-                    <Container className="intro-container">
-                        <img
-                            alt="Fantom icon"
-                            src={fantomIcon}
-                            className="icon"
-                        />
-                        <Row className="market-cap">
-                            <div className="description">
-                                <Title h2 className="text-white mb-0">
-                                    <span>Beyond</span>
-                                    <br />
-                                    <span>Blockchain</span>
-                                </Title>
-                                <p className="mb-0">The Future of Decentralized Ecosystem</p>
-                            </div>
-                        </Row>
-                    </Container>
-                </section>
-                <section>
-                    <Container>
-                        <hr />
-                        <ToggleToolTip />
-                    </Container>
-                </section>
-                <section id="latest-blocks" className="bg-theme">
-                    <Container>
-                        <Row>
-                            <LatestTransactions />
-                            <Col className="middle" xs={12}>
-                                <hr />
-                            </Col>
-                            <LatestBlocks latestBlocksArr={allBlockData && allBlockData.slice(0, 10)} />
-                        </Row>
-                    </Container>
-                </section>
-            </div>
-        );
-    }
-
-    return null;
+function HomePage() {
+    return (
+        <div>
+            <Intro />
+            <section>
+                <Container>
+                    <hr />
+                    <ToggleToolTip />
+                </Container>
+            </section>
+            <LatestBlocksDataContainer />
+        </div>
+    );
 }
 
-const mapStateToProps = createSelector(
-    getBlockUpdateDetails(),
-    (blockDetails) => ({ blockDetails })
-);
-
-export default connect<HomePageProps, {||}, _, _, _, _>(mapStateToProps)(HomePage);
+export default HomePage;

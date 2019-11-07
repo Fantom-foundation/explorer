@@ -33,8 +33,9 @@ type Node = {|
     cursor: boolean,
 |};
 
-type Action<S> = {
-    type: S,
+export type Action<T, P> = {
+    type: T,
+    payload?: P
 };
 
 export type BlocksState = {
@@ -44,7 +45,7 @@ export type BlocksState = {
     }
 };
 
-export type BlockAction = Action<'@@INIT'> | Action<string> & { blocksDetails?: Array<Node> };
-export type RealTimeUpdateAction = Action<'@@INIT'> | Action<SET_REALTIME_UPDATE> & { realtimeUpdate: { isRealtimeUpdate: boolean } }
+export type BlockAction = Action<'@@INIT', void> | Action<string> & { blocksDetails?: Array<Node> };
+export type RealTimeUpdateAction = Action<'@@INIT', void> | Action<SET_REALTIME_UPDATE> & { realtimeUpdate: { isRealtimeUpdate: boolean } }
 
 export type ReduxRootStateType = Map<any, any>;

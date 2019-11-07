@@ -1,11 +1,6 @@
 // @flow
 
 import React from 'react';
-import { createSelector } from 'reselect';
-
-// import { setBlockData } from './views/controllers/blocks/action';
-// import { getBlockUpdateDetails } from './views/controllers/blocks/selector';
-// import { getRealtimeUpdateDetails } from './views/controllers/realtime-blockchain-update/selector';
 
 import Routes from 'src/routes';
 import Header from 'src/views/components/header/header';

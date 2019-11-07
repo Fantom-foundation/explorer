@@ -57,13 +57,9 @@ hr {
   border-color: map-get($color, border-line);
 }
 
-#toggle_tooltip {
-  width: 39px !important;
-  margin: auto;
-  margin-right: 0;
-  > div {
-    width: 39px !important;
-  }
+.toggle-tooltip {
+  display: flex;
+  justify-content: flex-end;
 }
 .tooltip {
   padding: 0 0 15px;
