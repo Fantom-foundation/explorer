@@ -5,7 +5,7 @@ import latestBlockData, { initialState as latestBlockDataInitialState } from 'sr
 
 import {
     SET_REALTIME_UPDATE,
-    SET_LATEST_BLOCK_DATA,
+    SET_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
 describe('Redux reducers: realtimeBlockchainUpdate', function realtimeBlockchainUpdateReducer() {
@@ -44,7 +44,7 @@ describe('Redux reducers: latestBlocksData', function latestBlocksDataReducer() 
 
     it('should return correct new state', function () {
         const actionData = {
-            type: SET_LATEST_BLOCK_DATA,
+            type: SET_LATEST_BLOCKS_DATA,
             payload: {
                 blocks: [{ hash: 'string' }],
             },

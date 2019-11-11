@@ -1,6 +1,7 @@
 // @flow
 
 import {
+    fork,
     all,
     call,
     put,
@@ -26,7 +27,7 @@ function* watchIncrementAsync() {
 
 export function* rootSaga(): Saga<void> {
     yield all([
-        watchIncrementAsync(),
-        watchGetLatestBlockData(),
+        fork(watchIncrementAsync),
+        fork(watchGetLatestBlockData),
     ]);
 }

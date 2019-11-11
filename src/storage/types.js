@@ -2,41 +2,19 @@
 
 import type { Map } from 'immutable';
 
-import { SET_REALTIME_UPDATE } from './constants';
-
-type Transaction = {
-    transactionHash: string,
-    from: string,
-    to: string,
-    value: string,
-    gas: number,
-    cumulativeGasUsed: number,
-    contractAddress: string,
-    root: string,
-    logsBloom: string,
-    status: number,
-};
-
-type Block = {
-    hash: string,
-    index: number,
-    stateHash: string,
-    transactions: Array<Transaction>,
-    round: number,
-    createdTime: number,
-};
+import type { Transaction, Block, LatestBlocksData } from 'src/utils/types'
 
 type Node = {|
     node: {|
-        payload: Block,
+        payload: Block<string>,
     |},
     cursor: boolean,
 |};
 
-export type Action<T, P> = {
+export type Action<T, P = void> = {|
     type: T,
-    payload?: P
-};
+    payload?: P,
+|};
 
 export type BlocksState = {
     blockDetails: {
@@ -45,7 +23,9 @@ export type BlocksState = {
     }
 };
 
-export type BlockAction = Action<'@@INIT', void> | Action<string> & { blocksDetails?: Array<Node> };
-export type RealTimeUpdateAction = Action<'@@INIT', void> | Action<SET_REALTIME_UPDATE> & { realtimeUpdate: { isRealtimeUpdate: boolean } }
+export type SetLatestBlocksDataAction = Action<string, LatestBlocksData>;
+export type LoadingLatestBlocksDataAction = Action<string, boolean>;
+export type BlockAction = Action<string> & { blocksDetails?: Array<Node> };
+export type RealTimeUpdateAction = Action<string, { realtimeUpdate: { isRealtimeUpdate: boolean } }>
 
 export type ReduxRootStateType = Map<any, any>;

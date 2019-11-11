@@ -2,7 +2,13 @@
 
 import Web3 from 'web3';
 
-import type { DataProvider } from './types';
+import type {
+    DataProvider,
+    Block,
+    LatestBlocksData,
+    RequestError,
+    Transaction,
+} from './types';
 
 const API_URL = process.env.REACT_APP_API_URL_FANTOM;
 
@@ -15,23 +21,61 @@ class Web3Provider implements DataProvider {
             _web3 = new Web3(API_URL);
             _provider = this;
 
+            if (window) {
+                window.web3Provider = this;
+            }
+
             return this;
         }
 
         return _provider;
     }
 
-    async getLatestBlocks() {
+    async getLatestBlocksData(): Promise<LatestBlocksData | RequestError> {
         try {
-            const blockNumber = await _web3.eth.getBlockNumber();
+            let blockNumber = await _web3.eth.getBlockNumber();
+            let result = {
+                blocks: [],
+                transactions: []
+            };
 
-            return this.getBlocks(blockNumber - 6, 6, [true]);
+            while (result.transactions.length < 10) {
+                const blocks = await this.getBlocks(blockNumber - 10, 10, [true]);
+
+                blocks.forEach((block) => {
+                    const transactions = block.transactions;
+
+                    if (result.blocks.length < 10) {
+                        block.transactions = transactions.map((transaction) => transaction.hash);
+                        result.blocks.push(block);
+                    }
+
+                    if (result.transactions.length < 10) {
+                        for (let i = 0, transactionLength = transactions.length; i < transactionLength; i++) {
+                            result.transactions.push(transactions[i]);
+
+                            if (result.transactions.length === 10) {
+                                break;
+                            }
+                        }
+                    }
+                });
+
+                blockNumber = blockNumber - 10;
+            }
+
+            return result;
         } catch(err) {
             console.log(err);
+            return { error: 'Cant\'t get latest blocks data.' }
         }
     }
 
-    getBlocks(fromBlock: ?number = 0, count: ?number = 25, getBlockParams: [boolean] | [] = []): Promise<any> {
+    async getBlocks(
+        fromBlock: ?number = 0,
+        count: ?number = 25,
+        getBlockParams: [boolean] | [] = [],
+    ): Promise<Array<Block<Transaction | string>>> {
         return new Promise((resolve, reject) => {
             const toBlock = fromBlock + count;
             const batch = new _web3.eth.BatchRequest();
@@ -54,6 +98,34 @@ class Web3Provider implements DataProvider {
 
             batch.execute();
         });
+    }
+
+    subscribeToNewBlocks() {
+        const subscription = _web3.eth.subscribe('newBlockHeaders', function(error, result) {
+            if (!error) {
+                console.log(result);
+
+                return;
+            }
+
+            console.error(error);
+        });
+
+        return subscription;
+//             .on("connected", function(subscriptionId){
+//                 console.log(subscriptionId);
+//             })
+//             .on("data", function(blockHeader){
+//                 console.log(blockHeader);
+//             })
+//             .on("error", console.error);
+//
+// // unsubscribes the subscription
+//         subscription.unsubscribe(function(error, success){
+//             if (success) {
+//                 console.log('Successfully unsubscribed!');
+//             }
+//         });
     }
 }
 

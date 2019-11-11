@@ -9,7 +9,7 @@ import {
     SET_BLOCK_DATA,
     SET_REALTIME_UPDATE,
     SET_USER_DETAILS,
-    SET_LATEST_BLOCK_DATA,
+    SET_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
 describe('Redux actions: blocks', function blocksActions() {
@@ -54,7 +54,7 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
         const setLatestBlocksDataAction = setLatestBlocksData(dataMock);
 
         expect(setLatestBlocksDataAction).toEqual({
-            type: SET_LATEST_BLOCK_DATA,
+            type: SET_LATEST_BLOCKS_DATA,
             payload: dataMock,
         });
     });

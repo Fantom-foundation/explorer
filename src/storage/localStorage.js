@@ -21,7 +21,7 @@ export const loadState = (): MapType<mixed, mixed> => {
 
 const saveState = (state: MapType<mixed, mixed>) => {
     try {
-        const objState = state.filter((_, key) => !['router'].includes(key)).toJS();
+        const objState = state.filter((_, key) => !['router', 'latestBlockData'].includes(key)).toJS();
         const serializedState = JSON.stringify(objState);
 
         localStorage.setItem('state', serializedState);

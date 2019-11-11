@@ -2,37 +2,34 @@
 
 import React, { useCallback } from 'react';
 import { Row, Col } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { connect } from "react-redux";
-import { push } from 'connected-react-router';
+import {
+    Link,
+    type LocationShape,
+} from 'react-router-dom';
 
 import { Title } from 'src/views/components/coreComponent';
 import LatestBlock from 'src/views/components/LatestBlock';
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
 
+import type { Block } from 'src/utils/types';
+
 type LatestBlocksProps = {
-    push: ({ pathname: string }) => void,
-    latestBlocksArr: Array<{|
-        hash: string,
-        height: number,
-        round: number,
-        transactionLength: number,
-        createdTime: number,
-    |}>,
+    historyPush: (string | LocationShape) => void,
+    latestBlocksArr: Array<Block<string>>,
 };
 
 function LatestBlocks(props: LatestBlocksProps) {
     const {
-        push,
-        latestBlocksArr: blocks,
+        historyPush,
+        latestBlocksArr,
     } = props;
     const onBlockClick = useCallback((e: SyntheticEvent<HTMLDivElement>) => {
         const { dataset: { blockHeight } } = e.currentTarget;
 
-        push({
+        historyPush({
             pathname: `/blocks/${blockHeight}`,
         });
-    }, [push]);
+    }, [historyPush]);
 
     return (
         <Col xs={12} md={6} className="right">
@@ -49,21 +46,20 @@ function LatestBlocks(props: LatestBlocksProps) {
                 </Link>
             </div>
             <Row className="blocks">
-                {blocks &&
-                blocks.length &&
-                blocks.map((data) => (
-                    <LatestBlock
-                        key={data.height}
-                        onBlockClick={onBlockClick}
-                        data={data}
-                    />
-                ))}
+                {
+                    latestBlocksArr.length > 0
+                        ? latestBlocksArr.map((block) => (
+                            <LatestBlock
+                                key={block.number}
+                                onBlockClick={onBlockClick}
+                                data={block}
+                            />
+                        ))
+                        : null
+                }
             </Row>
         </Col>
     );
 }
 
-export default connect(
-    null,
-    { push },
-)(LatestBlocks);
+export default LatestBlocks;

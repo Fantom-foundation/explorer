@@ -3,18 +3,17 @@
 import React, { useCallback } from 'react';
 import { Row, Col } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import Web3 from 'web3';
 
+import LatestTransaction from 'src/views/components/LatestTransaction';
 import { Title } from 'src/views/components/coreComponent/index';
 import TitleIcon from 'src/assets/images/icons/latest-transaction.svg';
-import transactionIcon from 'src/assets/images/icons/transactions.svg';
-import { toFixed } from 'src/common/utility';
 
 import type { LocationShape } from 'react-router-dom';
+import type { Transaction } from 'src/utils/types';
 
 type LatestTransactionsProps = {|
     historyPush: (string | LocationShape) => void,
-    latestTransactionsArr: Array<string>,
+    latestTransactionsArr: Array<Transaction>,
 |};
 
 /**
@@ -26,7 +25,6 @@ function LatestTransactions(props: LatestTransactionsProps) {
         latestTransactionsArr,
         historyPush,
     } = props;
-    const { allBlockData: transactions } = latestTransactionsArr || {};
 
     const onTransactionClick = useCallback((e: SyntheticEvent<HTMLDivElement>) => {
         const { dataset: { txHash } } = e.currentTarget;
@@ -35,43 +33,6 @@ function LatestTransactions(props: LatestTransactionsProps) {
             pathname: `/transactions/${txHash}`,
         });
     }, [historyPush]);
-
-    let transformedArray = [];
-    let transactionArr = [];
-    let newValue = '';
-    let valueOnClick = '';
-
-    if (transactions && transactions.length) {
-        for (const block of transactions) {
-            block.transactions.forEach((transac) => {
-                if (transac.value) {
-                    const ftmValue = Web3.utils.fromWei(`${transac.value}`, 'ether');
-                    valueOnClick = ftmValue;
-                    const value = Number(ftmValue);
-                    newValue = toFixed(value, 4);
-                }
-
-                transactionArr = {
-                    block_id: block.hash,
-                    address_from: transac.from,
-                    transaction_hash: transac.transactionHash,
-                    address_to: transac.to,
-                    value: valueOnClick,
-                    gasUsed: transac.gas,
-                    cumulativeGasUsed: transac.cumulativeGasUsed,
-                    contractAddress: transac.contractAddress,
-                    root: transac.root,
-                    logsBloom: transac.logsBloom,
-                    status: transac.status,
-                    homePageValue: newValue,
-                };
-
-                transformedArray.push(transactionArr);
-            });
-        }
-    }
-
-    transformedArray = transformedArray.slice(0, 10);
 
     return (
         <Col xs={12} md={6} className="left">
@@ -89,54 +50,17 @@ function LatestTransactions(props: LatestTransactionsProps) {
                 </Link>
             </div>
             <Row className="blocks">
-                {transformedArray &&
-                transformedArray.length &&
-                transformedArray.map((data) => (
-                    <Col
-                        key={data.transaction_hash}
-                        data-tx-hash={data.transaction_hash}
-                        xs={12}
-                        className="details"
-                        onClick={onTransactionClick}
-                    >
-                        <p
-                            className="tx-holder text-ellipsis ico"
-                            style={{ backgroundImage: `url(${transactionIcon})` }}
-                        >
-                            <span className="text-white">TX#</span>
-                            &nbsp;
-                            <span className="text-primary tx-value">
-                                {data.transaction_hash}
-                            </span>
-                        </p>
-                        <div className="s-to-r">
-                            <p className="pb-2 mb-1 text-ellipsis">
-                                <span className="text-white">From</span>
-                                &nbsp;
-                                <span className="text-primary from-value">
-                                    {data.address_from}
-                                </span>
-                                &nbsp;
-                            </p>
-                            <p className="text-ellipsis">
-                                <span className="text-white ">to</span>
-                                &nbsp;
-                                <span className="text-primary to-value">
-                                    {data.address_to}
-                                </span>
-                            </p>
-                        </div>
-                        <div className="ammount-date">
-                            <p className="mb-0">
-                                <span className="text-white">Amount </span>
-                                &nbsp;
-                                <span className="text-primary">
-                                    {data.homePageValue} FTM
-                                </span>
-                            </p>
-                        </div>
-                    </Col>
-                ))}
+                {
+                    latestTransactionsArr.length > 0
+                        ? latestTransactionsArr.map((transaction) => (
+                            <LatestTransaction
+                                key={transaction.hash}
+                                onTransactionClick={onTransactionClick}
+                                transaction={transaction}
+                            />
+                        ))
+                        : null
+                }
             </Row>
         </Col>
     );

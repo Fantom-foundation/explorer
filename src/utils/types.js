@@ -1,7 +1,5 @@
 // @flow
 
-import type { Map } from 'immutable';
-
 export type Transaction = {|
     blockHash: string,
     blockNumber: number,
@@ -19,7 +17,7 @@ export type Transaction = {|
     value: string,
 |};
 
-export type Block = {|
+export type Block<T> = {|
     difficulty: string,
     extraData: string,
     gasLimit: number,
@@ -37,12 +35,21 @@ export type Block = {|
     stateRoot: string,
     timestamp: number,
     totalDifficulty: string,
-    transactions: Array<Transaction | string>,
+    transactions: Array<T>,
     transactionsRoot: string,
     uncles: Array<string>,
 |};
 
+export type LatestBlocksData = {|
+    blocks?: Array<Block<string>>,
+    transactions?: Array<Transaction>,
+|};
+
+export type RequestError = {|
+    error: string
+|};
+
 export interface DataProvider {
-    getLatestBlocks(): Promise<Array<Block> | void>;
-    getBlocks(fromBlock: ?number, count: ?number, getBlockParams: [boolean] | []): Promise<Array<Block>>;
-}
+    getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
+    getBlocks(fromBlock: ?number, count: ?number, getBlockParams: [boolean] | []): Promise<Array<Block<Transaction | string>>>;
+};

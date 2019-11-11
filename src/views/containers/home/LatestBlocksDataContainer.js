@@ -7,14 +7,20 @@ import { push } from 'connected-react-router/immutable';
 
 import LatestTransactions from 'src/views/containers/home/latest-transactions';
 import LatestBlocks from 'src/views/containers/home/latest-blocks';
+import Loader from 'src/views/components/Loader';
+
+import { getLatestBlocksData } from 'src/storage/actions/latestBlocksData';
+import { getLatestBlocksSelector } from 'src/storage/selectors/latestBlocksData';
 
 import type { LocationShape } from 'react-router-dom';
+import type { Transaction, Block } from 'src/utils/types';
 
 type LatestBlocksDataContainerProps = {|
     historyPush: (string | LocationShape) => void,
     getLatestBlocksData: () => void,
-    latestBlocksArr: Array<string>,
-    latestTransactionsArr: Array<string>,
+    latestBlocksArr: Array<Block<string>>,
+    latestTransactionsArr: Array<Transaction>,
+    isLoading: boolean,
 |};
 
 function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
@@ -23,6 +29,7 @@ function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
         getLatestBlocksData,
         latestBlocksArr,
         latestTransactionsArr,
+        isLoading,
     } = props;
 
     React.useEffect(() => {
@@ -45,21 +52,17 @@ function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
                         latestBlocksArr={latestBlocksArr}
                     />
                 </Row>
+                {isLoading && <Loader />}
             </Container>
         </section>
     );
 };
 
-const mapStateToProps = () => ({
-    latestBlocksArr: ['string'], // TODO: move to selectors
-    latestTransactionsArr: ['string'], // TODO: move to selectors
-});
+const mapStateToProps = getLatestBlocksSelector;
 
 const mapDispatchToProps = {
     historyPush: push,
-    getLatestBlocksData: () => { // TODO: move to sagas
-        return { type: 'GET_LATEST_BLOCKS_DATA' };
-    }
+    getLatestBlocksData,
 };
 
 export default connect<LatestBlocksDataContainerProps, {||}, _, _, _, _>(
