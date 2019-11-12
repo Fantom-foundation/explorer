@@ -2,10 +2,11 @@
 
 import { createSelector } from 'reselect';
 
+import type { ReduxRootStateType } from 'src/storage/types';
 /**
  * Direct selector to the languageToggle state domain
  */
-const selectRealtimeUpdateDetails = (state) =>
+const selectRealtimeUpdateDetails = (state: ReduxRootStateType) =>
   state.get('realtimeUpdateReducer');
 
 /**

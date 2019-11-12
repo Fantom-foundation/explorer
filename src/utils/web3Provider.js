@@ -101,31 +101,7 @@ class Web3Provider implements DataProvider {
     }
 
     subscribeToNewBlocks() {
-        const subscription = _web3.eth.subscribe('newBlockHeaders', function(error, result) {
-            if (!error) {
-                console.log(result);
-
-                return;
-            }
-
-            console.error(error);
-        });
-
-        return subscription;
-//             .on("connected", function(subscriptionId){
-//                 console.log(subscriptionId);
-//             })
-//             .on("data", function(blockHeader){
-//                 console.log(blockHeader);
-//             })
-//             .on("error", console.error);
-//
-// // unsubscribes the subscription
-//         subscription.unsubscribe(function(error, success){
-//             if (success) {
-//                 console.log('Successfully unsubscribed!');
-//             }
-//         });
+        return _web3.eth.subscribe('newBlockHeaders');
     }
 }
 

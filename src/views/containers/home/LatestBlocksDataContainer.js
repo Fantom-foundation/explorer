@@ -34,6 +34,8 @@ function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
 
     React.useEffect(() => {
         getLatestBlocksData();
+
+        return
     }, [getLatestBlocksData]);
 
     return (
