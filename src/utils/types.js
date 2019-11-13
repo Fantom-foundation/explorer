@@ -1,5 +1,7 @@
 // @flow
 
+export type ExtractReturn<Fn> = $Call<<T>((...Array<any>) => T) => T, Fn>;
+
 export type Transaction = {|
     blockHash: string,
     blockNumber: number,
@@ -49,7 +51,53 @@ export type RequestError = {|
     error: string
 |};
 
+export type SubscriptionOptions = {
+    subscription: string,
+    type: string,
+    requestManager: any,
+};
+
+export type BlockHeader = {
+    number: number,
+    hash: string,
+    parentHash: string,
+    nonce: string,
+    sha3Uncles: string,
+    logsBloom: string,
+    transactionRoot: string,
+    stateRoot: string,
+    receiptRoot: string,
+    miner: string,
+    extraData: string,
+    gasLimit: number,
+    gasUsed: number,
+    timestamp: number | string,
+}
+
+export interface SubscriptionToNewBlocks {
+    constructor(options: SubscriptionOptions): SubscriptionToNewBlocks;
+
+    id: string;
+    options: SubscriptionOptions;
+    callback: () => void;
+    arguments: any;
+
+    subscribe(callback?: (error: Error, result: BlockHeader) => void): SubscriptionToNewBlocks;
+
+    unsubscribe(
+        callback?: (error: Error, result: boolean) => void
+    ): Promise<?boolean>;
+
+    on(type: 'data', handler: (data: BlockHeader) => void): SubscriptionToNewBlocks;
+
+    on(type: 'changed', handler: (data: BlockHeader) => void): SubscriptionToNewBlocks;
+
+    on(type: 'error', handler: (data: Error) => void): SubscriptionToNewBlocks;
+}
+
 export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
     getBlocks(fromBlock: ?number, count: ?number, getBlockParams: [boolean] | []): Promise<Array<Block<Transaction | string>>>;
-};
+    subscribeToNewBlocks(): SubscriptionToNewBlocks,
+    getNewBlockData(blockNum: number): LatestBlocksData,
+}

@@ -8,6 +8,7 @@ import type {
     LatestBlocksData,
     RequestError,
     Transaction,
+    SubscriptionToNewBlocks,
 } from './types';
 
 const API_URL = process.env.REACT_APP_API_URL_FANTOM;
@@ -100,8 +101,35 @@ class Web3Provider implements DataProvider {
         });
     }
 
-    subscribeToNewBlocks() {
+    subscribeToNewBlocks(): SubscriptionToNewBlocks {
         return _web3.eth.subscribe('newBlockHeaders');
+    }
+
+    async getNewBlockData(number: number): Promise<LatestBlocksData> {
+        let block = null;
+
+        while (!block) {
+            block = await _web3.eth.getBlock(number, true);
+
+            if (!block) {
+                await (new Promise((resolve) => setTimeout(resolve, 1500)));
+            }
+        }
+
+        const txIds = [];
+
+        const transactions = block.transactions.map((tx) => {
+            txIds.push(tx.hash);
+
+            return tx;
+        });
+
+        block.transactions = txIds;
+
+        return {
+            blocks: [block],
+            transactions,
+        };
     }
 }
 

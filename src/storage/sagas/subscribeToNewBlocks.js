@@ -9,6 +9,7 @@ import {
     select,
     take,
     race,
+    takeEvery
 } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
@@ -20,15 +21,20 @@ import {
     SUBSCRIBE_TO_NEW_BLOCKS,
     UNSUBSCRIBE_TO_NEW_BLOCKS,
     SET_REALTIME_UPDATE,
+    REQUEST_BLOCK_DATA,
 } from 'src/storage/constants';
 
 import {
-    updateLatestBlocksData
+    updateLatestBlocksData,
+    subscribeToNewBlocks,
+    requestBlockData,
 } from 'src/storage/actions/latestBlocksData';
 
 import type { Saga, EventChannel } from 'redux-saga';
+import type { SubscriptionToNewBlocks, DataProvider, BlockHeader } from 'src/utils/types';
+import type { Action } from 'src/storage/types';
 
-function createSocketChannel(socket) {
+function createSocketChannel(socket: SubscriptionToNewBlocks) {
     // `eventChannel` takes a subscriber function
     // the subscriber function takes an `emit` argument to put messages onto the channel
     return eventChannel((emit) => {
@@ -51,12 +57,12 @@ function createSocketChannel(socket) {
         // this will be invoked when the saga calls `channel.close` method
 
         return () => {
-            socket.unsubscribe((err, res) => console.log(res));
+            socket.unsubscribe((err, res) => console.log('Unsubscribe: ', res));
         };
     })
 }
 
-function* unsubscribeToNewBlocks(subChannel: EventChannel<any>): Saga<void> { // TODO: add correct EventChannel type
+function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> { // TODO: add correct EventChannel type
     const [, realtimeUpdate] = yield race([
         take(UNSUBSCRIBE_TO_NEW_BLOCKS),
         take(SET_REALTIME_UPDATE),
@@ -69,21 +75,20 @@ function* unsubscribeToNewBlocks(subChannel: EventChannel<any>): Saga<void> { //
     }
 }
 
-function* subscribeToNewBlocks(): Saga<void> {
-    console.log('Fired subscribeToNewBlocks!');
-    const api = yield getContext('api');
+function* subscribeToNewBlocksData(): Saga<void> {
+    const api: DataProvider = yield getContext('api');
 
-    const subscription = yield call([api, api.subscribeToNewBlocks]);
+    const subscription: SubscriptionToNewBlocks = yield call([api, api.subscribeToNewBlocks]);
     const subscriptionChannel = yield call(createSocketChannel, subscription);
 
-    yield fork(unsubscribeToNewBlocks, subscriptionChannel);
+    yield fork(unsubscribeToNewBlocksData, subscriptionChannel);
 
     while (true) {
         try {
             // An error from socketChannel will cause the saga jump to the catch block
             const payload = yield take(subscriptionChannel);
-
-            yield put(updateLatestBlocksData(payload));
+            console.log(`new block: ${payload.number}`);
+            yield put(requestBlockData(payload));
         } catch(err) {
             console.error('socket error:', err)
             // socketChannel is still open in catch block
@@ -97,10 +102,19 @@ export function* checkIsSubscribeNeeded(): Saga<void> {
     const { isRealtimeUpdate } = yield select(getRealtimeUpdateDetails());
 
     if (isRealtimeUpdate) {
-        yield put({ type: SUBSCRIBE_TO_NEW_BLOCKS });
+        yield put(subscribeToNewBlocks());
     }
 }
 
+export function* requestBlockDataSaga(action: Action<string, BlockHeader>): Saga<void> {
+    const api: DataProvider = yield getContext('api');
+    const { payload: { number } = {} } = action;
+
+    const newBlockData = yield call([api, api.getNewBlockData], number);
+    yield put(updateLatestBlocksData(newBlockData));
+}
+
 export default function* watchSubscribeToNewBlocks(): Saga<void> {
-    yield takeLeading(SUBSCRIBE_TO_NEW_BLOCKS, subscribeToNewBlocks);
+    yield takeLeading(SUBSCRIBE_TO_NEW_BLOCKS, subscribeToNewBlocksData);
+    yield takeEvery(REQUEST_BLOCK_DATA, requestBlockDataSaga);
 }

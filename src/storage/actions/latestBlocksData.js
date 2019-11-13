@@ -5,11 +5,13 @@ import {
     LOADING_LATEST_BLOCKS_DATA,
     GET_LATEST_BLOCKS_DATA,
     UPDATE_LATEST_BLOCKS_DATA,
+    SUBSCRIBE_TO_NEW_BLOCKS,
+    UNSUBSCRIBE_TO_NEW_BLOCKS,
+    REQUEST_BLOCK_DATA,
 } from 'src/storage/constants';
 
 import type {
     LatestBlocksData,
-    Block,
 } from 'src/utils/types';
 
 export function setLatestBlocksData(data: LatestBlocksData) {
@@ -32,9 +34,30 @@ export function getLatestBlocksData() {
     }
 }
 
-export function updateLatestBlocksData(data: Block<string>) {
+export function updateLatestBlocksData(data: LatestBlocksData) {
     return {
         type: UPDATE_LATEST_BLOCKS_DATA,
         payload: data,
     }
 }
+
+export function subscribeToNewBlocks() {
+    return {
+        type: SUBSCRIBE_TO_NEW_BLOCKS,
+    };
+}
+
+export function unsubscribeToNewBlocks() {
+    return {
+        type: UNSUBSCRIBE_TO_NEW_BLOCKS,
+    };
+}
+
+export function requestBlockData(blockNumber: number) {
+    return {
+        type: REQUEST_BLOCK_DATA,
+        payload: blockNumber,
+    };
+}
+
+

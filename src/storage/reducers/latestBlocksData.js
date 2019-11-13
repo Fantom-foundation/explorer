@@ -1,40 +1,78 @@
 // @flow
 
-import { fromJS } from 'immutable';
+import { Map, List, fromJS } from 'immutable';
 
 import {
     SET_LATEST_BLOCKS_DATA,
     LOADING_LATEST_BLOCKS_DATA,
+    UPDATE_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
-import type { Map as MapType } from 'immutable';
+import type { Map as MapType, List as ListType } from 'immutable';
 import type {
-    SetLatestBlocksDataAction,
     LoadingLatestBlocksDataAction,
+    SetLatestBlocksDataAction,
+    UpdateLatestBlockDataAction,
 } from 'src/storage/types';
 
-type latestBlocksDataType = MapType<string, MapType<number, any> | boolean>;
+type latestBlocksDataType = MapType<string, ListType<MapType<any>> | boolean>;
 type blocksDataAction =
     | LoadingLatestBlocksDataAction
-    | SetLatestBlocksDataAction;
+    | SetLatestBlocksDataAction
+    | UpdateLatestBlockDataAction;
 
-export const initialState = fromJS({
+export const initialState = Map({
     isLoading: false,
-    blocks: [],
-    transactions: [],
+    blocks: List([]),
+    transactions: List([]),
 });
 
 function latestBlockData(state: latestBlocksDataType = initialState, action: blocksDataAction): latestBlocksDataType {
-    const { type, payload } = action;
-
-    switch (type) {
+    switch (action.type) {
         case SET_LATEST_BLOCKS_DATA: {
-            const payloadMap = fromJS(payload);
-            return state.merge(payloadMap);
+            const payloadMap = fromJS(action.payload);
+
+            return state.withMutations((mutate) => {
+                mutate.set('blocks', payloadMap.get('blocks'));
+
+                if (payloadMap.has('transactions')) {
+                    mutate.set('transactions', payloadMap.get('transactions'));
+                }
+
+                return mutate;
+            });
         }
 
         case LOADING_LATEST_BLOCKS_DATA: {
-            return state.set('isLoading', typeof payload === 'boolean' && payload);
+            return state.set('isLoading', action.payload);
+        }
+
+        case UPDATE_LATEST_BLOCKS_DATA: {
+            const { blocks: [block] = [], transactions } = action.payload;
+
+            const newBlock = fromJS(block);
+            const newTransactions = List(transactions);
+
+            const newState = state.withMutations(
+                (mutable) => {
+                    if (mutable.get('blocks').findEntry((value) => value.get('number') === block.number)) {
+                        return state;
+                    }
+
+                    return mutable
+                        .update('blocks', (blocks) => {
+                            return blocks.unshift(newBlock)
+                                .sort((a, b) => a.number - b.number)
+                                .slice(0, 10)
+                        })
+                        .update('transactions', (transactions) => {
+                            return newTransactions.concat(transactions)
+                                .slice(0, 10);
+                        });
+                },
+            );
+
+            return newState;
         }
 
         default: {

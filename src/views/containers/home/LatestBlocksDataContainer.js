@@ -9,7 +9,7 @@ import LatestTransactions from 'src/views/containers/home/latest-transactions';
 import LatestBlocks from 'src/views/containers/home/latest-blocks';
 import Loader from 'src/views/components/Loader';
 
-import { getLatestBlocksData } from 'src/storage/actions/latestBlocksData';
+import { getLatestBlocksData, unsubscribeToNewBlocks } from 'src/storage/actions/latestBlocksData';
 import { getLatestBlocksSelector } from 'src/storage/selectors/latestBlocksData';
 
 import type { LocationShape } from 'react-router-dom';
@@ -18,6 +18,7 @@ import type { Transaction, Block } from 'src/utils/types';
 type LatestBlocksDataContainerProps = {|
     historyPush: (string | LocationShape) => void,
     getLatestBlocksData: () => void,
+    unsubscribeToNewBlocks: () => void,
     latestBlocksArr: Array<Block<string>>,
     latestTransactionsArr: Array<Transaction>,
     isLoading: boolean,
@@ -27,6 +28,7 @@ function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
     const {
         historyPush,
         getLatestBlocksData,
+        unsubscribeToNewBlocks,
         latestBlocksArr,
         latestTransactionsArr,
         isLoading,
@@ -35,8 +37,8 @@ function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
     React.useEffect(() => {
         getLatestBlocksData();
 
-        return
-    }, [getLatestBlocksData]);
+        return unsubscribeToNewBlocks;
+    }, [getLatestBlocksData, unsubscribeToNewBlocks]);
 
     return (
         <section id="latest-blocks" className="bg-theme">
@@ -65,6 +67,7 @@ const mapStateToProps = getLatestBlocksSelector;
 const mapDispatchToProps = {
     historyPush: push,
     getLatestBlocksData,
+    unsubscribeToNewBlocks,
 };
 
 export default connect<LatestBlocksDataContainerProps, {||}, _, _, _, _>(

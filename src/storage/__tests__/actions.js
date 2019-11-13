@@ -88,11 +88,11 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
     });
 
     it('should return correct updateLatestBlocksData object', function () {
-        const updateLatestBlocksDataAction = updateLatestBlocksData(blockMock);
+        const updateLatestBlocksDataAction = updateLatestBlocksData(dataMock);
 
         expect(updateLatestBlocksDataAction).toEqual({
             type: UPDATE_LATEST_BLOCKS_DATA,
-            payload: blockMock,
+            payload: dataMock,
         });
     });
 });

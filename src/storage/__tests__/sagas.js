@@ -1,8 +1,5 @@
 // @flow
 
-jest.mock('src/storage/actions/latestBlocksData');
-jest.mock('src/storage/sagas/subscribeToNewBlocks');
-
 import { getContext } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan';
 import { fork } from 'redux-saga-test-plan/matchers';
@@ -43,18 +40,6 @@ const latestBlocksData = {
     }],
     transactions: [],
 };
-
-type latestBlocksDataType = typeof latestBlocksData;
-
-loadingLatestBlocksData.mockImplementation((status: boolean) => ({
-    type: 'STRING',
-    payload: status,
-}));
-
-setLatestBlocksData.mockImplementation((latestBlocksData: latestBlocksDataType) => ({
-    type: 'STRING',
-    payload: latestBlocksData,
-}));
 
 const mockedApi = {
     getLatestBlocksData: jest.fn(() => latestBlocksData),
