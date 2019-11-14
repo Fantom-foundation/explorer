@@ -5,13 +5,11 @@ import { Row, Col, Button } from 'reactstrap';
 
 import TxBlockPagination from 'src/views/containers/pagination/txBlockPagination';
 
-export default class TranactionBlockHeader extends React.PureComponent<any, any> { // TODO: add flow types
-    constructor(props) {
-        super(props);
-        this.state = {
-            windowWidth: 1900,
-        };
-    }
+// TODO: refactor to functional component
+export default class TransactionBlockHeader extends React.PureComponent<any, any> { // TODO: add flow types
+    state = {
+        windowWidth: 1900,
+    };
 
     // ** TODO: refactor to redux-resize or redux-responsive
 
@@ -39,7 +37,6 @@ export default class TranactionBlockHeader extends React.PureComponent<any, any>
             block,
             total,
             icon,
-            onShowList,
             pagination,
             currentPage,
             onChangePage,
@@ -62,21 +59,11 @@ export default class TranactionBlockHeader extends React.PureComponent<any, any>
                 </Col>
                 {windowWidth >= 768 && (
                     <Col md={6} className={!pagination ? 'text-right' : ''}>
-                        {pagination ? (
-                            <TxBlockPagination
-                                className="mr-0"
-                                onChangePage={onChangePage}
-                                currentPage={currentPage}
-                            />
-                        ) : (
-                            <Button
-                                color="white"
-                                className="list"
-                                onClick={onShowList}
-                            >
-                                List
-                            </Button>
-                        )}
+                        <TxBlockPagination
+                            className="mr-0"
+                            onChangePage={onChangePage}
+                            currentPage={currentPage}
+                        />
                     </Col>
                 )}
             </Row>

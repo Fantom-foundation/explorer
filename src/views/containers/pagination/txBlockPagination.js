@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Button } from 'reactstrap';
 
 import iconPrev from './ic-prev.svg';
@@ -18,6 +18,8 @@ function TxBlockPagination(props: TxBlockPaginationProps) {
         currentPage,
         className,
     } = props;
+
+
 
     return (
         <div id="tx-block-pagination" className={className}>

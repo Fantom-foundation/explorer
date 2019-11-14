@@ -50,8 +50,10 @@ function SearchBar(props: SearchBarProps) {
             } else {
                 toggleModalOpen();
             }
+
+            setSearchText('');
         }
-    }, [searchText, toggleModalOpen, historyPush]);
+    }, [searchText, toggleModalOpen, historyPush, setSearchText]);
 
     return (
         <>

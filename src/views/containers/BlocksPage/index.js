@@ -1,26 +1,22 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Row, Col, Table } from 'reactstrap';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import moment from 'moment';
 import { push } from 'connected-react-router';
 
-import HttpDataProvider from 'src/utils/httpProvider';
-import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
-import { setBlockData } from 'src/storage/actions/blocks';
 import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
 import Wrapper from 'src/views/wrapper/wrapper';
+import { DataTable } from 'src/views/components/DataTable';
 
 type BlocksProps = {
-    setBlocksData: ({ payload: Array<any> }) => void,
     historyPush: (string) => void,
     blockDetails: { allBlockData: Array<{ cursor: string }> },
 };
 
 type BlocksState = {
-    searchText: string,
     blockData: Array<string>,
     error: string,
     lastFetchedPage: number,
@@ -29,37 +25,39 @@ type BlocksState = {
     currentPageVal: number,
 };
 
-class Blocks extends React.Component<BlocksProps, BlocksState> {
-    maxPageVal: number = 0
+const blockPageStructure = [
+    {
+        key: 'number',
+        header: 'Height',
+        render: (height: number) => <span className="icon icon-block">{height}</span>,
+        className: "text-primary full head",
+    },
+    {
+        key: 'timestamp',
+        header: 'Time',
+        render: (timestamp: number) => moment(new Date(timestamp * 1000)).fromNow(),
+        className: "text-primary full-wrap txn",
+    },
+    {
+        key: 'transactions',
+        header: 'Txn',
+        render: (transactions: Array<any>) => transactions.length,
+        className: "text-primary full-wrap txn",
+    },
+    {
+        key: 'hash',
+        header: 'Hash',
+        className: "text-primary full-wrap hash text-ellipsis"
+    },
+];
 
-    interval: ?TimeoutID = null
-
-    state = {
-        searchText: '',
-        blockData: [],
-        error: '',
-        lastFetchedPage: 2,
-        currentPage: 0,
-        hasNextPage: true,
-        currentPageVal: 0,
-    }
-
-
-    componentDidMount() {
-        const { setBlocksData } = this.props;
-
-        this.interval = setTimeout(() => setBlocksData({ payload: [] }), 3000);
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.interval);
-    }
+function BlocksPage(props: BlocksProps) {
 
     /**
      * @method onChangePage() :  Function to handle pagination
      * @param {String} type : Type defines whether it is previous page or next page
      */
-    onChangePage = (type: string) => {
+/*    onChangePage = (type: string) => {
         // TODO: code duplicate
 
         const { currentPageVal } = this.state;
@@ -137,23 +135,18 @@ class Blocks extends React.Component<BlocksProps, BlocksState> {
                     });
             }
         }
-    };
-
-    setSearchText = (e: SyntheticEvent<HTMLInputElement>) => {
-        this.setState({
-            searchText: e.currentTarget.value,
-        });
-    }
+    };*/
 
     /**
      * @method renderBlockList() :  Function to render all list of blocks
      */
-    renderBlockList() {
+/*    renderBlockList() {
         const { currentPageVal } = this.state;
         const { blockDetails, history } = this.props;
         const { allBlockData } = blockDetails;
         const from = currentPageVal * 10;
         const to = from + 10;
+
         if (blockDetails && allBlockData) {
             const transformedBlockArray = allBlockData.slice(from, to);
 
@@ -162,124 +155,121 @@ class Blocks extends React.Component<BlocksProps, BlocksState> {
                     <Col>
                         <Table className="blocks-table">
                             <thead>
-                            <tr>
-                                <th>Height</th>
-                                <th>Time</th>
-                                <th>Txn</th>
-                                <th>hash</th>
-                                <th>Round</th>
-                            </tr>
-                            </thead>
-                            <tbody className="">
-                            {transformedBlockArray &&
-                            transformedBlockArray.length > 0 &&
-                            transformedBlockArray.map((data, index) => (
-                                <tr
-                                    key={index}
-                                    onClick={() =>
-                                        history.push({
-                                            pathname: `/blocks/${data.height}`,
-                                            state: { data, type: 'block' },
-                                        })
-                                    }
-                                >
-                                    <td data-head="Height" className="text-primary full head">
-                                        <span className="icon icon-block">{data.height}</span>
-                                    </td>
-                                    <td
-                                        data-head="Txn"
-                                        className="text-primary full-wrap txn"
-                                    >
-                                        {moment(new Date(data.createdTime * 1000)).fromNow()}
-                                    </td>
-                                    <td
-                                        data-head="Txn"
-                                        className="text-primary full-wrap txn"
-                                    >
-                                        {data.transactions.length}
-                                    </td>
-                                    <td
-                                        data-head="hash"
-                                        className="text-primary full-wrap hash text-ellipsis"
-                                    >
-                                        {data.hash}
-                                    </td>
-                                    <td data-head="Round" className=" full-wrap round">
-                                        <span className="o-5">{data.round}</span>
-                                    </td>
+                                <tr>
+                                    <th>Height</th>
+                                    <th>Time</th>
+                                    <th>Txn</th>
+                                    <th>hash</th>
+                                    <th>Round</th>
                                 </tr>
-                            ))}
+                            </thead>
+                            <tbody>
+                                {transformedBlockArray &&
+                                transformedBlockArray.length > 0 &&
+                                transformedBlockArray.map((data, index) => (
+                                    <tr
+                                        key={index}
+                                        onClick={() =>
+                                            history.push({
+                                                pathname: `/blocks/${data.height}`,
+                                                state: { data, type: 'block' },
+                                            })
+                                        }
+                                    >
+                                        <td data-head="Height" className="text-primary full head">
+                                            <span className="icon icon-block">{data.height}</span>
+                                        </td>
+                                        <td
+                                            data-head="Txn"
+                                            className="text-primary full-wrap txn"
+                                        >
+                                            {moment(new Date(data.createdTime * 1000)).fromNow()}
+                                        </td>
+                                        <td
+                                            data-head="Txn"
+                                            className="text-primary full-wrap txn"
+                                        >
+                                            {data.transactions.length}
+                                        </td>
+                                        <td
+                                            data-head="hash"
+                                            className="text-primary full-wrap hash text-ellipsis"
+                                        >
+                                            {data.hash}
+                                        </td>
+                                        <td data-head="Round" className=" full-wrap round">
+                                            <span className="o-5">{data.round}</span>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </Table>
                     </Col>
                 </Row>
             );
         }
+
         return null;
-    }
+    }*/
 
-    /**
-     * @method onShowList() :  Function to show all list of blocks
-     * @param {String} type : Type defines whether it is previous page or next page
-     */
-    onShowList = () => {
-        const { historyPush } = this.props;
-        historyPush('/blocks');
-    };
+    // render() {
+    //     const { currentPageVal, error } = this.state;
+    //     const { blockDetails } = this.props;
+    //     let descriptionBlock = '';
+    //     const from = currentPageVal * 10;
+    //     const to = from + 10;
+    //     let totalBlocks = '';
+    //
+    //     if (blockDetails && blockDetails.allBlockData) {
+    //         const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
+    //         const {
+    //             blockDetails: { allBlockData },
+    //         } = this.props;
+    //
+    //         if (allBlockData.length) {
+    //             const firstBlock = allBlockData[0];
+    //             totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
+    //         }
+    //
+    //         if (transformedBlockArray && transformedBlockArray.length) {
+    //             const firstBlock = transformedBlockArray[0];
+    //             const lastBlock = transformedBlockArray[transformedBlockArray.length - 1];
+    //             descriptionBlock = `Block #${ lastBlock.height } To #${ firstBlock.height } `;
+    //         }
+    //     }
 
-    render() {
-        const { searchText, currentPageVal, error } = this.state;
-        const { blockDetails, historyPush } = this.props;
-        let descriptionBlock = '';
-        const from = currentPageVal * 10;
-        const to = from + 10;
-        let totalBlocks = '';
+    const descriptionBlock = 'Block description';
+    const totalBlocks = ' ( Total of {height} Blocks )';
+    const currentPageVal = 1;
+    const error = '';
+    const onChangePage = React.useCallback((str: string) => {
+        console.log(str);
+    }, []);
 
-        console.log(historyPush);
-
-        if (blockDetails && blockDetails.allBlockData) {
-            const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
-            const {
-                blockDetails: { allBlockData },
-            } = this.props;
-
-            if (allBlockData.length) {
-                const firstBlock = allBlockData[0];
-                totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
-            }
-
-            if (transformedBlockArray && transformedBlockArray.length) {
-                const firstBlock = transformedBlockArray[0];
-                const lastBlock = transformedBlockArray[transformedBlockArray.length - 1];
-                descriptionBlock = `Block #${ lastBlock.height } To #${ firstBlock.height } `;
-            }
-        }
-
-        return (
-            <div>
-                <Wrapper
-                    setSearchText={this.setSearchText}
-                    searchText={searchText}
-                    onChangePage={this.onChangePage}
-                    icon={TitleIcon}
-                    title="Blocks"
-                    block={descriptionBlock}
-                    total={totalBlocks}
-                    onShowList={this.onShowList}
-                    currentPage={currentPageVal}
-                    history={historyPush}
-                    placeHolder="Search by Transaction Hash / Block Number"
-                    pagination
-                >
-                    {error ? (
-                        <p className="text-white">{error}</p>
-                    ) : (
-                        this.renderBlockList()
-                    )}
-                </Wrapper>
-            </div>
-        );
-    }
+    return (
+        <Wrapper
+            title="Blocks"
+            onChangePage={onChangePage}
+            block={descriptionBlock}
+            total={totalBlocks}
+            currentPage={currentPageVal}
+        >
+            {error ? (
+                <p className="text-white">{error}</p>
+            ) : (
+                <Row>
+                    <Col>
+                        <DataTable
+                            structure={blockPageStructure}
+                            rowKey='number'
+                            data={[]}
+                        />
+                    </Col>
+                </Row>
+            )}
+        </Wrapper>
+    );
+    // }
 }
 
 const mapStateToProps = createSelector(
@@ -288,11 +278,10 @@ const mapStateToProps = createSelector(
 );
 
 const mapDispatchToProps = ({
-    setBlocksData: setBlockData,
     historyPush: push,
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Blocks);
+)(BlocksPage);
