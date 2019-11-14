@@ -28,6 +28,7 @@ function LatestBlock({ onBlockClick, data }: LatestBlockProps) {
             </p>
             <p className="text-ellipsis">
                 <span className="text-white">Hash</span>
+                &nbsp;
                 <span className="text-primary hash-value">{data.hash}</span>
             </p>
             {/*<p className="text-ellipsis">*/}
@@ -37,6 +38,7 @@ function LatestBlock({ onBlockClick, data }: LatestBlockProps) {
             <div className="ammount-date">
                 <p className="mb-0">
                     <span className="text-white">Txns</span>
+                    &nbsp;
                     <span className="text-primary">{data.transactions.length}</span>
                 </p>
                 <p className="time-date text-white">

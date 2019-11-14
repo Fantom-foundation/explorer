@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 
 import TransactionHeader from '../components/header/tranactionBlockHeader';
-import SearchBar from '../components/search/searchBar/index';
+import SearchBar from '../components/SearchBar/index';
 import TxBlockPagination from '../containers/pagination/txBlockPagination';
 
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
@@ -81,30 +81,6 @@ class Wrapper extends React.Component<{||}, { modal: boolean }> { // TODO: compo
 
         return (
             <React.Fragment>
-                <Modal
-                    isOpen={modal}
-                    toggle={this.toggle}
-                >
-                    <ModalHeader toggle={this.toggle} />
-                    <ModalBody>
-                        <div className="content">
-                            <h2 className="title">Error</h2>
-                            <p className="error">
-                                Invalid Block Number or Transaction Hash. Please enter a valid
-                                Block Number or Transaction Hash.
-                            </p>
-                        </div>
-                        <Button color="primary" className="w-100" onClick={this.toggle}>
-                            OK
-                        </Button>
-                    </ModalBody>
-                </Modal>
-                <SearchBar
-                    searchHandler={this.searchHandler}
-                    setSearchText={setSearchText}
-                    searchText={searchText}
-                    placeHolder={placeHolder}
-                />
                 <section className="bg-theme full-height-conatainer">
                     <Container>
                         <TransactionHeader

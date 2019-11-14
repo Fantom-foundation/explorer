@@ -82,6 +82,7 @@ class ToggleToolTip extends React.Component<ToggleToolTipProps, {| isOpenTooltip
      */
     handleRealTimeUpdate() {
         const { handleRealTimeUpdate } = this.props;
+
         if (handleRealTimeUpdate) {
             this.realtimeUpdateInterval = setInterval(() => {
                 handleRealTimeUpdate();

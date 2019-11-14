@@ -1,23 +1,23 @@
 // @flow
 
 import React from 'react';
-import {Container, Row, Col} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 import searchIcon from 'src/assets/images/icons/search.svg';
 
-type SearchBarProps = {
+type SearchBarInputProps = {
     searchHandler: (event: SyntheticEvent<HTMLFormElement>) => void,
-    setSearchText: () => void,
+    setSearchText: (event: SyntheticEvent<HTMLInputElement>) => void,
     searchText: string,
     placeHolder: string,
 };
 
-const SearchBar = ({
+const SearchBarInput = ({
     searchHandler,
     setSearchText,
     searchText,
     placeHolder,
-}: SearchBarProps) => (
+}: SearchBarInputProps) => (
     <section id="search-bar">
         <Container>
             <Row>
@@ -44,4 +44,4 @@ const SearchBar = ({
     </section>
 );
 
-export default SearchBar;
+export default SearchBarInput;
