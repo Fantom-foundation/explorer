@@ -106,30 +106,47 @@ class Web3Provider implements DataProvider {
     }
 
     async getNewBlockData(number: number): Promise<LatestBlocksData> {
-        let block = null;
+        let result: ?Block<Transaction> = null;
 
-        while (!block) {
-            block = await _web3.eth.getBlock(number, true);
+        while (!result) {
+            result = await _web3.eth.getBlock(number, true);
 
-            if (!block) {
+            if (!result) {
                 await (new Promise((resolve) => setTimeout(resolve, 1500)));
             }
         }
 
-        const txIds = [];
+        const txIds: Array<string> = [];
 
-        const transactions = block.transactions.map((tx) => {
+        const transactions = result.transactions.map((tx) => {
             txIds.push(tx.hash);
 
             return tx;
         });
 
-        block.transactions = txIds;
+        const block: Block<string> = {
+            ...result,
+            transactions: txIds,
+        };
 
         return {
             blocks: [block],
             transactions,
         };
+    }
+
+    async getBlocksPageData(
+        offset: number = 0,
+        count: number = 10
+    ) {
+        try {
+            const maxBlockHeight: number = await _web3.eth.getBlockNumber();
+            const blocks = await this.getBlocks(maxBlockHeight - offset, count);
+
+            return { maxBlockHeight, blocks };
+        } catch(err) {
+            return { error: err };
+        }
     }
 }
 

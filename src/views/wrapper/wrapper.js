@@ -9,7 +9,7 @@ import TxBlockPagination from '../containers/pagination/txBlockPagination';
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
 
 type WrapperProps = {|
-    +onChangePage: (string) => void,
+    +onChangePage: ('next'|'prev') => void,
     +title: string,
     +block: string,
     +total: string,

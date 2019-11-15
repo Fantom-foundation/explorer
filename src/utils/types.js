@@ -99,5 +99,6 @@ export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
     getBlocks(fromBlock: ?number, count: ?number, getBlockParams: [boolean] | []): Promise<Array<Block<Transaction | string>>>;
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
-    getNewBlockData(blockNum: number): LatestBlocksData,
+    getNewBlockData(blockNum: number): Promise<LatestBlocksData>,
+    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<Transaction | string>> |}>
 }

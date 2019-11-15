@@ -19,7 +19,8 @@ function TxBlockPagination(props: TxBlockPaginationProps) {
         className,
     } = props;
 
-
+    const nextPage = React.useCallback(() => onChangePage('next'), [onChangePage]);
+    const prevPage = React.useCallback(() => onChangePage('prev'), [onChangePage]);
 
     return (
         <div id="tx-block-pagination" className={className}>
@@ -27,20 +28,20 @@ function TxBlockPagination(props: TxBlockPaginationProps) {
                 <Button
                     style={{ backgroundImage: `url(${iconPrev})` }}
                     className="left m"
-                    onClick={() => onChangePage('prev')}
+                    onClick={prevPage}
                 >
                     Prev
                 </Button>
                 <Button
                     style={{ backgroundImage: `url(${iconNext})` }}
                     className="right m"
-                    onClick={() => onChangePage('next')}
+                    onClick={nextPage}
                 >
                     Next
                 </Button>
             </div>
             <div>
-                <p> Page {currentPage + 1}</p>
+                <p> Page {currentPage}</p>
             </div>
         </div>
     );
