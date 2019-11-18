@@ -1,9 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Row, Col, Button } from 'reactstrap';
-
-import TxBlockPagination from 'src/views/containers/pagination/txBlockPagination';
+import { Row, Col } from 'reactstrap';
 
 // TODO: refactor to functional component
 export default class TransactionBlockHeader extends React.PureComponent<any, any> { // TODO: add flow types

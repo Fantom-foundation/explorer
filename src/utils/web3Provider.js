@@ -135,6 +135,16 @@ class Web3Provider implements DataProvider {
         };
     }
 
+    async getBlock(blockNumber: number | string) {
+        try {
+            const block = await _web3.eth.getBlock(blockNumber);
+
+            return { blockData: [block] };
+        } catch(err) {
+            return { error: err };
+        }
+    }
+
     async getBlocksPageData(
         offset: number = 0,
         count: number = 10

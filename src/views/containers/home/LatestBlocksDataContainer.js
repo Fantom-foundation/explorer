@@ -63,7 +63,7 @@ function LatestBlocksDataContainer(props: LatestBlocksDataContainerProps) {
             </Container>
         </section>
     );
-};
+}
 
 const mapStateToProps = getLatestBlocksSelector;
 
