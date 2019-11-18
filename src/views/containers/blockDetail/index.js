@@ -1,21 +1,15 @@
 // @flow
 
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push, createMatchSelector } from 'connected-react-router/immutable';
+import { Container, Button, Col } from 'reactstrap';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
-import SearchForBlock from 'src/views/components/search/searchForBlock/index';
+import SearchForBlock from 'src/views/components/search/searchForBlock';
+import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
+
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
-import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
-import Wrapper from 'src/views/wrapper/wrapper';
 
-import type { Match } from 'react-router-dom';
-
-type BlockDetailProps = {|
-    historyPush: (path: string) => void,
-    blockData: Array<string>,
-    match: Match,
-|};
+type BlockDetailProps = {||};
 
 /**
  *  Return block detail component
@@ -26,43 +20,33 @@ type BlockDetailProps = {|
 
 function BlockDetail(props: BlockDetailProps) {
     const {
-        historyPush,
         blockData = [],
-        match,
     } = props;
-    const { params: { id: blockHeight } } = match;
-    const [searchText, setSearchText] = React.useState('');
     const [error, setError] = React.useState('');
-
-    const setSearchTextCallback = React.useCallback((e: SyntheticEvent<HTMLInputElement>) => {
-        const { value } = e.currentTarget;
-
-        setSearchText(value);
-    }, []);
-
+    const history = useHistory();
+    const match = useRouteMatch('/blocks/:id');
+    const { params: { id: blockHeight } } = match;
     const showDetail = React.useCallback((blockNumber) => {
         if (blockNumber === '') {
             return;
         }
 
-        historyPush(`/block/${blockNumber}`);
-    }, [historyPush]);
+        history.push(`/block/${blockNumber}`);
+    }, [history]);
 
     /**
      * @method onShowList():  Function to show list of blocks
      */
 
     const onShowList = React.useCallback(() => {
-        historyPush('/blocks');
-    }, [historyPush]);
+        history.push('/blocks');
+    }, [history]);
 
     React.useEffect(() => {
         console.log(blockHeight);
 
         return () => console.log('Unmount!');
     }, [blockHeight]);
-
-
 
     /**
      * @method getFantomBlocks():  Api to fetch blocks for given index of block of Fantom own endpoint.
@@ -133,62 +117,49 @@ function BlockDetail(props: BlockDetailProps) {
      */
 
     return (
-        <div>
-            <Wrapper
-                setSearchText={setSearchTextCallback}
-                searchText={searchText}
-                icon={TitleIcon}
-                title="Block Number:"
-                block="Transactions"
-                total={blockHeight}
-                pagination={false}
-                onShowList={onShowList}
-                history={historyPush}
-                placeHolder="Search by Transaction Hash / Block Number"
-            >
+        <section className="bg-theme full-height-conatainer">
+            <Container>
+                <TransactionBlockHeader
+                    title="Block Number:"
+                    block="Transactions"
+                    total={blockHeight}
+                    icon={TitleIcon}
+                >
+                    <Col md={6} className="text-right">
+                        <Button
+                            color="white"
+                            className="list"
+                            onClick={onShowList}
+                        >
+                            List
+                        </Button>
+                    </Col>
+                </TransactionBlockHeader>
                 {
                     error ? (<p className="text-white">{error}</p>) :
-                    blockData.length <= 0 ? (
-                        <div className="loader">
-                            <div className="holder">
-                                <div className="lds-ellipsis">
-                                    <div />
-                                    <div />
-                                    <div />
-                                    <div />
+                        blockData.length <= 0 ? (
+                            <div className="loader">
+                                <div className="holder">
+                                    <div className="lds-ellipsis">
+                                        <div />
+                                        <div />
+                                        <div />
+                                        <div />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : (
-                        <React.Fragment>
-                            {blockData.length > 0 && (
-                                <SearchForBlock blocks={blockData} showDetail={showDetail} />
-                            )}
-                            {error !== '' &&
-                            searchText !== '' && <p className="text-white">{error}</p>}
-                        </React.Fragment>
-                    )
+                        ) : (
+                            <React.Fragment>
+                                {blockData.length > 0 && (
+                                    <SearchForBlock blocks={blockData} showDetail={showDetail} />
+                                )}
+                                {error !== '' && <p className="text-white">{error}</p>}
+                            </React.Fragment>
+                        )
                 }
-            </Wrapper>
-        </div>
+            </Container>
+        </section>
     );
 }
 
-const mapStateToProps = (state, props) => {
-    const matchSelector = createMatchSelector('/blocks/:id');
-    const match = matchSelector(state);
-
-    return {
-        blockData: getBlockUpdateDetails()(state, props),
-        match,
-    };
-};
-
-const mapDispatchToProps = {
-    historyPush: push,
-};
-
-export default connect<BlockDetailProps, {||}, _, _, _, _>(
-    mapStateToProps,
-    mapDispatchToProps
-)(BlockDetail);
+export default BlockDetail;

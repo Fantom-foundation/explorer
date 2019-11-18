@@ -1,24 +1,17 @@
 // @flow
 
 import * as React from 'react';
-import { connect } from 'react-redux';
-import { push } from 'connected-react-router/immutable';
+import { useHistory } from 'react-router-dom';
 
 import SearchBarInput from 'src/views/components/SearchBar/SearchBarInput';
 import SearchBarModal from 'src/views/components/SearchBar/SearchBarModal';
 
 import { checkSearchString } from 'src/utils';
 
-import type { LocationShape } from 'react-router-dom';
-
-type SearchBarProps = {|
-    historyPush: (string | LocationShape) => void,
-|};
-
-function SearchBar(props: SearchBarProps) {
-    const { historyPush } = props;
+function SearchBar() {
     const [ searchText, setSearchText ] = React.useState('');
     const [ isModalOpen, setIsModalOpen ] = React.useState(false);
+    const history = useHistory();
 
     const toggleModalOpen = React.useCallback(() => {
         setIsModalOpen(!isModalOpen);
@@ -39,11 +32,11 @@ function SearchBar(props: SearchBarProps) {
                 const { type } = checkResponse;
 
                 if (type === 'number') {
-                    historyPush({
+                    history.push({
                         pathname: `/blocks/${searchText}`,
                     });
                 } else if (type === 'hash') {
-                    historyPush({
+                    history.push({
                         pathname: `/transactions/${searchText}`,
                     });
                 }
@@ -53,7 +46,7 @@ function SearchBar(props: SearchBarProps) {
 
             setSearchText('');
         }
-    }, [searchText, toggleModalOpen, historyPush, setSearchText]);
+    }, [searchText, toggleModalOpen, history, setSearchText]);
 
     return (
         <>
@@ -71,8 +64,4 @@ function SearchBar(props: SearchBarProps) {
     );
 }
 
-const mapDispatchToProps = {
-    historyPush: push,
-};
-
-export default connect<SearchBarProps, {||}, _, _, _, _>(null, mapDispatchToProps)(SearchBar);
+export default SearchBar;

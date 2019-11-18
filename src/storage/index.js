@@ -1,8 +1,6 @@
 // @flow
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware } from 'connected-react-router/immutable';
 import createSagaMiddleware from 'redux-saga';
 
 import type { Map } from 'immutable';
@@ -21,12 +19,9 @@ const sagaMiddleware = createSagaMiddleware({
 });
 const persistedState = loadState();
 
-export const history = createBrowserHistory();
-
 export default function configureStore() {
     const middlewares = [
         sagaMiddleware,
-        routerMiddleware(history),
         persistMiddleware,
     ];
 
@@ -47,7 +42,7 @@ export default function configureStore() {
             : compose;
 
     /* eslint-enable */
-    const rootReducer = createReducer(history);
+    const rootReducer = createReducer();
 
     const store = {
         ...createStore<Map<mixed, mixed>, mixed, any>( // TODO: correct flow store types
@@ -67,7 +62,7 @@ export default function configureStore() {
 
     if (module.hot) {
         module.hot.accept('./reducers', () => {
-            store.replaceReducer(createReducer(history, store.injectedReducers));
+            store.replaceReducer(createReducer(store.injectedReducers));
         });
     }
 

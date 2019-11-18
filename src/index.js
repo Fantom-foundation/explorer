@@ -3,9 +3,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { ConnectedRouter } from 'connected-react-router/immutable';
+import { BrowserRouter } from 'react-router-dom';
 
-import configureStore, { history } from 'src/storage';
+import configureStore from 'src/storage';
 
 // import { translationMessages } from './i18n';
 import Main from './main';
@@ -17,9 +17,9 @@ const store = configureStore();
 
 const Root = () => (
     <Provider store={store}>
-        <ConnectedRouter history={history}>
+        <BrowserRouter>
             <Main />
-        </ConnectedRouter>
+        </BrowserRouter>
     </Provider>
 );
 

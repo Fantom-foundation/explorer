@@ -37,9 +37,7 @@ export default class TransactionBlockHeader extends React.PureComponent<any, any
             block,
             total,
             icon,
-            pagination,
-            currentPage,
-            onChangePage,
+            children,
         } = this.props;
 
         return (
@@ -57,15 +55,7 @@ export default class TransactionBlockHeader extends React.PureComponent<any, any
                         </Col>
                     </Row>
                 </Col>
-                {windowWidth >= 768 && (
-                    <Col md={6} className={!pagination ? 'text-right' : ''}>
-                        <TxBlockPagination
-                            className="mr-0"
-                            onChangePage={onChangePage}
-                            currentPage={currentPage}
-                        />
-                    </Col>
-                )}
+                {windowWidth >= 768 && children}
             </Row>
         );
     }
