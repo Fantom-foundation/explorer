@@ -18,7 +18,7 @@ function LatestBlock({ onBlockClick, data }: LatestBlockProps) {
             xs={12}
             className="details"
             onClick={onBlockClick}
-            data-block-height={data.hash}
+            data-block-height={data.number}
         >
             <p
                 className="text-white ico"
