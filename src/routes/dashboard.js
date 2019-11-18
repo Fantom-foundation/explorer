@@ -18,7 +18,7 @@ import SearchBar from 'src/views/components/SearchBar';
 export default function Dashboard() {
     return (
         <>
-            <Route path="/(blocks|transactions)" component={SearchBar} />
+            <Route path="/(blocks|transactions|block)" component={SearchBar} />
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/blocks" exact component={Blocks} />
@@ -27,7 +27,7 @@ export default function Dashboard() {
                 <Route path="/transactions" exact component={Transactions} />
                 <Route path="/transactions/:id" component={TransactionDetail} />
                 <Route path="/details" component={Details} />
-                <Route path="/block/:id" component={BlockTransactionDetail} />
+                <Route path="/block/:id?" component={BlockTransactionDetail} />
                 <Route path="/resources" component={Resources} />
             </Switch>
         </>

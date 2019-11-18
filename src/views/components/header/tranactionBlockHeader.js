@@ -1,10 +1,24 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Row, Col } from 'reactstrap';
 
+import TransactionIcon from 'src/assets/images/icons/transactions.svg';
+
+type TransactionBlockHeaderProps = {
+    title: string,
+    block: string,
+    total: string,
+    icon: string,
+    children: React.Node,
+}
+
 // TODO: refactor to functional component
-export default class TransactionBlockHeader extends React.PureComponent<any, any> { // TODO: add flow types
+export default class TransactionBlockHeader extends React.PureComponent<TransactionBlockHeaderProps, any> { // TODO: add flow types
+    static defaultProps = {
+        icon: TransactionIcon,
+    };
+
     state = {
         windowWidth: 1900,
     };

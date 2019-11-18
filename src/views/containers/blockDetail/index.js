@@ -14,7 +14,11 @@ import Web3Provider from 'src/utils/web3Provider';
 function BlockDetail() {
     const history = useHistory();
     const match = useRouteMatch('/blocks/:id');
-    const { params: { id: blockHeight } } = match;
+    const {
+        params: {
+            id: blockHeight = '',
+        },
+    } = match;
     const [error, setError] = React.useState('');
     const [ blockData, setBlockData ] = React.useState([]);
 

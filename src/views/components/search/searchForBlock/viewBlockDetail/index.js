@@ -1,10 +1,18 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import * as React from 'react';
+import { Container, Row, Col, Button } from 'reactstrap';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import Web3 from 'web3';
 
-import TransactionDetail from './transactionDetail';
-import { Title } from 'src/views/components/coreComponent';
+import { DataTable } from 'src/views/components/DataTable';
+
+import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
+import Web3Provider from 'src/utils/web3Provider';
+import { toFixed } from 'src/common/utility';
+
+import type { RouterHistory } from 'react-router-dom';
+import type { Transaction } from 'src/utils/types';
 
 /**
  * BlockTransactions :  A component meant for displaying transactions of particular block index
@@ -13,130 +21,137 @@ import { Title } from 'src/views/components/coreComponent';
 
 // TODO: Replace by universal transaction display component
 
-function BlockDetail(props: {||}) {
-    const { match, history } = props;
-    const [state, setState] = useState<{
-        error: string,
-        transactions: Array<string>,
-    }>({ transactions: [], error: '' });
+const transactionsStructure = [
+    {
+        className: 'text-primary full head text-ellipsis',
+        key: 'hash',
+        header: 'Tx Hash',
+        render: (hash: string) => (
+            <span className="icon icon-transaction">
+                {hash || '--'}
+            </span>
+        ),
+    },
+    {
+        className: 'text-primary half text-ellipsis',
+        key: 'blockNumber',
+        header: 'Block',
+        render: (blockNumber: number) => blockNumber.toString() || '--',
+    },
+    {
+        className: 'text-primary half text-ellipsis',
+        key: 'from',
+        header: 'From',
+        render: (from: string) => from || '--',
+    },
+    {
+        className: 'text-primary half text-ellipsis',
+        key: 'to',
+        header: 'To',
+        render: (to: string) => to || '--',
+    },
+    {
+        className: 'text-primary half text-ellipsis',
+        key: 'value',
+        header: 'Value',
+        render: (value: string) => {
+            if (value) {
+                const fnt = Web3.utils.fromWei(value, 'ether');
+                return toFixed(fnt, 4);
+            } else {
+                return '--';
+            }
+        },
+    },
+    {
+        className: 'text-primary half text-ellipsis',
+        key: 'gas',
+        header: 'Gas used',
+        render: (gas: string) => gas || '--',
+    },
+];
 
-    useEffect(() => {
-        const { params: { id } } = match;
+function BlockDetail() {
+    const [error, setError] = React.useState('');
+    const [transactions, setTransactions] = React.useState([]);
+    const history = useHistory();
+    const match = useRouteMatch('/block/:id?');
+    const {
+        params: { id },
+    } = match;
 
-        if (id) {
-            console.log(id);
-        } else {
-            history.push({
-                pathname: '/blocks',
-            });
+    if (!id) {
+        history.push({
+            pathname: '/blocks',
+        });
+    }
+
+    React.useEffect(() => {
+        async function fetchData() {
+            const provider = new Web3Provider();
+
+            const response = await provider.getBlock(id, true);
+
+            if (response.error) {
+                setError(response.error);
+            } else {
+                const [{ transactions: transactionsData }] = response.blockData;
+                setTransactions(transactionsData);
+            }
         }
 
-        setTimeout(() => {
-            setState({ ...state, error: 'ahahah' });
-        }, 1000);
-    }, [match]);
+        fetchData();
+    }, [id, history]);
 
-    // getFantomBlocks(searchBlockIndex) {
-    //     HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
-    //         query: `
-    //       {
-    //        block(index:${searchBlockIndex}) {
-    //         id,payload
-    //       }
-    //       }`,
-    //     })
-    //
-    //         .then((response) => {
-    //             if (
-    //                 response &&
-    //                 response.data &&
-    //                 response.data.data &&
-    //                 response.data.data.block
-    //             ) {
-    //                 this.loadFantomBlockData(response.data.data);
-    //             } else {
-    //                 this.setState({
-    //                     blockData: [],
-    //                     error: 'No Record Found',
-    //                 });
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             this.setState({
-    //                 blockData: [],
-    //                 error: error.message || 'Internal Server Error',
-    //             });
-    //         });
-    // }
+    const historyCallback = React.useCallback((history: RouterHistory, data: Transaction) => {
+        const { hash } = data;
 
-    /**
-     * loadFantomBlockData() :  Function to create array of objects from response of Api calling for storing blocks.
-     * @param {*} responseJson : Json of block response data from Api.
-     */
-    // loadFantomBlockData(allData) {
-    //     let transactionData = [];
-    //     const result = allData.block.payload;
-    //     if (result.transactions !== null) {
-    //         result.transactions.map((transaction) => {
-    //             transactionData.push({
-    //                 transaction_hash: transaction.transactionHash,
-    //                 block_id: result.index,
-    //                 address_from: transaction.from,
-    //                 address_to: transaction.to,
-    //                 value: transaction.value,
-    //                 txFee: '',
-    //                 createdAt: '',
-    //                 gasUsed: transaction.gasUsed !== null ? transaction.gasUsed : '',
-    //             });
-    //         });
-    //         transactionData = transactionData.reverse();
-    //         this.setState({
-    //             transactionData,
-    //         });
-    //     } else {
-    //         this.setState({
-    //             error: 'No Record Found!',
-    //         });
-    //     }
-    // }
+        history.push({
+            pathname: `/transactions/${hash}`,
+        });
+    }, []);
 
-    // loadFantomBlockData(allData) {
-    //   const result = allData.payload;
-    //   let blockData = [];
-    //   const txLength =
-    //     allData.payload.transactions !== null
-    //       ? allData.payload.transactions.length
-    //       : 0;
-    //   blockData.push({
-    //     height: result.index,
-    //     hash: result.hash,
-    //     round: result.round,
-    //     transactions: txLength,
-    //   });
-    //   blockData = blockData.reverse();
-    //   this.setState({
-    //     blockData,
-    //   });
-    // }
-
-    const { transactions, error } = state;
+    const goToBlock = React.useCallback(() => {
+        if (id) {
+            history.push({
+                pathname: `/blocks/${id}`,
+            })
+        }
+    }, [history, id]);
 
     return (
         <section className="bg-theme full-height-conatainer">
             <Container>
-                <Row className="title-header pt-3">
-                    <Col className="pt-3">
-                        <Title className="text-white" h2>
-                            Transactions
-                        </Title>
+                <TransactionBlockHeader
+                    title="Transactions"
+                    block="For Block"
+                    total={id ? id : '0'}
+                >
+                    <Col md={6} className="text-right">
+                        <Button
+                            color="white"
+                            className="list"
+                            onClick={goToBlock}
+                        >
+                            Go to Block
+                        </Button>
                     </Col>
-                </Row>
-                <Row>
-                    {transactions.length > 0 && (
-                        <TransactionDetail transactions={transactions} />
-                    )}
-                    {error !== '' && <p>{error}</p>}
-                </Row>
+                </TransactionBlockHeader>
+                <Container>
+                    <Row>
+                        {
+                            error !== '' ? <p>{error}</p> :
+                                transactions.length > 0 ? (
+                                    <DataTable
+                                        data={transactions}
+                                        rowKey="hash"
+                                        structure={transactionsStructure}
+                                        historyCallback={historyCallback}
+                                    />
+                                ) : <p>No transactions found</p>
+                        }
+                    </Row>
+                </Container>
             </Container>
         </section>
     );

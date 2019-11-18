@@ -101,5 +101,5 @@ export interface DataProvider {
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
     getNewBlockData(blockNum: number): Promise<LatestBlocksData>,
     getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<Transaction | string>> |}>,
-    getBlock(blockNumber: number | string): Promise<{| blockData: Array<Block<string>> |} | {| error: string |}>,
+    getBlock(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<Transaction>> |} | {| error: string |}>,
 }
