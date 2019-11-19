@@ -9,6 +9,7 @@ import type {
     RequestError,
     Transaction,
     SubscriptionToNewBlocks,
+    TransactionReceipt,
 } from './types';
 
 const API_URL = process.env.REACT_APP_API_URL_FANTOM;
@@ -140,6 +141,19 @@ class Web3Provider implements DataProvider {
             const block = await _web3.eth.getBlock(blockNumber, withTransactions);
 
             return { blockData: [block] };
+        } catch(err) {
+            return { error: err };
+        }
+    }
+
+    async getTransaction(transactionHash: string) {
+        try {
+            const [transaction, transactionReceipt]: [Transaction, TransactionReceipt] = await Promise.all([
+                _web3.eth.getTransaction(transactionHash),
+                _web3.eth.getTransactionReceipt(transactionHash),
+            ]);
+
+            return { transactionData: [{ ...transaction, ...transactionReceipt }] };
         } catch(err) {
             return { error: err };
         }

@@ -11,7 +11,7 @@ import Address from 'src/views/containers/address';
 import BlockTransactionDetail from 'src/views/components/search/searchForBlock/viewBlockDetail';
 import Resources from 'src/views/containers/resources';
 import BlockDetail from 'src/views/containers/blockDetail';
-import TransactionDetail from 'src/views/containers/transactionDetail';
+import TransactionDetail from 'src/views/containers/TransactionDetail';
 
 import SearchBar from 'src/views/components/SearchBar';
 

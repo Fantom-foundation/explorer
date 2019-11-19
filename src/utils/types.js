@@ -19,6 +19,26 @@ export type Transaction = {|
     value: string,
 |};
 
+export type TransactionReceipt = {|
+    status: boolean,
+    transactionHash: string,
+    transactionIndex: number,
+    blockHash: string,
+    blockNumber: number,
+    from: string,
+    to: string,
+    contractAddress?: string,
+    cumulativeGasUsed: number,
+    gasUsed: number,
+    logs: Array<{ ... }>,
+    logsBloom: string,
+|};
+
+export type DetailTransaction = {|
+    ...Transaction,
+    ...TransactionReceipt,
+|}
+
 export type Block<T> = {|
     difficulty: string,
     extraData: string,
@@ -102,4 +122,5 @@ export interface DataProvider {
     getNewBlockData(blockNum: number): Promise<LatestBlocksData>,
     getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<Transaction | string>> |}>,
     getBlock(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<Transaction>> |} | {| error: string |}>,
+    getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | {| error: string |}>,
 }
