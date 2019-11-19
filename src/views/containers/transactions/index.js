@@ -1,302 +1,137 @@
 // @flow
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import * as React from 'react';
 import Web3 from 'web3';
-import { createSelector } from 'reselect';
-import { Row, Col, Table } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
-import HttpDataProvider from 'src/utils/httpProvider';
-import TitleIcon from 'src/assets/images/icons/latest-transaction.svg';
-import { getBlockUpdateDetails } from 'src/storage/selectors/blocks';
-import Wrapper from 'src/views/wrapper/wrapper';
-import { setBlockData } from 'src/storage/actions/blocks';
+import Web3Provider from 'src/utils/web3Provider';
+import { usePagination } from 'src/utils/hooks';
 import { toFixed } from 'src/common/utility';
 
-class Transactions extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchText: '',
-      error: '',
-      lastFetchedPage: 2,
-      currentPage: 0,
-      hasNextPage: true,
-      currentPageVal: 0,
-    };
-  }
+import { DataTable } from 'src/views/components/DataTable';
+import Wrapper from 'src/views/wrapper/wrapper';
+import Loader from 'src/views/components/Loader';
 
-  setSearchText(e) {
-    this.setState({
-      searchText: e.target.value,
-    });
-  }
+import type { RouterHistory } from 'react-router-dom';
+import type { Transaction } from 'src/utils/types';
 
-  /**
-   * @method onChangePage():  Function to handle pagination
-   * @param {String} type : Type tells whether it is previous page or next page
-   */
-  onChangePage = (type) => {
-    const { currentPageVal } = this.state;
-    const { setBlocksData, blockDetails } = this.props;
-    const { allBlockData } = blockDetails;
+const transactionStructure = [
+    {
+        header: 'Tx Hash',
+        key: 'hash',
+        className: 'text-primary text-ellipsis full head',
+        render: (hash: string) => (
+            <span className="icon icon-transaction">
+                {hash}
+            </span>
+        ),
+    },
+    {
+        header: 'Block',
+        key: 'blockNumber',
+        className: 'text-primary text-ellipsis half',
+    },
+    {
+        header: 'From',
+        key: 'from',
+        className: 'text-primary text-ellipsis half',
+    },
+    {
+        header: 'To',
+        key: 'to',
+        className: 'text-primary text-ellipsis half',
+    },
+    {
+        header: 'Value',
+        key: 'value',
+        className: 'half',
+        render: (value: string) => {
+            let newValue = '';
 
-    const updatePageVal =
-      type === 'next' ? currentPageVal + 1 : currentPageVal - 1;
-    if (updatePageVal < 0) {
-      return;
-    }
-    const currentBlockDataLength = allBlockData.length;
-    if (
-      type === 'next' &&
-      (currentPageVal + 1) * 10 >= currentBlockDataLength
-    ) {
-      return;
-    }
-    const prevPageVal = currentPageVal;
+            if (value) {
+                newValue = Web3.utils.fromWei(value, 'ether');
+                newValue = toFixed(newValue, 4);
 
-    this.setState({
-      currentPageVal: updatePageVal,
-    });
-    const cursor = allBlockData[allBlockData.length - 1].cursor;
-    if (type === 'next' && this.maxPageVal < updatePageVal) {
-      if (true) {
-        HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
-          query: `
-          {
-            blocks(first: 10, byDirection: "desc", after: "${cursor}") {
-              pageInfo {
-                hasNextPage
-              }
-              edges {
-                cursor,
-                node {
-                  id,
-                  payload
-                }
-              }
+                return (<span className="o-5">{newValue} FTM</span>);
             }
-          }`,
+
+            return '';
+        },
+    },
+];
+
+function TransactionsPage () {
+    const [error, setError] = React.useState('');
+    const [transactions, setTransactions] = React.useState([]);
+    const [maxBlockNumber, setMaxBlockNumber] = React.useState(0);
+    const [currentPage, setCurrentPage] = usePagination(1, 50000);
+
+    const pushToTransaction = React.useCallback((history: RouterHistory, tx: Transaction) => {
+        history.push({
+            pathname: `/transactions/${tx.hash}`,
         })
-          .then(
-            (res) => {
-              if (res && res.data) {
-                this.maxPageVal = updatePageVal;
-                const allData = res.data;
-                if (
-                  allData.data &&
-                  allData.data.blocks &&
-                  allData.data.blocks.edges &&
-                  allData.data.blocks.edges.length
-                ) {
-                  const blockDetails = {
-                    payload: allData.data.blocks.edges,
-                  };
-                  setBlocksData(blockDetails);
-                  this.setState((prevState) => ({
-                    lastFetchedPage: allData.data.blocks.pageInfo.hasNextPage
-                      ? prevState.lastFetchedPage + 1
-                      : prevState.lastFetchedPage,
-                    hasNextPage: allData.data.blocks.pageInfo.hasNextPage,
-                  }));
-                } else {
-                  console.log('else part');
+    }, []);
+
+    React.useEffect(() => {
+        async function fetchData() {
+            const provider = new Web3Provider();
+            const offset = (currentPage - 1) * 10;
+
+            const response = await provider.getTransactionsPageData(offset);
+
+            if (response.error) {
+                setError(response.error);
+            } else {
+                const { transactions, maxBlockHeight } = response;
+
+                setMaxBlockNumber(maxBlockHeight);
+
+                if (transactions) {
+                    setTransactions(transactions);
                 }
-              }
-              return null;
-            },
-            () => {
-              console.log('1');
             }
-          )
-          .catch((err) => {
-            console.log(err, 'err in graphql');
-          });
-      }
-    }
-  };
-
-  /**
-   * @method renderTransactionList():  Function to render all transactions list
-   */
-  renderTransactionList() {
-    const { blockDetails, history } = this.props;
-    const { latestTransactions, allBlockData } = blockDetails;
-    const { currentPageVal } = this.state;
-    const from = currentPageVal * 10;
-    const to = from + 10;
-
-    if (blockDetails && allBlockData) {
-      const transformedBlockArray = allBlockData.slice(from, to);
-      const transformedArray = [];
-      let newValue = '';
-      if (transformedBlockArray.length) {
-        for (const block of transformedBlockArray) {
-          block.transactions.forEach((transac) => {
-            if (transac.value) {
-              const value = Web3.utils.fromWei(`${transac.value}`, 'ether');
-              const valueToNum = Number(value);
-              newValue = toFixed(valueToNum, 4);
-            }
-
-            transformedArray.push({
-              block_id: block.hash,
-              address_from: transac.from,
-              transaction_hash: transac.transactionHash,
-              address_to: transac.to,
-              value: newValue,
-              gasUsed: transac.gas,
-              cumulativeGasUsed: transac.cumulativeGasUsed,
-              contractAddress: transac.contractAddress,
-              root: transac.root,
-              logsBloom: transac.logsBloom,
-              status: transac.status,
-            });
-          });
         }
-      }
-      if (blockDetails && blockDetails.allBlockData) {
-        return (
-          <Col>
-            <Table className="transactions-table">
-              <thead>
-                <tr>
-                  <th>TxHash</th>
-                  <th>Block</th>
-                  <th>From</th>
-                  <th>To</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {transformedArray &&
-                  transformedArray.length > 0 &&
-                  transformedArray.map((data, index) => (
-                    <tr
-                      key={`tx_${index}`}
-                      onClick={() =>
-                        history.push({
-                          pathname: `/transactions/${data.transaction_hash}`,
-                          state: { data, type: 'transaction' },
-                        })
-                      }
-                    >
-                      <td
-                        data-head="TxHash"
-                        className="text-primary  text-ellipsis full head"
-                      >
-                        <span className="icon icon-transaction">
-                          {data.transaction_hash}
-                        </span>
-                      </td>
-                      <td
-                        data-head="Block"
-                        className="text-primary  text-ellipsis half"
-                      >
-                        {data.block_id}
-                      </td>
 
-                      <td
-                        data-head="From"
-                        className="text-primary  text-ellipsis half"
-                      >
-                        {data.address_from}
-                      </td>
-                      <td
-                        data-head="To"
-                        className="text-primary  text-ellipsis half"
-                      >
-                        {data.address_to}
-                      </td>
-                      <td data-head="Value" className="half">
-                        <span className="o-5">{data.value} FTM</span>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </Table>
-          </Col>
-        );
-      }
-      return null;
-    }
-    return null;
-  }
+        if (error) {
+            setError(error);
+        }
 
-  /**
-   * @method onChangePage():  Function to show all list of transactions
-   */
-  onShowList() {
-    const { history } = this.props;
-    history.push('/transactions');
-    // this.setState({
-    //   searchText: '',
-    //   error: '',
-    // });
-  }
+        fetchData();
+    }, [currentPage, setMaxBlockNumber]);
 
-  render() {
-    const { searchText, currentPageVal } = this.state;
-    const { history, blockDetails } = this.props;
-    let descriptionBlock = '';
-    const from = currentPageVal * 10;
-    const to = from + 10;
-    let totalBlocks = '';
-    const {
-      blockDetails: { allBlockData },
-    } = this.props;
-    if (allBlockData && allBlockData.length) {
-      const firstBlock = allBlockData[0];
-      totalBlocks = ` (Total of ${firstBlock.height} Blocks)`;
-    }
+    const totalBlocks = `(Total of ${maxBlockNumber} Blocks)`;
+    const descriptionBlock = 'Transactions of Block #${lastBlock.height} To #${firstBlock.height}';
 
-    if (blockDetails && blockDetails.allBlockData) {
-      const transformedBlockArray = blockDetails.allBlockData.slice(from, to);
-      if (transformedBlockArray && transformedBlockArray.length) {
-        const firstBlock = transformedBlockArray[0];
-        const lastBlock =
-          transformedBlockArray[transformedBlockArray.length - 1];
-        descriptionBlock = `Transactions of Block #${lastBlock.height} To #${
-          firstBlock.height
-        } `;
-      }
-      return (
+    return (
         <div>
-          <Wrapper
-            onChangePage={this.onChangePage}
-            onShowList={this.onShowList}
-            icon={TitleIcon}
-            title="Transactions"
-            block={descriptionBlock}
-            total={totalBlocks}
-            pagination
-            currentPage={this.state.currentPageVal}
-            setSearchText={(e) => this.setSearchText(e)}
-            searchText={searchText}
-            history={history}
-            placeHolder="Search by Transaction Hash / Block Number"
-          >
-            {this.state.error ? (
-              <p className="text-white">{this.state.error}</p>
-            ) : (
-              <Row>{this.renderTransactionList()}</Row>
-            )}
-          </Wrapper>
+            <Wrapper
+                title="Transactions"
+                onChangePage={setCurrentPage}
+                block={descriptionBlock}
+                total={totalBlocks}
+                currentPage={currentPage}
+            >
+                {error ? (
+                    <p className="text-white">{error}</p>
+                ) : (
+                    <Row>
+                        <Col>
+                            {
+                                transactions.length > 0 ? (
+                                    <DataTable
+                                        data={transactions}
+                                        rowKey="hash"
+                                        structure={transactionStructure}
+                                        historyCallback={pushToTransaction}
+                                    />
+                                ) : <Loader />
+                            }
+                        </Col>
+                    </Row>
+                )}
+            </Wrapper>
         </div>
-      );
-    }
-    return null;
-  }
+    );
 }
-const mapStateToProps = createSelector(
-  getBlockUpdateDetails(),
-  (blockDetails) => ({ blockDetails })
-);
-const mapDispatchToProps = (dispatch) => ({
-  setBlocksData: (blockData) => dispatch(setBlockData(blockData)),
-});
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Transactions);
+export default TransactionsPage;

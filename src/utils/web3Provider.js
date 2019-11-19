@@ -82,20 +82,24 @@ class Web3Provider implements DataProvider {
             const toBlock = fromBlock + count;
             const batch = new _web3.eth.BatchRequest();
             const response = [];
-            const callback = (error: Error, data: any) => {
+            const callback = (error: Error, data: any, last: boolean) => {
                 if (error) {
                     reject(error);
                 }
 
                 response.unshift(data);
 
-                if (data.number === toBlock) {
+                if (last) {
                     resolve(response);
                 }
             };
 
             for (let i = fromBlock + 1; i <= toBlock; i++) {
-                batch.add(_web3.eth.getBlock.request(i, ...getBlockParams, callback));
+                batch.add(_web3.eth.getBlock.request(
+                    i,
+                    ...getBlockParams,
+                    (error: Error, data: any) => callback(error, data, i === toBlock),
+                ));
             }
 
             batch.execute();
@@ -170,6 +174,82 @@ class Web3Provider implements DataProvider {
             return { maxBlockHeight, blocks };
         } catch(err) {
             return { error: err };
+        }
+    }
+
+    async _getTransactionsByIDs(txsHash: Array<string>) {
+        return new Promise((resolve, reject) => {
+            const length = txsHash.length;
+            const batch = new _web3.eth.BatchRequest();
+            const response = [];
+            const callback = (error: Error, data: any) => {
+                if (error) {
+                    reject(error);
+                }
+
+                response.push(data);
+
+                if (response.length === length) {
+                    resolve(response);
+                }
+            };
+
+            for (let i = 0; i < length; i++) {
+                batch.add(_web3.eth.getTransaction.request(txsHash[i], callback));
+            }
+
+            batch.execute();
+        });
+    }
+
+    async getTransactionsPageData(
+        offset: number = 0,
+        count: number = 10,
+    ) {
+        try {
+            let transactionsHash = [];
+            let offsetLeft = offset;
+            const maxBlockHeight: number = await _web3.eth.getBlockNumber();
+            let blockNumber = maxBlockHeight - 10;
+
+            while (transactionsHash.length < count) {
+                const blocks = await this.getBlocks(blockNumber, 10);
+
+                for (let i = 0, len = blocks.length; i < len; i++) {
+                    if (!blocks[i]) {
+                        continue;
+                    }
+
+                    const { transactions } = blocks[i];
+
+                    if (offsetLeft >= transactions.length) {
+                        offsetLeft -= transactions.length;
+                        continue;
+                    } else if (offsetLeft > 0) {
+                        transactionsHash.push(...transactions.splice(offsetLeft, count - transactionsHash.length));
+                        offsetLeft = 0;
+                    } else {
+                        transactionsHash.push(...transactions.splice(0, count - transactionsHash.length));
+                    }
+
+                    if (transactionsHash.length === count) {
+                        break;
+                    }
+                }
+
+                if (transactionsHash.length < count) {
+                    blockNumber -= 10;
+                }
+            }
+
+            const result = await this._getTransactionsByIDs(transactionsHash);
+
+            return {
+                maxBlockHeight,
+                transactions: result,
+            };
+        } catch(err) {
+            return { error: err.message };
         }
     }
 }

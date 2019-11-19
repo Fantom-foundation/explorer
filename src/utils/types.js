@@ -123,4 +123,6 @@ export interface DataProvider {
     getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<Transaction | string>> |}>,
     getBlock(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<Transaction>> |} | {| error: string |}>,
     getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | {| error: string |}>,
+    _getTransactionsByIDs(txsHash: Array<string>): Promise<Array<Transaction>>,
+    getTransactionsPageData(offset: number, count: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
 }

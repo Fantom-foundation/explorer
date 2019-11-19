@@ -1,4 +1,5 @@
 // @flow
+
 import * as React from 'react';
 import { Table } from 'reactstrap';
 
@@ -39,4 +40,4 @@ export function DataTable<A: { [string]: any }>(props: DataTableProps<A>) {
             </tbody>
         </Table>
     );
-};
+}

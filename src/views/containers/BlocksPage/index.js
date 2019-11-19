@@ -5,9 +5,11 @@ import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 
 import Web3Provider from 'src/utils/web3Provider';
+import { usePagination } from 'src/utils/hooks';
 
 import Wrapper from 'src/views/wrapper/wrapper';
 import { DataTable } from 'src/views/components/DataTable';
+import Loader from 'src/views/components/Loader';
 
 const blockPageStructure = [
     {
@@ -34,34 +36,6 @@ const blockPageStructure = [
         className: "text-primary full-wrap hash text-ellipsis"
     },
 ];
-
-const usePagination = (initialPage: number = 1, initialMaxPages?: number) => {
-    const [ currentPage, setCurrentPage ] = React.useState(initialPage);
-    const [ maxPages, setMaxPages ] = React.useState(initialMaxPages || null);
-    const setCurrentPageHandler = React.useCallback((value: 'next'|'prev') => setCurrentPage((prevState) => {
-        let nextState = prevState;
-
-        switch (value) {
-            case 'next': {
-                nextState += 1;
-                break;
-            }
-            case 'prev': {
-                nextState -= 1;
-                break;
-            }
-            default:
-        }
-
-        if (nextState <= 0 || (maxPages && nextState > maxPages)) {
-            return prevState;
-        }
-
-        return nextState;
-    }), [maxPages]);
-
-    return [currentPage, setCurrentPageHandler, setMaxPages];
-};
 
 function BlocksPage() {
     const [ error, setError ] = React.useState<string>('');
@@ -113,12 +87,16 @@ function BlocksPage() {
             ) : (
                 <Row>
                     <Col>
-                        <DataTable
-                            structure={blockPageStructure}
-                            rowKey='number'
-                            data={blocks}
-                            historyCallback={historyCallback}
-                        />
+                        {
+                            blocks.length > 0 ? (
+                                <DataTable
+                                    structure={blockPageStructure}
+                                    rowKey='number'
+                                    data={blocks}
+                                    historyCallback={historyCallback}
+                                />
+                            ): <Loader />
+                        }
                     </Col>
                 </Row>
             )}

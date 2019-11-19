@@ -52,8 +52,8 @@ function TransactionDetail () {
         <section className="bg-theme full-height-conatainer">
             <Container>
                 <TransactionBlockHeader
-                    title="Transactions"
-                    block="Txn Hash: "
+                    title="Transaction"
+                    block="Hash: "
                     total={txHash ? txHash : '0'}
                 >
                     <Col md={6} className="text-right">
@@ -64,7 +64,7 @@ function TransactionDetail () {
                         >
                             Show List
                         </Button>
-                    </Col>p
+                    </Col>
                 </TransactionBlockHeader>
                 <hr />
                 <Container>
