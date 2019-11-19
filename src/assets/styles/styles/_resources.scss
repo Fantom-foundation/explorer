@@ -50,7 +50,10 @@
     @media (max-width:567px){ padding: 34px 0 2px; }
     .col{
       padding-left: $image-position-left-gap + $block-space;
-      background: { position: top 0 left 26px; }
+      background: {
+        position: top 0 left 26px;
+        repeat: no-repeat;
+      };
     }
     h2{ font: { size: 26px; }
     @media (max-width:567px){font: { size: 16px; }} }
@@ -70,8 +73,10 @@
     }
     background: { 
       position: {
-        x: 15px; y: $image-position-top;
-     }
+        x: 15px;
+        y: $image-position-top;
+      };
+      repeat: no-repeat;
     }
     @media (max-width:991px){
       padding: { top:35px; bottom:35px; }
