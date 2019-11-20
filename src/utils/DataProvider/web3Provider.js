@@ -10,7 +10,7 @@ import type {
     Transaction,
     SubscriptionToNewBlocks,
     TransactionReceipt,
-} from './types';
+} from '../types';
 
 const API_URL = process.env.REACT_APP_API_URL_FANTOM;
 
@@ -42,14 +42,16 @@ class Web3Provider implements DataProvider {
             };
 
             while (result.transactions.length < 10) {
-                const blocks = await this.getBlocks(blockNumber - 10, 10, [true]);
+                const blocks: Array<Block<Transaction>> = await this.getBlocks(blockNumber - 10, 10, [true]);
 
                 blocks.forEach((block) => {
                     const transactions = block.transactions;
 
                     if (result.blocks.length < 10) {
-                        block.transactions = transactions.map((transaction) => transaction.hash);
-                        result.blocks.push(block);
+                        result.blocks.push({
+                            ...block,
+                            transactions: transactions.map((transaction) => transaction.hash),
+                        });
                     }
 
                     if (result.transactions.length < 10) {
@@ -69,15 +71,18 @@ class Web3Provider implements DataProvider {
             return result;
         } catch(err) {
             console.log(err);
-            return { error: 'Cant\'t get latest blocks data.' }
+
+            return {
+                error: Error('Cant\'t get latest blocks data.'),
+            };
         }
     }
 
-    async getBlocks(
+    async getBlocks<T: Transaction | string>(
         fromBlock: ?number = 0,
         count: ?number = 25,
         getBlockParams: [boolean] | [] = [],
-    ): Promise<Array<Block<Transaction | string>>> {
+    ): Promise<Array<Block<T>>> {
         return new Promise((resolve, reject) => {
             const toBlock = fromBlock + count;
             const batch = new _web3.eth.BatchRequest();
@@ -140,7 +145,10 @@ class Web3Provider implements DataProvider {
         };
     }
 
-    async getBlock(blockNumber: number | string, withTransactions: ?boolean) {
+    async getBlock(
+        blockNumber: number | string,
+        withTransactions: ?boolean
+    ) {
         try {
             const block = await _web3.eth.getBlock(blockNumber, withTransactions);
 
@@ -169,7 +177,7 @@ class Web3Provider implements DataProvider {
     ) {
         try {
             const maxBlockHeight: number = await _web3.eth.getBlockNumber();
-            const blocks = await this.getBlocks(maxBlockHeight - offset, count);
+            const blocks: Array<Block<string>> = await this.getBlocks(maxBlockHeight - offset, count);
 
             return { maxBlockHeight, blocks };
         } catch(err) {
@@ -213,14 +221,16 @@ class Web3Provider implements DataProvider {
             let blockNumber = maxBlockHeight - 10;
 
             while (transactionsHash.length < count) {
-                const blocks = await this.getBlocks(blockNumber, 10);
+                const blocks: Array<Block<string>> = await this.getBlocks(blockNumber, 10);
 
                 for (let i = 0, len = blocks.length; i < len; i++) {
-                    if (!blocks[i]) {
+                    const block = blocks[i];
+
+                    if (!block) {
                         continue;
                     }
 
-                    const { transactions } = blocks[i];
+                    const { transactions } = block;
 
                     if (offsetLeft >= transactions.length) {
                         offsetLeft -= transactions.length;

@@ -8,7 +8,7 @@ import { useRouteMatch, useHistory } from 'react-router-dom';
 import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
 
 import Loader from 'src/views/components/Loader';
-import Web3Provider from 'src/utils/web3Provider';
+import Web3Provider from 'src/utils/DataProvider/web3Provider';
 
 import type { DetailTransaction } from 'src/utils/types';
 

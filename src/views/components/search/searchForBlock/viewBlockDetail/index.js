@@ -8,7 +8,7 @@ import Web3 from 'web3';
 import { DataTable } from 'src/views/components/DataTable';
 
 import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
-import Web3Provider from 'src/utils/web3Provider';
+import Web3Provider from 'src/utils/DataProvider/web3Provider';
 import { toFixed } from 'src/common/utility';
 
 import type { RouterHistory } from 'react-router-dom';

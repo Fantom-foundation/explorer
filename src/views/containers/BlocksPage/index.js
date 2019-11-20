@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Row, Col } from 'reactstrap';
 import moment from 'moment';
 
-import Web3Provider from 'src/utils/web3Provider';
+import { useDataProvider } from 'src/utils/DataProvider';
 import { usePagination } from 'src/utils/hooks';
 
 import Wrapper from 'src/views/wrapper/wrapper';
@@ -42,15 +42,14 @@ function BlocksPage() {
     const [ maxBlockNumber, setMaxBlockNumber ] = React.useState(0);
     const [ blocks, setBlocks ] = React.useState([]);
     const [ currentPage, setCurrentPage, setMaxPages ] = usePagination();
+    const provider = useDataProvider();
 
     React.useEffect(() => {
         async function fetchData() {
-            const provider = new Web3Provider();
-
             const result = await provider.getBlocksPageData(currentPage * 10);
 
             if (result.error) {
-                setError(result.error);
+                setError(result.error.message);
             } else {
                 setBlocks(result.blocks);
                 setMaxBlockNumber(result.maxBlockHeight);
@@ -59,7 +58,7 @@ function BlocksPage() {
         }
 
         fetchData();
-    }, [currentPage, setMaxPages]);
+    }, [currentPage, setMaxPages, provider]);
 
     const historyCallback = React.useCallback((history, data) => history.push(`/blocks/${data.number}`), []);
 

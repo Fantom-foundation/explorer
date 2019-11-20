@@ -8,9 +8,9 @@ import type { Map } from 'immutable';
 import createReducer from './reducers';
 import { loadState, persistMiddleware } from './localStorage';
 import { rootSaga } from 'src/storage/sagas';
-import ApiProvider from 'src/utils/web3Provider';
+import ApiProvider from 'src/utils/DataProvider';
 
-const api = new ApiProvider();
+const api = new ApiProvider('web3');
 
 const sagaMiddleware = createSagaMiddleware({
     context: {

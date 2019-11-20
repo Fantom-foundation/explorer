@@ -8,7 +8,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { Title } from 'src/views/components/coreComponent';
 import SearchForAccount from 'src/views/components/search/searchForAccount';
 
-import Web3Provider from 'src/utils/web3Provider';
+import Web3Provider from 'src/utils/DataProvider/web3Provider';
 
 import { scientificToDecimal } from 'src/views/components/utils';
 

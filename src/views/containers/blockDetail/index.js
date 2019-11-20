@@ -6,21 +6,25 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 
 import SearchForBlock from 'src/views/components/search/searchForBlock';
 import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
+import Loader from 'src/views/components/Loader';
 
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
-
-import Web3Provider from 'src/utils/web3Provider';
+import { useDataProvider } from 'src/utils/DataProvider';
 
 function BlockDetail() {
     const history = useHistory();
-    const match = useRouteMatch('/blocks/:id');
-    const {
-        params: {
-            id: blockHeight = '',
-        },
+    const match = useRouteMatch('/blocks/:blockHeight');
+    let {
+        params: { blockHeight },
     } = match;
-    const [error, setError] = React.useState('');
+
+    if (!blockHeight) {
+        blockHeight = '';
+    }
+
+    const [ error, setError ] = React.useState('');
     const [ blockData, setBlockData ] = React.useState([]);
+    const provider = useDataProvider();
 
     const showDetail = React.useCallback((blockNumber) => {
         if (blockNumber === '') {
@@ -40,13 +44,11 @@ function BlockDetail() {
 
     React.useEffect(() => {
         async function fetchData() {
-            const provider = new Web3Provider();
-
             if (blockHeight && blockHeight !== '') {
                 const result = await provider.getBlock(blockHeight);
 
                 if (result.error) {
-                    setError(result.error);
+                    setError(result.error.message);
                 } else {
                     setBlockData(result.blockData);
                 }
@@ -56,14 +58,14 @@ function BlockDetail() {
         }
 
         fetchData();
-    }, [blockHeight]);
+    }, [blockHeight, provider]);
 
     return (
         <section className="bg-theme full-height-conatainer">
             <Container>
                 <TransactionBlockHeader
-                    title="Block Number:"
-                    block="Transactions"
+                    title="Block"
+                    block="Number:"
                     total={blockHeight}
                     icon={TitleIcon}
                 >
@@ -80,18 +82,12 @@ function BlockDetail() {
                 {
                     error ? (<p className="text-white">{error}</p>) :
                         blockData.length <= 0 ? (
-                            <div className="loader">
-                                <div className="holder">
-                                    <div className="lds-ellipsis">
-                                        <div />
-                                        <div />
-                                        <div />
-                                        <div />
-                                    </div>
-                                </div>
-                            </div>
+                            <Loader />
                         ) : blockData.length > 0 && (
-                            <SearchForBlock blocks={blockData} showDetail={showDetail} />
+                            <SearchForBlock
+                                blocks={blockData}
+                                showDetail={showDetail}
+                            />
                         )
                 }
             </Container>

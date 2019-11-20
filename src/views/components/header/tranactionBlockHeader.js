@@ -17,6 +17,8 @@ type TransactionBlockHeaderProps = {
 export default class TransactionBlockHeader extends React.PureComponent<TransactionBlockHeaderProps, any> { // TODO: add flow types
     static defaultProps = {
         icon: TransactionIcon,
+        total: '',
+        block: '',
     };
 
     state = {
