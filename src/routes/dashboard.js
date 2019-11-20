@@ -23,7 +23,7 @@ export default function Dashboard() {
                 <Route exact path="/" component={HomePage} />
                 <Route path="/blocks" exact component={Blocks} />
                 <Route path="/blocks/:id" component={BlockDetail} />
-                <Route path="/address" component={Address} />
+                {/*<Route path="/address" component={Address} />*/}
                 <Route path="/transactions" exact component={Transactions} />
                 <Route path="/transactions/:id" component={TransactionDetail} />
                 <Route path="/details" component={Details} />
