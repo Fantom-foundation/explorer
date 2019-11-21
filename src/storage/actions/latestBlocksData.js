@@ -8,10 +8,11 @@ import {
     SUBSCRIBE_TO_NEW_BLOCKS,
     UNSUBSCRIBE_TO_NEW_BLOCKS,
     REQUEST_BLOCK_DATA,
+    ERROR_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
 import type {
-    LatestBlocksData,
+    LatestBlocksData, RequestError,
 } from 'src/utils/types';
 
 export function setLatestBlocksData(data: LatestBlocksData) {
@@ -60,4 +61,9 @@ export function requestBlockData(blockNumber: number) {
     };
 }
 
-
+export function setLatestBlocksError(error: RequestError) {
+    return {
+        type: ERROR_LATEST_BLOCKS_DATA,
+        payload: error,
+    };
+}

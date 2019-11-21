@@ -15,23 +15,30 @@ import {
 
 import {
     setLatestBlocksData,
-    loadingLatestBlocksData
+    loadingLatestBlocksData,
+    setLatestBlocksError,
 } from 'src/storage/actions/latestBlocksData';
 
 import { checkIsSubscribeNeeded } from 'src/storage/sagas/subscribeToNewBlocks';
 
 import type { Saga } from 'redux-saga';
+import type { DataProvider, LatestBlocksData, RequestError } from 'src/utils/types';
 
 export function* getLatestBlocksData(): Saga<void> {
     yield put(loadingLatestBlocksData(true));
 
-    const api = yield getContext('api');
-    const data = yield call([api, api.getLatestBlocksData]);
+    const api: DataProvider = yield getContext('api');
+    const data: LatestBlocksData | RequestError  = yield call([api, api.getLatestBlocksData]);
 
     // subscribe to new blocks if it is needed
     yield fork(checkIsSubscribeNeeded);
 
-    yield put(setLatestBlocksData(data));
+    if (data.error) {
+        yield put(setLatestBlocksError(data));
+    } else {
+        yield put(setLatestBlocksData(data));
+    }
+
     yield put(loadingLatestBlocksData(false));
 }
 

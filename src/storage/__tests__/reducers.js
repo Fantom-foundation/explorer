@@ -64,7 +64,10 @@ describe('Redux reducers: latestBlocksData', function latestBlocksDataReducer() 
         const actionData = {
             type: SET_LATEST_BLOCKS_DATA,
             payload: {
-                blocks: [{ hash: 'string1', number: 1 }, { hash: 'string2', number: 2 }],
+                blocks: [
+                    { hash: 'string1', number: 1 },
+                    { hash: 'string2', number: 2 },
+                ],
             },
         };
 

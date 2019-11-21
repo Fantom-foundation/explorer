@@ -6,6 +6,7 @@ import { setUserDetails } from 'src/storage/actions/userDetails';
 import {
     setLatestBlocksData,
     updateLatestBlocksData,
+    setLatestBlocksError,
 } from 'src/storage/actions/latestBlocksData';
 
 import {
@@ -14,6 +15,7 @@ import {
     SET_USER_DETAILS,
     SET_LATEST_BLOCKS_DATA,
     UPDATE_LATEST_BLOCKS_DATA,
+    ERROR_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
 describe('Redux actions: blocks', function blocksActions() {
@@ -93,6 +95,19 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
         expect(updateLatestBlocksDataAction).toEqual({
             type: UPDATE_LATEST_BLOCKS_DATA,
             payload: dataMock,
+        });
+    });
+
+    it('should return correct setLatestBlocksError object', function () {
+        const errorMock = {
+            error: Error('Any error'),
+        };
+
+        const setLatestBlocksDataAction = setLatestBlocksError(errorMock);
+
+        expect(setLatestBlocksDataAction).toEqual({
+            type: ERROR_LATEST_BLOCKS_DATA,
+            payload: errorMock,
         });
     });
 });

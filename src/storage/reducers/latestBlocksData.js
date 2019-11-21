@@ -6,6 +6,7 @@ import {
     SET_LATEST_BLOCKS_DATA,
     LOADING_LATEST_BLOCKS_DATA,
     UPDATE_LATEST_BLOCKS_DATA,
+    ERROR_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
 import type { Map as MapType, List as ListType } from 'immutable';
@@ -13,18 +14,21 @@ import type {
     LoadingLatestBlocksDataAction,
     SetLatestBlocksDataAction,
     UpdateLatestBlockDataAction,
+    ErrorLatestBlocksDataAction,
 } from 'src/storage/types';
 
-type latestBlocksDataType = MapType<string, ListType<MapType<any>> | boolean>;
+type latestBlocksDataType = MapType<string, ListType<MapType<any>> | boolean | string>;
 type blocksDataAction =
     | LoadingLatestBlocksDataAction
     | SetLatestBlocksDataAction
-    | UpdateLatestBlockDataAction;
+    | UpdateLatestBlockDataAction
+    | ErrorLatestBlocksDataAction;
 
 export const initialState = Map({
     isLoading: false,
     blocks: List([]),
     transactions: List([]),
+    error: null,
 });
 
 function latestBlockData(state: latestBlocksDataType = initialState, action: blocksDataAction): latestBlocksDataType {
@@ -41,6 +45,13 @@ function latestBlockData(state: latestBlocksDataType = initialState, action: blo
 
                 return mutate;
             });
+        }
+
+        case ERROR_LATEST_BLOCKS_DATA: {
+            const {
+                error: { message },
+            } = action.payload;
+            return state.set('error', message);
         }
 
         case LOADING_LATEST_BLOCKS_DATA: {

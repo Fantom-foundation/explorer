@@ -41,7 +41,7 @@ class Web3Provider implements DataProvider {
                 transactions: []
             };
 
-            while (result.transactions.length < 10) {
+            while (result.transactions.length < 10 && blockNumber >= 10) {
                 const blocks: Array<Block<Transaction>> = await this.getBlocks(blockNumber - 10, 10, [true]);
 
                 blocks.forEach((block) => {
