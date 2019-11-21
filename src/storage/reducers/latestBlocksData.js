@@ -9,7 +9,10 @@ import {
     ERROR_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
-import type { Map as MapType, List as ListType } from 'immutable';
+import type {
+    Map as MapType,
+    List as ListType,
+} from 'immutable';
 import type {
     LoadingLatestBlocksDataAction,
     SetLatestBlocksDataAction,

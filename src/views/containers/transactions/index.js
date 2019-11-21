@@ -80,7 +80,7 @@ function TransactionsPage () {
             const response = await provider.getTransactionsPageData(offset);
 
             if (response.error) {
-                setError(response.error);
+                setError(response.error.message);
             } else {
                 const { transactions, maxBlockHeight } = response;
 
@@ -90,10 +90,6 @@ function TransactionsPage () {
                     setTransactions(transactions);
                 }
             }
-        }
-
-        if (error) {
-            setError(error);
         }
 
         fetchData();

@@ -35,13 +35,14 @@ class Web3Provider implements DataProvider {
 
     async getLatestBlocksData(): Promise<LatestBlocksData | RequestError> {
         try {
-            let blockNumber = await _web3.eth.getBlockNumber();
+            const maxBlockNumber = await _web3.eth.getBlockNumber();
+            let blockNumber = maxBlockNumber;
             let result = {
                 blocks: [],
                 transactions: []
             };
 
-            while (result.transactions.length < 10 && blockNumber >= 10) {
+            while (result.transactions.length < 10 && blockNumber >= 10 && maxBlockNumber - blockNumber < 100) {
                 const blocks: Array<Block<Transaction>> = await this.getBlocks(blockNumber - 10, 10, [true]);
 
                 blocks.forEach((block) => {
@@ -188,7 +189,6 @@ class Web3Provider implements DataProvider {
     async _getTransactionsByIDs(txsHash: Array<string>) {
         return new Promise((resolve, reject) => {
             const length = txsHash.length;
-            const batch = new _web3.eth.BatchRequest();
             const response = [];
             const callback = (error: Error, data: any) => {
                 if (error) {
@@ -202,17 +202,23 @@ class Web3Provider implements DataProvider {
                 }
             };
 
-            for (let i = 0; i < length; i++) {
-                batch.add(_web3.eth.getTransaction.request(txsHash[i], callback));
-            }
+            if(txsHash.length > 0) {
+                const batch = new _web3.eth.BatchRequest();
 
-            batch.execute();
+                for (let i = 0; i < length; i++) {
+                    batch.add(_web3.eth.getTransaction.request(txsHash[i], callback));
+                }
+
+                batch.execute();
+            } else {
+                resolve(response);
+            }
         });
     }
 
     async getTransactionsPageData(
         offset: number = 0,
-        count: number = 10,
+        count?: number = 10,
     ) {
         try {
             let transactionsHash = [];
@@ -220,7 +226,7 @@ class Web3Provider implements DataProvider {
             const maxBlockHeight: number = await _web3.eth.getBlockNumber();
             let blockNumber = maxBlockHeight - 10;
 
-            while (transactionsHash.length < count) {
+            while (transactionsHash.length < count && blockNumber >= 10 && maxBlockHeight - blockNumber < 100) {
                 const blocks: Array<Block<string>> = await this.getBlocks(blockNumber, 10);
 
                 for (let i = 0, len = blocks.length; i < len; i++) {
@@ -254,12 +260,16 @@ class Web3Provider implements DataProvider {
 
             const result = await this._getTransactionsByIDs(transactionsHash);
 
+            if (result.length === 0) {
+                throw Error('Have no transactions yet');
+            }
+
             return {
                 maxBlockHeight,
                 transactions: result,
             };
         } catch(err) {
-            return { error: err.message };
+            return { error: err };
         }
     }
 }
