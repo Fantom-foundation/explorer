@@ -108,21 +108,22 @@ export interface SubscriptionToNewBlocks {
         callback?: (error: Error, result: boolean) => void
     ): Promise<?boolean>;
 
+    emit(event: string, ...args: Array<any>): boolean;
+
     on(type: 'data', handler: (data: BlockHeader) => void): SubscriptionToNewBlocks;
 
     on(type: 'changed', handler: (data: BlockHeader) => void): SubscriptionToNewBlocks;
 
     on(type: 'error', handler: (data: Error) => void): SubscriptionToNewBlocks;
+
+    addListener(type: 'blockData', handler: (block: LatestBlocksData) => void): SubscriptionToNewBlocks;
 }
 
 export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
-    getBlocks<T: Transaction | string>(fromBlock: ?number, count: ?number, getBlockParams: [boolean] | []): Promise<Array<Block<T>>>;
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
-    getNewBlockData(blockNum: number): Promise<LatestBlocksData>,
-    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<string>> |} | RequestError>,
     getBlock<T: Transaction | string>(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<T>> |} | RequestError>,
+    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<string>> |} | RequestError>,
     getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | {| error: string |}>,
-    _getTransactionsByIDs(txsHash: Array<string>): Promise<Array<Transaction>>,
     getTransactionsPageData(offset: number, count?: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
 }

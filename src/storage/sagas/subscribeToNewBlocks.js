@@ -9,7 +9,6 @@ import {
     select,
     take,
     race,
-    takeEvery
 } from 'redux-saga/effects';
 import { eventChannel } from 'redux-saga';
 
@@ -21,27 +20,28 @@ import {
     SUBSCRIBE_TO_NEW_BLOCKS,
     UNSUBSCRIBE_TO_NEW_BLOCKS,
     SET_REALTIME_UPDATE,
-    REQUEST_BLOCK_DATA,
 } from 'src/storage/constants';
 
 import {
     updateLatestBlocksData,
     subscribeToNewBlocks,
-    requestBlockData,
 } from 'src/storage/actions/latestBlocksData';
 
 import type { Saga, EventChannel } from 'redux-saga';
-import type { SubscriptionToNewBlocks, DataProvider, BlockHeader } from 'src/utils/types';
-import type { Action } from 'src/storage/types';
+import type {
+    SubscriptionToNewBlocks,
+    DataProvider,
+    LatestBlocksData,
+} from 'src/utils/types';
 
 function createSocketChannel(socket: SubscriptionToNewBlocks) {
     // `eventChannel` takes a subscriber function
     // the subscriber function takes an `emit` argument to put messages onto the channel
     return eventChannel((emit) => {
-        const pingHandler = (blockHead) => {
+        const dataHandler = (latestBlockData: LatestBlocksData) => {
             // puts event payload into the channel
             // this allows a Saga to take this payload from the returned channel
-            emit(blockHead);
+            emit(latestBlockData);
         };
 
         const errorHandler = (error) => {
@@ -50,7 +50,7 @@ function createSocketChannel(socket: SubscriptionToNewBlocks) {
         };
 
         // setup the subscription
-        socket.on('data', pingHandler);
+        socket.addListener('blockData', dataHandler);
         socket.on('error', errorHandler);
 
         // the subscriber must return an unsubscribe function
@@ -59,7 +59,7 @@ function createSocketChannel(socket: SubscriptionToNewBlocks) {
         return () => {
             socket.unsubscribe((err, res) => console.log('Unsubscribe: ', res));
         };
-    })
+    });
 }
 
 function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> { // TODO: add correct EventChannel type
@@ -83,12 +83,11 @@ function* subscribeToNewBlocksData(): Saga<void> {
 
     yield fork(unsubscribeToNewBlocksData, subscriptionChannel);
 
-    while (true) {
+    while(true) {
         try {
-            // An error from socketChannel will cause the saga jump to the catch block
             const payload = yield take(subscriptionChannel);
-            console.log(`new block: ${payload.number}`);
-            yield put(requestBlockData(payload));
+
+            yield put(updateLatestBlocksData(payload));
         } catch(err) {
             console.error('socket error:', err)
             // socketChannel is still open in catch block
@@ -106,15 +105,6 @@ export function* checkIsSubscribeNeeded(): Saga<void> {
     }
 }
 
-export function* requestBlockDataSaga(action: Action<string, BlockHeader>): Saga<void> {
-    const api: DataProvider = yield getContext('api');
-    const { payload: { number } = {} } = action;
-
-    const newBlockData = yield call([api, api.getNewBlockData], number);
-    yield put(updateLatestBlocksData(newBlockData));
-}
-
 export default function* watchSubscribeToNewBlocks(): Saga<void> {
     yield takeLeading(SUBSCRIBE_TO_NEW_BLOCKS, subscribeToNewBlocksData);
-    yield takeEvery(REQUEST_BLOCK_DATA, requestBlockDataSaga);
 }

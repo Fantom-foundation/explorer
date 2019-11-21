@@ -7,7 +7,6 @@ import {
     UPDATE_LATEST_BLOCKS_DATA,
     SUBSCRIBE_TO_NEW_BLOCKS,
     UNSUBSCRIBE_TO_NEW_BLOCKS,
-    REQUEST_BLOCK_DATA,
     ERROR_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
@@ -51,13 +50,6 @@ export function subscribeToNewBlocks() {
 export function unsubscribeToNewBlocks() {
     return {
         type: UNSUBSCRIBE_TO_NEW_BLOCKS,
-    };
-}
-
-export function requestBlockData(blockNumber: number) {
-    return {
-        type: REQUEST_BLOCK_DATA,
-        payload: blockNumber,
     };
 }
 

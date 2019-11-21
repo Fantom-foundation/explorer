@@ -43,7 +43,7 @@ class Web3Provider implements DataProvider {
             };
 
             while (result.transactions.length < 10 && blockNumber >= 10 && maxBlockNumber - blockNumber < 100) {
-                const blocks: Array<Block<Transaction>> = await this.getBlocks(blockNumber - 10, 10, [true]);
+                const blocks: Array<Block<Transaction>> = await this._getBlocks(blockNumber - 10, 10, [true]);
 
                 blocks.forEach((block) => {
                     const transactions = block.transactions;
@@ -79,7 +79,7 @@ class Web3Provider implements DataProvider {
         }
     }
 
-    async getBlocks<T: Transaction | string>(
+    async _getBlocks<T: Transaction | string>(
         fromBlock: ?number = 0,
         count: ?number = 25,
         getBlockParams: [boolean] | [] = [],
@@ -113,10 +113,18 @@ class Web3Provider implements DataProvider {
     }
 
     subscribeToNewBlocks(): SubscriptionToNewBlocks {
-        return _web3.eth.subscribe('newBlockHeaders');
+        const socket: SubscriptionToNewBlocks = _web3.eth.subscribe('newBlockHeaders');
+
+        socket.on('data', (data) => {
+            const { number } = data;
+            this._getNewBlockData(number)
+                .then((data) => socket.emit('blockData', data));
+        });
+
+        return socket;
     }
 
-    async getNewBlockData(number: number): Promise<LatestBlocksData> {
+    async _getNewBlockData(number: number): Promise<LatestBlocksData> {
         let result: ?Block<Transaction> = null;
 
         while (!result) {
@@ -178,7 +186,7 @@ class Web3Provider implements DataProvider {
     ) {
         try {
             const maxBlockHeight: number = await _web3.eth.getBlockNumber();
-            const blocks: Array<Block<string>> = await this.getBlocks(maxBlockHeight - offset, count);
+            const blocks: Array<Block<string>> = await this._getBlocks(maxBlockHeight - offset, count);
 
             return { maxBlockHeight, blocks };
         } catch(err) {
@@ -227,7 +235,7 @@ class Web3Provider implements DataProvider {
             let blockNumber = maxBlockHeight - 10;
 
             while (transactionsHash.length < count && blockNumber >= 10 && maxBlockHeight - blockNumber < 100) {
-                const blocks: Array<Block<string>> = await this.getBlocks(blockNumber, 10);
+                const blocks: Array<Block<string>> = await this._getBlocks(blockNumber, 10);
 
                 for (let i = 0, len = blocks.length; i < len; i++) {
                     const block = blocks[i];
