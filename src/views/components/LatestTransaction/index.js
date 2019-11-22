@@ -2,8 +2,11 @@
 
 import React from 'react';
 import { Col } from 'reactstrap';
+import Web3 from 'web3';
 
 import transactionIcon from 'src/assets/images/icons/transactions.svg';
+
+import { toFixed } from 'src/common/utility';
 
 import type { Transaction } from 'src/utils/types';
 
@@ -14,6 +17,7 @@ type LatestTransactionProps = {
 
 function LatestTransaction(props: LatestTransactionProps) {
     const { onTransactionClick, transaction } = props;
+    const value = toFixed(Web3.utils.fromWei(transaction.value, 'ether'), 4);
 
     return (
         <Col
@@ -54,7 +58,7 @@ function LatestTransaction(props: LatestTransactionProps) {
                     <span className="text-white">Amount </span>
                     &nbsp;
                     <span className="text-primary">
-                        {transaction.value} FTM
+                        {value} FTM
                     </span>
                 </p>
             </div>
