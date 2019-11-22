@@ -1,8 +1,10 @@
-import * as types from 'src/storage/constants';
+// @flow
 
-export function setRealtimeUpdateDetails({ isRealtimeUpdate }) {
-  return {
-    type: types.SET_REALTIME_UPDATE,
-    realtimeUpdate: { isRealtimeUpdate },
-  };
+import { SET_REALTIME_UPDATE } from 'src/storage/constants';
+
+export function setRealtimeUpdateDetails({ isRealtimeUpdate }: {| isRealtimeUpdate: boolean |}) {
+    return {
+        type: SET_REALTIME_UPDATE,
+        realtimeUpdate: { isRealtimeUpdate },
+    };
 }

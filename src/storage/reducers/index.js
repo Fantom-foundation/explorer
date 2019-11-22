@@ -8,7 +8,6 @@ import { combineReducers } from 'redux-immutable';
 
 import userDetailsReducer from 'src/storage/reducers/userDetails';
 import realtimeUpdateReducer from 'src/storage/reducers/realtimeBlockchainUpdate';
-import setBlockDataReducer from 'src/storage/reducers/blocks';
 import languageProviderReducer from 'src/views/containers/LanguageProvider/reducer';
 import latestBlockData from 'src/storage/reducers/latestBlocksData';
 
@@ -22,7 +21,6 @@ export default function createReducer(injectedReducers: {} = {}): Map<any, any> 
         language: languageProviderReducer,
         currentUserDetails: userDetailsReducer,
         realtimeUpdateReducer,
-        setBlockDataReducer,
         latestBlockData,
         ...injectedReducers,
     });

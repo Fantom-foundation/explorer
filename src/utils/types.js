@@ -124,6 +124,6 @@ export interface DataProvider {
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
     getBlock<T: Transaction | string>(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<T>> |} | RequestError>,
     getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<string>> |} | RequestError>,
-    getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | {| error: string |}>,
+    getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | RequestError>,
     getTransactionsPageData(offset: number, count?: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
 }

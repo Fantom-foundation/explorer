@@ -10,7 +10,7 @@ import SearchForAccount from 'src/views/components/search/searchForAccount';
 
 import Web3Provider from 'src/utils/DataProvider/web3Provider';
 
-import { scientificToDecimal } from 'src/views/components/utils';
+import { scientificToDecimal } from 'src/utils';
 
 function AccountPage() {
     // const state = {

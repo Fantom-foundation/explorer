@@ -14,6 +14,10 @@ import {
     setLatestBlocksError,
 } from 'src/storage/actions/latestBlocksData';
 
+import {
+    setRealtimeUpdateDetails,
+} from 'src/storage/actions/realtimeBlockchainUpdate';
+
 type Node = {|
     node: {|
         payload: Block<string>,
@@ -39,6 +43,6 @@ export type LoadingLatestBlocksDataAction = ExtractReturn<typeof loadingLatestBl
 export type ErrorLatestBlocksDataAction = ExtractReturn<typeof setLatestBlocksError>;
 
 export type BlockAction = Action<string> & { blocksDetails?: Array<Node> };
-export type RealTimeUpdateAction = Action<string, { realtimeUpdate: { isRealtimeUpdate: boolean } }>
+export type RealTimeUpdateAction = ExtractReturn<typeof setRealtimeUpdateDetails>;
 
 export type ReduxRootStateType = Map<any, any>;

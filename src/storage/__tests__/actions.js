@@ -1,6 +1,5 @@
 // @flow
 
-import { setBlockData } from 'src/storage/actions/blocks';
 import { setRealtimeUpdateDetails } from 'src/storage/actions/realtimeBlockchainUpdate';
 import { setUserDetails } from 'src/storage/actions/userDetails';
 import {
@@ -10,25 +9,12 @@ import {
 } from 'src/storage/actions/latestBlocksData';
 
 import {
-    SET_BLOCK_DATA,
     SET_REALTIME_UPDATE,
     SET_USER_DETAILS,
     SET_LATEST_BLOCKS_DATA,
     UPDATE_LATEST_BLOCKS_DATA,
     ERROR_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
-
-describe('Redux actions: blocks', function blocksActions() {
-    it('should return correct setBlockData object', function () {
-        const dataMock = { payload: 'some data' };
-        const setDataAction = setBlockData(dataMock);
-
-        expect(setDataAction).toEqual({
-            type: SET_BLOCK_DATA,
-            blocksDetails: dataMock.payload,
-        });
-    });
-});
 
 describe('Redux actions: realtimeBlockchainUpdate', function rbuActions() {
     it('should return correct setRealtimeUpdateDetails object', function () {

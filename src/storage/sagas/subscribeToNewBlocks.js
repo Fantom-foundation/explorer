@@ -33,6 +33,9 @@ import type {
     DataProvider,
     LatestBlocksData,
 } from 'src/utils/types';
+import type {
+    RealTimeUpdateAction
+} from 'src/storage/types';
 
 function createSocketChannel(socket: SubscriptionToNewBlocks) {
     // `eventChannel` takes a subscriber function
@@ -57,13 +60,13 @@ function createSocketChannel(socket: SubscriptionToNewBlocks) {
         // this will be invoked when the saga calls `channel.close` method
 
         return () => {
-            socket.unsubscribe((err, res) => console.log('Unsubscribe: ', res));
+            socket.unsubscribe();
         };
     });
 }
 
 function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> { // TODO: add correct EventChannel type
-    const [, realtimeUpdate] = yield race([
+    const [, realtimeUpdate]: [any, RealTimeUpdateAction] = yield race([
         take(UNSUBSCRIBE_TO_NEW_BLOCKS),
         take(SET_REALTIME_UPDATE),
     ]);
@@ -89,10 +92,7 @@ function* subscribeToNewBlocksData(): Saga<void> {
 
             yield put(updateLatestBlocksData(payload));
         } catch(err) {
-            console.error('socket error:', err)
-            // socketChannel is still open in catch block
-            // if we want end the socketChannel, we need close it explicitly
-            // socketChannel.close()
+            console.error('socket error:', err);
         }
     }
 }
