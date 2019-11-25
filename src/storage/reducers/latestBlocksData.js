@@ -1,6 +1,9 @@
 // @flow
 
-import { Map, List, fromJS } from 'immutable';
+import {
+    List,
+    Record,
+} from 'immutable';
 
 import {
     SET_LATEST_BLOCKS_DATA,
@@ -10,40 +13,58 @@ import {
 } from 'src/storage/constants';
 
 import type {
-    Map as MapType,
     List as ListType,
+    RecordOf,
 } from 'immutable';
 import type {
     LoadingLatestBlocksDataAction,
     SetLatestBlocksDataAction,
     UpdateLatestBlockDataAction,
     ErrorLatestBlocksDataAction,
+    IntiAction,
 } from 'src/storage/types';
+import type {
+    Block,
+    Transaction,
+} from 'src/utils/types';
 
-type latestBlocksDataType = MapType<string, ListType<MapType<any>> | boolean | string>;
 type blocksDataAction =
     | LoadingLatestBlocksDataAction
     | SetLatestBlocksDataAction
     | UpdateLatestBlockDataAction
-    | ErrorLatestBlocksDataAction;
+    | ErrorLatestBlocksDataAction
+    | IntiAction;
 
-export const initialState = Map({
+type LatestBlocksDataType = {
+    isLoading: boolean,
+    blocks: ListType<Block<string>>,
+    transactions: ListType<Transaction>,
+    error: ?string,
+};
+
+type StateType = RecordOf<LatestBlocksDataType>;
+
+const LatestBlockDataRecord = Record({
     isLoading: false,
     blocks: List([]),
     transactions: List([]),
     error: null,
-});
+}, 'latestBlockData');
 
-function latestBlockData(state: latestBlocksDataType = initialState, action: blocksDataAction): latestBlocksDataType {
+const initialState = LatestBlockDataRecord<LatestBlocksDataType>();
+
+function latestBlockData(state: StateType = initialState, action: blocksDataAction): StateType {
     switch (action.type) {
         case SET_LATEST_BLOCKS_DATA: {
-            const payloadMap = fromJS(action.payload);
+            const { blocks, transactions } = action.payload;
 
             return state.withMutations((mutate) => {
-                mutate.set('blocks', payloadMap.get('blocks'));
+                if (blocks) {
+                    mutate.set('blocks', List(blocks));
+                }
 
-                if (payloadMap.has('transactions')) {
-                    mutate.set('transactions', payloadMap.get('transactions'));
+                if (transactions) {
+                    mutate.set('transactions', List(transactions));
                 }
 
                 return mutate;
@@ -54,6 +75,7 @@ function latestBlockData(state: latestBlocksDataType = initialState, action: blo
             const {
                 error: { message },
             } = action.payload;
+
             return state.set('error', message);
         }
 
@@ -62,31 +84,45 @@ function latestBlockData(state: latestBlocksDataType = initialState, action: blo
         }
 
         case UPDATE_LATEST_BLOCKS_DATA: {
-            const { blocks: [block] = [], transactions } = action.payload;
+            const { blocks, transactions } = action.payload;
+            let needUpgradeTransactions = false;
 
-            const newBlock = fromJS(block);
-            const newTransactions = List(transactions);
+            return state.withMutations((mutable) => {
+                if (blocks) {
+                    blocks.forEach((block) => {
+                        if (mutable.get('blocks').findEntry((listElem) => listElem.number === block.number)) {
+                            return;
+                        }
 
-            const newState = state.withMutations(
-                (mutable) => {
-                    if (mutable.get('blocks').findEntry((value) => value.get('number') === block.number)) {
-                        return state;
-                    }
+                        needUpgradeTransactions = true;
+                        mutable.update('blocks', (blockList) => blockList.unshift(block));
+                    });
 
-                    return mutable
-                        .update('blocks', (blocks) => {
-                            return blocks.unshift(newBlock)
-                                .sort((a, b) => a.number - b.number)
-                                .slice(0, 10)
-                        })
-                        .update('transactions', (transactions) => {
-                            return newTransactions.concat(transactions)
-                                .slice(0, 10);
-                        });
-                },
-            );
+                    mutable.update('blocks', (blocksList) => {
+                        return blocksList
+                            .slice(0, 10);
+                    });
+                }
 
-            return newState;
+                if (transactions && needUpgradeTransactions) {
+                    let newTransactions = List<Transaction>();
+
+                    transactions.forEach((transaction) => {
+                        if (mutable.get('transactions').findEntry((listElem) => listElem.hash === transaction.hash)) {
+                            return;
+                        }
+
+                        newTransactions = newTransactions.push(transaction);
+                    });
+
+                    mutable.update('transactions', (transactionList) => {
+                        return newTransactions.concat(transactionList)
+                            .slice(0, 10);
+                    });
+                }
+
+                return mutable;
+            });
         }
 
         default: {
@@ -96,3 +132,12 @@ function latestBlockData(state: latestBlocksDataType = initialState, action: blo
 }
 
 export default latestBlockData;
+
+export {
+    initialState,
+    LatestBlockDataRecord,
+};
+
+export type {
+    StateType,
+};

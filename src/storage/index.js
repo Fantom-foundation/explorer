@@ -3,8 +3,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import type { Map } from 'immutable';
-
 import createReducer from './reducers';
 import { loadState, persistMiddleware } from './localStorage';
 import { rootSaga } from 'src/storage/sagas';
@@ -45,7 +43,7 @@ export default function configureStore() {
     const rootReducer = createReducer();
 
     const store = {
-        ...createStore<Map<mixed, mixed>, mixed, any>( // TODO: correct flow store types
+        ...createStore(
             rootReducer,
             persistedState,
             composeEnhancers(...enhancers),

@@ -1,17 +1,31 @@
 // @flow
 
-import { fromJS, Map } from 'immutable';
+import { Record, Map, type RecordOf } from 'immutable';
 import { SET_REALTIME_UPDATE } from '../constants';
 
-import type { RealTimeUpdateAction } from 'src/storage/types';
+import type { RealTimeUpdateAction, IntiAction } from 'src/storage/types';
 
-const initialState = fromJS({
+type RealtimeUpdateType = {
+    realtimeUpdate: {
+        isRealtimeUpdate: boolean,
+    },
+};
+
+type RealtimeUpdateReducerAction =
+    | RealTimeUpdateAction
+    | IntiAction;
+
+type StateType = RecordOf<RealtimeUpdateType>;
+
+const RealtimeUpdateRecord = Record({
     realtimeUpdate: {
         isRealtimeUpdate: false,
-    },
-});
+    }
+}, 'RealtimeUpdate');
 
-function realtimeUpdateReducer(state = initialState, action: RealTimeUpdateAction) {
+const initialState = RealtimeUpdateRecord<RealtimeUpdateType>();
+
+function realtimeUpdateReducer(state: StateType = initialState, action: RealtimeUpdateReducerAction): StateType {
     switch (action.type) {
         case SET_REALTIME_UPDATE:
             return state.mergeIn(['realtimeUpdate'], Map(action.realtimeUpdate));
@@ -24,4 +38,9 @@ export default realtimeUpdateReducer;
 
 export {
     initialState,
+    RealtimeUpdateRecord,
+};
+
+export type {
+    StateType
 };
