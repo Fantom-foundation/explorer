@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Container } from 'reactstrap';
 
 import ToggleToolTip from 'src/views/containers/home/ToggleToolTip';

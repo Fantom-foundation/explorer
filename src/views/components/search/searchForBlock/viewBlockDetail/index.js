@@ -19,8 +19,6 @@ import type { Transaction } from 'src/utils/types';
  *
  */
 
-// TODO: Replace by universal transaction display component
-
 const transactionsStructure = [
     {
         className: 'text-primary full head text-ellipsis',
@@ -75,25 +73,29 @@ function BlockDetail() {
     const [error, setError] = React.useState('');
     const [transactions, setTransactions] = React.useState([]);
     const history = useHistory();
-    const match = useRouteMatch('/block/:id?');
+    const match = useRouteMatch('/block/:blockId?');
     const {
-        params: { id },
+        params: { blockId },
     } = match;
 
-    if (!id) {
+    if (!blockId) {
         history.push({
             pathname: '/blocks',
         });
     }
 
     React.useEffect(() => {
+        if (!blockId) {
+            return;
+        }
+
         async function fetchData() {
             const provider = new Web3Provider();
 
-            const response = await provider.getBlock(id, true);
+            const response = await provider.getBlock(blockId, true);
 
             if (response.error) {
-                setError(response.error);
+                setError(response.error.message);
             } else {
                 const [{ transactions: transactionsData }] = response.blockData;
                 setTransactions(transactionsData);
@@ -101,7 +103,7 @@ function BlockDetail() {
         }
 
         fetchData();
-    }, [id, history]);
+    }, [blockId, history]);
 
     const historyCallback = React.useCallback((history: RouterHistory, data: Transaction) => {
         const { hash } = data;
@@ -112,12 +114,12 @@ function BlockDetail() {
     }, []);
 
     const goToBlock = React.useCallback(() => {
-        if (id) {
+        if (blockId) {
             history.push({
-                pathname: `/blocks/${id}`,
+                pathname: `/blocks/${blockId}`,
             })
         }
-    }, [history, id]);
+    }, [history, blockId]);
 
     return (
         <section className="bg-theme full-height-conatainer">
@@ -125,7 +127,7 @@ function BlockDetail() {
                 <TransactionBlockHeader
                     title="Transactions"
                     block="For Block"
-                    total={id ? id : '0'}
+                    total={blockId ? blockId : '0'}
                 >
                     <Col md={6} className="text-right">
                         <Button

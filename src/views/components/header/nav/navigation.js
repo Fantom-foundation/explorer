@@ -11,102 +11,81 @@ import {
     NavLink,
 } from 'reactstrap';
 
+import { WindowSize } from 'src/views/components/PageSizeWatcher';
+
 import Logo from 'src/assets/images/Logo/main-logo.svg';
 import hamburgerBtn from 'src/assets/images/icons/hamburger.svg';
 import closeBtn from 'src/assets/images/icons/close.svg';
 
-export default class Navigation extends React.Component<{}, any> { // TODO: Add flow types
-    state = {
-        isShow: false,
-        closing: false,
-        windowWidth: 1900,
-    };
-
-    toggleNavbar = (e: SyntheticEvent<HTMLButtonElement | HTMLDivElement>) => {
+function Navigation () {
+    const windowWidth = React.useContext(WindowSize);
+    const [state, setState] = React.useState({ isShow: false, closing: false });
+    const toggleNavbar = React.useCallback((e: SyntheticEvent<HTMLButtonElement | HTMLDivElement>) => {
         e.preventDefault();
-        this.setState({ closing: true });
+        setState((prevState) => ({ ...prevState, closing: true }));
         setTimeout(
-            () => this.setState((prevState) => ({
-                isShow: !prevState.isShow,
+            () => setState((prevState) => ({
+                ...prevState,
+                isShow :!prevState.isShow,
                 closing: false,
             })),
-            400
-        );
-    };
+            400,
+        )
+    }, []);
 
-    // ** TODO: refactor to redux-resize or redux-responsive
+    const {
+        isShow,
+        closing,
+    } = state;
 
-    componentDidMount() {
-        this.handleResize();
-        window.addEventListener('resize', this.handleResize);
-    }
+    return (
+        <Navbar dark expand="md">
+            <NavbarBrand tag={RouterNavLink} to="/">
+                <img alt="Fantom explorer" className="logo" src={Logo} />
+            </NavbarBrand>
 
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize);
-    }
-
-    handleResize = () => {
-        this.setState({
-            windowWidth: window.innerWidth,
-        });
-    }
-
-    // ** --------------------------------------------------
-
-    render() {
-        const {
-            isShow,
-            closing,
-            windowWidth,
-        } = this.state;
-
-        return (
-            <Navbar dark expand="md">
-                <NavbarBrand tag={RouterNavLink} to="/">
-                    <img alt="Fantom explorer" className="logo" src={Logo} />
-                </NavbarBrand>
-
+            <button
+                className="btn open"
+                style={{ backgroundImage: `url(${hamburgerBtn})` }}
+                onClick={toggleNavbar}
+            />
+            {isShow && (
                 <button
-                    className="btn open"
-                    style={{ backgroundImage: `url(${hamburgerBtn})` }}
-                    onClick={this.toggleNavbar}
+                    className={`btn close ${closing ? 'dim' : ''}`}
+                    style={{ backgroundImage: `url(${closeBtn})` }}
+                    onClick={toggleNavbar}
                 />
-                {isShow && (
-                    <button
-                        className={`btn close ${closing ? 'dim' : ''}`}
-                        style={{ backgroundImage: `url(${closeBtn})` }}
-                        onClick={this.toggleNavbar}
-                    />
-                )}
-                {windowWidth >= 768 || isShow ? (
-                    <Collapse className={closing ? 'closing' : ''} navbar >
-                        <div className="overlay" onClick={this.toggleNavbar} />
-                        <Nav className="ml-auto" navbar >
-                            <NavItem>
-                                <NavLink exact tag={RouterNavLink} to="/">
-                                    Home
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={RouterNavLink} to="/blocks">
-                                    Blocks
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={RouterNavLink} to="/transactions">
-                                    Transactions
-                                </NavLink>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink tag={RouterNavLink} to="/resources">
-                                    Resources
-                                </NavLink>
-                            </NavItem>
-                        </Nav>
+            )}
+            {windowWidth >= 768 || isShow ? (
+                <Collapse className={closing ? 'closing' : ''} navbar >
+                    <div className="overlay" onClick={toggleNavbar} />
+                    <Nav className="ml-auto" navbar >
+                        <NavItem>
+                            <NavLink exact tag={RouterNavLink} to="/">
+                                Home
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={RouterNavLink} to="/blocks">
+                                Blocks
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={RouterNavLink} to="/transactions">
+                                Transactions
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={RouterNavLink} to="/resources">
+                                Resources
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
 
-                    </Collapse>
-                ) : null}
-            </Navbar>
-        );
-    }
+                </Collapse>
+            ) : null}
+        </Navbar>
+    );
 }
+
+export default Navigation;

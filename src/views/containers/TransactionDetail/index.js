@@ -35,7 +35,7 @@ function TransactionDetail () {
             const response = await provider.getTransaction(txHash);
 
             if (response.error) {
-                setError(response.error);
+                setError(response.error.message);
             } else {
                 const { transactionData: [transaction] } = response;
                 setTransaction({

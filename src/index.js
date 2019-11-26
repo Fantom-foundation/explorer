@@ -9,6 +9,7 @@ import configureStore from 'src/storage';
 
 // import { translationMessages } from './i18n';
 import Main from './main';
+import PageSizeWatcher from 'src/views/components/PageSizeWatcher';
 
 import './global-style';
 
@@ -18,7 +19,9 @@ const store = configureStore();
 const Root = () => (
     <Provider store={store}>
         <BrowserRouter>
-            <Main />
+            <PageSizeWatcher>
+                <Main />
+            </PageSizeWatcher>
         </BrowserRouter>
     </Provider>
 );
