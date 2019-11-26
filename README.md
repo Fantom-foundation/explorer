@@ -11,12 +11,13 @@ For our stack we are using
 
 
 ## Setup
-* Node.js tested on v0.10.26 up to v7.10.0
-* NPM minimum version 3.10.6
+* Node.js v8.x.x up to v10.x.x
+* NPM minimum version >=6
+* Yarn >=v1
 
 ## Install application dependencies
 ```
-$ npm install
+$ yarn
 ```
 ## Code Quality
 
@@ -25,27 +26,24 @@ $ npm install
 ## Build
 Run the App.
 ```
-$ npm start
+$ yarn build
 
 ```
 
 ## Start
 
 1. Clone this repo
-2. To install dependencies `npm install`.<br />
-3. Run `npm start`.
+2. To install dependencies `yarn`.<br />
+3. Run `yarn start`.
 
 ## Development Pipeline
 
 For each feature/task, create a new branch as follows:
 
-1. Sync from `development` branch.
-2. Create a new branch from `development` with the pattern: `year/userName/feature`
-
-For example: `2017/Kapil/Dashboard`
-
+1. Sync from `develop` branch.
+2. Create a new branch from `develop` with GitFlow
 3. Make changes (**Please commit frequently whenever a change has been made. do not commit everything at once!**)
-4. Commit frequently to `year/userName/feature`.
+4. Commit frequently.
 5. When a new task is completed or a significant milestone is reached, create a Pull Request (PR) to `development`.
 6. Reviewers will review your Pull Request and accept or reject with feedback.
 7. If rejected, review and fix and create another Pull Request.
