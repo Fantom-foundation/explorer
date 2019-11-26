@@ -65,7 +65,7 @@ function createSocketChannel(socket: SubscriptionToNewBlocks) {
     });
 }
 
-function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> { // TODO: add correct EventChannel type
+function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> {
     const [, realtimeUpdate]: [any, RealTimeUpdateAction] = yield race([
         take(UNSUBSCRIBE_TO_NEW_BLOCKS),
         take(SET_REALTIME_UPDATE),
@@ -82,7 +82,7 @@ function* subscribeToNewBlocksData(): Saga<void> {
     const api: DataProvider = yield getContext('api');
 
     const subscription: SubscriptionToNewBlocks = yield call([api, api.subscribeToNewBlocks]);
-    const subscriptionChannel = yield call(createSocketChannel, subscription);
+    const subscriptionChannel: EventChannel<any> = yield call(createSocketChannel, subscription);
 
     yield fork(unsubscribeToNewBlocksData, subscriptionChannel);
 
