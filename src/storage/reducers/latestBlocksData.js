@@ -37,7 +37,7 @@ type blocksDataAction =
 
 type LatestBlocksDataType = {
     isLoading: boolean,
-    blocks: ListType<Block<string>>,
+    blocks: ListType<Block>,
     transactions: ListType<Transaction>,
     error: ?string,
 };

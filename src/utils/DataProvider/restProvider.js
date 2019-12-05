@@ -62,7 +62,7 @@ class RestProvider implements DataProvider {
             const { data } = await apiInterface.getApiV1GetBlocks({ offset, count, order });
 
             return {
-                maxBlockHeight: data.total,
+                maxBlockHeight: data.maxBlockHeight,
                 blocks: data.blocks,
             };
         } catch(err) {
@@ -97,8 +97,22 @@ class RestProvider implements DataProvider {
             const { data } = await apiInterface.getApiV1GetTransactions({ offset, order, count });
 
             return {
-                maxBlockHeight: data.total,
+                maxBlockHeight: data.maxBlockHeight,
                 transactions: data.transactions,
+            };
+        } catch(err) {
+            return {
+                error: err,
+            };
+        }
+    }
+
+    async getTransactionsByBlockNumber(blockNumber: number) {
+        try {
+            const { data } = await apiInterface.getApiV1GetTransactions({ block: blockNumber });
+
+            return {
+                blockData: data.transactions,
             };
         } catch(err) {
             return {

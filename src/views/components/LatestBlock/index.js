@@ -9,7 +9,7 @@ import blockIcon from 'src/assets/images/icons/block.svg';
 import type { Block } from 'src/utils/types';
 type LatestBlockProps = {
     onBlockClick: (event: SyntheticEvent<HTMLDivElement>) => void,
-    data: Block<string>,
+    data: Block,
 };
 
 function LatestBlock({ onBlockClick, data }: LatestBlockProps) {
@@ -39,7 +39,7 @@ function LatestBlock({ onBlockClick, data }: LatestBlockProps) {
                 <p className="mb-0">
                     <span className="text-white">Txns</span>
                     &nbsp;
-                    <span className="text-primary">{data.transactions.length}</span>
+                    <span className="text-primary">{data.transactions}</span>
                 </p>
                 <p className="time-date text-white">
                     {moment(new Date(data.timestamp * 1000)).fromNow()}

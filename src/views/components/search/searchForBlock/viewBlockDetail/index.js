@@ -8,7 +8,7 @@ import Web3 from 'web3';
 import { DataTable } from 'src/views/components/DataTable';
 
 import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
-import Web3Provider from 'src/utils/DataProvider/web3Provider';
+import { useDataProvider } from 'src/utils/DataProvider';
 import { toFixed } from 'src/common/utility';
 
 import type { RouterHistory } from 'react-router-dom';
@@ -73,6 +73,7 @@ function BlockDetail() {
     const [error, setError] = React.useState('');
     const [transactions, setTransactions] = React.useState([]);
     const history = useHistory();
+    const provider = useDataProvider();
     const match = useRouteMatch('/block/:blockId?');
     const {
         params: { blockId },
@@ -90,14 +91,12 @@ function BlockDetail() {
         }
 
         async function fetchData() {
-            const provider = new Web3Provider();
-
-            const response = await provider.getBlock(blockId, true);
+            const response = await provider.getTransactionsByBlockNumber(blockId);
 
             if (response.error) {
                 setError(response.error.message);
             } else {
-                const [{ transactions: transactionsData }] = response.blockData;
+                const { blockData: transactionsData } = response;
                 setTransactions(transactionsData);
             }
         }

@@ -14,6 +14,7 @@ import Loader from 'src/views/components/Loader';
 
 import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
+import { useDataProvider } from 'src/utils/DataProvider';
 
 const transactionStructure = [
     {
@@ -64,7 +65,8 @@ function TransactionsPage () {
     const [error, setError] = React.useState('');
     const [transactions, setTransactions] = React.useState([]);
     const [maxBlockNumber, setMaxBlockNumber] = React.useState(0);
-    const [currentPage, setCurrentPage] = usePagination(1, 50000);
+    const [currentPage, setCurrentPage] = usePagination(0, 50000);
+    const provider = useDataProvider();
 
     const pushToTransaction = React.useCallback((history: RouterHistory, tx: Transaction) => {
         history.push({
@@ -74,10 +76,7 @@ function TransactionsPage () {
 
     React.useEffect(() => {
         async function fetchData() {
-            const provider = new Web3Provider();
-            const offset = (currentPage - 1) * 10;
-
-            const response = await provider.getTransactionsPageData(offset);
+            const response = await provider.getTransactionsPageData(currentPage * 10);
 
             if (response.error) {
                 setError(response.error.message);

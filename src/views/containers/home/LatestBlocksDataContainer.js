@@ -18,7 +18,7 @@ import type { Transaction, Block } from 'src/utils/types';
 type LatestBlocksDataContainerProps = {|
     getLatestBlocksData: () => void,
     unsubscribeToNewBlocks: () => void,
-    latestBlocksArr: Array<Block<string>>,
+    latestBlocksArr: Array<Block>,
     latestTransactionsArr: Array<Transaction>,
     isLoading: boolean,
 |};

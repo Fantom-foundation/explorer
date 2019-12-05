@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-export const usePagination = (initialPage: number = 1, initialMaxPages?: number) => {
+export const usePagination = (initialPage: number = 0, initialMaxPages?: number) => {
     const [ currentPage, setCurrentPage ] = React.useState(initialPage);
     const [ maxPages, setMaxPages ] = React.useState<?number>(initialMaxPages || null);
     const setCurrentPageHandler = React.useCallback((value: 'next'|'prev') => setCurrentPage((prevState) => {
@@ -20,7 +20,7 @@ export const usePagination = (initialPage: number = 1, initialMaxPages?: number)
             default:
         }
 
-        if (nextState <= 0 || (maxPages && nextState > maxPages)) {
+        if (nextState < 0 || (maxPages && nextState > maxPages)) {
             return prevState;
         }
 

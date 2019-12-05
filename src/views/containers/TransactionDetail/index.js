@@ -8,14 +8,15 @@ import { useRouteMatch, useHistory } from 'react-router-dom';
 import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
 
 import Loader from 'src/views/components/Loader';
-import Web3Provider from 'src/utils/DataProvider/web3Provider';
+import { useDataProvider } from 'src/utils/DataProvider';
 
-import type { DetailTransaction } from 'src/utils/types';
+import type { Transaction } from 'src/utils/types';
 
 function TransactionDetail () {
     const [ error, setError ] = React.useState('');
-    const [ transaction, setTransaction ] = React.useState<?DetailTransaction>();
+    const [ transaction, setTransaction ] = React.useState<?Transaction>();
     const history = useHistory();
+    const provider = useDataProvider();
     const onShowList = React.useCallback(() => {
         history.push({
             pathname: '/transactions',
@@ -31,7 +32,6 @@ function TransactionDetail () {
 
     React.useEffect(() => {
         async function fetchData() {
-            const provider = new Web3Provider();
             const response = await provider.getTransaction(txHash);
 
             if (response.error) {
@@ -40,7 +40,7 @@ function TransactionDetail () {
                 const { transactionData: [transaction] } = response;
                 setTransaction({
                     ...transaction,
-                    value: Web3.utils.fromWei(transaction.value),
+                        value: Web3.utils.fromWei(transaction.value),
                 });
             }
         }

@@ -1,11 +1,12 @@
 // @flow
 
-import io from 'socket.io-client';
+import { connect } from 'socket.io-client';
 import Emitter from 'component-emitter';
 
 import type {
     SubscriptionToNewBlocks,
     SubscriptionOptions,
+    Block,
     LatestBlocksData,
 } from 'src/utils/types';
 
@@ -19,23 +20,24 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
     constructor(options?: SubscriptionOptions) {
         super();
 
-        this._socket = io(socketUrl);
+        this._socket = connect(socketUrl);
         this._socket
-            .on('connected', () => {
-                console.log('Connected');
+            .on('connect', () => {
+                console.log('[SubscribeToNewBlocks]: Connected');
+                this._socket.emit('subscribe');
             })
             .on('message', (msg: string) => {
                 const data:
                     | {| event: 'subscribed' |}
-                    | {| event: 'newBlock', block: LatestBlocksData |} = JSON.parse(msg);
+                    | {| event: 'newBlock', block: Block |} = JSON.parse(msg);
 
                 switch (data.event) {
                     case 'subscribed': {
-                        console.log('Subscribed to newBlock event');
+                        console.log('[SubscribeToNewBlocks]: Subscribed to newBlock event');
                         break;
                     }
                     case 'newBlock': {
-                        this.emit('blockData', data.block);
+                        this.emit('blockData', { blocks: [data.block] });
                         break;
                     }
                     default: break;
@@ -43,8 +45,7 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
             })
             .on('errorEvent', (msg: string) => {
                 this.emit('error', JSON.parse(msg));
-            })
-            .send('subscribe');
+            });
 
         return this;
     }
@@ -63,7 +64,7 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
         }
     }
 
-    addListener(type: 'blockData', handler: (block: LatestBlocksData) => void) {
+    addListener(type: 'blockData', handler: (latestBlocksData: LatestBlocksData) => void) {
         this.on(type, handler);
 
         return this;

@@ -27,7 +27,7 @@ const blockPageStructure = [
     {
         key: 'transactions',
         header: 'Txn',
-        render: (transactions: Array<any>) => transactions.length,
+        render: (transactions: number) => transactions,
         className: "text-primary full-wrap txn",
     },
     {

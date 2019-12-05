@@ -23,6 +23,7 @@ export type Transaction = {|
     gasUsed: number,
     logs: Array<{ ... }>,
     status: boolean,
+    timestamp: number,
     contractAddress?: string,
 |};
 
@@ -41,7 +42,7 @@ export type TransactionReceipt = {|
     logsBloom: string,
 |};
 
-export type Block<T> = {|
+export type Block = {|
     difficulty: string,
     extraData: string,
     gasLimit: number,
@@ -57,13 +58,13 @@ export type Block<T> = {|
     stateRoot: string,
     timestamp: number,
     totalDifficulty: string,
-    transactions: Array<T>,
+    transactions: number,
     transactionsRoot: string,
     uncles: Array<string>,
 |};
 
 export type LatestBlocksData = {|
-    blocks?: Array<Block<string>>,
+    blocks?: Array<Block>,
     transactions?: Array<Transaction>,
 |};
 
@@ -119,8 +120,9 @@ export interface SubscriptionToNewBlocks {
 export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
-    getBlock<T: Transaction | string>(blockNumber: number, withTransactions: ?boolean): Promise<{| blockData: Array<Block<T>> |} | RequestError>,
-    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<string>> |} | RequestError>,
+    getBlock(blockNumber: number): Promise<{| blockData: Array<Block> |} | RequestError>,
+    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block> |} | RequestError>,
+    getTransactionsByBlockNumber(blockNumber: number): Promise<{| blockData: Array<Transaction> |} | RequestError>,
     getTransaction(transactionHash: string): Promise<{| transactionData: Array<Transaction> |} | RequestError>,
     getTransactionsPageData(offset: number, count?: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
 }

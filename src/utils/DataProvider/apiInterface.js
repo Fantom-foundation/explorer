@@ -48,6 +48,7 @@ export type Transaction = {|
     fee: string,
     status: boolean,
     to: string,
+    contractAddress?: string,
 |};
 export type TransactionForAccountEndpoint = {|
     from: string,
@@ -84,7 +85,7 @@ export default class ApiProvider {
             params: query,
         })
             .then((response) => {
-                const { data: res } = response.data;
+                const { data: res } = response;
 
                 if (res.meta.success === false) {
                     throw Error(res.meta.message);
@@ -105,6 +106,7 @@ export default class ApiProvider {
             total: number,
             offset: number,
             count: number,
+            maxBlockHeight: number,
             blocks: Array < Block >
             ,
         },
@@ -237,6 +239,7 @@ export default class ApiProvider {
             total: number,
             offset: number,
             count: number,
+            maxBlockHeight: number,
             transactions: Array < Transaction >
             ,
         },
@@ -272,10 +275,8 @@ export default class ApiProvider {
         meta: meta,
         data: {
             count: number,
-            blocks: Array < Block >
-            ,
-            transactions: Array < Transaction >
-            ,
+            blocks: Array < Block >,
+            transactions: Array < Transaction >,
         },
     } >
     {
