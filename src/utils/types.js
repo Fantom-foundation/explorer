@@ -17,6 +17,13 @@ export type Transaction = {|
     transactionIndex: number,
     v: string,
     value: string,
+    // ...
+    cumulativeGasUsed: number,
+    fee: string,
+    gasUsed: number,
+    logs: Array<{ ... }>,
+    status: boolean,
+    contractAddress?: string,
 |};
 
 export type TransactionReceipt = {|
@@ -34,11 +41,6 @@ export type TransactionReceipt = {|
     logsBloom: string,
 |};
 
-export type DetailTransaction = {|
-    ...Transaction,
-    ...TransactionReceipt,
-|}
-
 export type Block<T> = {|
     difficulty: string,
     extraData: string,
@@ -47,11 +49,9 @@ export type Block<T> = {|
     hash: string,
     logsBloom: string,
     miner: string,
-    mixHash: string,
-    nonce: string,
+    nonce: number,
     number: number,
     parentHash: string,
-    receiptsRoot: string,
     sha3Uncles: string,
     size: number,
     stateRoot: string,
@@ -95,12 +95,9 @@ export type BlockHeader = {
 }
 
 export interface SubscriptionToNewBlocks {
-    constructor(options: SubscriptionOptions): SubscriptionToNewBlocks;
+    constructor(options?: SubscriptionOptions): SubscriptionToNewBlocks;
 
-    id: string;
     options: SubscriptionOptions;
-    callback: () => void;
-    arguments: any;
 
     subscribe(callback?: (error: Error, result: BlockHeader) => void): SubscriptionToNewBlocks;
 
@@ -122,8 +119,8 @@ export interface SubscriptionToNewBlocks {
 export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
-    getBlock<T: Transaction | string>(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<T>> |} | RequestError>,
+    getBlock<T: Transaction | string>(blockNumber: number, withTransactions: ?boolean): Promise<{| blockData: Array<Block<T>> |} | RequestError>,
     getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<string>> |} | RequestError>,
-    getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | RequestError>,
+    getTransaction(transactionHash: string): Promise<{| transactionData: Array<Transaction> |} | RequestError>,
     getTransactionsPageData(offset: number, count?: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
 }

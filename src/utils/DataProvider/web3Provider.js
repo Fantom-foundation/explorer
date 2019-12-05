@@ -173,8 +173,18 @@ class Web3Provider implements DataProvider {
                 _web3.eth.getTransaction(transactionHash),
                 _web3.eth.getTransactionReceipt(transactionHash),
             ]);
+            const {
+                logsBloom,
+                transactionHash: x,
+                ...restTransactionReceipt
+            } = transactionReceipt;
 
-            return { transactionData: [{ ...transaction, ...transactionReceipt }] };
+            return {
+                transactionData: [{
+                    ...transaction,
+                    ...restTransactionReceipt,
+                }],
+            };
         } catch(err) {
             return { error: err };
         }

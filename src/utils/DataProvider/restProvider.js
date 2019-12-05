@@ -1,6 +1,7 @@
 // @flow
 
 import apiInterface from './apiInterface';
+import SubscribeToNewBlocks from './socketInterface';
 
 import type {
     DataProvider,
@@ -21,15 +22,12 @@ class RestProvider implements DataProvider {
 
     async getLatestBlocksData() {
         try {
-            const response = await apiInterface.getApiV1GetLatestData();
+            const { data } = await apiInterface.getApiV1GetLatestData({});
 
-            if (response.error) {
-                return {
-                    error: Error(response.error),
-                }
+            return {
+                blocks: data.blocks,
+                transactions: data.transactions,
             }
-
-            return response;
         } catch(err) {
             return {
                 error: err,
@@ -38,20 +36,14 @@ class RestProvider implements DataProvider {
     }
 
     async getBlock(
-        blockNumber: number | string,
+        blockNumber: number,
         withTransactions: ?boolean,
     ) {
         try {
-            const response = await apiInterface.getApiV1GetBlock({ blockNumber });
-
-            if (response.error) {
-                return {
-                    error: Error(response.error),
-                };
-            }
+            const { data } = await apiInterface.getApiV1GetBlock({ blockNumber });
 
             return {
-                blockData: [response],
+                blockData: [data.block],
             };
 
         } catch(err) {
@@ -67,17 +59,11 @@ class RestProvider implements DataProvider {
         order?: number,
     ) {
         try {
-            const response = await apiInterface.getApiV1GetBlocks({ offset, count, order });
-
-            if (response.error) {
-                return {
-                    error: Error(response.error),
-                };
-            }
+            const { data } = await apiInterface.getApiV1GetBlocks({ offset, count, order });
 
             return {
-                maxBlockHeight: response.total,
-                blocks: response.docs,
+                maxBlockHeight: data.total,
+                blocks: data.blocks,
             };
         } catch(err) {
             return {
@@ -90,16 +76,10 @@ class RestProvider implements DataProvider {
         transactionHash: string,
     ) {
         try {
-            const response = await apiInterface.getApiV1GetTransaction({ transactionHash });
-
-            if (response.error) {
-                return {
-                    error: Error(response.error),
-                };
-            }
+            const { data } = await apiInterface.getApiV1GetTransaction({ transactionHash });
 
             return {
-                transactionData: [response],
+                transactionData: [data.transaction],
             };
         } catch (err) {
             return {
@@ -114,17 +94,11 @@ class RestProvider implements DataProvider {
         order?: number,
     ) {
         try {
-            const response = await apiInterface.getApiV1GetTransactions({ offset, order, count });
-
-            if (response.error) {
-                return {
-                    error: Error(response.error),
-                };
-            }
+            const { data } = await apiInterface.getApiV1GetTransactions({ offset, order, count });
 
             return {
-                maxBlockHeight: response.total,
-                transactions: response.transactions,
+                maxBlockHeight: data.total,
+                transactions: data.transactions,
             };
         } catch(err) {
             return {
@@ -134,7 +108,7 @@ class RestProvider implements DataProvider {
     }
 
     subscribeToNewBlocks() {
-        return {};
+        return new SubscribeToNewBlocks();
     }
 }
 
