@@ -1,6 +1,6 @@
 // @flow
 
-import { connect } from 'socket.io-client';
+import io from 'socket.io-client';
 import Emitter from 'component-emitter';
 
 import type {
@@ -20,7 +20,7 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
     constructor(options?: SubscriptionOptions) {
         super();
 
-        this._socket = connect(socketUrl);
+        this._socket = io(socketUrl);
         this._socket
             .on('connect', () => {
                 console.log('[SubscribeToNewBlocks]: Connected');
