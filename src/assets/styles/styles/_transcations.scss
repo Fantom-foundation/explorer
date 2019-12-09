@@ -1,0 +1,13 @@
+.transaction-wrapper{
+    h2{
+        font-size: 24px;
+        font-weight: bold;
+        color: map-get($color, lightblack);
+    }
+    .title-section{
+        span{
+            color: map-get($color, transcolor);
+            font-weight: 600;
+        }
+    }
+}

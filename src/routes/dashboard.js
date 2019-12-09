@@ -18,7 +18,7 @@ import SearchBar from 'src/views/components/SearchBar';
 export default function Dashboard() {
     return (
         <>
-            <Route path="/(blocks|transactions|block)" component={SearchBar} />
+            {/* <Route path="/(blocks|transactions|block)" component={SearchBar} /> */}
             <Switch>
                 <Route exact path="/" component={HomePage} />
                 <Route path="/blocks" exact component={Blocks} />

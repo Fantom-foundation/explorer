@@ -330,3 +330,28 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
     }
   }
 }
+
+.data-tables{
+  width: 100%;
+  margin: 30px 0;
+  border-collapse:separate; 
+  border-spacing:0 10px; 
+  th{
+    color: map-get($color, transcolor);
+    opacity: 0.7;
+    padding: 15px;
+    
+  }
+  tbody {
+    tr{
+     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);
+     border-radius: 12px;
+     margin-bottom: 5px;
+        td{
+          padding: 15px;
+          color: map-get($color, transcolor);
+      }
+    }
+  }
+ 
+}

@@ -1,14 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
-    <defs>
-        <path id="a" d="M22.522 20.685l-5.876-5.92a.656.656 0 0 1-.072-.826c2.409-3.695 1.847-8.777-1.708-11.813-3.42-2.92-8.626-2.82-11.94.222-3.803 3.492-3.9 9.435-.286 13.05 3.08 3.084 7.85 3.458 11.351 1.142a.653.653 0 0 1 .83.072l5.863 5.907a.649.649 0 0 0 .92.001l.917-.918a.65.65 0 0 0 .001-.917zM4.475 13.56a6.446 6.446 0 0 1 0-9.1 6.434 6.434 0 0 1 9.094 0 6.446 6.446 0 0 1 0 9.1 6.434 6.434 0 0 1-9.094 0z"/>
-    </defs>
-    <g fill="none" fill-rule="evenodd" transform="translate(.388 .6)">
-        <mask id="b" fill="#fff">
-            <use xlink:href="#a"/>
-        </mask>
-        
-        <g fill="#717171" mask="url(#b)">
-            <path d="M0 0h22.94v22.94H0z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(-1033.000000, -351.000000)" fill="#416ED5" fill-rule="nonzero">
+            <g id="search" transform="translate(371.000000, 337.000000)">
+                <path d="M677.9,32 C678.3,32 678.72,31.84 679.02,31.54 C679.64,30.92 679.64,29.9 679.02,29.28 L675.8,26.06 C676.7,24.8 677.24,23.28 677.24,21.62 C677.24,17.42 673.82,14 669.62,14 C665.42,14 662,17.42 662,21.62 C662,25.82 665.42,29.24 669.62,29.24 C671.02,29.24 672.32,28.86 673.44,28.2 L676.76,31.52 C677.08,31.84 677.5,32 677.9,32 Z M669.62,26.06 C667.18,26.06 665.18,24.06 665.18,21.62 C665.18,19.18 667.18,17.18 669.62,17.18 C672.06,17.18 674.06,19.18 674.06,21.62 C674.06,24.06 672.06,26.06 669.62,26.06 Z" id="Shape"></path>
+            </g>
         </g>
     </g>
 </svg>

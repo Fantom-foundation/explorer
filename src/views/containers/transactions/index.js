@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Web3 from 'web3';
-import { Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 import Web3Provider from 'src/utils/DataProvider/web3Provider';
 import { usePagination } from 'src/utils/hooks';
@@ -11,6 +11,7 @@ import { toFixed } from 'src/common/utility';
 import { DataTable } from 'src/views/components/DataTable';
 import Wrapper from 'src/views/wrapper/wrapper';
 import Loader from 'src/views/components/Loader';
+
 
 import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
@@ -60,7 +61,7 @@ const transactionStructure = [
     },
 ];
 
-function TransactionsPage () {
+function TransactionsPage() {
     const [error, setError] = React.useState('');
     const [transactions, setTransactions] = React.useState([]);
     const [maxBlockNumber, setMaxBlockNumber] = React.useState(0);
@@ -100,7 +101,7 @@ function TransactionsPage () {
 
     return (
         <div>
-            <Wrapper
+            {/* <Wrapper
                 title="Transactions"
                 onChangePage={setCurrentPage}
                 block={descriptionBlock}
@@ -108,7 +109,7 @@ function TransactionsPage () {
                 currentPage={currentPage}
             >
                 {error ? (
-                    <p className="text-white">{error}</p>
+                    <p>{error}</p>
                 ) : (
                     <Row>
                         <Col>
@@ -125,7 +126,99 @@ function TransactionsPage () {
                         </Col>
                     </Row>
                 )}
-            </Wrapper>
+            </Wrapper> */}
+            <div className="breacrumb">
+                <Container>
+                    <ul className="d-flex justify-content-end">
+                        <li><a href="/">Home</a></li>
+                        <li><span>></span> </li>
+                        <li className="active">Transactions</li>
+                    </ul>
+                </Container>
+            </div>
+            <Container>
+                <div className="transaction-wrapper">
+                    <div className="d-flex">
+                        <div className="title-section">
+                            <h2>Transactions</h2>
+                            <span>More than 102,712,555 transactions found</span>
+                        </div>
+                    </div>
+                    <Row>
+                        <Col>
+                            <table className="data-tables">
+                                <thead>
+                                    <tr>
+                                        <th>Tx Hash</th>
+                                        <th>Block</th>
+                                        <th>Age</th>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Amount</th>
+                                        <th>fees</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><a href="#">0x264dab51d080f3…</a></td>
+                                        <td><a href="#">5068703</a></td>
+                                        <td>1 sec ago</td>
+                                        <td><a href="#">0xc50489a925e9c8…</a></td>
+                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
+                                        <td>306,460 FTM</td>
+                                        <td>0.1 FTM</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">0x264dab51d080f3…</a></td>
+                                        <td><a href="#">5068703</a></td>
+                                        <td>1 sec ago</td>
+                                        <td><a href="#">0xc50489a925e9c8…</a></td>
+                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
+                                        <td>306,460 FTM</td>
+                                        <td>0.1 FTM</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">0x264dab51d080f3…</a></td>
+                                        <td><a href="#">5068703</a></td>
+                                        <td>1 sec ago</td>
+                                        <td><a href="#">0xc50489a925e9c8…</a></td>
+                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
+                                        <td>306,460 FTM</td>
+                                        <td>0.1 FTM</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">0x264dab51d080f3…</a></td>
+                                        <td><a href="#">5068703</a></td>
+                                        <td>1 sec ago</td>
+                                        <td><a href="#">0xc50489a925e9c8…</a></td>
+                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
+                                        <td>306,460 FTM</td>
+                                        <td>0.1 FTM</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">0x264dab51d080f3…</a></td>
+                                        <td><a href="#">5068703</a></td>
+                                        <td>1 sec ago</td>
+                                        <td><a href="#">0xc50489a925e9c8…</a></td>
+                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
+                                        <td>306,460 FTM</td>
+                                        <td>0.1 FTM</td>
+                                    </tr>
+                                    <tr>
+                                        <td><a href="#">0x264dab51d080f3…</a></td>
+                                        <td><a href="#">5068703</a></td>
+                                        <td>1 sec ago</td>
+                                        <td><a href="#">0xc50489a925e9c8…</a></td>
+                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
+                                        <td>306,460 FTM</td>
+                                        <td>0.1 FTM</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </Col>
+                    </Row>
+                </div>
+            </Container>
         </div>
     );
 }

@@ -7,6 +7,8 @@ cursor: pointer;
 body {
   font: {
     family: $primaryFont;
+    size: 14px;
+    weight: 500
   }
   background: {
     color: map-get($color, white);

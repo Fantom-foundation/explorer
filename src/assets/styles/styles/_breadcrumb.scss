@@ -1,0 +1,17 @@
+.breacrumb{
+    padding: 30px 0 0;
+    ul{
+        list-style: none;
+        color: map-get($color, transcolor);
+        li{
+            padding: 15px 6px;
+            font-weight: bold;
+          a{
+            color: map-get($color, transcolor);
+            opacity: 0.5;  
+          }
+          
+       }
+    }
+    
+}
