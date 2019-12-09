@@ -3,21 +3,16 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
 
-import ToggleToolTip from 'src/views/containers/home/ToggleToolTip';
-import Intro from 'src/views/containers/home/Intro';
-import LatestBlocksDataContainer from 'src/views/containers/home/LatestBlocksDataContainer';
+import SearchBlock from 'src/views/containers/home/SearchBlock';
+import ExplorerDetails from 'src/views/containers/home/ExplorerDetails';
 
 function HomePage() {
     return (
-        <div>
-            <Intro />
-            <section>
-                <Container>
-                    <hr />
-                    <ToggleToolTip />
-                </Container>
-            </section>
-            <LatestBlocksDataContainer />
+        <div className="home-wrapper">
+            <div className="home-content-wrapper">
+                <SearchBlock />
+                <ExplorerDetails />
+            </div>
         </div>
     );
 }

@@ -9,7 +9,7 @@ body {
     family: $primaryFont;
   }
   background: {
-    color: $themeDark;
+    color: map-get($color, white);
   }
 }
 a{

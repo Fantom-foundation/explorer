@@ -1,5 +1,9 @@
 footer {
   color: #fff;
+  padding: 20px 30px;
+  background:  {
+    color: map-get($color, header-bg);
+}
   hr{@media(max-width:767px){display: none}}
   .bordred{
     @media(max-width:767px){
@@ -8,9 +12,14 @@ footer {
       padding: 10px 0;
       &:nth-last-child(2){border-bottom: 1px solid rgba(map-get($color, border-line) ,map-get($color, border-line-opacity));}
     }
+    span{
+      color: map-get($color, white);
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.5;
+    }
   }
   .menus {
-    padding-top: 50px;
     @media(max-width:767px){padding-top: 0px;}
     h2 {
       opacity: 0.6;
@@ -31,6 +40,7 @@ footer {
     }
     .social {
       margin: 0 -11px;
+      text-align: right;
       @media(min-width:768px) and ( max-width:991px){margin: 0 -5px;}
       a {
         margin: 0 11px;
@@ -38,8 +48,8 @@ footer {
         @media(min-width:768px) and ( max-width:991px){margin: 0 5px;}
         @media(max-width:567px){    font-size: 0;}
         img {
-          margin-right: 11.3px;
-          transform: translateY(-2px);
+          margin-left: 30px;
+          max-width: 24px;
           @media (max-width:1200px) {
             height: 20px; margin: 0 8px;
           }

@@ -17,7 +17,7 @@ import Logo from 'src/assets/images/Logo/main-logo.svg';
 import hamburgerBtn from 'src/assets/images/icons/hamburger.svg';
 import closeBtn from 'src/assets/images/icons/close.svg';
 
-function Navigation () {
+function Navigation() {
     const windowWidth = React.useContext(WindowSize);
     const [state, setState] = React.useState({ isShow: false, closing: false });
     const toggleNavbar = React.useCallback((e: SyntheticEvent<HTMLButtonElement | HTMLDivElement>) => {
@@ -26,7 +26,7 @@ function Navigation () {
         setTimeout(
             () => setState((prevState) => ({
                 ...prevState,
-                isShow :!prevState.isShow,
+                isShow: !prevState.isShow,
                 closing: false,
             })),
             400,
@@ -66,18 +66,18 @@ function Navigation () {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RouterNavLink} to="/blocks">
-                                Blocks
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
                             <NavLink tag={RouterNavLink} to="/transactions">
                                 Transactions
                             </NavLink>
                         </NavItem>
                         <NavItem>
+                            <NavLink tag={RouterNavLink} to="/blocks">
+                                Blocks
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
                             <NavLink tag={RouterNavLink} to="/resources">
-                                Resources
+                                Validators
                             </NavLink>
                         </NavItem>
                     </Nav>

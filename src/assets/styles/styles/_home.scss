@@ -1,0 +1,56 @@
+.home-wrapper{
+    padding: 200px 0;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    .home-content-wrapper{
+        margin: auto;
+        width: 100%;
+    }
+    h2{
+        font-family: 'Work Sans', sans-serif;
+        font-size: 60px;
+        font-weight: 300;
+        line-height: normal;
+        letter-spacing: -1.5px;
+        text-align: center;
+        color: #2b3954;
+    }
+    #search-bar .holder{
+        max-width: 700px;
+        margin: auto;
+        input{
+            border:0px;
+            height: 46px;
+            box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+            border-radius: 30px;
+            outline: none;
+            color: #2b3954;
+            font-family: 'Work Sans', sans-serif;
+        }
+    }
+    .block-details{
+        display: flex;
+        justify-content: center;
+        font-family: 'Work Sans', sans-serif;
+        padding: 0;
+        justify-content: space-between;
+        text-align: left;
+        max-width: 700px;
+        margin: 20px auto;
+        li{
+            list-style: none;
+            span{
+                font-size: 24px;
+                display: block;
+                color: map-get($color, lightblack);
+                font-weight: bold
+            }
+            label{
+                font-size: 12px;
+                font-weight: 500;
+                color: map-get($color, darkgray);
+            }
+        }
+    } 
+}

@@ -55,11 +55,16 @@ header {
        
         &.navbar
         {
-            
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
             padding: 0;
    
                     .navbar-brand
                     {
+                        position: absolute;
+                        left: 15px;
                         @media (max-width:767px) { padding:10px 0; }
                         @media (max-width:400px) { padding: 8px 0;}
                         .logo
@@ -98,6 +103,8 @@ header {
                             display: -ms-flexbox;
                             display: flex;
                             align-items: center;
+                            justify-content: center;
+                            width: 100%;
 
                             @media (max-width:767px) {
                                 align-items: flex-start;
@@ -118,10 +125,11 @@ header {
                                 margin:  0 7px;
                                 .nav-link
                                 {
-                                    padding: 41px 11px;
+                                    padding: 30px;
                                     color: map-get($color, header-menu);
                                     transition: .5s all;
-                                    font: { family: Roboto; size:18px; }
+                                    opacity: 0.5;
+                                    font: { family: 'Work Sans', sans-serif; size:14px; weight: 600 }
                                     position: relative;
                                     @media (max-width:991px){    padding: 26px 4px;font: { size:16px; }  }
                                     @media (max-width:767px) { padding: 8px 0px;margin-bottom: 11px;color: map-get($color, header-menu-active);   font: { size:14px; }   }
@@ -140,13 +148,9 @@ header {
                                         }
                                     }
                                     &.active{
+                                        opacity: 1;
                                         color: map-get($color, header-menu-active);
                                         position: relative;
-                                        @media (max-width:767px) {color: map-get($color, primary);}
-                                        &::before{
-                                            background: map-get($color, primary );
-                                            @media (max-width:767px) { height: 1px;}
-                                        }
                                     }
                                     &:hover{opacity: .6;}
                                 }
