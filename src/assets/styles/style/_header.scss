@@ -42,13 +42,23 @@
   .headerSearch {
     .form-group {
       position: relative;
+      .form-control {
+        border-radius: 40px;
+        padding: 0 38px 0 20px;
+        border: 0;
+        font-size: 15px;
+        color: map-get($color, Grey-Main);
+      }
       .btn-search {
         cursor: pointer;
         position: absolute;
+        top: 50%;
+        right: 22px;
+        transform: translateY(-50%);
         padding: 0;
         border: 0;
         background: transparent;
-        color: map-get($color, primary);
+        color: map-get($color, Primary-Main);
       }
     }
   }

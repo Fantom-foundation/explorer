@@ -11,10 +11,10 @@ export default () => (
       </div>
       <div className="btnWrapper">
         <button>
-          <i class="far fa-copy" />
+          <i className="far fa-copy" />
         </button>
         <button>
-          <i class="far fa-copy" />
+          <i className="fas fa-qrcode" />
         </button>
       </div>
     </div>

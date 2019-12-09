@@ -1,4 +1,21 @@
 #footer {
   height: 60px;
   background: map-get($color, Primary-Main);
+  display: flex;
+  align-items: center;
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .copyright {
+      color: rgba(#fff, 0.5);
+    }
+    .social {
+      a {
+        color: #fff;
+        font-size: 22px;
+        margin-left: 40px;
+      }
+    }
+  }
 }
