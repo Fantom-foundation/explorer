@@ -26,6 +26,7 @@ import type {
 import type {
     Block,
     Transaction,
+    NewBlockTransaction,
 } from 'src/utils/types';
 
 type blocksDataAction =
@@ -38,7 +39,7 @@ type blocksDataAction =
 type LatestBlocksDataType = {
     isLoading: boolean,
     blocks: ListType<Block>,
-    transactions: ListType<Transaction>,
+    transactions: ListType<Transaction | NewBlockTransaction>,
     error: ?string,
 };
 

@@ -3,20 +3,20 @@
 export type ExtractReturn<Fn> = $Call<<T>((...Array<any>) => T) => T, Fn>;
 
 export type Transaction = {|
+    hash: string,
+    from: string,
+    to: string,
+    value: string,
+    transactionIndex: number,
     blockHash: string,
     blockNumber: number,
-    from: string,
     gas: number,
     gasPrice: string,
-    hash: string,
     input: string,
     nonce: number,
     r: string,
     s: string,
-    to: string,
-    transactionIndex: number,
     v: string,
-    value: string,
     // ...
     cumulativeGasUsed: number,
     fee: string,
@@ -25,6 +25,14 @@ export type Transaction = {|
     status: boolean,
     timestamp: number,
     contractAddress?: string,
+|};
+
+export type NewBlockTransaction = {|
+    hash: string,
+    from: string,
+    to: string,
+    value: string,
+    transactionIndex: number,
 |};
 
 export type TransactionReceipt = {|
@@ -66,6 +74,11 @@ export type Block = {|
 export type LatestBlocksData = {|
     blocks?: Array<Block>,
     transactions?: Array<Transaction>,
+|};
+
+export type NewBlockData = {|
+    blocks: Array<Block>,
+    transactions: Array<NewBlockTransaction>,
 |};
 
 export type RequestError = {|
@@ -114,7 +127,7 @@ export interface SubscriptionToNewBlocks {
 
     on(type: 'error', handler: (data: Error) => void): SubscriptionToNewBlocks;
 
-    addListener(type: 'blockData', handler: (block: LatestBlocksData) => void): SubscriptionToNewBlocks;
+    addListener(type: 'blockData', handler: (block: NewBlockData) => void): SubscriptionToNewBlocks;
 }
 
 export interface DataProvider {

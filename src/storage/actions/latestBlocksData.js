@@ -11,7 +11,9 @@ import {
 } from 'src/storage/constants';
 
 import type {
-    LatestBlocksData, RequestError,
+    LatestBlocksData,
+    RequestError,
+    NewBlockData,
 } from 'src/utils/types';
 
 export function setLatestBlocksData(data: LatestBlocksData) {
@@ -34,7 +36,7 @@ export function getLatestBlocksData() {
     }
 }
 
-export function updateLatestBlocksData(data: LatestBlocksData) {
+export function updateLatestBlocksData(data: NewBlockData) {
     return {
         type: UPDATE_LATEST_BLOCKS_DATA,
         payload: data,

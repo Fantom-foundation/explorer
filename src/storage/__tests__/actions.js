@@ -49,22 +49,21 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
         hash: 'string',
         logsBloom: '0x0',
         miner: '0x0',
-        mixHash: '0x0',
-        nonce: '0x0',
+        nonce: 0,
         number: 0,
         parentHash: '0x0',
-        receiptsRoot: '0x0',
         sha3Uncles: '0x0',
         size: 0,
         stateRoot: '0x0',
         timestamp: 1000,
         totalDifficulty: '0x0',
-        transactions: [],
+        transactions: 0,
         transactionsRoot: '0x0',
         uncles: [],
     };
 
     const dataMock = { blocks: [blockMock] };
+    const newBlockMock = { blocks: [blockMock], transactions: [] };
 
     it('should return correct setLatestBlocksData object', function () {
         const setLatestBlocksDataAction = setLatestBlocksData(dataMock);
@@ -76,7 +75,7 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
     });
 
     it('should return correct updateLatestBlocksData object', function () {
-        const updateLatestBlocksDataAction = updateLatestBlocksData(dataMock);
+        const updateLatestBlocksDataAction = updateLatestBlocksData(newBlockMock);
 
         expect(updateLatestBlocksDataAction).toEqual({
             type: UPDATE_LATEST_BLOCKS_DATA,

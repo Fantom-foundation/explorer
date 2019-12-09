@@ -13,13 +13,17 @@ import { getLatestBlocksData, unsubscribeToNewBlocks } from 'src/storage/actions
 import { getLatestBlocksSelector } from 'src/storage/selectors/latestBlocksData';
 
 import type { LocationShape } from 'react-router-dom';
-import type { Transaction, Block } from 'src/utils/types';
+import type {
+    Transaction,
+    Block,
+    NewBlockTransaction,
+} from 'src/utils/types';
 
 type LatestBlocksDataContainerProps = {|
     getLatestBlocksData: () => void,
     unsubscribeToNewBlocks: () => void,
     latestBlocksArr: Array<Block>,
-    latestTransactionsArr: Array<Transaction>,
+    latestTransactionsArr: Array<Transaction | NewBlockTransaction>,
     isLoading: boolean,
 |};
 

@@ -31,7 +31,7 @@ import type { Saga, EventChannel } from 'redux-saga';
 import type {
     SubscriptionToNewBlocks,
     DataProvider,
-    LatestBlocksData,
+    NewBlockData,
 } from 'src/utils/types';
 import type {
     RealTimeUpdateAction
@@ -41,7 +41,7 @@ function createSocketChannel(socket: SubscriptionToNewBlocks) {
     // `eventChannel` takes a subscriber function
     // the subscriber function takes an `emit` argument to put messages onto the channel
     return eventChannel((emit) => {
-        const dataHandler = (latestBlockData: LatestBlocksData) => {
+        const dataHandler = (latestBlockData: NewBlockData) => {
             // puts event payload into the channel
             // this allows a Saga to take this payload from the returned channel
             emit(latestBlockData);
@@ -88,7 +88,11 @@ function* subscribeToNewBlocksData(): Saga<void> {
 
     while(true) {
         try {
-            const payload = yield take(subscriptionChannel);
+            const payload: NewBlockData | Error = yield take(subscriptionChannel);
+
+            if (payload instanceof Error) {
+                throw payload;
+            }
 
             yield put(updateLatestBlocksData(payload));
         } catch(err) {

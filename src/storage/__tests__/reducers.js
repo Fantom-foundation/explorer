@@ -13,6 +13,8 @@ import {
     UPDATE_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
+import type { UpdateLatestBlockDataAction } from 'src/storage/types';
+
 describe('Redux reducers: realtimeBlockchainUpdate', function realtimeBlockchainUpdateReducer() {
     let defaultState;
 
@@ -98,10 +100,11 @@ describe('Redux reducers: latestBlocksData', function latestBlocksDataReducer() 
             },
         };
 
-        const newData = {
+        const newData: UpdateLatestBlockDataAction = {
             type: UPDATE_LATEST_BLOCKS_DATA,
             payload: {
                 blocks: [{ ...mockBlock, hash: 'string3', number: 3 }],
+                transactions: [],
             },
         };
 

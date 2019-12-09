@@ -7,7 +7,8 @@ import type {
     SubscriptionToNewBlocks,
     SubscriptionOptions,
     Block,
-    LatestBlocksData,
+    NewBlockData,
+    NewBlockTransaction,
 } from 'src/utils/types';
 
 import type { Socket } from 'socket.io-client';
@@ -29,7 +30,7 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
             .on('message', (msg: string) => {
                 const data:
                     | {| event: 'subscribed' |}
-                    | {| event: 'newBlock', block: Block |} = JSON.parse(msg);
+                    | {| event: 'newBlock', block: Block, lastTrxs: Array<NewBlockTransaction> |} = JSON.parse(msg);
 
                 switch (data.event) {
                     case 'subscribed': {
@@ -37,7 +38,13 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
                         break;
                     }
                     case 'newBlock': {
-                        this.emit('blockData', { blocks: [data.block] });
+                        this.emit(
+                            'blockData',
+                            {
+                                blocks: [data.block],
+                                transactions: data.lastTrxs,
+                            },
+                        );
                         break;
                     }
                     default: break;
@@ -64,7 +71,7 @@ class SubscribeToNewBlocks extends Emitter implements SubscriptionToNewBlocks {
         }
     }
 
-    addListener(type: 'blockData', handler: (latestBlocksData: LatestBlocksData) => void) {
+    addListener(type: 'blockData', handler: (latestBlocksData: NewBlockData) => void) {
         this.on(type, handler);
 
         return this;
