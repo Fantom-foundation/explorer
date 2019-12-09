@@ -1,0 +1,55 @@
+#header {
+  height: 60px;
+  background: map-get($color, Primary-Main);
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  @media (max-width: $desktop) {
+    padding: 0 20px;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    img {
+      height: 29px;
+    }
+  }
+  .menus {
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style: none;
+      margin: 0 30px;
+      a {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(#fff, 0.5);
+        &.active {
+          color: #fff;
+        }
+      }
+    }
+  }
+  .menu-search-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .headerSearch {
+    .form-group {
+      position: relative;
+      .btn-search {
+        cursor: pointer;
+        position: absolute;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: map-get($color, primary);
+      }
+    }
+  }
+}

@@ -1,15 +1,15 @@
 // @flow
 
-import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import React from "react";
+import { Container, Row, Col } from "reactstrap";
 
-import GithubIcon from 'src/assets/images/social/github.svg';
-import TelegramIcon from 'src/assets/images/social/telegram.svg';
-import FacebookIcon from 'src/assets/images/social/facebook.svg';
+import GithubIcon from "src/assets/images/social/github.svg";
+import TelegramIcon from "src/assets/images/social/telegram.svg";
+import FacebookIcon from "src/assets/images/social/facebook.svg";
 
 const Footer = () => (
-    <footer>
-        <Container className="footer-container">
+  <footer id="footer">
+    {/* <Container className="footer-container">
             <hr />
             <Row className="menus">
                 <Col md={3} lg={4} className="bordred">
@@ -54,8 +54,8 @@ const Footer = () => (
               </span>
                 </Col>
             </Row>
-        </Container>
-    </footer>
+        </Container> */}
+  </footer>
 );
 
 export default Footer;

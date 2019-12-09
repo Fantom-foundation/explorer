@@ -1,0 +1,58 @@
+.ftm-table-search {
+  width: 280px;
+
+  margin-top: 30px;
+  margin-bottom: 30px;
+  position: relative;
+  .ftm-table-search-input {
+    padding: 0;
+    border: 0;
+    font-size: 12px;
+    border-radius: 0;
+    box-shadow: none;
+    height: 20px;
+    color: gba(map-get($color, Navy-Main), 0.3);
+    border-bottom: solid 1px rgba(map-get($color, Navy-Main), 0.2);
+  }
+  .search-btn {
+    outline: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    img {
+      height: 14px;
+      display: block;
+    }
+  }
+}
+.ftm-table {
+  border-collapse: unset;
+  border-spacing: 0 6px;
+  thead th,
+  tbody td {
+    border: 0;
+    font-size: 14px;
+  }
+  thead {
+    tr {
+      th {
+        color: rgba(map-get($color, Navy-Main), 0.7);
+        padding: 0 16px;
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-radius: 12px;
+      box-shadow: 0 0 10px 0 rgba(#000, 0.06);
+      td {
+        padding: 10 16px;
+      }
+    }
+  }
+}
