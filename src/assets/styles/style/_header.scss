@@ -1,0 +1,65 @@
+#header {
+  height: 60px;
+  background: map-get($color, Primary-Main);
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  @media (max-width: $desktop) {
+    padding: 0 20px;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo {
+    img {
+      height: 29px;
+    }
+  }
+  .menus {
+    display: flex;
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style: none;
+      margin: 0 30px;
+      a {
+        font-size: 14px;
+        font-weight: 600;
+        color: rgba(#fff, 0.5);
+        &.active {
+          color: #fff;
+        }
+      }
+    }
+  }
+  .menu-search-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .headerSearch {
+    .form-group {
+      position: relative;
+      .form-control {
+        border-radius: 40px;
+        padding: 0 38px 0 20px;
+        border: 0;
+        font-size: 15px;
+        color: map-get($color, Grey-Main);
+      }
+      .btn-search {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        right: 22px;
+        transform: translateY(-50%);
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: map-get($color, Primary-Main);
+      }
+    }
+  }
+}

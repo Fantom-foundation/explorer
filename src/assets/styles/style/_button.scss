@@ -1,0 +1,17 @@
+button {
+  outline: none !important;
+}
+.fantom-tabs-wrapper {
+  margin-bottom: 30px;
+  .f-t-btn {
+    padding: 7px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(map-get($color, Navy-Main), 0.5);
+    margin-right: 36px;
+    &.active {
+      color: map-get($color, Navy-Main);
+      border-bottom: 4px solid map-get($color, Navy-Main);
+    }
+  }
+}

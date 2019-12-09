@@ -1,0 +1,45 @@
+.text {
+  &-primary {
+    color: map-get($color, Primary-Main) !important;
+  }
+  &-navy {
+    color: map-get($color, Navy-Main);
+  }
+  &-grey {
+    color: map-get($color, Grey-Main);
+  }
+}
+h2 {
+  font: {
+    size: 24px;
+    weight: 700;
+  }
+}
+
+h3 {
+  font: {
+    size: 18px;
+    weight: 600;
+  }
+}
+
+h4 {
+  font: {
+    size: 14px;
+    weight: 600;
+  }
+}
+
+h5 {
+  font: {
+    size: 14px;
+    weight: 400;
+  }
+}
+
+h5 {
+  font: {
+    size: 12px;
+    weight: 500;
+  }
+}
