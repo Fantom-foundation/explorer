@@ -9,7 +9,7 @@ import TwitterIcon from 'src/assets/images/social/twitter.svg';
 
 const Footer = () => (
     <footer>
-        <Container fluid={true} className="footer-container">
+        <Container  className="footer-container">
             <Row className="menus justify-content-between align-items-center">
                 <Col md={5} lg={5} className="bordred">
                     <span >

@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
 
 function ExplorerDetails() {
@@ -31,7 +32,7 @@ function ExplorerDetails() {
                 </Row>
             </Container>
         </div>
-    );
+    )
 }
 
 export default ExplorerDetails;

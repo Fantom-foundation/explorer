@@ -8,8 +8,10 @@ body {
   font: {
     family: $primaryFont;
     size: 14px;
-    weight: 500
+    weight: 500;
+    
   }
+  color: map-get($color, transcolor);
   background: {
     color: map-get($color, white);
   }

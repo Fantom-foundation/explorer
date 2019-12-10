@@ -11,10 +11,11 @@ import { toFixed } from 'src/common/utility';
 import { DataTable } from 'src/views/components/DataTable';
 import Wrapper from 'src/views/wrapper/wrapper';
 import Loader from 'src/views/components/Loader';
-
+import TableData from 'src/views/containers/transactions/TableData';
 
 import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
+import separaterIcon from 'src/assets/images/icons/chevron.svg';
 
 const transactionStructure = [
     {
@@ -131,7 +132,7 @@ function TransactionsPage() {
                 <Container>
                     <ul className="d-flex justify-content-end">
                         <li><a href="/">Home</a></li>
-                        <li><span>></span> </li>
+                        <li><span><img alt="Search" src={separaterIcon} className="icon"/></span> </li>
                         <li className="active">Transactions</li>
                     </ul>
                 </Container>
@@ -146,75 +147,7 @@ function TransactionsPage() {
                     </div>
                     <Row>
                         <Col>
-                            <table className="data-tables">
-                                <thead>
-                                    <tr>
-                                        <th>Tx Hash</th>
-                                        <th>Block</th>
-                                        <th>Age</th>
-                                        <th>From</th>
-                                        <th>To</th>
-                                        <th>Amount</th>
-                                        <th>fees</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><a href="#">0x264dab51d080f3…</a></td>
-                                        <td><a href="#">5068703</a></td>
-                                        <td>1 sec ago</td>
-                                        <td><a href="#">0xc50489a925e9c8…</a></td>
-                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
-                                        <td>306,460 FTM</td>
-                                        <td>0.1 FTM</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">0x264dab51d080f3…</a></td>
-                                        <td><a href="#">5068703</a></td>
-                                        <td>1 sec ago</td>
-                                        <td><a href="#">0xc50489a925e9c8…</a></td>
-                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
-                                        <td>306,460 FTM</td>
-                                        <td>0.1 FTM</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">0x264dab51d080f3…</a></td>
-                                        <td><a href="#">5068703</a></td>
-                                        <td>1 sec ago</td>
-                                        <td><a href="#">0xc50489a925e9c8…</a></td>
-                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
-                                        <td>306,460 FTM</td>
-                                        <td>0.1 FTM</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">0x264dab51d080f3…</a></td>
-                                        <td><a href="#">5068703</a></td>
-                                        <td>1 sec ago</td>
-                                        <td><a href="#">0xc50489a925e9c8…</a></td>
-                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
-                                        <td>306,460 FTM</td>
-                                        <td>0.1 FTM</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">0x264dab51d080f3…</a></td>
-                                        <td><a href="#">5068703</a></td>
-                                        <td>1 sec ago</td>
-                                        <td><a href="#">0xc50489a925e9c8…</a></td>
-                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
-                                        <td>306,460 FTM</td>
-                                        <td>0.1 FTM</td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="#">0x264dab51d080f3…</a></td>
-                                        <td><a href="#">5068703</a></td>
-                                        <td>1 sec ago</td>
-                                        <td><a href="#">0xc50489a925e9c8…</a></td>
-                                        <td> <a href="#">0xc50489a925e9c8…</a> </td>
-                                        <td>306,460 FTM</td>
-                                        <td>0.1 FTM</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                         <TableData />
                         </Col>
                     </Row>
                 </div>

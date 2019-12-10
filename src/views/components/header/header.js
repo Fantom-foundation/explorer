@@ -7,7 +7,7 @@ import Navigation from './nav/navigation';
 
 const Header = () => (
     <header>
-        <Container fluid={true} className="header-container">
+        <Container  className="header-container">
             <Row>
                 <Col>
                     <Navigation />
