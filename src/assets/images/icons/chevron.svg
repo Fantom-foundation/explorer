@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="6px" height="9px" viewBox="0 0 6 9" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>Mask</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.50297619">
+        <g id="Transactions" transform="translate(-1159.000000, -104.000000)" fill="#2B3954">
+            <g id="Breacrumbs" transform="translate(1110.000000, 100.000000)">
+                <path d="M49.2042953,8.51612656 L53.1522835,5.11718873 C53.4251591,4.88226214 53.8664049,4.88226214 54.1363776,5.11718873 L54.7924403,5.68201222 C55.065316,5.91693881 55.065316,6.29682009 54.7924403,6.52924746 L51.9969164,8.94099379 L54.7953433,11.3502409 C55.0682189,11.5851675 55.0682189,11.9650488 54.7953433,12.1974761 L54.1392805,12.7647988 C53.8664049,12.9997254 53.4251591,12.9997254 53.1551864,12.7647988 L49.2071982,9.36586102 C48.9314197,9.13093443 48.9314197,8.75105315 49.2042953,8.51612656 Z" id="Mask" transform="translate(52.000000, 8.940994) rotate(180.000000) translate(-52.000000, -8.940994) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

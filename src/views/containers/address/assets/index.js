@@ -53,15 +53,31 @@ export default () => (
               </tr>
             </thead>
             <tbody>
-              {tableMockData.map(({ asset, balance, ftm, usd, tokenPrice }) => (
-                <tr>
-                  <td>{asset}</td>
-                  <td>{balance}</td>
-                  <td>{ftm}</td>
-                  <td>{usd}</td>
-                  <td>{tokenPrice}</td>
-                </tr>
-              ))}
+              {tableMockData.map(
+                ({
+                  assetName,
+                  assetFullName,
+                  balance,
+                  ftm,
+                  usd,
+                  tokenPrice
+                }) => (
+                  <tr>
+                    <td>
+                      <p className="assetName text-primary mb-0 d-inline">
+                        {assetName}
+                      </p>
+                      <p className="assetFullName mb-0 ml-1 d-inline">
+                        {assetFullName}
+                      </p>
+                    </td>
+                    <td>{balance}</td>
+                    <td>{ftm}</td>
+                    <td>{usd}</td>
+                    <td>{tokenPrice}</td>
+                  </tr>
+                )
+              )}
             </tbody>
           </Table>
         </div>

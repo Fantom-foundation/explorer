@@ -1,5 +1,5 @@
 import React from "react";
-
+import qrInon from "src/assets/images/icons/qr.svg";
 export default () => (
   <div className="addressDetails mb-4 mb-lg-5">
     <div className="address d-flex">
@@ -14,7 +14,7 @@ export default () => (
           <i className="far fa-copy" />
         </button>
         <button>
-          <i className="fas fa-qrcode" />
+          <img src={qrInon} alt="QR" />
         </button>
       </div>
     </div>

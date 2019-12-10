@@ -40,14 +40,31 @@
     align-items: center;
   }
   .headerSearch {
+    width: 264px;
+    margin-left: 40px;
     .form-group {
       position: relative;
       .form-control {
+        height: 36px;
         border-radius: 40px;
         padding: 0 38px 0 20px;
         border: 0;
-        font-size: 15px;
-        color: map-get($color, Grey-Main);
+        font-size: 14px;
+        $textColor: rgba(map-get($color, Navy-Main), 0.6);
+        color: $textColor;
+
+        &::-webkit-input-placeholder {
+          color: $textColor;
+        }
+        &::-moz-placeholder {
+          color: $textColor;
+        }
+        &:-ms-input-placeholder {
+          color: $textColor;
+        }
+        &:-moz-placeholder {
+          color: $textColor;
+        }
       }
       .btn-search {
         cursor: pointer;
