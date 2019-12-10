@@ -1,0 +1,52 @@
+.card-row {
+  @media (min-width: $container) {
+    margin-left: -18px;
+    margin-right: -18px;
+    > div {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+  }
+}
+.card {
+  padding: 30px;
+  box-shadow: 0 0 40px 0 rgba(#000, 0.06);
+  border-radius: 23px;
+  border: 0px;
+  @media (max-width: $desktop) {
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px 0 rgba(#000, 0.06);
+  }
+  &.detail-card {
+    table {
+      width: 100%;
+      td {
+        height: 42px;
+        color: map-get($color, Navy-Main);
+        &.title-col {
+          width: 119px;
+          color: rgba(map-get($color, Navy-Main), 0.5);
+        }
+        .hash {
+          color: map-get($color, Primary-Main);
+          font-size: 12px;
+          font-weight: 500;
+        }
+        h4 {
+          margin: 0;
+        }
+        a {
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+.profile-social {
+  display: flex;
+  flex-wrap: wrap;
+  a {
+    margin-right: 21px;
+  }
+}
