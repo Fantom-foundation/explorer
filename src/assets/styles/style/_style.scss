@@ -64,6 +64,7 @@ body {
 
 .breadcrumb {
   background: transparent;
+  margin: 0;
   color: map-get($color, Navy-Main);
   .breadcrumb-item {
     font-size: 14px;
