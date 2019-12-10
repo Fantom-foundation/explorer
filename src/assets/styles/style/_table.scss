@@ -1,5 +1,5 @@
 .ftm-table-search {
-  width: 280px;
+  width: 208px;
 
   margin-top: 30px;
   margin-bottom: 30px;
@@ -88,5 +88,54 @@
   .assetFullName {
     font-weight: 600;
     color: rgba(map-get($color, Navy-Main), 0.5);
+  }
+  &.address-assets-table {
+    @media (max-width: $desktop) {
+      thead {
+        display: none;
+        height: 0;
+      }
+      tbody {
+        tr {
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 8px;
+          padding-bottom: 12px;
+
+          td {
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding: {
+              top: 4px;
+              bottom: 4px;
+            }
+            &.title {
+              padding: {
+                top: 10px;
+                bottom: 12px;
+                left: 10px;
+              }
+            }
+            &.value {
+              padding-left: 100px;
+              position: relative;
+              font-size: 11px;
+              font-weight: 500;
+              &::before {
+                content: attr(heading);
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                font-size: 11px;
+                font-weight: 500;
+
+                color: rgba(map-get($color, Navy-Main), 0.7);
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }

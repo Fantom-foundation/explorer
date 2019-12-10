@@ -14,7 +14,7 @@ export default withRouter(({ location }) => {
           <Col>
             <div className="d-flex justify-content-between align-content-center">
               <AddressDetails />
-              <div>
+              <div className="d-none d-lg-block">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <Link href="/">Home</Link>
