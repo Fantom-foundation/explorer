@@ -15,6 +15,9 @@ body {
 }
 
 .addressDetails {
+  @media (max-width: $desktop) {
+    width: 100%;
+  }
   .address {
     align-items: center;
     flex-wrap: wrap;

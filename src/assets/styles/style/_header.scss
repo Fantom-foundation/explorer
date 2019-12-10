@@ -15,13 +15,18 @@
   .logo {
     img {
       height: 29px;
+      @media (max-width: $desktop) {
+        height: 30px;
+      }
     }
   }
   .menus {
     display: flex;
     padding: 0;
     margin: 0;
-
+    @media (max-width: $desktop) {
+      display: none;
+    }
     li {
       list-style: none;
       margin: 0 30px;

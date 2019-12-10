@@ -1,20 +1,42 @@
 #footer {
-  height: 60px;
   background: map-get($color, Primary-Main);
   display: flex;
   align-items: center;
+  @media (min-width: $desktop) {
+    height: 60px;
+  }
+  @media (max-width: $desktop) {
+    padding: 17px 0;
+  }
   .wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: $desktop) {
+      flex-direction: column;
+    }
     .copyright {
       color: rgba(#fff, 0.5);
+      @media (max-width: $desktop) {
+        order: 2;
+        text-align: center;
+      }
     }
     .social {
+      @media (max-width: $desktop) {
+        order: 1;
+        line-height: 1;
+        margin-bottom: 16px;
+      }
       a {
         color: #fff;
         font-size: 22px;
         margin-left: 40px;
+
+        @media (max-width: $desktop) {
+          font-size: 13px;
+          margin: 0 25px;
+        }
       }
     }
   }
