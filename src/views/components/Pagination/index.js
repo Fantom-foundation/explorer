@@ -1,5 +1,10 @@
 import React from "react";
-import { ArrowBack, ArrowBackword, ArrowRight, ArrowForward } from "./IconsSvg";
+import {
+  ArrowBack,
+  ArrowBackword,
+  ArrowRight,
+  ArrowForward
+} from "src/views/components/IconsSvg/index.js";
 export default () => (
   <div className="pagination">
     <button className="btn-arrow">

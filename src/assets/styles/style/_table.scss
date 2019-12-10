@@ -44,6 +44,30 @@
         font-weight: 600;
         color: rgba(map-get($color, Navy-Main), 0.7);
         padding: 0 16px;
+        .with-arrow {
+          display: flex;
+          align-items: center;
+          .arrowWrapper {
+            margin-left: 4px;
+            display: flex;
+            flex-direction: column;
+            &.up {
+              .ArrowUp {
+                color: map-get($color, Primary-Main);
+              }
+            }
+            &.down {
+              .ArrowDown {
+                color: map-get($color, Primary-Main);
+              }
+            }
+            svg {
+              margin: 2px 0;
+              width: 6px;
+              height: 4px;
+            }
+          }
+        }
       }
     }
   }
