@@ -104,3 +104,41 @@ body {
     }
   }
 }
+.pagination {
+  .btn-arrow {
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 100%;
+    box-shadow: 0 1px 5px 0 rgba(#000, 0.2);
+    background: #fff;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 7.5px;
+    color: #d8d8d8;
+    &.active {
+      color: #2b3954;
+    }
+  }
+  .page-number {
+    height: 30px;
+    border: 0;
+    border-radius: 30px;
+    box-shadow: 0 1px 5px 0 rgba(#000, 0.2);
+    background: #fff;
+    margin: 0 7.5px;
+    min-width: 162px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 30px;
+    p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(map-get($color, Navy-Main), 0.6);
+    }
+  }
+}

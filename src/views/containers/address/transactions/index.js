@@ -3,10 +3,15 @@ import { Row, Col, Card, Table, Input } from "reactstrap";
 
 import searchIcon from "src/assets/images/icons/search-icon.svg";
 import tableMockData from "./tableMockData";
+import Pagination from "src/views/components/Pagination";
 export default () => (
   <div>
     <Row>
       <Col>
+        <div className="d-flex align-items-center justify-content-between mb-5">
+          <p className="total-tranactions mb-0">32 transactions found</p>
+          <Pagination />
+        </div>
         <div>
           <Table className="ftm-table">
             <thead>
@@ -23,17 +28,28 @@ export default () => (
             <tbody>
               {tableMockData.map(data => (
                 <tr>
-                  <td>0x264dab51d080f3…</td>
-                  <td>5068703</td>
+                  <td>
+                    <a className="text-primary">0x264dab51d080f3…</a>
+                  </td>
+                  <td>
+                    <a className="text-primary">5068703</a>
+                  </td>
                   <td>1 sec ago</td>
-                  <td>0x54bf25af72ec93…</td>
-                  <td>0xc50489a925e9c8…</td>
+                  <td>
+                    <a className="text-primary">0x54bf25af72ec93…</a>
+                  </td>
+                  <td>
+                    <a className="text-primary">0xc50489a925e9c8…</a>
+                  </td>
                   <td>306,460 FTM</td>
                   <td>0.1 FTM</td>
                 </tr>
               ))}
             </tbody>
           </Table>
+        </div>
+        <div className="d-flex align-items-center justify-content-end mb-4">
+          <Pagination />
         </div>
       </Col>
     </Row>

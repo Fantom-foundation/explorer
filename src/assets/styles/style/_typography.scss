@@ -43,3 +43,8 @@ h5 {
     weight: 500;
   }
 }
+.total-tranactions {
+  font-size: 14px;
+  font-weight: 600;
+  color: map-get($color, Navy-Main);
+}
