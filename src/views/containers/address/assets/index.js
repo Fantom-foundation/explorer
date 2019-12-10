@@ -30,7 +30,7 @@ export default () => (
     <Row>
       <Col>
         <div>
-          <div className="ftm-table-search ml-auto mr-0">
+          <div className="ftm-table-search ml-auto mr-auto mr-lg-0">
             <Input
               type="search"
               placeholder="Search for assets in wallet"
