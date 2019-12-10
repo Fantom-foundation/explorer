@@ -64,6 +64,7 @@ class RestProvider implements DataProvider {
             return {
                 maxBlockHeight: data.maxBlockHeight,
                 blocks: data.blocks,
+                total: data.total,
             };
         } catch(err) {
             return {
@@ -99,6 +100,7 @@ class RestProvider implements DataProvider {
             return {
                 maxBlockHeight: data.maxBlockHeight,
                 transactions: data.transactions,
+                total: data.total,
             };
         } catch(err) {
             return {
@@ -107,12 +109,13 @@ class RestProvider implements DataProvider {
         }
     }
 
-    async getTransactionsByBlockNumber(blockNumber: number) {
+    async getTransactionsByBlockNumber(blockNumber: number, offset?: number) {
         try {
-            const { data } = await apiInterface.getApiV1GetTransactions({ block: blockNumber });
+            const { data } = await apiInterface.getApiV1GetTransactions({ block: blockNumber, offset });
 
             return {
                 blockData: data.transactions,
+                total: data.total,
             };
         } catch(err) {
             return {

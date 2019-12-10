@@ -65,7 +65,7 @@ function TransactionsPage () {
     const [error, setError] = React.useState('');
     const [transactions, setTransactions] = React.useState([]);
     const [maxBlockNumber, setMaxBlockNumber] = React.useState(0);
-    const [currentPage, setCurrentPage] = usePagination(0, 50000);
+    const [currentPage, setCurrentPage, setMaxPages] = usePagination(0, 50000);
     const provider = useDataProvider();
 
     const pushToTransaction = React.useCallback((history: RouterHistory, tx: Transaction) => {
@@ -81,9 +81,10 @@ function TransactionsPage () {
             if (response.error) {
                 setError(response.error.message);
             } else {
-                const { transactions, maxBlockHeight } = response;
+                const { transactions, maxBlockHeight, total } = response;
 
                 setMaxBlockNumber(maxBlockHeight);
+                setMaxPages(Math.floor(total / 10));
 
                 if (transactions) {
                     setTransactions(transactions);
@@ -92,7 +93,7 @@ function TransactionsPage () {
         }
 
         fetchData();
-    }, [currentPage, setMaxBlockNumber, provider]);
+    }, [currentPage, setMaxBlockNumber, provider, setMaxPages]);
 
     const totalBlocks = `(Total of ${maxBlockNumber} Blocks)`;
     let descriptionBlock = '';

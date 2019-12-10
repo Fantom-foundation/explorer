@@ -134,8 +134,19 @@ export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
     getBlock(blockNumber: number): Promise<{| blockData: Array<Block> |} | RequestError>,
-    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block> |} | RequestError>,
-    getTransactionsByBlockNumber(blockNumber: number): Promise<{| blockData: Array<Transaction> |} | RequestError>,
+    getBlocksPageData(fromBlock?: number, count?: number): Promise<{|
+        maxBlockHeight: number,
+        blocks: Array<Block>,
+        total: number,
+    |} | RequestError>,
+    getTransactionsByBlockNumber(blockNumber: number, offset?: number): Promise<{|
+        blockData: Array<Transaction>,
+        total: number,
+    |} | RequestError>,
     getTransaction(transactionHash: string): Promise<{| transactionData: Array<Transaction> |} | RequestError>,
-    getTransactionsPageData(offset: number, count?: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
+    getTransactionsPageData(offset: number, count?: number): Promise<{|
+        maxBlockHeight: number,
+        transactions: Array<Transaction>,
+        total: number,
+    |} | RequestError>
 }

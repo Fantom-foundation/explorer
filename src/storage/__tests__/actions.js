@@ -63,7 +63,7 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
     };
 
     const dataMock = { blocks: [blockMock] };
-    const newBlockMock = { blocks: [blockMock], transactions: [] };
+    const newBlockMock = { ...dataMock, transactions: [] };
 
     it('should return correct setLatestBlocksData object', function () {
         const setLatestBlocksDataAction = setLatestBlocksData(dataMock);

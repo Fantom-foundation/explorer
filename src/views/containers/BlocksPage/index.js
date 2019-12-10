@@ -51,9 +51,11 @@ function BlocksPage() {
             if (result.error) {
                 setError(result.error.message);
             } else {
-                setBlocks(result.blocks);
-                setMaxBlockNumber(result.maxBlockHeight);
-                setMaxPages(Math.ceil(result.maxBlockHeight / 10));
+                const { blocks, maxBlockHeight, total } = result;
+
+                setBlocks(blocks);
+                setMaxBlockNumber(maxBlockHeight);
+                setMaxPages(Math.floor(total / 10));
             }
         }
 
