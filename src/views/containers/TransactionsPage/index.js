@@ -92,10 +92,17 @@ function TransactionsPage () {
         }
 
         fetchData();
-    }, [currentPage, setMaxBlockNumber]);
+    }, [currentPage, setMaxBlockNumber, provider]);
 
     const totalBlocks = `(Total of ${maxBlockNumber} Blocks)`;
-    const descriptionBlock = 'Transactions of Block #${lastBlock.height} To #${firstBlock.height}';
+    let descriptionBlock = '';
+
+    if (transactions.length > 0) {
+        const firstBlock = transactions[0];
+        const lastBlock = transactions[transactions.length - 1];
+
+        descriptionBlock = `Transactions of Block #${lastBlock.blockNumber} To #${firstBlock.blockNumber}`;
+    }
 
     return (
         <div>

@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'src/views/containers/home';
 import Blocks from 'src/views/containers/BlocksPage';
-import TransactionsPage from 'src/views/containers/TransactionPage';
+import TransactionsPage from 'src/views/containers/TransactionsPage';
 import Details from 'src/views/containers/BlocksPage/details';
 import Address from 'src/views/containers/address';
 import BlockTransactionDetail from 'src/views/components/search/searchForBlock/viewBlockDetail';
