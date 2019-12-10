@@ -42,12 +42,12 @@ export default () => (
           </div>
         </div>
         <div>
-          <Table className="ftm-table">
+          <Table className="ftm-table address-assets-table">
             <thead>
               <tr>
                 <th>Asset</th>
                 <th>Balance</th>
-                <th>Value in 3,643,255</th>
+                <th>Value in FTM</th>
                 <th>Value in USD</th>
                 <th>Token price</th>
               </tr>
@@ -63,7 +63,7 @@ export default () => (
                   tokenPrice
                 }) => (
                   <tr>
-                    <td>
+                    <td className="title">
                       <p className="assetName text-primary mb-0 d-inline">
                         {assetName}
                       </p>
@@ -71,10 +71,18 @@ export default () => (
                         {assetFullName}
                       </p>
                     </td>
-                    <td>{balance}</td>
-                    <td>{ftm}</td>
-                    <td>{usd}</td>
-                    <td>{tokenPrice}</td>
+                    <td className="value" heading="Balance">
+                      {balance}
+                    </td>
+                    <td className="value" heading="Value in FTM">
+                      {ftm}
+                    </td>
+                    <td className="value" heading="Value in USD">
+                      {usd}
+                    </td>
+                    <td className="value" heading="Token price">
+                      {tokenPrice}
+                    </td>
                   </tr>
                 )
               )}
