@@ -41,6 +41,7 @@
   thead {
     tr {
       th {
+        font-weight: 600;
         color: rgba(map-get($color, Navy-Main), 0.7);
         padding: 0 16px;
       }
@@ -52,7 +53,16 @@
       box-shadow: 0 0 10px 0 rgba(#000, 0.06);
       td {
         padding: 10 16px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: map-get($color, Navy-Main);
       }
     }
+  }
+  .assetName {
+  }
+  .assetFullName {
+    font-weight: 600;
+    color: rgba(map-get($color, Navy-Main), 0.5);
   }
 }

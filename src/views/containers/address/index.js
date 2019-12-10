@@ -12,8 +12,16 @@ export default withRouter(({ location }) => {
       <Container>
         <Row>
           <Col>
-            <div>
+            <div className="d-flex justify-content-between align-content-center">
               <AddressDetails />
+              <div>
+                <ul class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <Link href="/">Home</Link>
+                  </li>
+                  <li class="breadcrumb-item">Library</li>
+                </ul>
+              </div>
             </div>
             <div className="fantom-tabs-wrapper">
               <Link

@@ -65,6 +65,8 @@ body {
     }
   }
   .btnWrapper {
+    display: flex;
+    align-items: center;
     button {
       margin-left: 24px;
       font-size: 22px;
@@ -76,6 +78,29 @@ body {
 
     @media (max-width: $desktop) {
       order: 2;
+    }
+  }
+}
+
+.breadcrumb {
+  background: transparent;
+  color: map-get($color, Navy-Main);
+  .breadcrumb-item {
+    font-size: 14px;
+    font-weight: 600;
+    a {
+      color: rgba(map-get($color, Navy-Main), 0.5);
+    }
+    & + .breadcrumb-item {
+      &::before {
+        content: "";
+        width: 6px;
+        height: 8px;
+        margin-right: 12px;
+        padding: 0;
+        background: url(../../images/icons/chevron.svg) center / contain
+          no-repeat;
+      }
     }
   }
 }
