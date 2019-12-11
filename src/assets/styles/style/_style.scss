@@ -47,24 +47,23 @@ body {
       font-weight: 600;
     }
   }
-  .btnWrapper {
-    display: flex;
-    align-items: center;
-    button {
-      margin-left: 24px;
-      font-size: 22px;
-      padding: 0;
-      background: transparent;
-      border: 0;
-      color: rgba(map-get($color, Navy-Main), 0.5);
-    }
+}
+.hashBtnWrapper {
+  display: flex;
+  align-items: center;
+  button {
+    margin-left: 24px;
+    font-size: 22px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: rgba(map-get($color, Navy-Main), 0.5);
+  }
 
-    @media (max-width: $desktop) {
-      order: 2;
-    }
+  @media (max-width: $desktop) {
+    order: 2;
   }
 }
-
 .breadcrumb {
   background: transparent;
   margin: 0;

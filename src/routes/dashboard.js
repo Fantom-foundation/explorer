@@ -17,6 +17,8 @@ import Assets from "src/views/containers/assets";
 import SingleAssets from "src/views/containers/assets/singleAssets";
 import SearchBar from "src/views/components/SearchBar";
 import Validators from "src/views/containers/validators";
+import SingleValidators from "src/views/containers/validators/single";
+import SingleValidatorCheater from "src/views/containers/validators/single-cheater";
 
 export default function Dashboard() {
   return (
@@ -28,7 +30,11 @@ export default function Dashboard() {
         <Route exact path="/assets" component={Assets} />
         <Route path="/assets/detail" component={SingleAssets} />
         <Route path="/validators" component={Validators} />
-
+        <Route path="/validators-single" component={SingleValidators} />
+        <Route
+          path="/validators-single-cheater"
+          component={SingleValidatorCheater}
+        />
         <Route path="/blocks" exact component={Blocks} />
         <Route path="/blocks/:id" component={BlockDetail} />
         {/*<Route path="/address" component={Address} />*/}

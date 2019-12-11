@@ -23,6 +23,9 @@
     border-radius: 16px;
     box-shadow: 0 0 10px 0 rgba(#000, 0.06);
   }
+  &.danger {
+    border: 4px solid map-get($color, Error);
+  }
   &.detail-card {
     table {
       width: 100%;
