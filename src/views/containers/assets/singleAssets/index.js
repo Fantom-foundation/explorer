@@ -5,6 +5,7 @@ import { card1 } from "./mokeData";
 import Transactions from "./transactions";
 import Holders from "./holders";
 import ProfileSocial from "src/views/components/ProfileSocial";
+import assetLogo from "src/assets/images/Logo/fantom-logo-small.svg";
 const base = "assets/detail";
 export default withRouter(({ location }) => {
   const currentPath = location.pathname;
@@ -13,8 +14,14 @@ export default withRouter(({ location }) => {
       <Container>
         <Row>
           <Col>
-            <div className="d-flex align-items-center justify-content-between">
-              <h2 className="text-grey mb-0">Assets</h2>
+            <div className="d-flex align-items-center justify-content-between mb-4 pb-3">
+              <div className="d-flex align-items-center">
+                <h2 className="text-grey mb-0">Asset</h2>
+                <div className="ml-4 asset-logo">
+                  <img src={assetLogo} alt="Fantom" />
+                  <p>Fanton</p>
+                </div>
+              </div>
               <div>
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">

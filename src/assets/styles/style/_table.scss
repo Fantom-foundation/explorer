@@ -89,7 +89,7 @@
     font-weight: 600;
     color: rgba(map-get($color, Navy-Main), 0.5);
   }
-  &.address-assets-table {
+  &.responsiive {
     @media (max-width: $desktop) {
       thead {
         display: none;
@@ -101,20 +101,13 @@
           flex-wrap: wrap;
           margin-bottom: 8px;
           padding-bottom: 12px;
-
           td {
-            flex: 0 0 100%;
-            max-width: 100%;
             padding: {
               top: 4px;
               bottom: 4px;
             }
-            &.title {
-              padding: {
-                top: 10px;
-                bottom: 12px;
-                left: 10px;
-              }
+            &.no-mobile {
+              display: none;
             }
             &.value {
               padding-left: 100px;
@@ -129,10 +122,74 @@
                 transform: translateY(-50%);
                 font-size: 11px;
                 font-weight: 500;
-
                 color: rgba(map-get($color, Navy-Main), 0.7);
               }
             }
+            &.m-100 {
+              padding-left: 10px;
+              flex: 0 0 100%;
+              max-width: 100%;
+            }
+            &.m-50 {
+              flex: 0 0 50%;
+              max-width: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.address-assets-table {
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          td {
+            flex: 0 0 100%;
+            max-width: 100%;
+
+            &.title {
+              padding: {
+                top: 10px;
+                bottom: 12px;
+                left: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &.address-transactions-table {
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          padding-top: 9px;
+          td {
+            &.hash {
+              order: 2;
+            }
+            &.from {
+              order: 3;
+            }
+            &.height {
+              order: 4;
+            }
+            &.to {
+              order: 5;
+            }
+            &.asset-value {
+              order: 6;
+            }
+            &.value {
+              padding-left: 56px;
+            }
+          }
+          .date {
+            order: 1;
+            padding: 4px 10px 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(map-get($color, Navy-Main), 0.7);
           }
         }
       }

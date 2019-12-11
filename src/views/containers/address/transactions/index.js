@@ -8,12 +8,14 @@ export default () => (
   <div>
     <Row>
       <Col>
-        <div className="d-flex align-items-center justify-content-between mb-5">
+        <div className="d-flex align-items-center justify-content-between mb-3 pb-1 pb-lg-0 mb-lg-5">
           <p className="total-tranactions mb-0">32 transactions found</p>
-          <Pagination />
+          <div className="d-none d-lg-block">
+            <Pagination />
+          </div>
         </div>
         <div>
-          <Table className="ftm-table">
+          <Table className="ftm-table responsiive address-transactions-table">
             <thead>
               <tr>
                 <th>Tx Hash</th>
@@ -28,27 +30,30 @@ export default () => (
             <tbody>
               {tableMockData.map(data => (
                 <tr>
-                  <td>
+                  <span className="d-lg-none date">Dec 07 2019 17:10:28</span>
+                  <td className="m-100 hash">
                     <a className="text-primary">0x264dab51d080f3…</a>
                   </td>
-                  <td>
+                  <td heading="Height" className="value m-50 height">
                     <a className="text-primary">5068703</a>
                   </td>
-                  <td>1 sec ago</td>
-                  <td>
+                  <td className="no-mobile">1 sec ago</td>
+                  <td heading="From" className="value m-50 from">
                     <a className="text-primary">0x54bf25af72ec93…</a>
                   </td>
-                  <td>
+                  <td heading="To" className="value m-50 to">
                     <a className="text-primary">0xc50489a925e9c8…</a>
                   </td>
-                  <td>306,460 FTM</td>
-                  <td>0.1 FTM</td>
+                  <td heading="Value" className="value m-50 asset-value">
+                    306,460 FTM
+                  </td>
+                  <td className="no-mobile">0.1 FTM</td>
                 </tr>
               ))}
             </tbody>
           </Table>
         </div>
-        <div className="d-flex align-items-center justify-content-end mb-4">
+        <div className="d-flex align-items-center justify-content-center justify-content-lg-end   mb-4">
           <Pagination />
         </div>
       </Col>
