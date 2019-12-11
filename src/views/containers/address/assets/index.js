@@ -42,7 +42,7 @@ export default () => (
           </div>
         </div>
         <div>
-          <Table className="ftm-table responsiive address-assets-table">
+          <Table className="ftm-table responsive address-assets-table">
             <thead>
               <tr>
                 <th>Asset</th>
