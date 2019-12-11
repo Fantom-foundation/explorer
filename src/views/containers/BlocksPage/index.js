@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import moment from 'moment';
 
 import { useDataProvider } from 'src/utils/DataProvider';
@@ -10,6 +10,8 @@ import { usePagination } from 'src/utils/hooks';
 import Wrapper from 'src/views/wrapper/wrapper';
 import { DataTable } from 'src/views/components/DataTable';
 import Loader from 'src/views/components/Loader';
+import TableData from 'src/views/containers/BlocksPage/TableData';
+import separaterIcon from 'src/assets/images/icons/chevron.svg';
 
 const blockPageStructure = [
     {
@@ -38,10 +40,10 @@ const blockPageStructure = [
 ];
 
 function BlocksPage() {
-    const [ error, setError ] = React.useState<string>('');
-    const [ maxBlockNumber, setMaxBlockNumber ] = React.useState(0);
-    const [ blocks, setBlocks ] = React.useState([]);
-    const [ currentPage, setCurrentPage, setMaxPages ] = usePagination();
+    const [error, setError] = React.useState<string>('');
+    const [maxBlockNumber, setMaxBlockNumber] = React.useState(0);
+    const [blocks, setBlocks] = React.useState([]);
+    const [currentPage, setCurrentPage, setMaxPages] = usePagination();
     const provider = useDataProvider();
 
     React.useEffect(() => {
@@ -70,36 +72,65 @@ function BlocksPage() {
         firstBlockNumber = blocks[0].number;
     }
 
-    const descriptionBlock = `Block #${ lastBlockNumber } To #${ firstBlockNumber } `;
+    const descriptionBlock = `Block #${lastBlockNumber} To #${firstBlockNumber} `;
     const totalBlocks = ` ( Total of ${maxBlockNumber} Blocks )`;
 
     return (
-        <Wrapper
-            title="Blocks"
-            onChangePage={setCurrentPage}
-            block={descriptionBlock}
-            total={totalBlocks}
-            currentPage={currentPage}
-        >
-            {error ? (
-                <p className="text-white">{error}</p>
-            ) : (
-                <Row>
-                    <Col>
-                        {
-                            blocks.length > 0 ? (
-                                <DataTable
-                                    structure={blockPageStructure}
-                                    rowKey='number'
-                                    data={blocks}
-                                    historyCallback={historyCallback}
-                                />
-                            ): <Loader />
-                        }
-                    </Col>
-                </Row>
-            )}
-        </Wrapper>
+        <div>
+
+
+            {/* <Wrapper
+                title="Blocks"
+                onChangePage={setCurrentPage}
+                block={descriptionBlock}
+                total={totalBlocks}
+                currentPage={currentPage}
+            >
+                {error ? (
+                    <p className="text-white">{error}</p>
+                ) : (
+                        <Row>
+                            <Col>
+                                {
+                                    blocks.length > 0 ? (
+                                        <DataTable
+                                            structure={blockPageStructure}
+                                            rowKey='number'
+                                            data={blocks}
+                                            historyCallback={historyCallback}
+                                        />
+                                    ) : <Loader />
+                                }
+                            </Col>
+                        </Row>
+                    )}
+            </Wrapper> */}
+
+            <div className="breacrumb">
+                <Container>
+                    <ul className="d-flex justify-content-end">
+                        <li><a href="/">Home</a></li>
+                        <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
+                        <li className="active">Blocks</li>
+                    </ul>
+                </Container>
+            </div>
+            <Container>
+                <div className="transaction-wrapper">
+                    <div className="d-flex">
+                        <div className="title-section">
+                            <h2>Blocks</h2>
+                            <span>Block #53440842 to #53440856 (Total of 8,440,855 blocks)</span>
+                        </div>
+                    </div>
+                    <Row>
+                        <Col>
+                            <TableData />
+                        </Col>
+                    </Row>
+                </div>
+            </Container>
+        </div>
     );
 }
 

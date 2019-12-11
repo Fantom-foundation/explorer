@@ -7,9 +7,10 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import SearchForBlock from 'src/views/components/search/searchForBlock';
 import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
 import Loader from 'src/views/components/Loader';
-
+import BlockDetails from 'src/views/containers/blockDetail/BlockDetails';
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
 import { useDataProvider } from 'src/utils/DataProvider';
+import separaterIcon from 'src/assets/images/icons/chevron.svg';
 
 function BlockDetail() {
     const history = useHistory();
@@ -22,8 +23,8 @@ function BlockDetail() {
         blockHeight = '';
     }
 
-    const [ error, setError ] = React.useState('');
-    const [ blockData, setBlockData ] = React.useState([]);
+    const [error, setError] = React.useState('');
+    const [blockData, setBlockData] = React.useState([]);
     const provider = useDataProvider();
 
     const showDetail = React.useCallback((blockNumber) => {
@@ -61,37 +62,25 @@ function BlockDetail() {
     }, [blockHeight, provider]);
 
     return (
-        <section className="bg-theme full-height-conatainer">
-            <Container>
-                <TransactionBlockHeader
-                    title="Block"
-                    block="Number:"
-                    total={blockHeight}
-                    icon={TitleIcon}
-                >
-                    <Col md={6} className="text-right">
-                        <Button
-                            color="white"
-                            className="list"
-                            onClick={onShowList}
-                        >
-                            List
-                        </Button>
-                    </Col>
-                </TransactionBlockHeader>
-                {
-                    error ? (<p className="text-white">{error}</p>) :
-                        blockData.length <= 0 ? (
-                            <Loader />
-                        ) : blockData.length > 0 && (
-                            <SearchForBlock
-                                blocks={blockData}
-                                showDetail={showDetail}
-                            />
-                        )
-                }
-            </Container>
-        </section>
+        <div>
+            <section className="bg-theme full-height-conatainer">
+
+            <div className="breacrumb">
+                <Container>
+                    <ul className="d-flex justify-content-end">
+                        <li><a href="/">Home</a></li>
+                        <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
+                        <li><a href="/blocks">Blocks</a></li>
+                        <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
+                        <li className="active">Block</li>
+                    </ul>
+                </Container>
+            </div>
+                <Container>
+                    <BlockDetails />
+                </Container>
+            </section>
+        </div>
     );
 }
 
