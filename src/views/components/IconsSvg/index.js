@@ -3,7 +3,7 @@ export const ArrowBack = () => (
   <svg
     className="ArrowBack"
     xmlns="http://www.w3.org/2000/svg"
-    widtg="7.49px"
+    width="7.49px"
     height="9.94px"
     viewBox="0 0 7.49 9.94"
   >
@@ -18,7 +18,7 @@ export const ArrowBackword = () => (
   <svg
     className="ArrowBackword"
     xmlns="http://www.w3.org/2000/svg"
-    widtg="11.67px"
+    width="11.67px"
     height="10px"
     viewBox="0 0 11.67 10"
   >
@@ -32,7 +32,7 @@ export const ArrowRight = () => (
   <svg
     className="ArrowRight"
     xmlns="http://www.w3.org/2000/svg"
-    widtg="7.49px"
+    width="7.49px"
     height="9.94px"
     viewBox="0 0 7.49 9.94"
   >
@@ -47,7 +47,7 @@ export const ArrowRight = () => (
 export const ArrowForward = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    widtg="11.67px"
+    width="11.67px"
     height="10px"
     viewBox="0 0 11.67 10"
   >
@@ -62,7 +62,7 @@ export const ArrowUp = () => (
   <svg
     className="ArrowUp"
     xmlns="http://www.w3.org/2000/svg"
-    widtg="9.94px"
+    width="9.94px"
     height="7.49px"
     viewBox="0 0 9.94 7.49"
   >
@@ -74,10 +74,69 @@ export const ArrowDown = () => (
   <svg
     className="ArrowDown"
     xmlns="http://www.w3.org/2000/svg"
-    widtg="9.94px"
+    width="9.94px"
     height="7.49px"
     viewBox="0 0 9.94 7.49"
   >
     <path d="M4.44,7.23.22,2.31a1,1,0,0,1,0-1.23L.92.26a.67.67,0,0,1,1,0L5,3.75,8,.26A.67.67,0,0,1,9,.26l.7.81a1,1,0,0,1,0,1.23L5.5,7.23A.68.68,0,0,1,4.44,7.23Z" />
+  </svg>
+);
+
+export const MenuIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="MenuIcon"
+    width="25.86px"
+    height="19.94px"
+    viewBox="0 0 25.86 19.94"
+  >
+    <path
+      d="M25.86,19.94H0v-3H25.86Zm0-8.47H0v-3H25.86Zm0-8.47H0V0H25.86Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+export const CrossIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="CrossIcon"
+    width="20.24px"
+    height="20.24px"
+    viewBox="0 0 20.24 20.24"
+  >
+    <polygon
+      points="18.12 20.24 10.12 12.24 2.12 20.24 0 18.12 8 10.12 0 2.12 2.12 0 10.12 8 18.12 0 20.24 2.12 12.24 10.12 20.24 18.12 18.12 20.24"
+      fill="currentColor"
+    />
+  </svg>
+);
+
+export const SearchIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="SearchIcon"
+    width="20px"
+    height="20.01px"
+    viewBox="0 0 20 20.01"
+  >
+    <path
+      fill="currentColor"
+      d="M19.83,18.84l-4-4a9,9,0,1,0-1,1h0l4,4.05a.68.68,0,0,0,.93,0A.7.7,0,0,0,19.83,18.84ZM9,16.56A7.58,7.58,0,1,1,16.56,9,7.58,7.58,0,0,1,9,16.56Z"
+    />
+  </svg>
+);
+
+export const SearchBoldIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="SearchBoldIcon"
+    width="17.49px"
+    height="18px"
+    viewBox="0 0 17.49 18"
+  >
+    <path
+      fill="currentColor"
+      d="M15.9,18A1.59,1.59,0,0,0,17,15.28L13.8,12.06a7.61,7.61,0,1,0-6.18,3.18,7.49,7.49,0,0,0,3.82-1l3.32,3.32A1.62,1.62,0,0,0,15.9,18ZM7.62,12.06a4.44,4.44,0,1,1,4.44-4.44A4.46,4.46,0,0,1,7.62,12.06Z"
+    />
   </svg>
 );

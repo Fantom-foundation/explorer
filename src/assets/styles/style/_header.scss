@@ -1,12 +1,32 @@
+.menu-active {
+  @media (max-width: $desktop) {
+    overflow: hidden;
+  }
+}
 #header {
   height: 60px;
   background: map-get($color, Primary-Main);
   padding: 0 30px;
   display: flex;
   align-items: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  .toggle-btn {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
   @media (max-width: $desktop) {
     padding: 0 20px;
   }
+  @media (max-width: 1100px) {
+    .container {
+      padding: 0;
+    }
+  }
+
   nav {
     display: flex;
     align-items: center;
@@ -20,67 +40,158 @@
       }
     }
   }
-  .menus {
-    display: flex;
-    padding: 0;
-    margin: 0;
-    @media (max-width: $desktop) {
-      display: none;
-    }
-    li {
-      list-style: none;
-      margin: 0 30px;
-      a {
-        font-size: 14px;
-        font-weight: 600;
-        color: rgba(#fff, 0.5);
-        &.active {
-          color: #fff;
-        }
-      }
-    }
-  }
+
   .menu-search-wrapper {
     display: flex;
     align-items: center;
-  }
-  .headerSearch {
-    width: 264px;
-    margin-left: 40px;
-    .form-group {
-      position: relative;
-      .form-control {
-        height: 36px;
-        border-radius: 40px;
-        padding: 0 38px 0 20px;
-        border: 0;
-        font-size: 14px;
-        $textColor: rgba(map-get($color, Navy-Main), 0.6);
-        color: $textColor;
-
-        &::-webkit-input-placeholder {
-          color: $textColor;
+    @media (max-width: $desktop) {
+      flex-direction: row-reverse;
+    }
+    .menus-wrapper {
+      @media (max-width: $desktop) {
+        &:not(.active) {
+          display: none;
         }
-        &::-moz-placeholder {
-          color: $textColor;
-        }
-        &:-ms-input-placeholder {
-          color: $textColor;
-        }
-        &:-moz-placeholder {
-          color: $textColor;
+        z-index: 999999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        .backdrop {
+          opacity: 0.3;
+          background: #000;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          z-index: 1;
         }
       }
-      .btn-search {
-        cursor: pointer;
-        position: absolute;
-        top: 50%;
-        right: 22px;
-        transform: translateY(-50%);
-        padding: 0;
-        border: 0;
-        background: transparent;
-        color: map-get($color, Primary-Main);
+      .menu-holder {
+        @media (max-width: $desktop) {
+          top: 0;
+          right: 0;
+          max-width: 360px;
+          width: 100%;
+          height: 100vh;
+          position: absolute;
+          z-index: 2;
+          background: #fff;
+          padding: 21px 18px;
+        }
+        .menu-handler {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 90px;
+        }
+        .menus {
+          display: flex;
+          padding: 0;
+          margin: 0;
+          @media (max-width: $desktop) {
+            flex-direction: column;
+            width: 100%;
+          }
+          li {
+            list-style: none;
+            margin: 0 30px;
+            @media (max-width: $desktop) {
+              margin: 0 22px 52px;
+            }
+            a {
+              font-size: 14px;
+              font-weight: 600;
+              color: rgba(#fff, 0.5);
+              &.active {
+                color: #fff;
+              }
+              @media (max-width: $desktop) {
+                color: map-get($color, Navy-Main) !important;
+                font-size: 28px;
+                font-weight: 600;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .headerSearchWrapper {
+    .toggle-btn {
+      margin-right: 20px;
+    }
+    .headerSearch {
+      width: 264px;
+
+      @media (min-width: $desktop) {
+        margin-left: 40px;
+      }
+      @media (max-width: $desktop) {
+        &:not(.active) {
+          display: none;
+        }
+        width: 100%;
+        position: fixed;
+        top: 0px;
+        left: 0;
+        padding: 12px 20px;
+        z-index: 99999;
+        background: map-get($color, Primary-Main);
+      }
+      .toggle-btn {
+        margin-right: 20px;
+      }
+      .form-group {
+        position: relative;
+        .form-control {
+          height: 36px;
+          border-radius: 40px;
+          padding: 0 38px 0 20px;
+          border: 0;
+          font-size: 14px;
+          $textColor: rgba(map-get($color, Navy-Main), 0.6);
+          color: $textColor;
+
+          &::-webkit-input-placeholder {
+            color: $textColor;
+          }
+          &::-moz-placeholder {
+            color: $textColor;
+          }
+          &:-ms-input-placeholder {
+            color: $textColor;
+          }
+          &:-moz-placeholder {
+            color: $textColor;
+          }
+        }
+        .btn-search {
+          cursor: pointer;
+          position: absolute;
+          top: 50%;
+          right: 22px;
+          transform: translateY(-50%);
+          padding: 0;
+          border: 0;
+          background: transparent;
+          color: map-get($color, Primary-Main);
+          @media (max-width: $desktop) {
+            right: 20px;
+          }
+          .SearchIcon {
+            @media (min-width: $desktop) {
+              display: none;
+            }
+          }
+          .SearchBoldIcon {
+            @media (max-width: $desktop) {
+              display: none;
+            }
+          }
+        }
       }
     }
   }
