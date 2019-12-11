@@ -1,7 +1,7 @@
 // @flow
 
 import { eventChannel } from 'redux-saga';
-import { getContext } from 'redux-saga/effects';
+import { getContext, take } from 'redux-saga/effects';
 import { expectSaga } from 'redux-saga-test-plan';
 import { fork, call } from 'redux-saga-test-plan/matchers';
 
@@ -18,7 +18,17 @@ import {
     setLatestBlocksData,
     subscribeToNewBlocks,
     updateLatestBlocksData,
+    unsubscribeToNewBlocks,
 } from 'src/storage/actions/latestBlocksData';
+
+import {
+    setRealtimeUpdateDetails
+} from 'src/storage/actions/realtimeBlockchainUpdate';
+
+import {
+    UNSUBSCRIBE_TO_NEW_BLOCKS,
+    SET_REALTIME_UPDATE,
+} from 'src/storage/constants';
 
 const latestBlocksData = {
     blocks: [{
@@ -135,5 +145,50 @@ describe('Redux saga: subscribeToNewBlocksData', function subscribeToNewBlocksDa
         expect(mockedSocketChanel.unsubscribe).toBeCalled();
 
         return result;
+    });
+});
+
+describe('Redux saga: unsubscribeToNewBlocksData', function unsubscribeToNewBlocksDataSaga() {
+    let socketChannelMock = {};
+
+    beforeEach(() => {
+        socketChannelMock = jest.fn(() => {
+            return {
+                close: jest.fn(),
+            };
+        })();
+    });
+
+    it('should run race effects', function() {
+        return expectSaga(unsubscribeToNewBlocksData, socketChannelMock)
+            .race([
+                take(UNSUBSCRIBE_TO_NEW_BLOCKS),
+                take(SET_REALTIME_UPDATE),
+            ])
+            .silentRun();
+    });
+
+    it('should not run unsubscribe by SET_REALTIME_UPDATE action', async function() {
+        await expectSaga(unsubscribeToNewBlocksData, socketChannelMock)
+            .dispatch(setRealtimeUpdateDetails({ isRealtimeUpdate: true }))
+            .run();
+
+        expect(socketChannelMock.close).not.toBeCalled();
+    });
+
+    it('should run unsubscribe by SET_REALTIME_UPDATE action', async function() {
+        await expectSaga(unsubscribeToNewBlocksData, socketChannelMock)
+            .dispatch(setRealtimeUpdateDetails({ isRealtimeUpdate: false }))
+            .run();
+
+        expect(socketChannelMock.close).toBeCalled();
+    });
+
+    it('should run unsubscribe by UNSUBSCRIBE_TO_NEW_BLOCKS action', async function() {
+        await expectSaga(unsubscribeToNewBlocksData, socketChannelMock)
+            .dispatch(unsubscribeToNewBlocks())
+            .run();
+
+        expect(socketChannelMock.close).toBeCalled();
     });
 });
