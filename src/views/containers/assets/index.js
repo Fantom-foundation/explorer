@@ -15,7 +15,7 @@ export default () => (
     <Container>
       <Row>
         <Col>
-          <div className="d-flex align-items-center justify-content-end">
+          <div className="d-none d-lg-flex align-items-center justify-content-end  ">
             <div>
               <ul class="breadcrumb">
                 <li class="breadcrumb-item">
@@ -25,16 +25,18 @@ export default () => (
               </ul>
             </div>
           </div>
-          <div className="d-flex align-items-center justify-content-between mb-5">
+          <div className="d-flex align-items-center justify-content-between mb-3 mb-lg-5">
             <h2 className="text-grey mb-0">Assets</h2>
-            <Pagination />
+            <div className="d-none d-lg-block">
+              <Pagination />
+            </div>
           </div>
         </Col>
       </Row>
       <Row>
         <Col>
           <div>
-            <Table className="ftm-table">
+            <Table className="ftm-table responsive assest-transactions">
               <thead>
                 <tr>
                   <th>
@@ -80,7 +82,7 @@ export default () => (
                     holders
                   }) => (
                     <tr>
-                      <td>
+                      <td className="title">
                         <p className="assetName text-primary mb-0 d-inline">
                           {assetName}
                         </p>
@@ -88,17 +90,25 @@ export default () => (
                           {assetFullName}
                         </p>
                       </td>
-                      <td>{price}</td>
-                      <td>{marketCap}</td>
-                      <td>{supply}</td>
-                      <td>{holders}</td>
+                      <td className="value" heading="Price">
+                        {price}
+                      </td>
+                      <td className="value" heading="Market cap">
+                        {marketCap}
+                      </td>
+                      <td className="value" heading="Supply">
+                        {supply}
+                      </td>
+                      <td className="value" heading="Holders">
+                        {holders}
+                      </td>
                     </tr>
                   )
                 )}
               </tbody>
             </Table>
           </div>
-          <div className="d-flex align-items-center justify-content-end mb-4">
+          <div className="d-flex align-items-center justify-content-center justify-content-lg-end mb-4">
             <Pagination />
           </div>
         </Col>

@@ -101,6 +101,9 @@ body {
     justify-content: center;
     margin: 0 7.5px;
     color: #d8d8d8;
+    @media (max-width: $tablet) {
+      margin: 0 4px;
+    }
     &.active {
       color: #2b3954;
     }
@@ -112,11 +115,18 @@ body {
     box-shadow: 0 1px 5px 0 rgba(#000, 0.2);
     background: #fff;
     margin: 0 7.5px;
-    min-width: 162px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 30px;
+    @media (min-width: $tablet) {
+      min-width: 162px;
+    }
+
+    @media (max-width: $tablet) {
+      margin: 0 4px;
+      padding: 0 16px;
+    }
     p {
       margin: 0;
       font-size: 14px;

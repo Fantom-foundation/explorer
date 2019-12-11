@@ -89,7 +89,7 @@
     font-weight: 600;
     color: rgba(map-get($color, Navy-Main), 0.5);
   }
-  &.responsiive {
+  &.responsive {
     @media (max-width: $desktop) {
       thead {
         display: none;
@@ -139,7 +139,8 @@
       }
     }
   }
-  &.address-assets-table {
+  &.address-assets-table,
+  &.assest-transactions {
     @media (max-width: $desktop) {
       tbody {
         tr {
@@ -159,7 +160,8 @@
       }
     }
   }
-  &.address-transactions-table {
+  &.address-transactions-table,
+  &.assest-single-transactions {
     @media (max-width: $desktop) {
       tbody {
         tr {
@@ -190,6 +192,33 @@
             font-size: 11px;
             font-weight: 500;
             color: rgba(map-get($color, Navy-Main), 0.7);
+          }
+        }
+      }
+    }
+  }
+  &.asset-holder {
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          td {
+            flex: 0 0 100%;
+            max-width: 100%;
+            &.index {
+              flex: 0 0 61px;
+              max-width: 61px;
+            }
+            &.hash {
+              flex: 0 0 calc(100% - 61px);
+              max-width: calc(100% - 61px);
+              a {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+                display: block;
+              }
+            }
           }
         }
       }

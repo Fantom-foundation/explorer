@@ -15,7 +15,7 @@ export default () => (
           </div>
         </div>
         <div>
-          <Table className="ftm-table responsiive address-transactions-table">
+          <Table className="ftm-table responsive address-transactions-table">
             <thead>
               <tr>
                 <th>Tx Hash</th>

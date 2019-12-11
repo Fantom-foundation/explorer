@@ -14,7 +14,7 @@ export default withRouter(({ location }) => {
       <Container>
         <Row>
           <Col>
-            <div className="d-flex align-items-center justify-content-between mb-4 pb-3">
+            <div className="d-flex align-items-center justify-content-between mb-3  mb-lg-4 pb-3">
               <div className="d-flex align-items-center">
                 <h2 className="text-grey mb-0">Asset</h2>
                 <div className="ml-4 asset-logo">
@@ -22,7 +22,7 @@ export default withRouter(({ location }) => {
                   <p>Fanton</p>
                 </div>
               </div>
-              <div>
+              <div className="d-none d-lg-block">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <Link href="/">Home</Link>
