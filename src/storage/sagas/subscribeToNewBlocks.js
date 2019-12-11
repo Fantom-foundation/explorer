@@ -37,7 +37,7 @@ import type {
     RealTimeUpdateAction
 } from 'src/storage/types';
 
-function createSocketChannel(socket: SubscriptionToNewBlocks) {
+export function createSocketChannel(socket: SubscriptionToNewBlocks): EventChannel<any> {
     // `eventChannel` takes a subscriber function
     // the subscriber function takes an `emit` argument to put messages onto the channel
     return eventChannel((emit) => {
@@ -65,7 +65,7 @@ function createSocketChannel(socket: SubscriptionToNewBlocks) {
     });
 }
 
-function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> {
+export function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> {
     const [, realtimeUpdate]: [any, RealTimeUpdateAction] = yield race([
         take(UNSUBSCRIBE_TO_NEW_BLOCKS),
         take(SET_REALTIME_UPDATE),
@@ -78,7 +78,7 @@ function* unsubscribeToNewBlocksData(subChannel: EventChannel<any>): Saga<void> 
     }
 }
 
-function* subscribeToNewBlocksData(): Saga<void> {
+export function* subscribeToNewBlocksData(): Saga<void> {
     const api: DataProvider = yield getContext('api');
 
     const subscription: SubscriptionToNewBlocks = yield call([api, api.subscribeToNewBlocks]);
@@ -86,7 +86,7 @@ function* subscribeToNewBlocksData(): Saga<void> {
 
     yield fork(unsubscribeToNewBlocksData, subscriptionChannel);
 
-    while(true) {
+    while (true) {
         try {
             const payload: NewBlockData | Error = yield take(subscriptionChannel);
 
@@ -95,14 +95,14 @@ function* subscribeToNewBlocksData(): Saga<void> {
             }
 
             yield put(updateLatestBlocksData(payload));
-        } catch(err) {
+        } catch (err) {
             console.error('socket error:', err);
         }
     }
 }
 
 export function* checkIsSubscribeNeeded(): Saga<void> {
-    const { isRealtimeUpdate } = yield select(getRealtimeUpdateDetails());
+    const { isRealtimeUpdate }: {| isRealtimeUpdate: boolean |} = yield select(getRealtimeUpdateDetails());
 
     if (isRealtimeUpdate) {
         yield put(subscribeToNewBlocks());

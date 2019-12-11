@@ -28,7 +28,7 @@ const initialState = RealtimeUpdateRecord<RealtimeUpdateType>();
 function realtimeUpdateReducer(state: StateType = initialState, action: RealtimeUpdateReducerAction): StateType {
     switch (action.type) {
         case SET_REALTIME_UPDATE:
-            return state.mergeIn(['realtimeUpdate'], Map(action.realtimeUpdate));
+            return state.mergeIn(['realtimeUpdate'], action.realtimeUpdate);
         default:
             return state;
     }
