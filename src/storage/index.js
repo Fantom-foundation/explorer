@@ -45,6 +45,7 @@ export default function configureStore() {
     const rootReducer = createReducer();
 
     const store = {
+        // $FlowFixMe
         ...createStore(
             rootReducer,
             persistedState,

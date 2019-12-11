@@ -10,7 +10,7 @@ import Details from 'src/views/containers/BlocksPage/details';
 import Address from 'src/views/containers/address';
 import BlockTransactionDetail from 'src/views/components/search/searchForBlock/viewBlockDetail';
 import Resources from 'src/views/containers/resources';
-import BlockDetail from 'src/views/containers/blockDetail';
+import BlockDetail from 'src/views/containers/BlockDetail';
 import TransactionDetail from 'src/views/containers/TransactionDetail';
 
 import SearchBar from 'src/views/components/SearchBar';
@@ -21,10 +21,10 @@ export default function Dashboard() {
             <Route path="/(blocks|transactions|block)" component={SearchBar} />
             <Switch>
                 <Route exact path="/" component={HomePage} />
-                <Route path="/blocks" exact component={Blocks} />
+                <Route exact path="/blocks" component={Blocks} />
                 <Route path="/blocks/:id" component={BlockDetail} />
                 {/*<Route path="/address" component={Address} />*/}
-                <Route path="/transactions" exact component={TransactionsPage} />
+                <Route exact path="/transactions" component={TransactionsPage} />
                 <Route path="/transactions/:id" component={TransactionDetail} />
                 <Route path="/details" component={Details} />
                 <Route path="/block/:id?" component={BlockTransactionDetail} />

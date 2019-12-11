@@ -32,6 +32,10 @@ function TransactionDetail () {
 
     React.useEffect(() => {
         async function fetchData() {
+            if (!txHash) {
+                return;
+            }
+
             const response = await provider.getTransaction(txHash);
 
             if (response.error) {
@@ -46,7 +50,7 @@ function TransactionDetail () {
         }
 
         fetchData();
-    }, [txHash]);
+    }, [txHash, provider]);
 
     return (
         <section className="bg-theme full-height-conatainer">

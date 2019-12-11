@@ -1,17 +1,19 @@
 // @flow
 
+import { List } from 'immutable';
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import type { StateType, LatestBlocksDataType } from 'src/storage/reducers/latestBlocksData';
 import type { ReduxRootStateType } from 'src/storage/types';
 import type { Map as MapType } from 'immutable';
 
 export const isLoading = (
-    state: ReduxRootStateType,
-) => state.getIn<boolean>(['latestBlockData', 'isLoading']);
+    state: MapType<'latestBlockData', StateType>,
+): boolean => state.getIn(['latestBlockData', 'isLoading']) || false;
 
 export const latestBlocksSelector = (
     state: ReduxRootStateType,
-) => state.getIn<MapType<any, any>>(['latestBlockData', 'blocks']);
+): $ElementType<LatestBlocksDataType, 'blocks'> => state.getIn(['latestBlockData', 'blocks']) || List();
 
 const latestBlocksArr = createSelector(
     latestBlocksSelector,
@@ -20,7 +22,7 @@ const latestBlocksArr = createSelector(
 
 export const latestTransactionsSelector = (
     state: ReduxRootStateType,
-) => state.getIn<MapType<any, any>>(['latestBlockData', 'transactions']);
+): $ElementType<LatestBlocksDataType, 'transactions'> => state.getIn(['latestBlockData', 'transactions']) || List();
 
 const latestTransactionsArr = createSelector(
     latestTransactionsSelector,

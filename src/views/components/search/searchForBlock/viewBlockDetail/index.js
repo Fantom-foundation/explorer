@@ -4,6 +4,7 @@ import * as React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import Web3 from 'web3';
 
+import Wrapper from 'src/views/wrapper/wrapper';
 import { DataTable } from 'src/views/components/DataTable';
 
 import { useDataProvider } from 'src/utils/DataProvider';
@@ -12,7 +13,6 @@ import { toFixed } from 'src/common/utility';
 
 import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
-import Wrapper from 'src/views/wrapper/wrapper';
 
 /**
  * BlockTransactions :  A component meant for displaying transactions of particular block index

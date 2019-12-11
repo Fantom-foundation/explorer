@@ -18,12 +18,8 @@ function BlockDetail() {
         params: { blockHeight },
     } = match;
 
-    if (!blockHeight) {
-        blockHeight = '';
-    }
-
-    const [ error, setError ] = React.useState('');
-    const [ blockData, setBlockData ] = React.useState([]);
+    const [error, setError] = React.useState('');
+    const [blockData, setBlockData] = React.useState([]);
     const provider = useDataProvider();
 
     const showDetail = React.useCallback((blockNumber) => {
@@ -44,21 +40,25 @@ function BlockDetail() {
 
     React.useEffect(() => {
         async function fetchData() {
-            if (blockHeight && blockHeight !== '') {
-                const result = await provider.getBlock(blockHeight);
+            if (!blockHeight) {
+                return;
+            }
 
-                if (result.error) {
-                    setError(result.error.message);
-                } else {
-                    setBlockData(result.blockData);
-                }
+            const result = await provider.getBlock(parseInt(blockHeight, 10));
+
+            if (result.error) {
+                setError(result.error.message);
             } else {
-                return [];
+                setBlockData(result.blockData);
             }
         }
 
         fetchData();
     }, [blockHeight, provider]);
+
+    if (!blockHeight) {
+        return null;
+    }
 
     return (
         <section className="bg-theme full-height-conatainer">

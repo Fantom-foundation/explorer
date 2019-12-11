@@ -4,7 +4,6 @@ import * as React from 'react';
 import Web3 from 'web3';
 import { Row, Col } from 'reactstrap';
 
-import Web3Provider from 'src/utils/DataProvider/web3Provider';
 import { usePagination } from 'src/utils/hooks';
 import { toFixed } from 'src/common/utility';
 

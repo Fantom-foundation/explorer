@@ -2,16 +2,26 @@
 
 import * as React from 'react';
 import { Row, Col, Table } from 'reactstrap';
+
 import { Title } from 'src/views/components/coreComponent';
+
+
+type SearchForAccountProps = {|
+    accountDetail: Array<{
+        balance: string,
+        nonce: number,
+        ...
+    }>,
+|};
 
 /**
  * SearchForAccount :  A component meant for searching details of particuler account , on entering public key in search field.
  */
 
-function SearchForAccount (props: { accountDetail: Array<{ ... }> }) {
+function SearchForAccount (props: SearchForAccountProps) {
     const { accountDetail } = props;
     let balance = '';
-    let nonce = '';
+    let nonce = 0;
     const etherVal = '';
     const blockVal = '';
     const uncleVal = '';

@@ -141,4 +141,5 @@ export {
 
 export type {
     StateType,
+    LatestBlocksDataType,
 };

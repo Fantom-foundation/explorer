@@ -42,5 +42,6 @@ export {
 };
 
 export type {
-    StateType
+    StateType,
+    RealtimeUpdateType,
 };

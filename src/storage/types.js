@@ -17,7 +17,6 @@ import {
     setRealtimeUpdateDetails,
 } from 'src/storage/actions/realtimeBlockchainUpdate';
 
-
 export type IntiAction = { type: '@@INIT' };
 export type SetLatestBlocksDataAction = ExtractReturn<typeof setLatestBlocksData>;
 export type UpdateLatestBlockDataAction = ExtractReturn<typeof updateLatestBlocksData>;
