@@ -9,7 +9,7 @@ export default () => (
           0x490b16d0d98d5a43300fd1ca916741a2557dfc4b
         </p>
       </div>
-      <div className="btnWrapper">
+      <div className="hashBtnWrapper">
         <button>
           <i className="far fa-copy" />
         </button>

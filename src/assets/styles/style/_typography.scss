@@ -8,6 +8,9 @@
   &-grey {
     color: map-get($color, Grey-Main);
   }
+  &-danger {
+    color: map-get($color, Error) !important;
+  }
 }
 h2 {
   font: {
