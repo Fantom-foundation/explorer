@@ -125,3 +125,18 @@ body {
     }
   }
 }
+
+.asset-logo {
+  display: flex;
+  align-items: center;
+  img {
+    height: 20px;
+    margin-right: 6px;
+  }
+  p {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: map-get($color, Navy-Main);
+  }
+}
