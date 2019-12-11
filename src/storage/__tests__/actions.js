@@ -79,7 +79,7 @@ describe('Redux actions: latestBlocksData', function latestBlocksData() {
 
         expect(updateLatestBlocksDataAction).toEqual({
             type: UPDATE_LATEST_BLOCKS_DATA,
-            payload: dataMock,
+            payload: newBlockMock,
         });
     });
 
