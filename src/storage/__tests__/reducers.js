@@ -13,6 +13,8 @@ import {
     UPDATE_LATEST_BLOCKS_DATA,
 } from 'src/storage/constants';
 
+import type { UpdateLatestBlockDataAction } from 'src/storage/types';
+
 describe('Redux reducers: realtimeBlockchainUpdate', function realtimeBlockchainUpdateReducer() {
     let defaultState;
 
@@ -49,17 +51,15 @@ describe('Redux reducers: latestBlocksData', function latestBlocksDataReducer() 
         hash: '0xstring',
         logsBloom: 'string',
         miner: '0xstring',
-        mixHash: 'string',
-        nonce: '0xstring',
+        nonce: 100,
         number: 100,
         parentHash: '0xstring',
-        receiptsRoot: '0xstring',
         sha3Uncles: '0xstring',
         size: 100,
         stateRoot: '0xstring',
         timestamp: 1500000,
         totalDifficulty: '0xstring',
-        transactions: [],
+        transactions: 0,
         transactionsRoot: '0xstring',
         uncles: [],
     };
@@ -100,10 +100,11 @@ describe('Redux reducers: latestBlocksData', function latestBlocksDataReducer() 
             },
         };
 
-        const newData = {
+        const newData: UpdateLatestBlockDataAction = {
             type: UPDATE_LATEST_BLOCKS_DATA,
             payload: {
                 blocks: [{ ...mockBlock, hash: 'string3', number: 3 }],
+                transactions: [],
             },
         };
 

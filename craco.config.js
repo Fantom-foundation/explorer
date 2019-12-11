@@ -11,4 +11,9 @@ module.exports = {
             },
         },
     ],
+    jest: {
+        configure: {
+            roots: ['<rootDir>/src', '<rootDir>/__mocks__'],
+        },
+    },
 };

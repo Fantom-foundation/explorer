@@ -27,7 +27,7 @@ const blockPageStructure = [
     {
         key: 'transactions',
         header: 'Txn',
-        render: (transactions: Array<any>) => transactions.length,
+        render: (transactions: number) => transactions,
         className: "text-primary full-wrap txn",
     },
     {
@@ -51,9 +51,11 @@ function BlocksPage() {
             if (result.error) {
                 setError(result.error.message);
             } else {
-                setBlocks(result.blocks);
-                setMaxBlockNumber(result.maxBlockHeight);
-                setMaxPages(Math.ceil(result.maxBlockHeight / 10));
+                const { blocks, maxBlockHeight, total } = result;
+
+                setBlocks(blocks);
+                setMaxBlockNumber(maxBlockHeight);
+                setMaxPages(Math.floor(total / 10));
             }
         }
 

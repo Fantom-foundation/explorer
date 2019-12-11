@@ -11,7 +11,7 @@ import type { StructureElem } from 'src/views/components/DataTable';
 type DataTableRowProps = {
     data: any,
     structure: Array<StructureElem>,
-    historyCallback: (history: RouterHistory, data: Transaction | Block<any>) => void,
+    historyCallback: (history: RouterHistory, data: Transaction | Block) => void,
     ...
 }
 

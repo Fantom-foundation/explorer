@@ -7,7 +7,7 @@ import type { Block } from 'src/utils/types';
 
 type SearchForBlockProps = {
     showDetail: (height: number) => void,
-    blocks: Array<Block<string>>,
+    blocks: Array<Block>,
 };
 
 /**
@@ -35,7 +35,7 @@ function SearchForBlock(props: SearchForBlockProps) {
 
     let transactionText = 'transactions';
 
-    if (transactions.length <= 1) {
+    if (transactions <= 1) {
         transactionText = 'transaction';
     }
 
@@ -53,11 +53,11 @@ function SearchForBlock(props: SearchForBlockProps) {
                       <span
                           aria-hidden
                           className="text-primary"
-                          style={{ cursor: `${transactions.length >= 1 ? 'pointer' : ''}` }}
+                          style={{ cursor: `${transactions >= 1 ? 'pointer' : ''}` }}
                           data-number={number}
                           onClick={showDetailCallback}
                       >
-                        {transactions.length} {transactionText}
+                        {transactions} {transactionText}
                       </span>
                     </p>
                 </div>

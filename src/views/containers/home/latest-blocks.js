@@ -15,7 +15,7 @@ import type { Block } from 'src/utils/types';
 
 type LatestBlocksProps = {
     historyPush: (string | LocationShape) => void,
-    latestBlocksArr: Array<Block<string>>,
+    latestBlocksArr: Array<Block>,
 };
 
 function LatestBlocks(props: LatestBlocksProps) {

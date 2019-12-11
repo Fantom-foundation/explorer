@@ -2,29 +2,33 @@
 
 import { createSelector } from 'reselect';
 
-import type { ReduxRootStateType } from 'src/storage/types';
+import type { Map } from 'immutable';
+import type { StateType as ReducerStateType } from 'src/storage/reducers/realtimeBlockchainUpdate';
+
 /**
  * Direct selector to the languageToggle state domain
  */
-const selectRealtimeUpdateDetails = (state: ReduxRootStateType) =>
-  state.get('realtimeUpdateReducer');
+const selectRealtimeUpdateDetails = (state: Map<'realtimeUpdateReducer', ReducerStateType>) =>
+    state.get('realtimeUpdateReducer');
 
 /**
  * Select the language locale
  */
 
 const getRealtimeUpdateDetails = () =>
-  createSelector(selectRealtimeUpdateDetails, (realtimeUpdateState) => {
-    const realtimeUpdate = realtimeUpdateState.get('realtimeUpdate');
-    let isRealtimeUpdate = '';
-    if (realtimeUpdate) {
-      isRealtimeUpdate = realtimeUpdate.isRealtimeUpdate;
-    }
-    if (isRealtimeUpdate === undefined) {
-      isRealtimeUpdate = realtimeUpdate.get('isRealtimeUpdate');
-    }
+    createSelector<
+        Map<'realtimeUpdateReducer', ReducerStateType>,
+        {||},
+        {| isRealtimeUpdate: boolean |},
+        _
+    >(selectRealtimeUpdateDetails, (realtimeUpdateState) => {
+        let isRealtimeUpdate = false;
 
-    return { isRealtimeUpdate };
+        if (realtimeUpdateState) {
+            isRealtimeUpdate = realtimeUpdateState.getIn(['realtimeUpdate', 'isRealtimeUpdate']) || false;
+        }
+
+        return { isRealtimeUpdate };
   });
 
 export { selectRealtimeUpdateDetails, getRealtimeUpdateDetails };

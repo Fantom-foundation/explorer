@@ -3,20 +3,36 @@
 export type ExtractReturn<Fn> = $Call<<T>((...Array<any>) => T) => T, Fn>;
 
 export type Transaction = {|
+    hash: string,
+    from: string,
+    to: string,
+    value: string,
+    transactionIndex: number,
     blockHash: string,
     blockNumber: number,
-    from: string,
     gas: number,
     gasPrice: string,
-    hash: string,
     input: string,
     nonce: number,
     r: string,
     s: string,
-    to: string,
-    transactionIndex: number,
     v: string,
+    // ...
+    cumulativeGasUsed: number,
+    fee: string,
+    gasUsed: number,
+    logs: Array<{ ... }>,
+    status: boolean,
+    timestamp: number,
+    contractAddress?: string,
+|};
+
+export type NewBlockTransaction = {|
+    hash: string,
+    from: string,
+    to: string,
     value: string,
+    transactionIndex: number,
 |};
 
 export type TransactionReceipt = {|
@@ -34,12 +50,7 @@ export type TransactionReceipt = {|
     logsBloom: string,
 |};
 
-export type DetailTransaction = {|
-    ...Transaction,
-    ...TransactionReceipt,
-|}
-
-export type Block<T> = {|
+export type Block = {|
     difficulty: string,
     extraData: string,
     gasLimit: number,
@@ -47,24 +58,27 @@ export type Block<T> = {|
     hash: string,
     logsBloom: string,
     miner: string,
-    mixHash: string,
-    nonce: string,
+    nonce: number,
     number: number,
     parentHash: string,
-    receiptsRoot: string,
     sha3Uncles: string,
     size: number,
     stateRoot: string,
     timestamp: number,
     totalDifficulty: string,
-    transactions: Array<T>,
+    transactions: number,
     transactionsRoot: string,
     uncles: Array<string>,
 |};
 
 export type LatestBlocksData = {|
-    blocks?: Array<Block<string>>,
+    blocks?: Array<Block>,
     transactions?: Array<Transaction>,
+|};
+
+export type NewBlockData = {|
+    blocks: Array<Block>,
+    transactions: Array<NewBlockTransaction>,
 |};
 
 export type RequestError = {|
@@ -95,12 +109,9 @@ export type BlockHeader = {
 }
 
 export interface SubscriptionToNewBlocks {
-    constructor(options: SubscriptionOptions): SubscriptionToNewBlocks;
+    constructor(options?: SubscriptionOptions): SubscriptionToNewBlocks;
 
-    id: string;
     options: SubscriptionOptions;
-    callback: () => void;
-    arguments: any;
 
     subscribe(callback?: (error: Error, result: BlockHeader) => void): SubscriptionToNewBlocks;
 
@@ -116,14 +127,26 @@ export interface SubscriptionToNewBlocks {
 
     on(type: 'error', handler: (data: Error) => void): SubscriptionToNewBlocks;
 
-    addListener(type: 'blockData', handler: (block: LatestBlocksData) => void): SubscriptionToNewBlocks;
+    addListener(type: 'blockData', handler: (block: NewBlockData) => void): SubscriptionToNewBlocks;
 }
 
 export interface DataProvider {
     getLatestBlocksData(): Promise<LatestBlocksData | RequestError>;
     subscribeToNewBlocks(): SubscriptionToNewBlocks,
-    getBlock<T: Transaction | string>(blockNumber: number | string, withTransactions: ?boolean): Promise<{| blockData: Array<Block<T>> |} | RequestError>,
-    getBlocksPageData(fromBlock?: number, count?: number): Promise<{| maxBlockHeight: number, blocks: Array<Block<string>> |} | RequestError>,
-    getTransaction(transactionHash: string): Promise<{| transactionData: Array<DetailTransaction> |} | RequestError>,
-    getTransactionsPageData(offset: number, count?: number): Promise<{| maxBlockHeight: number, transactions: Array<Transaction> |} | RequestError>
+    getBlock(blockNumber: number): Promise<{| blockData: Array<Block> |} | RequestError>,
+    getBlocksPageData(fromBlock?: number, count?: number): Promise<{|
+        maxBlockHeight: number,
+        blocks: Array<Block>,
+        total: number,
+    |} | RequestError>,
+    getTransactionsByBlockNumber(blockNumber: number, offset?: number): Promise<{|
+        blockData: Array<Transaction>,
+        total: number,
+    |} | RequestError>,
+    getTransaction(transactionHash: string): Promise<{| transactionData: Array<Transaction> |} | RequestError>,
+    getTransactionsPageData(offset: number, count?: number): Promise<{|
+        maxBlockHeight: number,
+        transactions: Array<Transaction>,
+        total: number,
+    |} | RequestError>
 }

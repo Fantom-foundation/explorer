@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'src/views/containers/home';
 import Blocks from 'src/views/containers/BlocksPage';
-import Transactions from 'src/views/containers/transactions';
+import TransactionsPage from 'src/views/containers/TransactionsPage';
 import Details from 'src/views/containers/BlocksPage/details';
 import Address from 'src/views/containers/address';
 import BlockTransactionDetail from 'src/views/components/search/searchForBlock/viewBlockDetail';
@@ -24,7 +24,7 @@ export default function Dashboard() {
                 <Route path="/blocks" exact component={Blocks} />
                 <Route path="/blocks/:id" component={BlockDetail} />
                 {/*<Route path="/address" component={Address} />*/}
-                <Route path="/transactions" exact component={Transactions} />
+                <Route path="/transactions" exact component={TransactionsPage} />
                 <Route path="/transactions/:id" component={TransactionDetail} />
                 <Route path="/details" component={Details} />
                 <Route path="/block/:id?" component={BlockTransactionDetail} />

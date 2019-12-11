@@ -41,7 +41,7 @@ function TxBlockPagination(props: TxBlockPaginationProps) {
                 </Button>
             </div>
             <div>
-                <p> Page {currentPage}</p>
+                <p> Page {currentPage + 1}</p>
             </div>
         </div>
     );

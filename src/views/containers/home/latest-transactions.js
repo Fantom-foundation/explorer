@@ -9,11 +9,11 @@ import { Title } from 'src/views/components/coreComponent/index';
 import TitleIcon from 'src/assets/images/icons/latest-transaction.svg';
 
 import type { LocationShape } from 'react-router-dom';
-import type { Transaction } from 'src/utils/types';
+import type { NewBlockTransaction, Transaction } from 'src/utils/types';
 
 type LatestTransactionsProps = {|
     historyPush: (string | LocationShape) => void,
-    latestTransactionsArr: Array<Transaction>,
+    latestTransactionsArr: Array<Transaction | NewBlockTransaction>,
 |};
 
 /**

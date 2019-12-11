@@ -14,6 +14,7 @@ import Loader from 'src/views/components/Loader';
 
 import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
+import { useDataProvider } from 'src/utils/DataProvider';
 
 const transactionStructure = [
     {
@@ -64,7 +65,8 @@ function TransactionsPage () {
     const [error, setError] = React.useState('');
     const [transactions, setTransactions] = React.useState([]);
     const [maxBlockNumber, setMaxBlockNumber] = React.useState(0);
-    const [currentPage, setCurrentPage] = usePagination(1, 50000);
+    const [currentPage, setCurrentPage, setMaxPages] = usePagination(0, 50000);
+    const provider = useDataProvider();
 
     const pushToTransaction = React.useCallback((history: RouterHistory, tx: Transaction) => {
         history.push({
@@ -74,17 +76,15 @@ function TransactionsPage () {
 
     React.useEffect(() => {
         async function fetchData() {
-            const provider = new Web3Provider();
-            const offset = (currentPage - 1) * 10;
-
-            const response = await provider.getTransactionsPageData(offset);
+            const response = await provider.getTransactionsPageData(currentPage * 10);
 
             if (response.error) {
                 setError(response.error.message);
             } else {
-                const { transactions, maxBlockHeight } = response;
+                const { transactions, maxBlockHeight, total } = response;
 
                 setMaxBlockNumber(maxBlockHeight);
+                setMaxPages(Math.floor(total / 10));
 
                 if (transactions) {
                     setTransactions(transactions);
@@ -93,10 +93,17 @@ function TransactionsPage () {
         }
 
         fetchData();
-    }, [currentPage, setMaxBlockNumber]);
+    }, [currentPage, setMaxBlockNumber, provider, setMaxPages]);
 
     const totalBlocks = `(Total of ${maxBlockNumber} Blocks)`;
-    const descriptionBlock = 'Transactions of Block #${lastBlock.height} To #${firstBlock.height}';
+    let descriptionBlock = '';
+
+    if (transactions.length > 0) {
+        const firstBlock = transactions[0];
+        const lastBlock = transactions[transactions.length - 1];
+
+        descriptionBlock = `Transactions of Block #${lastBlock.blockNumber} To #${firstBlock.blockNumber}`;
+    }
 
     return (
         <div>

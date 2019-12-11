@@ -1,11 +1,13 @@
 // @flow
 
-import Web3Provider from './web3Provider';
+import Web3Provider from 'src/utils/DataProvider/web3Provider';
+import RestProvider from 'src/utils/DataProvider/restProvider';
 
 import type { DataProvider } from 'src/utils/types';
 
 const providers = {
     web3: Web3Provider,
+    rest: RestProvider,
 };
 
 let _provider: ?DataProvider = null;

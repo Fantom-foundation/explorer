@@ -8,7 +8,7 @@ import { loadState, persistMiddleware } from './localStorage';
 import { rootSaga } from 'src/storage/sagas';
 import ApiProvider from 'src/utils/DataProvider';
 
-const api = new ApiProvider('web3');
+const api = new ApiProvider('rest');
 
 const sagaMiddleware = createSagaMiddleware({
     context: {

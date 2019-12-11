@@ -8,11 +8,11 @@ import transactionIcon from 'src/assets/images/icons/transactions.svg';
 
 import { toFixed } from 'src/common/utility';
 
-import type { Transaction } from 'src/utils/types';
+import type { NewBlockTransaction, Transaction } from 'src/utils/types';
 
 type LatestTransactionProps = {
     onTransactionClick: (event: SyntheticEvent<HTMLDivElement>) => void,
-    transaction: Transaction,
+    transaction: Transaction | NewBlockTransaction,
 };
 
 function LatestTransaction(props: LatestTransactionProps) {
