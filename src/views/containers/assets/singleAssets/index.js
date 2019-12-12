@@ -55,7 +55,7 @@ export default withRouter(({ location }) => {
             </Card>
           </Col>
           <Col lg={6}>
-            <Card className="detail-card h-100">
+            <Card className="detail-card contact h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
                 <tr>
@@ -63,9 +63,11 @@ export default withRouter(({ location }) => {
                     <h4>Contract:</h4>
                   </td>
                   <td className="info-col">
-                    <Link className="hash" to="/">
-                      0x45804880De22913dAFE09f4980848ECE6EcbAf78
-                    </Link>
+                    <p className="text-ellipsis">
+                      <Link className="hash" to="/">
+                        0x45804880De22913dAFE09f4980848ECE6EcbAf78
+                      </Link>
+                    </p>
                   </td>
                 </tr>
                 <tr>
@@ -90,7 +92,7 @@ export default withRouter(({ location }) => {
                   </td>
                   <td className="info-col">
                     <a
-                      className="text-primary"
+                      className="text-primary web-address"
                       href="https://fantom.foundation"
                       target="_blank"
                     >

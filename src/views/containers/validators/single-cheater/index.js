@@ -40,17 +40,17 @@ export default withRouter(({ location }) => {
             <Card className="detail-card validator-card danger h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
-                {card.map(({ title, value }, index) => (
+                {card.map(({ title, value, valueClass = "" }, index) => (
                   <tr key={index}>
                     <td className="title-col">
                       <h4>{title}</h4>
                     </td>
-                    <td className="info-col  pl-5">
+                    <td className="info-col  pl-2 pl-lg-5">
                       <div className="d-flex align-items-center">
-                        <h4>{value}</h4>
+                        <h4 className={valueClass}>{value}</h4>
                         {index === 0 && (
                           <div className="hashBtnWrapper">
-                            <button>
+                            <button className="ml-0 ml-lg-4">
                               <i className="far fa-copy" />
                             </button>
                             <button className="d-none d-lg-block">

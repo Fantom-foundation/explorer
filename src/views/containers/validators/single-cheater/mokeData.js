@@ -1,7 +1,8 @@
 export const card = [
   {
     title: "Delegate address:",
-    value: "xva1yxd5lulpylvnzq3mkxs4jgpre3zp3eymkhq8aq"
+    value: "xva1yxd5lulpylvnzq3mkxs4jgpre3zp3eymkhq8aq",
+    valueClass: "text-ellipsis validator-hash"
   },
   {
     title: "Staking start time:",

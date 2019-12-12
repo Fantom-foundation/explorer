@@ -11,7 +11,15 @@
   &-danger {
     color: map-get($color, Error) !important;
   }
+  &-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin: 0;
+  }
 }
+
 h2 {
   font: {
     size: 24px;

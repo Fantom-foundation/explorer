@@ -94,10 +94,6 @@
       margin: 0;
     }
     .text-ellipsis {
-      white-space: nowrap;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
       max-width: 100%;
       @media (min-width: $desktop) {
         max-width: 148px;

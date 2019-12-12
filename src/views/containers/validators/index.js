@@ -52,7 +52,7 @@ export default withRouter(({ location }) => {
               <table>
                 {card2.map(({ title, value }, index) => (
                   <tr key={index}>
-                    <td className="title-col" style={{ width: 150 }}>
+                    <td className="title-col">
                       <h4>{title}</h4>
                     </td>
                     <td className="info-col">
