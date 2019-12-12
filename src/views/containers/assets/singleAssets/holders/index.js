@@ -29,12 +29,14 @@ export default () => (
                 <tr>
                   <td className="index">{index + 1}</td>
                   <td className="hash">
-                    <a className="text-primary">
-                      0x5195427ca88df768c298721da791b93ad11eca65
-                    </a>
+                    <p className="text-ellipsis">
+                      <a className="text-primary">
+                        0x5195427ca88df768c298721da791b93ad11eca65
+                      </a>
+                    </p>
                   </td>
                   <td className="value" heading="Amount">
-                    453,649,820.67643245
+                    <p className="text-ellipsis">453,649,820.67643245</p>
                   </td>
                   <td className="value" heading="Percentage">
                     46.6432%

@@ -5,7 +5,7 @@ export const card1 = [
   },
   {
     title: "FTM staked:",
-    value: "1,458,100,000(69.58%)"
+    value: "1,458,100,000 (69.58%)"
   },
   {
     title: "Inflation:",

@@ -16,8 +16,9 @@ export default withRouter(({ location }) => {
             <div className="d-flex align-items-center justify-content-between mb-4">
               <div className="d-flex align-items-center">
                 <h2 className="text-grey mb-0">Validator</h2>
-                <h3 className="font-weight-bold text-navy mb-0 pl-5">
-                  Fantom Validator 123
+                <h3 className="font-weight-bold text-navy ml-1 ml-lg-0 mb-0 pl-3 pl-lg-5">
+                  Fantom Validator{" "}
+                  <span className="d-none d-lg-inline">123</span>
                 </h3>
               </div>
               <div className="d-none d-lg-block">
@@ -45,7 +46,7 @@ export default withRouter(({ location }) => {
                     <td className="title-col">
                       <h4>{title}</h4>
                     </td>
-                    <td className="info-col pl-5">
+                    <td className="info-col pl-2 pl-lg-5">
                       <div className="d-flex align-items-center">
                         <h4>{value}</h4>
                         {index === 0 && (
@@ -83,9 +84,11 @@ export default withRouter(({ location }) => {
                   {tableMockData.map(data => (
                     <tr>
                       <td className="title">
-                        <a className="text-primary">
-                          ftm1mt9ye3g0u72dlvyf6j68f2u78s0zaurjftpe28
-                        </a>
+                        <p className="text-ellipsis">
+                          <a className="text-primary">
+                            ftm1mt9ye3g0u72dlvyf6j68f2u78s0zaurjftpe28
+                          </a>
+                        </p>
                       </td>
 
                       <td className="value" heading="Delegated">

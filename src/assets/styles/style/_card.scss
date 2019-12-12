@@ -7,15 +7,23 @@
       padding-right: 18px;
     }
   }
-  @media (max-width: $desktop) {
-    > div {
+  > div {
+    @media (max-width: $desktop) {
       margin-bottom: 8px;
+    }
+  }
+  &.validator-card-row {
+    > div {
+      @media (max-width: $desktop) {
+        margin-bottom: 20px;
+      }
     }
   }
 }
 .card {
+  $mainCardBoxShadow: 0 0 40px 0 rgba(#000, 0.06);
   padding: 30px;
-  box-shadow: 0 0 40px 0 rgba(#000, 0.06);
+  box-shadow: $mainCardBoxShadow;
   border-radius: 23px;
   border: 0px;
   @media (max-width: $desktop) {
@@ -51,6 +59,9 @@
     }
   }
   &.validator-card {
+    @media (max-width: $desktop) {
+      box-shadow: $mainCardBoxShadow;
+    }
     table {
       td {
         &.title-col {

@@ -28,14 +28,14 @@ export default withRouter(({ location }) => {
             </div>
           </Col>
         </Row>
-        <Row className="card-row mb-4 pb-3">
+        <Row className="card-row validator-card-row mb-2 mb-lg-4 pb-lg-3">
           <Col lg={6}>
             <Card className="detail-card validator-card h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
                 {card1.map(({ title, value }, index) => (
                   <tr key={index}>
-                    <td className="title-col" style={{ width: 150 }}>
+                    <td className="title-col">
                       <h4>{title}</h4>
                     </td>
                     <td className="info-col">

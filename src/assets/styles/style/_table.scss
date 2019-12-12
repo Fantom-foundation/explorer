@@ -90,12 +90,28 @@
     color: rgba(map-get($color, Navy-Main), 0.5);
   }
   &.responsive {
+    p {
+      margin: 0;
+    }
+    .text-ellipsis {
+      white-space: nowrap;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      @media (min-width: $desktop) {
+        max-width: 148px;
+      }
+    }
     @media (max-width: $desktop) {
+      display: block;
       thead {
         display: none;
         height: 0;
       }
+
       tbody {
+        display: block;
         tr {
           display: flex;
           flex-wrap: wrap;
@@ -213,7 +229,14 @@
       }
     }
   }
-  &.asset-holder {
+  &.asset-holder,
+  &.single-validator {
+    .text-ellipsis {
+      @media (min-width: $desktop) {
+        width: 100%;
+        max-width: 334px;
+      }
+    }
     @media (max-width: $desktop) {
       tbody {
         tr {
