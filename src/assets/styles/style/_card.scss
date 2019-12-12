@@ -50,6 +50,27 @@
       }
     }
   }
+  &.validator-card {
+    table {
+      td {
+        &.title-col {
+          width: 176px;
+          @media (max-width: $desktop) {
+            width: 94px;
+          }
+        }
+      }
+      &.cheater {
+      }
+      td {
+        &.title-col {
+          @media (max-width: $desktop) {
+            width: 126px;
+          }
+        }
+      }
+    }
+  }
 }
 .profile-social {
   display: flex;

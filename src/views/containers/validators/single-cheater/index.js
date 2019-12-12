@@ -20,7 +20,7 @@ export default withRouter(({ location }) => {
                   Fantom Validator 123
                 </h3>
               </div>
-              <div>
+              <div className="d-none d-lg-block">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <Link href="/">Home</Link>
@@ -28,21 +28,20 @@ export default withRouter(({ location }) => {
                   <li class="breadcrumb-item">
                     <Link href="/">Validators</Link>
                   </li>
-
                   <li class="breadcrumb-item">Fantom Validator 123</li>
                 </ul>
               </div>
             </div>
           </Col>
         </Row>
-        <Row className="card-row mb-4 pb-3">
+        <Row className="card-row mb-3 mb-lg-4 pb-3">
           <Col>
-            <Card className="detail-card danger h-100">
+            <Card className="detail-card validator-card danger h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
                 {card.map(({ title, value }, index) => (
                   <tr key={index}>
-                    <td className="title-col" style={{ width: 176 }}>
+                    <td className="title-col">
                       <h4>{title}</h4>
                     </td>
                     <td className="info-col  pl-5">
@@ -53,7 +52,7 @@ export default withRouter(({ location }) => {
                             <button>
                               <i className="far fa-copy" />
                             </button>
-                            <button>
+                            <button className="d-none d-lg-block">
                               <img src={qrInon} alt="QR" />
                             </button>
                           </div>
@@ -65,13 +64,13 @@ export default withRouter(({ location }) => {
               </table>
               <div className="mt-3 pt-4">
                 <h3 className="text-danger">Cheater</h3>
-                <table>
+                <table className="cheater">
                   {cheaterData.map(({ title, value }, index) => (
                     <tr key={index}>
-                      <td className="title-col" style={{ width: 176 }}>
+                      <td className="title-col">
                         <h4>{title}</h4>
                       </td>
-                      <td className="info-col  pl-5">
+                      <td className="info-col pl-1 pl-lg-5">
                         <div className="d-flex align-items-center">
                           <h4 className="text-danger">{value}</h4>
                         </div>
@@ -87,10 +86,10 @@ export default withRouter(({ location }) => {
         <Row>
           <Col>
             <h3 className="font-weight-bold text-navy mb-4">Delegations</h3>
-            <p className="total-tranactions mb-4">10 delegates</p>
+            <p className="total-tranactions mb-3 mb-lg-4">10 delegates</p>
 
             <div>
-              <Table className="ftm-table">
+              <Table className="ftm-table responsive single-validator">
                 <thead>
                   <tr>
                     <th>Address</th>
@@ -100,13 +99,15 @@ export default withRouter(({ location }) => {
                 <tbody>
                   {tableMockData.map(data => (
                     <tr>
-                      <td>
+                      <td className="title">
                         <a className="text-primary">
                           ftm1mt9ye3g0u72dlvyf6j68f2u78s0zaurjftpe28
                         </a>
                       </td>
 
-                      <td>306,460 FTM</td>
+                      <td className="value" heading="Delegated">
+                        306,460 FTM
+                      </td>
                     </tr>
                   ))}
                 </tbody>

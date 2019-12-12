@@ -140,7 +140,8 @@
     }
   }
   &.address-assets-table,
-  &.assest-transactions {
+  &.assest-transactions,
+  &.single-validator {
     @media (max-width: $desktop) {
       tbody {
         tr {
