@@ -16,7 +16,7 @@ export default withRouter(({ location }) => {
           <Col>
             <div className="d-flex align-items-center justify-content-between mb-4">
               <h2 className="text-grey mb-0">Validators</h2>
-              <div>
+              <div className="d-none d-lg-block">
                 <ul class="breadcrumb">
                   <li class="breadcrumb-item">
                     <Link href="/">Home</Link>
@@ -30,7 +30,7 @@ export default withRouter(({ location }) => {
         </Row>
         <Row className="card-row mb-4 pb-3">
           <Col lg={6}>
-            <Card className="detail-card h-100">
+            <Card className="detail-card validator-card h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
                 {card1.map(({ title, value }, index) => (
@@ -47,7 +47,7 @@ export default withRouter(({ location }) => {
             </Card>
           </Col>
           <Col lg={6}>
-            <Card className="detail-card h-100">
+            <Card className="detail-card validator-card h-100">
               <h3 className="text-grey">Current epoch</h3>
               <table>
                 {card2.map(({ title, value }, index) => (
