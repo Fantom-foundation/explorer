@@ -15,7 +15,7 @@ export default () => (
     <Row>
       <Col>
         <div>
-          <Table className="ftm-table">
+          <Table className="ftm-table responsive validator-active">
             <thead>
               <tr>
                 <th>
@@ -62,13 +62,19 @@ export default () => (
                   index
                 ) => (
                   <tr>
-                    <td>{index + 1}</td>
-                    <td>
+                    <td className="no-mobile">{index + 1}</td>
+                    <td className="title">
                       <a className="text-primary">{name}</a>
                     </td>
-                    <td>{tokeProofOfImportancensSlashed}</td>
-                    <td>{validatingPower}</td>
-                    <td>{uptime}</td>
+                    <td className="value" heading="Proof of Importance">
+                      {tokeProofOfImportancensSlashed}
+                    </td>
+                    <td className="value" heading="Validating power">
+                      {validatingPower}
+                    </td>
+                    <td className="value" heading="Uptime">
+                      {uptime}
+                    </td>
                   </tr>
                 )
               )}
