@@ -164,11 +164,13 @@
   }
   &.validator-cheater,
   &.validator-active {
-    tbody {
-      tr {
-        td {
-          &.value {
-            padding-left: 148px;
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          td {
+            &.value {
+              padding-left: 148px;
+            }
           }
         }
       }
