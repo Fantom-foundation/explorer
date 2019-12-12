@@ -140,14 +140,15 @@
     }
   }
   &.address-assets-table,
-  &.assest-transactions {
+  &.assest-transactions,
+  &.validator-cheater,
+  &.validator-active {
     @media (max-width: $desktop) {
       tbody {
         tr {
           td {
             flex: 0 0 100%;
             max-width: 100%;
-
             &.title {
               padding: {
                 top: 10px;
@@ -155,6 +156,18 @@
                 left: 10px;
               }
             }
+          }
+        }
+      }
+    }
+  }
+  &.validator-cheater,
+  &.validator-active {
+    tbody {
+      tr {
+        td {
+          &.value {
+            padding-left: 148px;
           }
         }
       }

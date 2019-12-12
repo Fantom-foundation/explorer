@@ -14,7 +14,7 @@ export default () => (
     <Row>
       <Col>
         <div>
-          <Table className="ftm-table">
+          <Table className="ftm-table responsive validator-cheater">
             <thead>
               <tr>
                 <th>
@@ -34,10 +34,12 @@ export default () => (
             <tbody>
               {tableMockData.map(({ name, tokensSlashed }, index) => (
                 <tr>
-                  <td>
+                  <td className="title">
                     <a className="text-primary">{name}</a>
                   </td>
-                  <td>{tokensSlashed}</td>
+                  <td className="value" heading="Tokens slashed">
+                    {tokensSlashed}
+                  </td>
                 </tr>
               ))}
             </tbody>
