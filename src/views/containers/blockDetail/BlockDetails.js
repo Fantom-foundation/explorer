@@ -1,8 +1,42 @@
 // @flow
 
 import * as React from 'react';
+import axios from "axios";
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { Container, Row, Button, Col } from 'reactstrap';
+import TimeAgo from 'react-timeago'
 function BlockDetails() {
+
+    const match = useRouteMatch('/blocks/:blockHash');
+    const { params: { blockHash } } = match;
+
+
+    const hash = blockHash.replace(':', '');
+    const [number, setNumber] = React.useState(0);
+    const [date, setdate] = React.useState(0);
+    const [timestamp, settimestamp] = React.useState(0);
+    const [transactions, settransactions] = React.useState(0);
+    const [blockHashs, setblockHash] = React.useState(0);
+    const [parentHash, setparentHash] = React.useState(0);
+    React.useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://18.222.120.223:3100/api/v1/get-block?blockNumber=' + hash,
+        })
+            .then(function (response) {
+
+                let dates = new Date(response.data.data.block.timestamp * 1000);
+                console.log(response.data.data);
+                let dateString = new Date(dates).toUTCString();
+                dateString = dateString.split(' ').slice(0, 4).join(' ');
+                setNumber(response.data.data.block.number);
+                settimestamp(dates);
+                setdate(dateString);
+                settransactions(response.data.data.block.transactions);
+                setblockHash(response.data.data.block.hash);
+                setparentHash(response.data.data.block.parentHash);
+            });
+    }, [setNumber]);
     return (
         <section className="block-details-wrapper">
             <Container>
@@ -24,7 +58,7 @@ function BlockDetails() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                120,460
+                                                {number}
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -34,8 +68,8 @@ function BlockDetails() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                Timestamp: <small>
-                                                    (Nov-29-2019 05:42:16 PM +UTC)
+                                                <TimeAgo date={timestamp} />: <small>
+                                                    ({date})
                                                 </small>
                                             </span>
                                         </Col>
@@ -46,7 +80,7 @@ function BlockDetails() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data ">
-                                                1 transaction in this block
+                                                {transactions} transaction in this block
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -56,7 +90,7 @@ function BlockDetails() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data ">
-                                                0xd8f983d903bad3df5a3b641683cc63ce785cc714
+                                                {blockHashs}
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -66,17 +100,7 @@ function BlockDetails() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data blue">
-                                                0xd8f983d903bad3df5a3b641683cc63ce785cc714
-                                            </span>
-                                        </Col>
-                                        <Col className="col-12 col-sm-3">
-                                            <span>
-                                                Validator node:
-                                            </span>
-                                        </Col>
-                                        <Col className="col-12 col-sm-9">
-                                            <span className="column-data blue">
-                                                Fantom Validator
+                                                {parentHash}
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -86,7 +110,7 @@ function BlockDetails() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                Calculation Time:
+                                                500 ms
                                             </span>
                                         </Col>
                                     </Row>

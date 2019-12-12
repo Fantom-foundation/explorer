@@ -88,6 +88,8 @@
             background-color: #f4f4f4;
             width: 100%;
             height: 75px;
+            padding: 15px;
+            align-items: flex-start;
         }
         .hidden-div{
             margin: 0
@@ -98,4 +100,12 @@
             }
         }
     }
+    
+}
+.text-ellipse{
+    white-space: nowrap; 
+    width: 150px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block; 
 }

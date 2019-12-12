@@ -1,14 +1,10 @@
 // @flow
 
 import * as React from 'react';
-import Web3 from 'web3';
+import axios from "axios";
 import { Button, Col, Container, Row } from 'reactstrap';
 import { useRouteMatch, useHistory } from 'react-router-dom';
-
-import TransactionBlockHeader from 'src/views/components/header/tranactionBlockHeader';
-
-import Loader from 'src/views/components/Loader';
-import Web3Provider from 'src/utils/DataProvider/web3Provider';
+import TimeAgo from 'react-timeago'
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
 import copyIcon from 'src/assets/images/icons/copy.svg';
 import checkIcon from 'src/assets/images/icons/check.svg';
@@ -18,40 +14,80 @@ import crossIcon from 'src/assets/images/icons/failed.svg';
 import type { DetailTransaction } from 'src/utils/types';
 
 function TransactionDetail() {
-    const [error, setError] = React.useState('');
-    const [transaction, setTransaction] = React.useState<?DetailTransaction>();
-    const history = useHistory();
-    const onShowList = React.useCallback(() => {
-        history.push({
-            pathname: '/transactions',
-        });
-    }, [history]);
-    let [showDetails, setShowDetails] = React.useState(false);
+
+    
     const match = useRouteMatch('/transactions/:txHash');
     const { params: { txHash } } = match;
 
-    if (!txHash) {
-        onShowList();
-    }
+
+    const hash = txHash.replace(':', '');
+    let [showDetails, setShowDetails] = React.useState(false);
+    const [txhash, setHash] = React.useState(0);
+    const [sender, setSender] = React.useState(0);
+    const [recepient, setrecepient] = React.useState(0);
+    const [amount, setAmount] = React.useState(0);
+    const [transactionFee, setTransactionFee] = React.useState(0);
+    const [Timestamp, setTimestamp] = React.useState(0);
+    const [dates, setdates] = React.useState('');
+    const [block, setBlock] = React.useState(0);
+    const [gasLimit, setGasLimit] = React.useState(0);
+    const [gasused, setGasUsed] = React.useState(0);
+    const [gasPrice, setGasPrice] = React.useState(0);
+    const [nonce, setNonce] = React.useState(0);
+    const [status, setstatus] = React.useState(false);
+    const [inputField, setinputField] = React.useState(false);
     React.useEffect(() => {
-        async function fetchData() {
-            const provider = new Web3Provider();
-            const response = await provider.getTransaction(txHash);
+        axios({
+            method: 'get',
+            url: 'http://18.222.120.223:3100/api/v1/get-transaction?transactionHash=' + hash,
+        })
+            .then(function (response) {
+                console.log(response.data.data.transaction);
+                let dates = new Date(response.data.data.transaction.timestamp * 1000);
+                let precision = 18;
+                let result = 10 ** precision;
+                let amount = response.data.data.transaction.value / result;
+                let FTMamount = amount.toFixed(18);
+                let fees = response.data.data.transaction.fee / result;
+                let Feeamount = fees.toFixed(18);
+                if (amount == Math.floor(amount)) {
+                    FTMamount = amount.toFixed(2);
+                } else {
 
-            if (response.error) {
-                setError(response.error.message);
-            } else {
-                const { transactionData: [transaction] } = response;
-                setTransaction({
-                    ...transaction,
-                    value: Web3.utils.fromWei(transaction.value),
-                });
-            }
-        }
+                    FTMamount = amount.toFixed(18);
+                }
+                if (fees == Math.floor(fees)) {
+                    Feeamount = fees.toFixed(2);
+                } else {
 
-        fetchData();
-    }, [txHash]);
+                    Feeamount = fees.toFixed(18);
+                }
+                let gasPrice = response.data.data.transaction.gasPrice / result;
+                let gasamount = fees.toFixed(18);
+                if (gasPrice == Math.floor(fees)) {
+                    gasamount = gasPrice.toFixed(2);
+                } else {
 
+                    gasamount = gasPrice.toFixed(18);
+                }
+               console.log(dates);
+                setHash(response.data.data.transaction.hash);
+                setSender(response.data.data.transaction.from);
+                setrecepient(response.data.data.transaction.to);
+                setAmount(FTMamount);
+                setBlock(response.data.data.transaction.blockNumber);
+                setTransactionFee(Feeamount);
+                setTimestamp(dates);
+                setdates(' '+dates );
+                setGasLimit(response.data.data.transaction.gas);
+                setGasUsed(response.data.data.transaction.gasUsed);
+                setGasPrice(gasamount);
+                setNonce(response.data.data.transaction.nonce);
+                setstatus(response.data.data.transaction.status);
+                setstatus(response.data.data.transaction.status);
+                setinputField(response.data.data.transaction.input);
+            });
+    }, [setHash, setSender,setinputField, setrecepient, setAmount, setTransactionFee, setTimestamp, setstatus, setBlock, setGasLimit, setGasUsed, setGasPrice, setNonce]);
     return (
         <section className="bg-theme full-height-conatainer">
 
@@ -76,7 +112,7 @@ function TransactionDetail() {
                     <Row>
                         <Col>
                             <div className="details-wrapper">
-                                <div class="first-section">
+                                <div className="first-section">
                                     <Row>
                                         <Col className="col-12 col-sm-3">
                                             <span>
@@ -85,7 +121,7 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                0x0960aa9d893f88bedefd285ae12f6aadbdab2da75081e034be47ffd2586251cf
+                                                {txhash}
                                             </span>
                                             <img alt="Search" src={copyIcon} className="icon" />
                                         </Col>
@@ -95,15 +131,19 @@ function TransactionDetail() {
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-9">
+                                            {status ===true ?
+                                            
                                             <span className="success-btn message-btn">
                                                 <img alt="Search" src={checkIcon} className="icon-success" /> Success
                                             </span>
+                                            : 
                                             <span className="failed-btn message-btn">
                                                 <img alt="Search" src={crossIcon} className="icon-success" /> Success
                                             </span>
-                                            <span className="gray-btn-bg message-btn">
-                                                 Pending
-                                            </span>
+                                            }
+                                            {/*<span className="gray-btn-bg message-btn">
+                                                Pending
+                                            </span>*/ }
                                         </Col>
                                         <Col className="col-12 col-sm-3">
                                             <span>
@@ -112,7 +152,7 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data blue">
-                                                0x888888d60516b674e1c65730eb496eefc2e2e366
+                                                {sender}
                                             </span>
                                             <img alt="Search" src={copyIcon} className="icon" />
                                         </Col>
@@ -123,7 +163,7 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data blue">
-                                                0xd8f983d903bad3df5a3b641683cc63ce785cc714
+                                                {recepient}
                                             </span>
                                             <img alt="Search" src={copyIcon} className="icon" />
                                         </Col>
@@ -134,7 +174,7 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                54,345 FTM <small>($1234.48)</small>
+                                                {amount} FTM 
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -144,7 +184,7 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                0.1 FTM<small> ($0.0001)</small>
+                                            {transactionFee} FTM
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -154,17 +194,7 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data">
-                                                3 hrs 48 mins ago <small>(Nov-29-2019 05:42:16 PM +UTC)</small>
-                                            </span>
-                                        </Col>
-                                        <Col className="col-12 col-sm-3">
-                                            <span>
-                                                Confirmations:
-                                            </span>
-                                        </Col>
-                                        <Col className="col-12 col-sm-9">
-                                            <span className="column-data">
-                                                1945
+                                                 <TimeAgo date={Timestamp} /> <small>({dates})</small>
                                             </span>
                                         </Col>
                                         <Col className="col-12 col-sm-3">
@@ -174,14 +204,14 @@ function TransactionDetail() {
                                         </Col>
                                         <Col className="col-12 col-sm-9">
                                             <span className="column-data blue">
-                                                120,460
+                                                {block}
                                             </span>
                                         </Col>
-                                        {showDetails ===false ? (
-                                        <Col className="col-12 col-sm-12">
-                                            <button className="arrow-down blue" onClick={() => setShowDetails(true)}>More Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
-                                        </Col>
-                                        ):""}
+                                        {showDetails === false ? (
+                                            <Col className="col-12 col-sm-12">
+                                                <button className="arrow-down blue" onClick={() => setShowDetails(true)}>More Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
+                                            </Col>
+                                        ) : ""}
                                         {showDetails ? (
                                             <div className="row hidden-div">
                                                 <Col className="col-12 col-sm-3">
@@ -191,8 +221,8 @@ function TransactionDetail() {
                                                 </Col>
                                                 <Col className="col-12 col-sm-9">
                                                     <span className="column-data ">
-                                                        21,000
-                                            </span>
+                                                        {gasLimit}
+                                                    </span>
                                                 </Col>
                                                 <Col className="col-12 col-sm-3">
                                                     <span>
@@ -201,8 +231,8 @@ function TransactionDetail() {
                                                 </Col>
                                                 <Col className="col-12 col-sm-9">
                                                     <span className="column-data ">
-                                                        21,000 (100%)
-                                            </span>
+                                                        {gasused}
+                                                    </span>
                                                 </Col>
                                                 <Col className="col-12 col-sm-3">
                                                     <span>
@@ -211,7 +241,7 @@ function TransactionDetail() {
                                                 </Col>
                                                 <Col className="col-12 col-sm-9">
                                                     <span className="column-data ">
-                                                        0.00000001 FTM
+                                                        {gasPrice} FTM
                                             </span>
                                                 </Col>
                                                 <Col className="col-12 col-sm-3">
@@ -221,8 +251,8 @@ function TransactionDetail() {
                                                 </Col>
                                                 <Col className="col-12 col-sm-9">
                                                     <span className="column-data ">
-                                                        2345657
-                                                <span className="message-btn gray-btn">32</span>
+                                                        {nonce}
+                                                
                                                     </span>
                                                 </Col>
                                                 <Col className="col-12 col-sm-3">
@@ -230,20 +260,21 @@ function TransactionDetail() {
                                             </span>
                                                 </Col>
                                                 <Col className="col-12 col-sm-9">
-                                                    <input type="text" readOnly className="input-wrapper" />
+                                                    <input type="text" value={inputField} readOnly className="input-wrapper" />
                                                 </Col>
                                             </div>
                                         )
                                             : ""
                                         }
-                                        {showDetails ===true ? (
-                                        <Col className="col-12 col-sm-12">
-                                            <button className="arrow-down arrow-up blue" onClick={() => setShowDetails(false)}>Less Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
-                                        </Col>
-                                        ):""}
+                                        {showDetails === true ? (
+                                            <Col className="col-12 col-sm-12">
+                                                <button className="arrow-down arrow-up blue" onClick={() => setShowDetails(false)}>Less Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
+                                            </Col>
+                                        ) : ""}
                                     </Row>
                                 </div>
                             </div>
+
                         </Col>
                     </Row>
                 </div>

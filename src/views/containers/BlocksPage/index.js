@@ -115,21 +115,7 @@ function BlocksPage() {
                     </ul>
                 </Container>
             </div>
-            <Container>
-                <div className="transaction-wrapper">
-                    <div className="d-flex">
-                        <div className="title-section">
-                            <h2>Blocks</h2>
-                            <span>Block #53440842 to #53440856 (Total of 8,440,855 blocks)</span>
-                        </div>
-                    </div>
-                    <Row>
-                        <Col>
-                            <TableData />
-                        </Col>
-                    </Row>
-                </div>
-            </Container>
+            <TableData />
         </div>
     );
 }
