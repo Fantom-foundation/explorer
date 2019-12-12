@@ -30,7 +30,9 @@ export default () => (
                 <tr>
                   <span className="d-lg-none date">Dec 07 2019 17:10:28</span>
                   <td className="m-100 hash">
-                    <a className="text-primary">0x264dab51d080f3…</a>
+                    <p className="text-ellipsis">
+                      <a className="text-primary">0x264dab51d080f3…</a>
+                    </p>
                   </td>
 
                   <td heading="Height" className="value m-50 height d-lg-none">
@@ -38,10 +40,15 @@ export default () => (
                   </td>
                   <td className="no-mobile">1 sec ago</td>
                   <td heading="From" className="value m-50 from">
-                    <a className="text-primary">0x54bf25af72ec93…</a>
+                    <p className="text-ellipsis">
+                      <a className="text-primary">0x54bf25af72ec93…</a>
+                    </p>
                   </td>
+
                   <td heading="To" className="value m-50 to">
-                    <a className="text-primary">0xc50489a925e9c8…</a>
+                    <p className="text-ellipsis">
+                      <a className="text-primary">0xc50489a925e9c8…</a>
+                    </p>
                   </td>
                   <td heading="Value" className="value m-50 asset-value">
                     306,460 FTM

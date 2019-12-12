@@ -6,6 +6,12 @@ body {
 }
 .container {
   max-width: 1092px;
+  @media (min-width: 374.98px) and (max-width: $desktop) {
+    padding: {
+      left: 20px;
+      right: 20px;
+    }
+  }
 }
 .page-section {
   padding: 40px 0;
@@ -45,6 +51,9 @@ body {
     @media (max-width: $desktop) {
       font-size: 12px;
       font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }

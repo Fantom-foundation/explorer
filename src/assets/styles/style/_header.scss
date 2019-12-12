@@ -86,6 +86,9 @@
           align-items: center;
           justify-content: space-between;
           margin-bottom: 90px;
+          @media (max-height: 500px) {
+            margin-bottom: 28px;
+          }
         }
         .menus {
           display: flex;
@@ -100,6 +103,9 @@
             margin: 0 30px;
             @media (max-width: $desktop) {
               margin: 0 22px 52px;
+            }
+            @media (max-height: 500px) {
+              margin-bottom: 15px;
             }
             a {
               font-size: 14px;
