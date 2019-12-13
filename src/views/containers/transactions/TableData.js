@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import axios from "axios";
+import {Link} from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import TimeAgo from 'react-timeago';
 import Loading from 'src/assets/images/icons/Loading.gif';
@@ -85,16 +86,15 @@ function TransactionsPageData() {
 
                                                         Feeamount = fees.toFixed(18);
                                                     }
-                                                    let url = "/transactions/:" + hash
                                                     //console.log(url);
                                                     return (
                                                         <tr key={blockHash}>
-                                                            <td><a className="text-ellipse" href={url}>{hash}</a></td>
-                                                            <td><a href={url}>{blockNumber}</a></td>
+                                                            <td><Link className="text-ellipse"  to={`/transactions/${hash}`}>{hash}</Link></td>
+                                                            <td><Link to={`/transactions/${hash}`}>{blockNumber}</Link></td>
                                                             <td>
                                                                 <TimeAgo date={d} /></td>
-                                                            <td><a className="text-ellipse" href={url}>{from}</a></td>
-                                                            <td> <a className="text-ellipse" href={url}>{to}</a> </td>
+                                                            <td ><Link className="text-ellipse" to={`/transactions/${hash}`} >{from}</Link></td>
+                                                            <td > <Link className="text-ellipse" to={`/transactions/${hash}`} >{to}</Link></td>
                                                             <td>{FTMamount} FTM</td>
                                                             <td>{Feeamount} FTM</td>
                                                         </tr>
@@ -145,7 +145,7 @@ function TransactionsPageData() {
                                                         {dates}
                                                     </div>
                                                     <div className="col-12">
-                                                        <div className="text-ellipse"><a href={url}>{hash}</a></div>
+                                                        <div className="text-ellipse"><Link to={`/transactions/${hash}`}>{hash}</Link></div>
                                                     </div>
                                                     <div className="col-4">
                                                         <div className="d-flex">

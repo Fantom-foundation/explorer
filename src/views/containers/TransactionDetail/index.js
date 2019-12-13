@@ -12,6 +12,7 @@ import arrowIcon from 'src/assets/images/icons/arrow.svg';
 import crossIcon from 'src/assets/images/icons/failed.svg';
 import Loading from 'src/assets/images/icons/Loading.gif';
 import type { DetailTransaction } from 'src/utils/types';
+import {Link} from "react-router-dom";
 
 function TransactionDetail() {
 
@@ -94,9 +95,9 @@ function TransactionDetail() {
             <div className="breacrumb">
                 <Container>
                     <ul className="d-flex justify-content-end">
-                        <li><a href="/">Home</a></li>
+                        <li><Link to={`/`}>Home</Link></li>
                         <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
-                        <li><a href="/transactions">Transactions</a></li>
+                        <li><Link to="/transactions">Transactions</Link></li>
                         <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
                         <li className="active">Transaction detail</li>
                     </ul>

@@ -9,7 +9,7 @@ import last from 'src/assets/images/icons/gotoendbutton.svg';
 import prev from 'src/assets/images/icons/back-button-active.svg';
 import next from 'src/assets/images/icons/forward-button.svg';
 import { api_get_block } from 'src/utils/Utlity';
-
+import {Link} from "react-router-dom";
 function TableData() {
     const [Loader, setLoader] = React.useState(false);
     const [Blocks, setBlocks] = React.useState([]);
@@ -118,13 +118,12 @@ function TableData() {
                                                         dateString = dateString.split(' ').slice(0, 4).join(' ');
                                                         let dates = ' ' + d
                                                         //console.log(url);
-                                                        let url = "/blocks/:" + number
                                                         return (
                                                             <tr key={timestamp}>
-                                                                <td><a href={url}>{number}</a></td>
+                                                                <td> <Link to={`/blocks/${number}`}>{number}</Link></td>
                                                                 <td>{dateString}</td>
                                                                 <td><TimeAgo date={d} /></td>
-                                                                <td><a href={url}>{transactions}</a></td>
+                                                                <td> <Link to={`/blocks/${number}`}>{transactions}</Link></td>
                                                                 <td>0.0000001 FTM</td>
                                                             </tr>
                                                         )
@@ -155,7 +154,7 @@ function TableData() {
                                                      </div>
                                                         <div className="col-8">
                                                             <span>
-                                                                <a href={url}>{number}</a>
+                                                                <Link to={`/blocks/${number}`}>{number}</Link>
                                                             </span>
                                                         </div>
                                                         <div className="col-4">
@@ -179,7 +178,7 @@ function TableData() {
                                                      </div>
                                                         <div className="col-8">
                                                             <span>
-                                                                <a href={url}>{transactions}</a>
+                                                            <Link to={`/blocks/${number}`}>{transactions}</Link>
                                                             </span>
                                                         </div>
                                                         <div className="col-4">

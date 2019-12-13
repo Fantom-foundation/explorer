@@ -6,6 +6,7 @@ import { useRouteMatch, useHistory } from 'react-router-dom';
 import { Container, Row, Button, Col } from 'reactstrap';
 import Loading from 'src/assets/images/icons/Loading.gif';
 import TimeAgo from 'react-timeago'
+import {Link} from "react-router-dom";
 function BlockDetails() {
     const match = useRouteMatch('/blocks/:blockHash');
     const { params: { blockHash } } = match;

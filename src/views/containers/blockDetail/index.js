@@ -11,7 +11,7 @@ import BlockDetails from 'src/views/containers/blockDetail/BlockDetails';
 import TitleIcon from 'src/assets/images/icons/latest-blocks.svg';
 import { useDataProvider } from 'src/utils/DataProvider';
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
-
+import {Link} from "react-router-dom";
 function BlockDetail() {
     const history = useHistory();
     const match = useRouteMatch('/blocks/:blockHeight');
@@ -68,9 +68,9 @@ function BlockDetail() {
             <div className="breacrumb">
                 <Container>
                     <ul className="d-flex justify-content-end">
-                        <li><a href="/">Home</a></li>
+                        <li><Link to="/">Home</Link></li>
                         <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
-                        <li><a href="/blocks">Blocks</a></li>
+                        <li><Link to="/blocks">Blocks</Link></li>
                         <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
                         <li className="active">Block</li>
                     </ul>

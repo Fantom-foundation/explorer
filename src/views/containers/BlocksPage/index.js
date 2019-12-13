@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import moment from 'moment';
-
+import {Link} from "react-router-dom";
 import { useDataProvider } from 'src/utils/DataProvider';
 import { usePagination } from 'src/utils/hooks';
 
@@ -109,7 +109,7 @@ function BlocksPage() {
             <div className="breacrumb">
                 <Container>
                     <ul className="d-flex justify-content-end">
-                        <li><a href="/">Home</a></li>
+                        <li><Link to="/">Home</Link></li>
                         <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
                         <li className="active">Blocks</li>
                     </ul>

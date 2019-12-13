@@ -10,6 +10,7 @@ import Wrapper from 'src/views/wrapper/wrapper';
 import Loader from 'src/views/components/Loader';
 import TableData from 'src/views/containers/transactions/TableData'; import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
+import {Link} from "react-router-dom";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
  function TransactionsPage() {
 
@@ -18,7 +19,7 @@ import separaterIcon from 'src/assets/images/icons/chevron.svg';
             <div className="breacrumb">
                 <Container>
                     <ul className="d-flex justify-content-end">
-                        <li><a href="/">Home</a></li>
+                        <li><Link to={`/`}>Home</Link></li>
                         <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
                         <li className="active">Transactions</li>
                     </ul>
