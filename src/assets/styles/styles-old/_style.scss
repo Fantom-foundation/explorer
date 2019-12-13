@@ -6,7 +6,7 @@ cursor: pointer;
 }
 body {
   font: {
-    family: 'Work Sans';
+    family: $primaryFont;
     size: 14px;
     weight: 500;
     
@@ -23,7 +23,7 @@ a{
   opacity: 0.5;
 }
 h2 {
-  font: { 
+  font: {
     weight: 400;
   }
 }

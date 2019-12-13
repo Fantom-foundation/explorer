@@ -14,7 +14,8 @@ import {
 import { WindowSize } from 'src/views/components/PageSizeWatcher';
 
 import Logo from 'src/assets/images/Logo/main-logo.svg';
-import hamburgerBtn from 'src/assets/images/icons/hamburger.svg';
+import blueLogo from 'src/assets/images/Logo/fantomlogoblue.svg'; 
+import hamburgerBtn from 'src/assets/images/icons/menu.svg';
 import closeBtn from 'src/assets/images/icons/close.svg';
 
 function Navigation() {
@@ -40,9 +41,16 @@ function Navigation() {
 
     return (
         <Navbar dark expand="md">
-            <NavbarBrand tag={RouterNavLink} to="/">
+            {isShow && (
+                <NavbarBrand tag={RouterNavLink} to="/">
+                <img alt="Fantom explorerss" className="logo" src={blueLogo} />
+                </NavbarBrand>
+            )}
+           {!isShow && (
+                <NavbarBrand tag={RouterNavLink} to="/">
                 <img alt="Fantom explorer" className="logo" src={Logo} />
-            </NavbarBrand>
+                </NavbarBrand>
+            )}
 
             <button
                 className="btn open"
@@ -76,7 +84,7 @@ function Navigation() {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RouterNavLink} to="/resources">
+                            <NavLink tag={RouterNavLink} to="/validators">
                                 Validators
                             </NavLink>
                         </NavItem>

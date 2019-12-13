@@ -28,7 +28,7 @@ export default function Dashboard() {
                 <Route path="/transactions/:id" component={TransactionDetail} />
                 <Route path="/details" component={Details} />
                 <Route path="/block/:id?" component={BlockTransactionDetail} />
-                <Route path="/resources" component={Resources} />
+                <Route path="/validators" component={Resources} />
             </Switch>
         </>
     );

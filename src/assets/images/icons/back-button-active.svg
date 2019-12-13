@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>back button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="30" height="30" rx="15"></rect>
+        <filter x="-26.7%" y="-23.3%" width="153.3%" height="153.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M11.2549837,14.4425466 L16.1825199,10.2189441 C16.5230996,9.92701863 17.0738243,9.92701863 17.4107808,10.2189441 L18.2296214,10.9208075 C18.5702011,11.2127329 18.5702011,11.6847826 18.2296214,11.9736025 L14.7404909,14.9704969 L18.2332446,17.9642857 C18.5738243,18.2562112 18.5738243,18.7282609 18.2332446,19.0170807 L17.414404,19.7220497 C17.0738243,20.0139752 16.5230996,20.0139752 16.1861431,19.7220497 L11.2586069,15.4984472 C10.914404,15.2065217 10.914404,14.734472 11.2549837,14.4425466 Z" id="path-3"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Block-info" transform="translate(-1181.000000, -142.000000)">
+            <g id="back-button" transform="translate(1186.000000, 146.000000)">
+                <g id="Rectangle-Copy">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <mask id="mask-4" fill="white">
+                    <use xlink:href="#path-3"></use>
+                </mask>
+                <use id="Mask" fill="#2B3954" xlink:href="#path-3"></use>
+            </g>
+        </g>
+    </g>
+</svg>

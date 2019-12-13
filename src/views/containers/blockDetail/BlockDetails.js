@@ -6,11 +6,8 @@ import { useRouteMatch, useHistory } from 'react-router-dom';
 import { Container, Row, Button, Col } from 'reactstrap';
 import TimeAgo from 'react-timeago'
 function BlockDetails() {
-
     const match = useRouteMatch('/blocks/:blockHash');
     const { params: { blockHash } } = match;
-
-
     const hash = blockHash.replace(':', '');
     const [number, setNumber] = React.useState(0);
     const [date, setdate] = React.useState(0);
@@ -39,7 +36,6 @@ function BlockDetails() {
     }, [setNumber]);
     return (
         <section className="block-details-wrapper">
-            <Container>
                 <div className="transaction-wrapper-details transaction-wrapper">
                     <div className="d-flex">
                         <div className="title-section">
@@ -51,64 +47,64 @@ function BlockDetails() {
                             <div className="details-wrapper">
                                 <div class="first-section">
                                     <Row>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Block:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                                 {number}
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Timestamp:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                                 <TimeAgo date={timestamp} />: <small>
                                                     ({date})
                                                 </small>
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Transactions:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data ">
                                                 {transactions} transaction in this block
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 BlockHash:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data ">
                                                 {blockHashs}
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 ParentHash:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data blue">
                                                 {parentHash}
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Calculation Time:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                                 500 ms
                                             </span>
@@ -119,7 +115,6 @@ function BlockDetails() {
                         </Col>
                     </Row>
                 </div>
-            </Container>
         </section>
     );
 }

@@ -6,10 +6,10 @@ import Routes from 'src/routes';
 import Header from 'src/views/components/header/header';
 import Footer from 'src/views/components/footer/footer';
 
-function Main() {
+function Main({location}) {
     return (
         <div className="app-container">
-            <Header />
+            <Header location={location}/>
             <main>
                 <Routes />
             </main>

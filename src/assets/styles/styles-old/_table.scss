@@ -337,13 +337,11 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
   margin: 30px 0;
   border-collapse:separate; 
   border-spacing:0 10px; 
-  padding: 15px 2px;
   th{
     color: map-get($color, transcolor);
     opacity: 0.7;
     padding: 15px;
     min-width: 140px;
-    @media(max-width: 1199px){min-width: 100px;}
     
   }
   tbody {
@@ -358,35 +356,4 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
     }
   }
  
-}
-.mobile-show{
-  display: none;
-  @media(max-width: 767px){display: block}
-}
-@media(max-width: 767px){
-  .hide-mobile .table-responsive{
-  display: none;
-}
-}
-
-.transaction-wrapper .mobile-show{
-   margin-top: 20px;
-}
-.mobile-data-row{
-  border-radius: 12px;
-  margin-bottom: 10px;
-  margin: 0 0 10px;
-  padding: 10px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.06);
-  span{
-    font-size: 12px
-  }
-  .col-4, .col-8, .col-12{
-    padding: 2px 8px;
-  }
-  .col-12{
-    .text-ellipse{
-     width: 250px;
-    }
-  }
 }

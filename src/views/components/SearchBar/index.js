@@ -25,6 +25,7 @@ function SearchBar() {
     const searchHandler = React.useCallback((e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        console.log(e,"event",searchText,"searchText");
         if (searchText && searchText !== '') {
             const checkResponse = checkSearchString(searchText);
 
@@ -38,6 +39,11 @@ function SearchBar() {
                 } else if (type === 'hash') {
                     history.push({
                         pathname: `/transactions/${searchText}`,
+                    });
+                }
+                else if (type === 'address') {
+                    history.push({
+                        pathname: `/address/${searchText}`,
                     });
                 }
             } else {

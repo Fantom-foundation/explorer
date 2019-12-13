@@ -27,7 +27,6 @@ header {
     }
     nav
     {
-        @media (max-width:767px) { padding:10px 0; }
         .btn{
            border-radius: 0px;
             position: fixed;
@@ -35,19 +34,15 @@ header {
             @media (min-width:768px) {display: none;}
             padding: 0;
             &.open{
-                top: 29px;
+                top: 19px;
                 right: 26px;
-                height: 18px;
-                width: 24px;
-                background-size: contain;
-                z-index: 99999;
-                outline: none;
-                box-shadow: none
+                height: 13px;
+                width: 19px;
             }
             &.close{
                 opacity: 1 !important;
                 z-index: 99999;
-                top: 19px;
+                top: 9px;
                 right: 20px;
                 width: 31px;
                 height: 31px;
@@ -65,20 +60,18 @@ header {
             justify-content: space-between;
             width: 100%;
             padding: 0;
-            @media (max-width:767px) { padding: 10px 0; }
+   
                     .navbar-brand
                     {
                         
-                        @media (max-width:767px) { padding:10px 0;
-                    z-index: 999;
-                    position: relative;
-                        }
-
+                        @media (max-width:767px) { padding:10px 0; }
+                        @media (max-width:400px) { padding: 8px 0;}
                         .logo
                         {
                             height: 36px;
                             @media (max-width:991px){ height: 30px;  }
                             @media (max-width:767px) { height: 26px; }
+                            @media (max-width:400px) { height: 18px; }
                         }
                     }
                     .navbar-collapse
@@ -114,16 +107,17 @@ header {
 
                             @media (max-width:767px) {
                                 align-items: flex-start;
-                                padding: 120px 35px 0;
+                                padding: 75px 35px 0;
                                 width: 100%;
                                 height:100%;
+                                box-shadow: -3px 2px 4px 0 rgba(0, 0, 0, 0.5);
+                                background-image: linear-gradient(156deg, #171717, #797979);
                                 z-index: 9999;
-                                position: fixed;
+                                position: absolute;
                                 right:0;
                                 top: 0;
-                                background: #fff;
-                                height: 100%;
-                                justify-content: flex-start
+                                width: $mobile-width;
+                                height: 100vh;
                             }
                             .nav-item
                             {
@@ -137,7 +131,7 @@ header {
                                     font: { family: 'Work Sans', sans-serif; size:14px; weight: 600 }
                                     position: relative;
                                     @media (max-width:991px){    padding: 26px 4px;font: { size:16px; }  }
-                                    @media (max-width:767px) { padding: 8px 0px;margin-bottom: 11px;color: #2b3954;opacity:1;   font: { size:24px; }   }
+                                    @media (max-width:767px) { padding: 8px 0px;margin-bottom: 11px;color: map-get($color, header-menu-active);   font: { size:14px; }   }
                                     &::before{
                                         content: "";
                                         position: absolute;
@@ -154,11 +148,8 @@ header {
                                     }
                                     &.active{
                                         opacity: 1;
-                                        color: map-get($color, white );
+                                        color: map-get($color, header-menu-active);
                                         position: relative;
-                                        @media (max-width:767px) {
-                                            color: #2b3954;opacity:1;
-                                        }
                                     }
                                     &:hover{opacity: .6;}
                                 }
@@ -172,88 +163,10 @@ header {
                             }
                         }
                     }
-                    @media (max-width:767px){padding: 15px 0;}   
         }
-    }
-    .headerSearch {
-        position: relative;
-        width: 264px;
-        input{
-            border: 0px;
-            height: 36px;
-            border-radius: 40px;
-            padding: 0 38px 0 20px;
-            border: 0;
-            font-size: 14px;
-            color: rgba(43, 57, 84, 0.6);
-        }
-        button{
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            right: 22px;
-            transform: translateY(-50%);
-            padding: 0;
-            border: 0;
-            background: transparent;
-            color: #416ed5;
-            @media (max-width:767px){
-                right: 45px;
-            }
-        }
-        @media (max-width:767px){
-          .mb-0.d-flex{
-                position: fixed;
-                left: 0;
-                right: 0%;
-                top: -100%;;
-                padding: 0 30px;
-                z-index: 99999;
-                transition: all ease-in-out 0.4s;
-                background: #416ed5;
-         } 
-         .mb-0.d-flex.active{
-            top: 19px
-        } 
-         .icon.hide-mobile{
-
-            display: none;
-          }
-        }
-        .show-mobile{
-            display: none;
-            @media (max-width:767px){
-                display: block
-            }
-        }
-        .close-icon{
-            transition: all ease-in-out 0.4s;
-            opacity: 0;
-            position: fixed;
-            max-width: 15px;
-            z-index: 9999999;
-            right: 10px;
-
-            cursor: pointer;
-            top: -100%
-        } 
-    }
-    .headerSearch > .show-mobile{
-        float: right;
-        padding-right: 35px;
-        cursor: pointer;
-        display:none;
-        @media (max-width:767px){
-            display:block;
-        }
-      }
-    .headerSearch.active  .close-icon{
-        opacity: 1;
-        top:10px
     }
 }
 
-  
 
 @keyframes overley-body {
     from {

@@ -70,7 +70,6 @@ function TransactionDetail() {
 
                     gasamount = gasPrice.toFixed(18);
                 }
-               console.log(dates);
                 setHash(response.data.data.transaction.hash);
                 setSender(response.data.data.transaction.from);
                 setrecepient(response.data.data.transaction.to);
@@ -87,7 +86,7 @@ function TransactionDetail() {
                 setstatus(response.data.data.transaction.status);
                 setinputField(response.data.data.transaction.input);
             });
-    }, [setHash, setSender,setinputField, setrecepient, setAmount, setTransactionFee, setTimestamp, setstatus, setBlock, setGasLimit, setGasUsed, setGasPrice, setNonce]);
+    },);
     return (
         <section className="bg-theme full-height-conatainer">
 
@@ -114,23 +113,23 @@ function TransactionDetail() {
                             <div className="details-wrapper">
                                 <div className="first-section">
                                     <Row>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Transaction hash:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                                 {txhash}
                                             </span>
                                             <img alt="Search" src={copyIcon} className="icon" />
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Status:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             {status ===true ?
                                             
                                             <span className="success-btn message-btn">
@@ -145,64 +144,64 @@ function TransactionDetail() {
                                                 Pending
                                             </span>*/ }
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Sender:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data blue">
                                                 {sender}
                                             </span>
                                             <img alt="Search" src={copyIcon} className="icon" />
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Recipient:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data blue">
                                                 {recepient}
                                             </span>
                                             <img alt="Search" src={copyIcon} className="icon" />
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Amount:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                                 {amount} FTM 
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Transaction fee:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                             {transactionFee} FTM
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Timestamp:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data">
                                                  <TimeAgo date={Timestamp} /> <small>({dates})</small>
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-3">
+                                        <Col className="col-4 col-sm-3">
                                             <span>
                                                 Block:
                                             </span>
                                         </Col>
-                                        <Col className="col-12 col-sm-9">
+                                        <Col className="col-8 col-sm-9">
                                             <span className="column-data blue">
                                                 {block}
                                             </span>
@@ -214,52 +213,52 @@ function TransactionDetail() {
                                         ) : ""}
                                         {showDetails ? (
                                             <div className="row hidden-div">
-                                                <Col className="col-12 col-sm-3">
+                                                <Col className="col-4 col-sm-3">
                                                     <span>
                                                         Gas limit:
                                             </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-9">
+                                                <Col className="col-8 col-sm-9">
                                                     <span className="column-data ">
                                                         {gasLimit}
                                                     </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-3">
+                                                <Col className="col-4 col-sm-3">
                                                     <span>
                                                         Gas used by transaction:
                                             </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-9">
+                                                <Col className="col-8 col-sm-9">
                                                     <span className="column-data ">
                                                         {gasused}
                                                     </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-3">
+                                                <Col className="col-4 col-sm-3">
                                                     <span>
                                                         Gas price:
                                             </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-9">
+                                                <Col className="col-8 col-sm-9">
                                                     <span className="column-data ">
                                                         {gasPrice} FTM
                                             </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-3">
+                                                <Col className="col-4 col-sm-3">
                                                     <span> Nonce
                                                  <span className="message-btn gray-btn">position</span>
                                                     </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-9">
+                                                <Col className="col-8 col-sm-9">
                                                     <span className="column-data ">
                                                         {nonce}
                                                 
                                                     </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-3">
+                                                <Col className="col-4 col-sm-3">
                                                     <span> Input data:
                                             </span>
                                                 </Col>
-                                                <Col className="col-12 col-sm-9">
+                                                <Col className="col-8 col-sm-9">
                                                     <input type="text" value={inputField} readOnly className="input-wrapper" />
                                                 </Col>
                                             </div>

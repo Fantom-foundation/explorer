@@ -1,6 +1,5 @@
 .home-wrapper{
     padding: 200px 0;
-    @media(max-width: 767px){padding: 100px 0;}
     display: flex;
     height: 100%;
     align-items: center;
@@ -16,8 +15,6 @@
         letter-spacing: -1.5px;
         text-align: center;
         color: #2b3954;
-        @media(max-width: 767px){font-size: 40px;}
-        @media(max-width: 414px){font-size: 35px;}
     }
     #search-bar .holder{
         max-width: 700px;
@@ -41,14 +38,8 @@
         text-align: left;
         max-width: 700px;
         margin: 20px auto;
-        flex-wrap: wrap;
         li{
             list-style: none;
-            @media(max-width: 767px){
-                flex:0 0 50%;
-                max-width: 50%;
-                
-            }
             span{
                 font-size: 24px;
                 display: block;
@@ -61,21 +52,5 @@
                 color: map-get($color, darkgray);
             }
         }
-        @media(max-width: 767px){
-            li:nth-of-type(even){
-                text-align: right;
-                margin-bottom: 40px;
-            }
-        }
     } 
-    @media(max-width: 767px){
-            #search-bar{
-                .container{
-                    padding: 0;
-                    input{
-                        font-size: 12px;
-                    }
-                }
-            }
-}
 }

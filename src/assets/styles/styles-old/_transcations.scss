@@ -10,28 +10,6 @@
             font-weight: 600;
         }
     }
-    .justify-content-end {
-        justify-content: flex-end !important;
-        margin-bottom: 30px;
-        margin-top: 30px;
-    }
-    @media(max-width: 991px){
-        .pagination-section ul{
-            padding-left: 0;
-        }
-     .d-flex.justify-content-between{
-         flex-wrap: wrap;
-         .pagination-section {
-            flex: 0 0 100%;
-            max-width: 100%;
-            margin-top: 20px;
-            ul{
-                padding-left: 0
-            }
-        }
-
-     }
-    }
 }
 .transaction-wrapper-details{
     margin-top: -58px;
@@ -41,7 +19,7 @@
         box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
         padding: 30px;
         margin-bottom: 80px;
-        .col{
+        .col-12{
             padding-bottom: 30px;
         }
         .blue{
@@ -130,69 +108,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: block; 
-}
-.text-center.loader-img {
-    padding: 120px;
-    @media(max-width: 767px){
-        padding: 30px;
-    }
-    img{
-        max-width: 260px
-    }
-}
-@media(max-width: 767px){
-
-    .breacrumb .container{
-        display: none
-    }
-    .transaction-wrapper-details {
-        margin-top: 0;
-        span{
-            font-size: 12px;
-        }
-     .details-wrapper .gray-btn {
-        margin-left: 0;
-        font-size: 10px;
-    }
- }
- .container, .container-sm {
-    max-width: 100%;
-}
-}
-@media(max-width: 414px){
-    .transaction-wrapper-details .details-wrapper .col {
-        padding: 0 5px 30px;
-    }
-    .container {
-        padding-right: 20px;
-        padding-left: 20px;
-    }
-    .transaction-wrapper-details .details-wrapper{
-        padding: 20px;
-    }
-}
-.pagination-section {
-    ul{
-        list-style: none;
-        align-items: center;
-    li:first-of-type img {
-            transform: rotate(180deg);
-        }
-        .pages {
-            padding: 5px 25px;
-            box-shadow: 0 0 3px  #ccc;
-            border-radius: 50px;
-            margin: 0 5px;
-        }
-        li .icon.disabled {
-            opacity: 0.4;
-        }
-    }
-    
-}
-.table-responsive{
-    overflow: hidden;
-    @media(max-width: 991px){
-        overflow-x: auto
-    }
 }

@@ -3,37 +3,41 @@ footer {
   padding: 20px 30px;
   background:  {
     color: map-get($color, header-bg);
-  }
-  @media(max-width:767px){text-align: center;
-    position: relative;
-  height: 110px;}
-  @media(max-width:414px){
-    height: 130px;
-  }
+}
+  hr{@media(max-width:767px){display: none}}
   .bordred{
     @media(max-width:767px){
+      border-top: 1px solid rgba(map-get($color, border-line) ,map-get($color, border-line-opacity));
+      
       padding: 10px 0;
-      position: static;
-
+      &:nth-last-child(2){border-bottom: 1px solid rgba(map-get($color, border-line) ,map-get($color, border-line-opacity));}
     }
     span{
       color: map-get($color, white);
       font-size: 14px;
       font-weight: 500;
       opacity: 0.5;
-      @media(max-width:767px){  
-          margin-top: 20px;
-          display: block;
-          top: 20px;
-          position: relative;
-      }
-      @media(max-width:414px){
-        font-size: 12px;
-      }
     }
   }
   .menus {
     @media(max-width:767px){padding-top: 0px;}
+    h2 {
+      opacity: 0.6;
+      margin-bottom: 20px;
+      font: {
+        family:  map-get($font, footer-font);
+        size: 21.6px;
+      }
+      @media (max-width:1200px) { font: {size: 18px;} }
+    }
+    a {
+      font: {
+        family: map-get($font, footer-font);
+        size: 16.8px;
+      }
+      color: map-get($color, footer-link );
+      @media (max-width:1200px) { font: {size: 14px;} }
+    }
     .social {
       margin: 0 -11px;
       text-align: right;
@@ -76,12 +80,7 @@ footer {
       @media (max-width:767px) {
         display: flex;
         align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 30px;
-        left: 0;
-        margin: auto;
-        right:0;
+        justify-content: space-between;
         h2{margin:0;}
       }
     }

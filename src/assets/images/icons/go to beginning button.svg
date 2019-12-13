@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>go to beginning button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="30" height="30" rx="15"></rect>
+        <filter x="-26.7%" y="-23.3%" width="153.3%" height="153.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M14.7869663,14.468916 L18.7921716,10.2202437 C19.069002,9.92658544 19.5166426,9.92658544 19.790528,10.2202437 L20.4560989,10.926273 C20.7329293,11.2199313 20.7329293,11.6947829 20.4560989,11.9853171 L17.6200601,15 L20.4590439,18.0115589 C20.7358743,18.3052171 20.7358743,18.7800687 20.4590439,19.0706029 L19.793473,19.7797563 C19.5166426,20.0734146 19.069002,20.0734146 18.7951166,19.7797563 L14.7899113,15.531084 C14.5101359,15.2374258 14.5101359,14.7625742 14.7869663,14.468916 L14.7869663,14.468916 Z M9.20725611,15.531084 L13.2124615,19.7797563 C13.4892919,20.0734146 13.9369325,20.0734146 14.2108178,19.7797563 L14.8763887,19.073727 C15.1532191,18.7800687 15.1532191,18.3052171 14.8763887,18.0146829 L12.0403499,15 L14.8793337,11.9884411 C15.1561641,11.6947829 15.1561641,11.2199313 14.8793337,10.9293971 L14.2137628,10.2202437 C13.9369325,9.92658544 13.4892919,9.92658544 13.2154065,10.2202437 L9.21020112,14.468916 C8.93042574,14.7625742 8.93042574,15.2374258 9.20725611,15.531084 Z" id="path-3"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Transactions" transform="translate(-919.000000, -152.000000)">
+            <g id="nav" transform="translate(924.000000, 156.000000)">
+                <g id="go-to-beginning-button">
+                    <g id="Rectangle-Copy">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="Mask" fill="#D8D8D8" fill-rule="nonzero" xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

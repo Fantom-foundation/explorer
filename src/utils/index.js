@@ -1,15 +1,18 @@
 // @flow
-
+import Web3 from 'web3';
 export function checkSearchString(hash: string) {
     const validHashLength = 66;
-
+    try{
     if (hash && hash.length === validHashLength) {
         return { isValid: true, type: 'hash' };
     } else if (/^\d+$/.test(hash)) {
         return { isValid: true, type: 'number' };
+    } else if(Web3.utils.toChecksumAddress(hash)){
+        return { isValid: true, type: 'address' };
     }
-
+}catch(err){
     return { isValid: false };
+}
 }
 
 export const scientificToDecimal = (num: number) => {

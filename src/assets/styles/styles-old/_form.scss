@@ -11,6 +11,12 @@ $input-placeholder:#717171;
   }
   .form-input{
     position: relative;
+    button{ 
+      position: absolute;
+      top: 50%;
+      right: 16.5px;
+      transform: translateY(-50%);
+    } 
     .icon{
       position: absolute;
       top: 50%;
@@ -21,9 +27,7 @@ $input-placeholder:#717171;
         width: 18px;
         height: 18px;
         right:10px;
-
       }
-
     }
     input{
       height: 42px;
@@ -65,8 +69,5 @@ $input-placeholder:#717171;
     top: 50%;
     right: 16.5px;
     transform: translateY(-50%);
-    border:0px;
-    background: transparent;
-    outline: none
   }
 }

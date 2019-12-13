@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>forward button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="30" height="30" rx="15"></rect>
+        <filter x="-26.7%" y="-23.3%" width="153.3%" height="153.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M11.7549837,14.4425466 L16.6825199,10.2189441 C17.0230996,9.92701863 17.5738243,9.92701863 17.9107808,10.2189441 L18.7296214,10.9208075 C19.0702011,11.2127329 19.0702011,11.6847826 18.7296214,11.9736025 L15.2404909,14.9704969 L18.7332446,17.9642857 C19.0738243,18.2562112 19.0738243,18.7282609 18.7332446,19.0170807 L17.914404,19.7220497 C17.5738243,20.0139752 17.0230996,20.0139752 16.6861431,19.7220497 L11.7586069,15.4984472 C11.414404,15.2065217 11.414404,14.734472 11.7549837,14.4425466 Z" id="path-3"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Transactions" transform="translate(-1186.000000, -152.000000)">
+            <g id="nav" transform="translate(924.000000, 156.000000)">
+                <g id="forward-button" transform="translate(267.000000, 0.000000)">
+                    <g id="Rectangle-Copy">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="Mask" fill="#2B3954" transform="translate(15.244340, 14.970497) rotate(180.000000) translate(-15.244340, -14.970497) " xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

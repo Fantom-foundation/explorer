@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="40px" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>go to end button</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="30" height="30" rx="15"></rect>
+        <filter x="-26.7%" y="-23.3%" width="153.3%" height="153.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M15.1169663,14.468916 L19.1221716,10.2202437 C19.399002,9.92658544 19.8466426,9.92658544 20.120528,10.2202437 L20.7860989,10.926273 C21.0629293,11.2199313 21.0629293,11.6947829 20.7860989,11.9853171 L17.9500601,15 L20.7890439,18.0115589 C21.0658743,18.3052171 21.0658743,18.7800687 20.7890439,19.0706029 L20.123473,19.7797563 C19.8466426,20.0734146 19.399002,20.0734146 19.1251166,19.7797563 L15.1199113,15.531084 C14.8401359,15.2374258 14.8401359,14.7625742 15.1169663,14.468916 L15.1169663,14.468916 Z M9.53725611,15.531084 L13.5424615,19.7797563 C13.8192919,20.0734146 14.2669325,20.0734146 14.5408178,19.7797563 L15.2063887,19.073727 C15.4832191,18.7800687 15.4832191,18.3052171 15.2063887,18.0146829 L12.3703499,15 L15.2093337,11.9884411 C15.4861641,11.6947829 15.4861641,11.2199313 15.2093337,10.9293971 L14.5437628,10.2202437 C14.2669325,9.92658544 13.8192919,9.92658544 13.5454065,10.2202437 L9.54020112,14.468916 C9.26042574,14.7625742 9.26042574,15.2374258 9.53725611,15.531084 Z" id="path-3"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Transactions" transform="translate(-1231.000000, -152.000000)">
+            <g id="nav" transform="translate(924.000000, 156.000000)">
+                <g id="go-to-end-button" transform="translate(312.000000, 0.000000)">
+                    <g id="Rectangle-Copy">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                        <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    </g>
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="Mask" fill="#2B3954" fill-rule="nonzero" transform="translate(15.163333, 15.000000) rotate(180.000000) translate(-15.163333, -15.000000) " xlink:href="#path-3"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
