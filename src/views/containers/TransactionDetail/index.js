@@ -10,16 +10,16 @@ import copyIcon from 'src/assets/images/icons/copy.svg';
 import checkIcon from 'src/assets/images/icons/check.svg';
 import arrowIcon from 'src/assets/images/icons/arrow.svg';
 import crossIcon from 'src/assets/images/icons/failed.svg';
-
+import Loading from 'src/assets/images/icons/Loading.gif';
 import type { DetailTransaction } from 'src/utils/types';
 
 function TransactionDetail() {
 
-    
+
     const match = useRouteMatch('/transactions/:txHash');
     const { params: { txHash } } = match;
 
-
+    const [Loader, setLoader] = React.useState(false);
     const hash = txHash.replace(':', '');
     let [showDetails, setShowDetails] = React.useState(false);
     const [txhash, setHash] = React.useState(0);
@@ -77,7 +77,7 @@ function TransactionDetail() {
                 setBlock(response.data.data.transaction.blockNumber);
                 setTransactionFee(Feeamount);
                 setTimestamp(dates);
-                setdates(' '+dates );
+                setdates(' ' + dates);
                 setGasLimit(response.data.data.transaction.gas);
                 setGasUsed(response.data.data.transaction.gasUsed);
                 setGasPrice(gasamount);
@@ -85,8 +85,9 @@ function TransactionDetail() {
                 setstatus(response.data.data.transaction.status);
                 setstatus(response.data.data.transaction.status);
                 setinputField(response.data.data.transaction.input);
+                setLoader(true);
             });
-    },);
+    });
     return (
         <section className="bg-theme full-height-conatainer">
 
@@ -110,170 +111,176 @@ function TransactionDetail() {
                     </div>
                     <Row>
                         <Col>
-                            <div className="details-wrapper">
-                                <div className="first-section">
-                                    <Row>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Transaction hash:
+                            {Loader ?
+                                (
+                                    <div>
+                                        <div className="details-wrapper">
+                                            <div className="first-section">
+                                                <Row>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Transaction hash:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data">
-                                                {txhash}
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data">
+                                                            {txhash}
+                                                        </span>
+                                                        <img alt="Search" src={copyIcon} className="icon" />
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Status:
                                             </span>
-                                            <img alt="Search" src={copyIcon} className="icon" />
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Status:
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        {status === true ?
+
+                                                            <span className="success-btn message-btn">
+                                                                <img alt="Search" src={checkIcon} className="icon-success" /> Success
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            {status ===true ?
-                                            
-                                            <span className="success-btn message-btn">
-                                                <img alt="Search" src={checkIcon} className="icon-success" /> Success
+                                                            :
+                                                            <span className="failed-btn message-btn">
+                                                                <img alt="Search" src={crossIcon} className="icon-success" /> Success
                                             </span>
-                                            : 
-                                            <span className="failed-btn message-btn">
-                                                <img alt="Search" src={crossIcon} className="icon-success" /> Success
-                                            </span>
-                                            }
-                                            {/*<span className="gray-btn-bg message-btn">
+                                                        }
+                                                        {/*<span className="gray-btn-bg message-btn">
                                                 Pending
                                             </span>*/ }
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Sender:
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Sender:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data blue">
-                                                {sender}
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data blue">
+                                                            {sender}
+                                                        </span>
+                                                        <img alt="Search" src={copyIcon} className="icon" />
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Recipient:
                                             </span>
-                                            <img alt="Search" src={copyIcon} className="icon" />
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Recipient:
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data blue">
+                                                            {recepient}
+                                                        </span>
+                                                        <img alt="Search" src={copyIcon} className="icon" />
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Amount:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data blue">
-                                                {recepient}
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data">
+                                                            {amount} FTM
                                             </span>
-                                            <img alt="Search" src={copyIcon} className="icon" />
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Amount:
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Transaction fee:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data">
-                                                {amount} FTM 
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data">
+                                                            {transactionFee} FTM
                                             </span>
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Transaction fee:
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Timestamp:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data">
-                                            {transactionFee} FTM
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data">
+                                                            <TimeAgo date={Timestamp} /> <small>({dates})</small>
+                                                        </span>
+                                                    </Col>
+                                                    <Col className="col-4 col-sm-3">
+                                                        <span>
+                                                            Block:
                                             </span>
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Timestamp:
+                                                    </Col>
+                                                    <Col className="col-8 col-sm-9">
+                                                        <span className="column-data blue">
+                                                            {block}
+                                                        </span>
+                                                    </Col>
+                                                    {showDetails === false ? (
+                                                        <Col className="col-12 col-sm-12">
+                                                            <button className="arrow-down blue" onClick={() => setShowDetails(true)}>More Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
+                                                        </Col>
+                                                    ) : ""}
+                                                    {showDetails ? (
+                                                        <div className="row hidden-div">
+                                                            <Col className="col-4 col-sm-3">
+                                                                <span>
+                                                                    Gas limit:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data">
-                                                 <TimeAgo date={Timestamp} /> <small>({dates})</small>
+                                                            </Col>
+                                                            <Col className="col-8 col-sm-9">
+                                                                <span className="column-data ">
+                                                                    {gasLimit}
+                                                                </span>
+                                                            </Col>
+                                                            <Col className="col-4 col-sm-3">
+                                                                <span>
+                                                                    Gas used by transaction:
                                             </span>
-                                        </Col>
-                                        <Col className="col-4 col-sm-3">
-                                            <span>
-                                                Block:
+                                                            </Col>
+                                                            <Col className="col-8 col-sm-9">
+                                                                <span className="column-data ">
+                                                                    {gasused}
+                                                                </span>
+                                                            </Col>
+                                                            <Col className="col-4 col-sm-3">
+                                                                <span>
+                                                                    Gas price:
                                             </span>
-                                        </Col>
-                                        <Col className="col-8 col-sm-9">
-                                            <span className="column-data blue">
-                                                {block}
+                                                            </Col>
+                                                            <Col className="col-8 col-sm-9">
+                                                                <span className="column-data ">
+                                                                    {gasPrice} FTM
                                             </span>
-                                        </Col>
-                                        {showDetails === false ? (
-                                            <Col className="col-12 col-sm-12">
-                                                <button className="arrow-down blue" onClick={() => setShowDetails(true)}>More Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
-                                            </Col>
-                                        ) : ""}
-                                        {showDetails ? (
-                                            <div className="row hidden-div">
-                                                <Col className="col-4 col-sm-3">
-                                                    <span>
-                                                        Gas limit:
-                                            </span>
-                                                </Col>
-                                                <Col className="col-8 col-sm-9">
-                                                    <span className="column-data ">
-                                                        {gasLimit}
-                                                    </span>
-                                                </Col>
-                                                <Col className="col-4 col-sm-3">
-                                                    <span>
-                                                        Gas used by transaction:
-                                            </span>
-                                                </Col>
-                                                <Col className="col-8 col-sm-9">
-                                                    <span className="column-data ">
-                                                        {gasused}
-                                                    </span>
-                                                </Col>
-                                                <Col className="col-4 col-sm-3">
-                                                    <span>
-                                                        Gas price:
-                                            </span>
-                                                </Col>
-                                                <Col className="col-8 col-sm-9">
-                                                    <span className="column-data ">
-                                                        {gasPrice} FTM
-                                            </span>
-                                                </Col>
-                                                <Col className="col-4 col-sm-3">
-                                                    <span> Nonce
+                                                            </Col>
+                                                            <Col className="col-4 col-sm-3">
+                                                                <span> Nonce
                                                  <span className="message-btn gray-btn">position</span>
-                                                    </span>
-                                                </Col>
-                                                <Col className="col-8 col-sm-9">
-                                                    <span className="column-data ">
-                                                        {nonce}
-                                                
-                                                    </span>
-                                                </Col>
-                                                <Col className="col-4 col-sm-3">
-                                                    <span> Input data:
-                                            </span>
-                                                </Col>
-                                                <Col className="col-8 col-sm-9">
-                                                    <input type="text" value={inputField} readOnly className="input-wrapper" />
-                                                </Col>
-                                            </div>
-                                        )
-                                            : ""
-                                        }
-                                        {showDetails === true ? (
-                                            <Col className="col-12 col-sm-12">
-                                                <button className="arrow-down arrow-up blue" onClick={() => setShowDetails(false)}>Less Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
-                                            </Col>
-                                        ) : ""}
-                                    </Row>
-                                </div>
-                            </div>
+                                                                </span>
+                                                            </Col>
+                                                            <Col className="col-8 col-sm-9">
+                                                                <span className="column-data ">
+                                                                    {nonce}
 
+                                                                </span>
+                                                            </Col>
+                                                            <Col className="col-4 col-sm-3">
+                                                                <span> Input data:
+                                            </span>
+                                                            </Col>
+                                                            <Col className="col-8 col-sm-9">
+                                                                <input type="text" value={inputField} readOnly className="input-wrapper" />
+                                                            </Col>
+                                                        </div>
+                                                    )
+                                                        : ""
+                                                    }
+                                                    {showDetails === true ? (
+                                                        <Col className="col-12 col-sm-12">
+                                                            <button className="arrow-down arrow-up blue" onClick={() => setShowDetails(false)}>Less Info  <img alt="Search" src={arrowIcon} className="icon-success" /> </button>
+                                                        </Col>
+                                                    ) : ""}
+                                                </Row>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                                : (<div className="text-center loader-img"><img alt="Search" src={Loading} className="icon" /></div>)
+                            }
                         </Col>
                     </Row>
                 </div>
