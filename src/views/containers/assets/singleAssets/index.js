@@ -1,14 +1,13 @@
 import React from "react";
 import { Container, Row, Col, Card } from "reactstrap";
-import { Link, Route, withRouter } from "react-router-dom";
+import { Link, Route, useRouteMatch } from "react-router-dom";
 import { card1 } from "./mokeData";
 import Transactions from "./transactions";
 import Holders from "./holders";
 import ProfileSocial from "src/views/components/ProfileSocial";
 import assetLogo from "src/assets/images/Logo/fantom-logo-small.svg";
-const base = "assets/detail";
-export default withRouter(({ location }) => {
-  const currentPath = location.pathname;
+
+export default () => {
   return (
     <section className="page-section">
       <Container>
@@ -109,26 +108,26 @@ export default withRouter(({ location }) => {
             <div className="fantom-tabs-wrapper">
               <Link
                 className={`f-t-btn ${
-                  currentPath === `/${base}/transactions` ? "active" : ""
+                  useRouteMatch(`/assets/detail/transactions`) ? "active" : ""
                 }`}
-                to={`/${base}/transactions`}
+                to={`/assets/detail/transactions`}
               >
                 Transactions
               </Link>
               <Link
                 className={`f-t-btn ${
-                  currentPath === `/${base}/holders` ? "active" : ""
+                  useRouteMatch(`/assets/detail/holders`) ? "active" : ""
                 }`}
-                to={`/${base}/holders`}
+                to={`/assets/detail/holders`}
               >
                 Holders
               </Link>
             </div>
-            <Route path={`/${base}/transactions`} render={Transactions} />
-            <Route path={`/${base}/holders`} render={Holders} />
+            <Route path={`/assets/detail/transactions`} render={Transactions} />
+            <Route path={`/assets/detail/holders`} render={Holders} />
           </Col>
         </Row>
       </Container>
     </section>
   );
-});
+};

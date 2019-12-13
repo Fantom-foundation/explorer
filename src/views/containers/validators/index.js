@@ -1,14 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Card } from "reactstrap";
-import { Link, Route, withRouter } from "react-router-dom";
+import { Link, Route, useRouteMatch } from "react-router-dom";
 import { card1, card2 } from "./mokeData";
 import Active from "./active";
 import Cheaters from "./cheaters";
 
-const base = "validators";
-
-export default withRouter(({ location }) => {
-  const currentPath = location.pathname;
+export default () => {
   return (
     <section className="page-section">
       <Container>
@@ -69,26 +66,26 @@ export default withRouter(({ location }) => {
             <div className="fantom-tabs-wrapper">
               <Link
                 className={`f-t-btn ${
-                  currentPath === `/${base}/active` ? "active" : ""
+                  useRouteMatch(`/validators/active`) ? "active" : ""
                 }`}
-                to={`/${base}/active`}
+                to={`/validators/active`}
               >
                 Active
               </Link>
               <Link
                 className={`f-t-btn ${
-                  currentPath === `/${base}/cheaters` ? "active" : ""
+                  useRouteMatch(`/validators/cheaters`) ? "active" : ""
                 }`}
-                to={`/${base}/cheaters`}
+                to={`/validators/cheaters`}
               >
                 Cheaters
               </Link>
             </div>
-            <Route path={`/${base}/active`} render={Active} />
-            <Route path={`/${base}/cheaters`} render={Cheaters} />
+            <Route path={`/validators/active`} render={Active} />
+            <Route path={`/validators/cheaters`} render={Cheaters} />
           </Col>
         </Row>
       </Container>
     </section>
   );
-});
+};

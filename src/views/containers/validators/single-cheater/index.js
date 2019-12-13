@@ -1,13 +1,12 @@
 import React from "react";
 import { Container, Row, Col, Card, Table } from "reactstrap";
-import { Link, Route, withRouter } from "react-router-dom";
+import { Link, Route, useRouteMatch } from "react-router-dom";
 import { card, tableMockData, cheaterData } from "./mokeData";
 import qrInon from "src/assets/images/icons/qr.svg";
 
 const base = "validators/single";
 
-export default withRouter(({ location }) => {
-  const currentPath = location.pathname;
+export default () => {
   return (
     <section className="page-section">
       <Container>
@@ -98,7 +97,7 @@ export default withRouter(({ location }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableMockData.map(data => (
+                  {tableMockData.map((data) => (
                     <tr>
                       <td className="title">
                         <p className="text-ellipsis">
@@ -122,4 +121,4 @@ export default withRouter(({ location }) => {
       </Container>
     </section>
   );
-});
+};

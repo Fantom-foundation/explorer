@@ -3,10 +3,9 @@ import { Container, Row, Col } from "reactstrap";
 import AddressDetails from "src/views/components/AddressDetails";
 import Assets from "./assets";
 import Transactions from "./transactions";
-import { Link, Route, withRouter } from "react-router-dom";
-const base = "address";
-export default withRouter(({ location }) => {
-  const currentPath = location.pathname;
+import { Link, Route, useRouteMatch } from "react-router-dom";
+
+export default () => {
   return (
     <section className="page-section">
       <Container>
@@ -26,28 +25,28 @@ export default withRouter(({ location }) => {
             <div className="fantom-tabs-wrapper">
               <Link
                 className={`f-t-btn ${
-                  currentPath === `/${base}/assets` ? "active" : ""
+                  useRouteMatch(`/address/assets`) ? "active" : ""
                 }`}
-                to={`/${base}/assets`}
+                to={`/address/assets`}
               >
                 Assets
               </Link>
               <Link
                 className={`f-t-btn ${
-                  currentPath === `/${base}/transactions` ? "active" : ""
+                  useRouteMatch(`/address/transactions`) ? "active" : ""
                 }`}
-                to={`/${base}/transactions`}
+                to={`/address/transactions`}
               >
                 Transactions
               </Link>
             </div>
             <div>
-              <Route path={`/${base}/assets`} render={Assets} />
-              <Route path={`/${base}/transactions`} render={Transactions} />
+              <Route path={`/address/assets`} render={Assets} />
+              <Route path={`/address/transactions`} render={Transactions} />
             </div>
           </Col>
         </Row>
       </Container>
     </section>
   );
-});
+};
