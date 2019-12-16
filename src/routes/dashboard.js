@@ -12,6 +12,7 @@ import BlockTransactionDetail from 'src/views/components/search/searchForBlock/v
 import Resources from 'src/views/containers/resources';
 import BlockDetail from 'src/views/containers/blockDetail';
 import TransactionDetail from 'src/views/containers/TransactionDetail';
+import BlockTransPage from 'src/views/containers/BlockTransactions';
 
 import SearchBar from 'src/views/components/SearchBar';
 
@@ -29,6 +30,7 @@ export default function Dashboard() {
                 <Route path="/details" component={Details} />
                 <Route path="/block/:id?" component={BlockTransactionDetail} />
                 <Route path="/validators" component={Resources} />
+                <Route path="/blocks-tranasctions/:id" component={BlockTransPage} />
             </Switch>
         </>
     );

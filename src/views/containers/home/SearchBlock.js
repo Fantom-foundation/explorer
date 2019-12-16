@@ -13,7 +13,7 @@ function SearchBlock() {
                         <h2>
                         Fantom Explorer
                         </h2>
-                        <SearchBar/>
+                        <SearchBar placeHolder="Search by addresses, transactions, blocks, tokens" />
                     </Col>
                 </Row>
             </Container>

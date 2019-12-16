@@ -43,7 +43,7 @@ function BlockDetails() {
             <div className="transaction-wrapper-details transaction-wrapper">
                 <div className="d-flex">
                     <div className="title-section">
-                        <h2>Transactions</h2>
+                        <h2>Block information</h2>
                     </div>
                 </div>
                 <Row>
@@ -52,7 +52,7 @@ function BlockDetails() {
                             (
                                 <div>
                                     <div className="details-wrapper">
-                                        <div class="first-section">
+                                        <div className="first-section">
                                             <Row>
                                                 <Col className="col-4 col-sm-3">
                                                     <span>
@@ -83,7 +83,7 @@ function BlockDetails() {
                                                 </Col>
                                                 <Col className="col-8 col-sm-9">
                                                     <span className="column-data ">
-                                                        {transactions} transaction in this block
+                                                        <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link> transaction in this block
                                             </span>
                                                 </Col>
                                                 <Col className="col-4 col-sm-3">

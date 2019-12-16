@@ -32,6 +32,7 @@
 
      }
     }
+    width: 100%; 
 }
 .transaction-wrapper-details{
     margin-top: -58px;
@@ -133,6 +134,7 @@
 }
 .text-center.loader-img {
     padding: 120px;
+    width: 100%;
     @media(max-width: 767px){
         padding: 30px;
     }
@@ -189,6 +191,9 @@
         }
     }
     
+}
+.table-row{
+    width: 100%
 }
 .table-responsive{
     overflow: hidden;

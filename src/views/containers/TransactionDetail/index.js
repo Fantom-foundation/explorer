@@ -4,7 +4,9 @@ import * as React from 'react';
 import axios from "axios";
 import { Button, Col, Container, Row } from 'reactstrap';
 import { useRouteMatch, useHistory } from 'react-router-dom';
-import TimeAgo from 'react-timeago'
+import TimeAgo from 'react-timeago';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
 import copyIcon from 'src/assets/images/icons/copy.svg';
 import checkIcon from 'src/assets/images/icons/check.svg';
@@ -12,7 +14,7 @@ import arrowIcon from 'src/assets/images/icons/arrow.svg';
 import crossIcon from 'src/assets/images/icons/failed.svg';
 import Loading from 'src/assets/images/icons/Loading.gif';
 import type { DetailTransaction } from 'src/utils/types';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function TransactionDetail() {
 
@@ -37,6 +39,9 @@ function TransactionDetail() {
     const [nonce, setNonce] = React.useState(0);
     const [status, setstatus] = React.useState(false);
     const [inputField, setinputField] = React.useState(false);
+    const [senderCopied, setSenderCopied] = React.useState(false);
+    const [receiverCopied, setReceiverCopied] = React.useState(false);
+    const [txCopied, setTxCopied] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: 'get',
@@ -89,6 +94,36 @@ function TransactionDetail() {
                 setLoader(true);
             });
     });
+function fntxCopied(){
+    setReceiverCopied(false)
+    setSenderCopied(false)
+    setTxCopied(true)
+    setTimeout(() => {
+        setReceiverCopied(false)
+        setSenderCopied(false)
+        setTxCopied(false)
+    }, 2000);
+}
+function fnsenderCopied(){
+    setSenderCopied(true)
+    setReceiverCopied(false)
+    setTxCopied(false)
+    setTimeout(() => {
+        setReceiverCopied(false)
+        setSenderCopied(false)
+        setTxCopied(false)
+    }, 2000);
+}
+function fnreceiverCopied(){
+    setReceiverCopied(true)
+    setSenderCopied(false)
+    setTxCopied(false);
+    setTimeout(() => {
+        setReceiverCopied(false)
+        setSenderCopied(false)
+        setTxCopied(false)
+      }, 2000);
+}
     return (
         <section className="bg-theme full-height-conatainer">
 
@@ -107,7 +142,7 @@ function TransactionDetail() {
                 <div className="transaction-wrapper-details transaction-wrapper">
                     <div className="d-flex">
                         <div className="title-section">
-                            <h2>Transactions</h2>
+                            <h2>Transactions Details</h2>
                         </div>
                     </div>
                     <Row>
@@ -127,7 +162,11 @@ function TransactionDetail() {
                                                         <span className="column-data">
                                                             {txhash}
                                                         </span>
-                                                        <img alt="Search" src={copyIcon} className="icon" />
+                                                        <CopyToClipboard
+                                                            text={txhash}
+                                                            onCopy={fntxCopied}
+                                                        ><img alt="Search" src={copyIcon} className="icon" />
+                                                        </CopyToClipboard>{txCopied ? <span style={{ color: '#777' }}> Copied.</span> : null}
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">
                                                         <span>
@@ -158,7 +197,13 @@ function TransactionDetail() {
                                                         <span className="column-data blue">
                                                             {sender}
                                                         </span>
-                                                        <img alt="Search" src={copyIcon} className="icon" />
+                                                        <CopyToClipboard
+                                                            text={sender}
+                                                            onCopy={fnsenderCopied}
+                                                        >
+                                                            <img alt="Search" src={copyIcon} className="icon" />
+                                                        </CopyToClipboard>
+                                                        {senderCopied ? <span style={{ color: '#777' }}> Copied.</span> : null}
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">
                                                         <span>
@@ -169,7 +214,13 @@ function TransactionDetail() {
                                                         <span className="column-data blue">
                                                             {recepient}
                                                         </span>
-                                                        <img alt="Search" src={copyIcon} className="icon" />
+                                                        <CopyToClipboard
+                                                            text={recepient}
+                                                            onCopy={fnreceiverCopied}
+                                                        >
+                                                            <img alt="Search" src={copyIcon} className="icon" />
+                                                        </CopyToClipboard>
+                                                        {receiverCopied ? <span style={{ color: '#777' }}> Copied.</span> : null}
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">
                                                         <span>
@@ -208,7 +259,7 @@ function TransactionDetail() {
                                                     </Col>
                                                     <Col className="col-8 col-sm-9">
                                                         <span className="column-data blue">
-                                                            {block}
+                                                            <Link to={`/blocks/${block}`}>{block}</Link>
                                                         </span>
                                                     </Col>
                                                     {showDetails === false ? (

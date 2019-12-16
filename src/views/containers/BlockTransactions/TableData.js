@@ -7,15 +7,19 @@ import { Container, Row, Col } from 'reactstrap';
 import TimeAgo from 'react-timeago';
 import Loading from 'src/assets/images/icons/Loading.gif';
 import {api_get_transactions} from 'src/utils/Utlity';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 
 function TransactionsPageData() {
+    const match = useRouteMatch('/blocks-tranasctions/:blockNumber');
+    const { params: { blockNumber } } = match;
+    const hash = blockNumber.replace('', '');
     const [transactions, setTransactions] = React.useState([]);
     const [Totaltransactions, setTotaltransactions] = React.useState(0);
     const [Loader, setLoader] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: 'get',
-            url: `${api_get_transactions}?count=10&order=-1`,
+            url: `${api_get_transactions}?count=10&order=-1&block=${hash}`,
         })
             .then(function (response) {
                 console.log(response.data.data.transactions);
@@ -33,12 +37,12 @@ function TransactionsPageData() {
             <div className="transaction-wrapper hide-mobile transactio-listing">
                 <div className="d-flex">
                     <div className="title-section">
-                        <h2>Transactions</h2>
-                        <span>More than {Totaltransactions} transactions found</span>
+                        <h2>Block #{hash} - Transactions</h2>
+                        <span>{Totaltransactions} transactions found</span>
                     </div>
                 </div>
                 <Row>
-                    
+           
                         {Loader ?
                             (
                                 <div>
@@ -181,7 +185,7 @@ function TransactionsPageData() {
                             )
                             : (<div className="text-center loader-img"><img alt="Search" src={Loading} className="icon" /></div>)
                         }
-                 
+                   
                 </Row>
             </div>
 

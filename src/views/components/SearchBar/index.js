@@ -8,11 +8,11 @@ import SearchBarModal from 'src/views/components/SearchBar/SearchBarModal';
 
 import { checkSearchString } from 'src/utils';
 
-function SearchBar() {
+function SearchBar(props) {
     const [ searchText, setSearchText ] = React.useState('');
     const [ isModalOpen, setIsModalOpen ] = React.useState(false);
     const history = useHistory();
-
+    //setPlaceholder(props.placeHolder);
     const toggleModalOpen = React.useCallback(() => {
         setIsModalOpen(!isModalOpen);
     }, [isModalOpen, setIsModalOpen]);
@@ -24,6 +24,7 @@ function SearchBar() {
 
     const searchHandler = React.useCallback((e: SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
+        
 
         console.log(e,"event",searchText,"searchText");
         if (searchText && searchText !== '') {
@@ -61,7 +62,7 @@ function SearchBar() {
                 toggleModalOpen={toggleModalOpen}
             />
             <SearchBarInput
-                placeHolder="Search by Transaction Hash / Block Number"
+                placeHolder={props.placeHolder}
                 searchText={searchText}
                 setSearchText={setSearchTextHandler}
                 searchHandler={searchHandler}
