@@ -42,6 +42,8 @@ function TransactionDetail() {
     const [senderCopied, setSenderCopied] = React.useState(false);
     const [receiverCopied, setReceiverCopied] = React.useState(false);
     const [txCopied, setTxCopied] = React.useState(false);
+    const [Error, setError] = React.useState(false);
+    const [ErrorMsg, setErrorMsg] = React.useState('');
     React.useEffect(() => {
         axios({
             method: 'get',
@@ -92,6 +94,10 @@ function TransactionDetail() {
                 setstatus(response.data.data.transaction.status);
                 setinputField(response.data.data.transaction.input);
                 setLoader(true);
+            }).catch(function (error) {
+                setLoader(true);
+                setError(true);
+                setErrorMsg(error.response.data.data.additional['0'].msg);
             });
     });
 function fntxCopied(){
@@ -147,7 +153,14 @@ function fnreceiverCopied(){
                     </div>
                     <Row>
                         <Col>
-                            {Loader ?
+                        {  Error ? (
+                                <div>
+                                    <div className="alert alert-primary">
+                                       Error! {ErrorMsg}
+                                    </div>
+                                </div>
+                            )
+                                 :Loader ?
                                 (
                                     <div>
                                         <div className="details-wrapper">
@@ -162,11 +175,11 @@ function fnreceiverCopied(){
                                                         <span className="column-data">
                                                             {txhash}
                                                         </span>
-                                                        <CopyToClipboard
+                                                       {txCopied ? (<span style={{ color: '#777' }}>  <i class="fa fa-check-circle-o" aria-hidden="true"></i>  Copied.</span> ):  <CopyToClipboard
                                                             text={txhash}
                                                             onCopy={fntxCopied}
-                                                        ><img alt="Search" src={copyIcon} className="icon" />
-                                                        </CopyToClipboard>{txCopied ? <span style={{ color: '#777' }}> Copied.</span> : null}
+                                                        ><img alt="Search" src={copyIcon} className="icon copied-icon" />
+                                                        </CopyToClipboard>}
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">
                                                         <span>
@@ -177,7 +190,7 @@ function fnreceiverCopied(){
                                                         {status === true ?
 
                                                             <span className="success-btn message-btn">
-                                                                <img alt="Search" src={checkIcon} className="icon-success" /> Success
+                                                                <img alt="Search" src={checkIcon} className="icon-success " /> Success
                                             </span>
                                                             :
                                                             <span className="failed-btn message-btn">
@@ -197,13 +210,13 @@ function fnreceiverCopied(){
                                                         <span className="column-data blue">
                                                             {sender}
                                                         </span>
-                                                        <CopyToClipboard
+                                                       
+                                                        {senderCopied ?   <span style={{ color: '#777' }}> <i class="fa fa-check-circle-o" aria-hidden="true"></i> Copied.</span> : <CopyToClipboard
                                                             text={sender}
                                                             onCopy={fnsenderCopied}
                                                         >
-                                                            <img alt="Search" src={copyIcon} className="icon" />
-                                                        </CopyToClipboard>
-                                                        {senderCopied ? <span style={{ color: '#777' }}> Copied.</span> : null}
+                                                            <img alt="Search" src={copyIcon} className="icon copied-icon" />
+                                                        </CopyToClipboard>}
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">
                                                         <span>
@@ -214,13 +227,13 @@ function fnreceiverCopied(){
                                                         <span className="column-data blue">
                                                             {recepient}
                                                         </span>
-                                                        <CopyToClipboard
+                                                       
+                                                        {receiverCopied ? <span style={{ color: '#777' }}> <i class="fa fa-check-circle-o" aria-hidden="true"></i> Copied.</span> :  <CopyToClipboard
                                                             text={recepient}
                                                             onCopy={fnreceiverCopied}
                                                         >
-                                                            <img alt="Search" src={copyIcon} className="icon" />
-                                                        </CopyToClipboard>
-                                                        {receiverCopied ? <span style={{ color: '#777' }}> Copied.</span> : null}
+                                                            <img alt="Search" src={copyIcon} className="icon copied-icon" />
+                                                        </CopyToClipboard>}
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">
                                                         <span>

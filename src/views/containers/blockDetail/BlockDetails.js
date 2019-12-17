@@ -18,6 +18,8 @@ function BlockDetails() {
     const [blockHashs, setblockHash] = React.useState(0);
     const [parentHash, setparentHash] = React.useState(0);
     const [Loader, setLoader] = React.useState(false);
+    const [Error, setError] = React.useState(false);
+    const [ErrorMsg, setErrorMsg] = React.useState('');
     React.useEffect(() => {
         axios({
             method: 'get',
@@ -26,7 +28,7 @@ function BlockDetails() {
             .then(function (response) {
 
                 let dates = new Date(response.data.data.block.timestamp * 1000);
-                console.log(response.data.data);
+                //console.log(response.data.data);
                 let dateString = new Date(dates).toUTCString();
                 dateString = dateString.split(' ').slice(0, 4).join(' ');
                 setNumber(response.data.data.block.number);
@@ -36,6 +38,10 @@ function BlockDetails() {
                 setblockHash(response.data.data.block.hash);
                 setparentHash(response.data.data.block.parentHash);
                 setLoader(true);
+            }).catch(function (error) {
+                setLoader(true);
+                setError(true);
+                setErrorMsg(error.response.data.data.additional['0'].msg);
             });
     }, [setNumber]);
     return (
@@ -48,7 +54,14 @@ function BlockDetails() {
                 </div>
                 <Row>
                     <Col>
-                        {Loader ?
+                    {  Error ? (
+                                <div>
+                                    <div className="alert alert-primary">
+                                       Error! {ErrorMsg}
+                                    </div>
+                                </div>
+                            )
+                                 :Loader ?
                             (
                                 <div>
                                     <div className="details-wrapper">
@@ -83,8 +96,8 @@ function BlockDetails() {
                                                 </Col>
                                                 <Col className="col-8 col-sm-9">
                                                     <span className="column-data ">
-                                                        <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link> transaction in this block
-                                            </span>
+                                                      { transactions === 0 ? (<div>{transactions} transaction in this block</div>) : (<div><Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link> transaction in this block</div>) }      
+                                                    </span>
                                                 </Col>
                                                 <Col className="col-4 col-sm-3">
                                                     <span>

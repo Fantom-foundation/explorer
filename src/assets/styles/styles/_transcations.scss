@@ -189,6 +189,12 @@
         li .icon.disabled {
             opacity: 0.4;
         }
+        img{
+            cursor: pointer;
+        }
+        img.disabled{
+            cursor:default;
+        }
     }
     
 }
@@ -200,4 +206,11 @@
     @media(max-width: 991px){
         overflow-x: auto
     }
+}
+.alert-primary {
+    margin-top: 40px;
+    text-align: center;
+}
+.copied-icon{
+    cursor: pointer;
 }

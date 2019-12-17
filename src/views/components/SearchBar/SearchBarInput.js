@@ -34,7 +34,7 @@ const SearchBarInput = ({
                                     required=""
                                     onChange={setSearchText}
                                 />
-                               <button type="submit" class="seach-btn"><img alt="Search" src={searchIcon} className="icon"/></button> 
+                               <button type="submit" className="seach-btn"><img alt="Search" src={searchIcon} className="icon"/></button> 
                             </div>
                         </form>
                     </div>

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
-import {api_get_block} from 'src/utils/Utlity';
+import {api_get_block, api_get_price} from 'src/utils/Utlity';
 function ExplorerDetails() {
     const [TotalBlocks, setTotalBlocks] = React.useState(0);
     React.useEffect(() => {
@@ -12,10 +12,18 @@ function ExplorerDetails() {
             url: `${api_get_block}?count=1&order=-1`,
         })
             .then(function (response) {
-                console.log(response.data.data)
+               // console.log(response.data.data)
                 setTotalBlocks(response.data.data.maxBlockHeight);
  
             });
+            axios({
+                method: 'get',
+                url: `${api_get_price}?count=1&order=-1`,
+            })
+                .then(function (response) {
+                    console.log(response.data.data)
+     
+                });
     }, [TotalBlocks]);
     return (
         <div>
