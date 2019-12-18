@@ -12,7 +12,7 @@ const Header = ({location}) => (
             <Row>
                 <Col className="d-flex align-items-center">
                     <Navigation />
-                    <Route path="/(blocks|transactions|block|resources|validators)" component={Search} />
+                    <Route path="/(blocks|transactions|block|address|validators|validators-single)" component={Search} />
                 </Col>
             </Row>
         </Container>

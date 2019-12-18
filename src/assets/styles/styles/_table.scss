@@ -15,11 +15,9 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
   }
    th, td{
     border-top: 1px solid map-get($color, border-line );
-    font: { family: "Roboto"; weight: 400; }
     line-height: 1.71;
    }
   thead {
-    background: { color: map-get($color, table-head-bg ) }
     tr {
       th {
         padding: 16px;
@@ -387,6 +385,269 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
   .col-12{
     .text-ellipse{
      width: 250px;
+    }
+  }
+}
+
+.ftm-table-search {
+  width: 208px;
+
+  margin-top: 30px;
+  margin-bottom: 30px;
+  position: relative;
+  .ftm-table-search-input {
+    padding: 0;
+    border: 0;
+    font-size: 12px;
+    border-radius: 0;
+    box-shadow: none;
+    height: 20px;
+    color: gba(map-get($color, Navy-Main), 0.3);
+    border-bottom: solid 1px rgba(map-get($color, Navy-Main), 0.2);
+  }
+  .search-btn {
+    outline: none;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    padding: 0;
+    img {
+      height: 14px;
+      display: block;
+    }
+  }
+}
+.ftm-table {
+  border-collapse: unset;
+  border-spacing: 0 6px;
+  thead th,
+  tbody td {
+    border: 0;
+    font-size: 14px;
+  }
+  thead {
+    tr {
+      th {
+        font-weight: 600;
+        color: rgba(map-get($color, Navy-Main), 0.7);
+        padding: 5px 16px;
+        .with-arrow {
+          display: flex;
+          align-items: center;
+          .arrowWrapper {
+            margin-left: 4px;
+            display: flex;
+            flex-direction: column;
+            &.up {
+              .ArrowUp {
+                color: map-get($color, Primary-Main);
+              }
+            }
+            &.down {
+              .ArrowDown {
+                color: map-get($color, Primary-Main);
+              }
+            }
+            svg {
+              margin: 2px 0;
+              width: 6px;
+              height: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+  tbody {
+    tr {
+      border-radius: 12px;
+      box-shadow: 0 0 10px 0 rgba(#000, 0.06);
+      td {
+        padding: 10px 16px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: map-get($color, Navy-Main);
+      }
+    }
+  }
+  .assetName {
+  }
+  .assetFullName {
+    font-weight: 600;
+    color: rgba(map-get($color, Navy-Main), 0.5);
+  }
+  &.responsive {
+    p {
+      margin: 0;
+    }
+    .text-ellipsis {
+      max-width: 100%;
+      @media (min-width: $desktop) {
+        max-width: 148px;
+      }
+    }
+    @media (max-width: $desktop) {
+      display: block;
+      thead {
+        display: none;
+        height: 0;
+      }
+
+      tbody {
+        display: block;
+        tr {
+          display: flex;
+          flex-wrap: wrap;
+          margin-bottom: 8px;
+          padding-bottom: 12px;
+          td {
+            padding: {
+              top: 4px;
+              bottom: 4px;
+            }
+            &.no-mobile {
+              display: none;
+            }
+            &.value {
+              padding-left: 100px;
+              position: relative;
+              font-size: 11px;
+              font-weight: 500;
+              &::before {
+                content: attr(heading);
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                transform: translateY(-50%);
+                font-size: 11px;
+                font-weight: 500;
+                color: rgba(map-get($color, Navy-Main), 0.7);
+              }
+            }
+            &.m-100 {
+              padding-left: 10px;
+              flex: 0 0 100%;
+              max-width: 100%;
+            }
+            &.m-50 {
+              flex: 0 0 50%;
+              max-width: 50%;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.address-assets-table,
+  &.assest-transactions,
+  &.single-validator,
+  &.validator-cheater,
+  &.validator-active {
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          td {
+            flex: 0 0 100%;
+            max-width: 100%;
+            &.title {
+              padding: {
+                top: 10px;
+                bottom: 12px;
+                left: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &.validator-cheater,
+  &.validator-active {
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          td {
+            &.value {
+              padding-left: 148px;
+            }
+          }
+        }
+      }
+    }
+  }
+  &.address-transactions-table,
+  &.assest-single-transactions {
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          padding-top: 9px;
+          td {
+            &.hash {
+              order: 2;
+            }
+            &.from {
+              order: 3;
+            }
+            &.height {
+              order: 4;
+            }
+            &.to {
+              order: 5;
+            }
+            &.asset-value {
+              order: 6;
+            }
+            &.value {
+              padding-left: 56px;
+            }
+          }
+          .date {
+            order: 1;
+            padding: 4px 10px 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(map-get($color, Navy-Main), 0.7);
+          }
+        }
+      }
+    }
+  }
+  &.asset-holder,
+  &.single-validator {
+    .text-ellipsis {
+      @media (min-width: $desktop) {
+        width: 100%;
+        max-width: 334px;
+      }
+    }
+    @media (max-width: $desktop) {
+      tbody {
+        tr {
+          td {
+            flex: 0 0 100%;
+            max-width: 100%;
+            &.index {
+              flex: 0 0 61px;
+              max-width: 61px;
+            }
+            &.hash {
+              flex: 0 0 calc(100% - 61px);
+              max-width: calc(100% - 61px);
+              a {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+                display: block;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

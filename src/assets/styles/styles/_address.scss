@@ -1,0 +1,57 @@
+.address-wrapper{
+    .top-row{
+      margin-top: 30px;
+      margin-bottom: 40px;
+    }
+  h2{
+    font-size: 24px;
+    font-weight: bold;
+    color: #556176;
+    margin-bottom: 0
+  }
+  .title-section{
+      span{
+          padding: 0 20px;
+          font-size: 18px;
+          font-weight: bold;
+          .far{
+            color:#939ba8;
+            font-size: 22px;
+        }
+      }
+  }
+  .breacrumb{ 
+      ul{
+      padding: 0;
+      margin: 0;
+      
+   } 
+ }
+ .nav-tabs {
+    border-bottom: 0px;
+    .nav-link, .nav-link:hover{
+        border:0px;
+        border-radius: 0px;
+        color:map-get($color, transcolor );
+        opacity: 0.5;
+        cursor: pointer;
+
+    }
+     .nav-link.active, 
+     .nav-item.show .nav-link{
+         border:0px;
+         border-radius: 0px;
+         opacity: 1;
+        border-bottom: 4px solid map-get($color, darkgray );
+
+
+    }
+ }
+    .tab-content{
+        margin-top: 30px;
+    }
+    .transaction-wrapper .title-section span{
+        font-size: 14px;
+        font-size: 600
+    }
+}

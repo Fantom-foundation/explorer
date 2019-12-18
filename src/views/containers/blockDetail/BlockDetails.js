@@ -23,7 +23,7 @@ function BlockDetails() {
     React.useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://18.222.120.223:3100/api/v1/get-block?blockNumber=' + hash,
+            url: 'http://3.136.216.35:3100/api/v1/get-block?blockNumber=' + hash,
         })
             .then(function (response) {
 

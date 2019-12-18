@@ -12,7 +12,7 @@ import last from 'src/assets/images/icons/gotoendbutton.svg';
 import prev from 'src/assets/images/icons/back-button-active.svg';
 import next from 'src/assets/images/icons/forward-button.svg';
 
-function TransactionsPageData() {
+function TransactionsassetsPageData() {
     const [transactions, setTransactions] = React.useState([]);
     const [Totaltransactions, setTotaltransactions] = React.useState(0);
     const [Loader, setLoader] = React.useState(false);
@@ -53,7 +53,7 @@ function TransactionsPageData() {
         if (paginationCountTotals != 1) {
             setcurrentPage(Totaltransactions - paginationCountTotals);
         } else {
-            setcurrentPage(Totaltransactions - 10);
+            setcurrentPage(Totaltransactions - 9);
         }
 
         setcurrentPages(paginationCountTotals);
@@ -65,13 +65,13 @@ function TransactionsPageData() {
     }
     function prevPage() {
         setLoader(false);
-        setcurrentPage(currentPage - 10);
+        setcurrentPage(currentPage - 9);
         setcurrentPages(currentPages - 1);
     }
     function nextPage() {
         setTransactions([]);
         setLoader(false);
-        setcurrentPage(currentPage + 10);
+        setcurrentPage(currentPage + 9);
         setcurrentPages(currentPages + 1);
     }
 
@@ -82,8 +82,7 @@ function TransactionsPageData() {
             <div className="transaction-wrapper hide-mobile transactio-listing">
                 <div className="d-flex justify-content-between">
                     <div className="title-section">
-                        <h2>Transactions</h2>
-                        <span>More than {Totaltransactions} transactions found</span>
+                        <span>{Totaltransactions} transactions found</span>
                     </div>
                     <div className="pagination-section">
                         <ul className="d-flex">
@@ -278,4 +277,4 @@ function TransactionsPageData() {
     );
 }
 
-export default TransactionsPageData;
+export default TransactionsassetsPageData;

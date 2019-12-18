@@ -1,0 +1,192 @@
+.card-row {
+  @media (min-width: $container) {
+    margin-left: -18px;
+    margin-right: -18px;
+    > div {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+  }
+  > div {
+    @media (max-width: $desktop) {
+      margin-bottom: 8px;
+    }
+  }
+  &.validator-card-row {
+    > div {
+      @media (max-width: $desktop) {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+.card {
+  $mainCardBoxShadow: 0 0 40px 0 rgba(#000, 0.06);
+  padding: 30px;
+  box-shadow: $mainCardBoxShadow;
+  border-radius: 23px;
+  border: 0px;
+  h3{
+    font-size: 18px;
+   font-weight: 600;
+  }
+  .text-grey{
+    color: #556176;
+    margin-bottom: 15px;
+  }
+  .text-navy{
+   color: map-get($color, darkgray );
+  }
+  @media (max-width: $desktop) {
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px 0 rgba(#000, 0.06);
+  }
+  &.danger {
+    border: 4px solid map-get($color, Error);
+  }
+  &.detail-card {
+    .web-address {
+      @media (max-width: $desktop) {
+        font-size: 14px;
+      }
+    }
+    table {
+      width: 100%;
+      td {
+        height: 42px;
+        color: map-get($color, Navy-Main);
+        &.title-col {
+          width: 119px;
+          min-width: 119px;
+          color: rgba(map-get($color, Navy-Main), 0.5);
+        }
+        .text-ellipsis {
+          @media (max-width: $desktop) {
+            width: calc(100vw - 219px);
+          }
+        }
+        .hash {
+          color: map-get($color, Primary-Main);
+          font-size: 12px;
+          font-weight: 500;
+        }
+        h4 {
+          margin: 0;
+          font-size: 14px;
+        }
+        a {
+          font-weight: 600;
+        }
+      }
+    }
+    .validator-hash {
+      &.text-ellipsis {
+        @media (max-width: $desktop) {
+          max-width: calc(100vw - 233px);
+          width: auto;
+          margin-right: 8px;
+        }
+      }
+    }
+    &.contact {
+      @media (max-width: $desktop) {
+        padding-right: 12px;
+        .title-col {
+          width: 116px;
+          min-width: 116px;
+        }
+      }
+      @media (max-width: 360px) {
+        .title-col {
+          width: 110px;
+          min-width: 110px;
+        }
+      }
+    }
+  }
+
+  &.validator-card {
+    @media (max-width: $desktop) {
+      box-shadow: $mainCardBoxShadow;
+    }
+    table {
+      td {
+        &.title-col {
+          width: 176px;
+          min-width: 176px;
+          padding-right: 20px;
+          @media (max-width: $desktop) {
+            width: 112px;
+            min-width: 112px;
+          }
+        }
+        .text-ellipsis {
+          @media (max-width: $desktop) {
+            width: calc(100vw - 212px);
+          }
+        }
+      }
+      &.cheater {
+      }
+      // td {
+      //   &.title-col {
+      //     @media (max-width: $desktop) {
+      //       width: 126px;
+      //       min-width: 126px;
+      //     }
+      //   }
+      //   .text-ellipsis {
+      //     @media (max-width: $desktop) {
+      //       width: calc(100vw - 226px);
+      //     }
+      //   }
+      // }
+    }
+  }
+}
+.profile-social {
+  display: flex;
+  flex-wrap: wrap;
+  a {
+    margin-right: 21px;
+  }
+}
+
+.title-top{
+  font-weight: bold;
+  font-size: 24px;
+  color: #556176;
+}
+.asset-logo {
+  display: flex;
+  align-items: center;
+    p {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #2b3954;
+  }
+  img{
+    height: 20px;
+    margin-right: 6px;
+  }
+}
+.page-section .top-row{
+  margin-top: 30px;
+
+
+}
+.hashBtnWrapper {
+  display: flex;
+  align-items: center;
+    button {
+    margin-left: 24px;
+    font-size: 22px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: rgba(43, 57, 84, 0.5);
+    outline: none;
+ }
+}

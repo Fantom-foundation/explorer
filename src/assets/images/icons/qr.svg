@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61 (89581) - https://sketch.com -->
+    <title>Group 14</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.50297619">
+        <g id="mobile-address---assets" transform="translate(-318.000000, -96.000000)" fill="#2B3954" fill-rule="nonzero">
+            <g id="Group-14" transform="translate(318.000000, 96.000000)">
+                <rect id="Rectangle" x="10" y="0" width="2" height="2"></rect>
+                <path d="M13.5,0 L13.5,8 L21.5,8 L21.5,0 L13.5,0 Z M19.5040568,6.00374298 L15.5034327,6.00374298 L15.5034327,2.01122895 L19.5040568,2.01122895 L19.5040568,6.00374298 Z" id="Shape"></path>
+                <rect id="Rectangle" x="0" y="10" width="2" height="2"></rect>
+                <path d="M8,8 L8,0 L0,0 L0,8 L8,8 Z M1.99875234,1.99875234 L6.00374298,1.99875234 L6.00374298,6.00374298 L2.01122895,6.00374298 L1.99875234,1.99875234 Z" id="Shape"></path>
+                <rect id="Rectangle" x="4" y="10" width="2" height="2"></rect>
+                <path d="M0,13.5 L0,21.5 L8,21.5 L8,13.5 L0,13.5 Z M6.00374298,19.5028086 L2.01122895,19.5028086 L2.01122895,15.5084257 L6.00374298,15.5084257 L6.00374298,19.5028086 Z" id="Shape"></path>
+                <rect id="Rectangle" x="8" y="10" width="2" height="2"></rect>
+                <rect id="Rectangle" x="10" y="4" width="2" height="6"></rect>
+                <polygon id="Path" points="13.5 13.8329346 15.5 13.8329346 15.5 11.9164673 13.5 11.9164673 13.5 10 11.5 10 11.5 11.9164673 9.5 11.9164673 9.5 13.8329346 11.5 13.8329346 11.5 15.7494019 9.5 15.7494019 9.5 21.5 11.5 21.5 11.5 17.6658691 13.5 17.6658691"></polygon>
+                <polygon id="Path" points="13.5 21.5 17.5 21.5 17.5 19.499376 15.5 19.499376 15.5 17.5 13.5 17.5"></polygon>
+                <rect id="Rectangle" x="15.5" y="10" width="2" height="2"></rect>
+                <polygon id="Path" points="17.4995839 15.5 15.5 15.5 15.5 17.5 19.5004161 17.5 19.5004161 15.5 21.5 15.5 21.5 13.5 19.5004161 13.5 19.5004161 11.5 17.4995839 11.5"></polygon>
+                <rect id="Rectangle" x="19.5" y="10" width="2" height="2"></rect>
+                <rect id="Rectangle" x="19.5" y="19.5" width="2" height="2"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

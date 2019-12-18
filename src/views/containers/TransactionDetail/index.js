@@ -47,7 +47,7 @@ function TransactionDetail() {
     React.useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://18.222.120.223:3100/api/v1/get-transaction?transactionHash=' + hash,
+            url: 'http://3.136.216.35:3100/api/v1/get-transaction?transactionHash=' + hash,
         })
             .then(function (response) {
                 console.log(response.data.data.transaction);
@@ -175,7 +175,7 @@ function fnreceiverCopied(){
                                                         <span className="column-data">
                                                             {txhash}
                                                         </span>
-                                                       {txCopied ? (<span style={{ color: '#777' }}>  <i class="fa fa-check-circle-o" aria-hidden="true"></i>  Copied.</span> ):  <CopyToClipboard
+                                                       {txCopied ? (<span style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span> ):  <CopyToClipboard
                                                             text={txhash}
                                                             onCopy={fntxCopied}
                                                         ><img alt="Search" src={copyIcon} className="icon copied-icon" />
@@ -211,7 +211,7 @@ function fnreceiverCopied(){
                                                             {sender}
                                                         </span>
                                                        
-                                                        {senderCopied ?   <span style={{ color: '#777' }}> <i class="fa fa-check-circle-o" aria-hidden="true"></i> Copied.</span> : <CopyToClipboard
+                                                        {senderCopied ?   <span style={{ color: '#777' }}> <i class="far fa-check-circle" aria-hidden="true"></i> Copied.</span> : <CopyToClipboard
                                                             text={sender}
                                                             onCopy={fnsenderCopied}
                                                         >
@@ -228,7 +228,7 @@ function fnreceiverCopied(){
                                                             {recepient}
                                                         </span>
                                                        
-                                                        {receiverCopied ? <span style={{ color: '#777' }}> <i class="fa fa-check-circle-o" aria-hidden="true"></i> Copied.</span> :  <CopyToClipboard
+                                                        {receiverCopied ? <span style={{ color: '#777' }}> <i class="far fa-check-circle" aria-hidden="true"></i> Copied.</span> :  <CopyToClipboard
                                                             text={recepient}
                                                             onCopy={fnreceiverCopied}
                                                         >
