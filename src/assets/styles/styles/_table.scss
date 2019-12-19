@@ -1,6 +1,7 @@
 $icon-block:'~src/assets/images/icons/block-small.svg';
 $icon-transaction:'~src/assets/images/icons/tx.svg';
 .table {
+  margin-bottom: 2rem;
   .icon{
     @media (min-width: 768px) {
     padding: 4px 0px;
@@ -369,6 +370,7 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
 
 .transaction-wrapper .mobile-show{
    margin-top: 20px;
+   margin-bottom: 40px;
 }
 .mobile-data-row{
   border-radius: 12px;
@@ -474,8 +476,7 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
       }
     }
   }
-  .assetName {
-  }
+ 
   .assetFullName {
     font-weight: 600;
     color: rgba(map-get($color, Navy-Main), 0.5);
@@ -520,7 +521,7 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
               &::before {
                 content: attr(heading);
                 position: absolute;
-                top: 50%;
+                top: 12px;
                 left: 10px;
                 transform: translateY(-50%);
                 font-size: 11px;
@@ -577,7 +578,7 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
           }
         }
       }
-    }
+    } 
   }
   &.address-transactions-table,
   &.assest-single-transactions {

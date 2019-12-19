@@ -79,7 +79,7 @@ function TransactionsassetsPageData() {
     return (
 
         <div className="row">
-            <div className="transaction-wrapper hide-mobile transactio-listing">
+            <div className="transaction-wrapper hide-mobile transactio-listing col-12">
                 <div className="d-flex justify-content-between">
                     <div className="title-section">
                         <span>{Totaltransactions} transactions found</span>

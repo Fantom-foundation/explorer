@@ -10,6 +10,7 @@ import prev from 'src/assets/images/icons/back-button-active.svg';
 import next from 'src/assets/images/icons/forward-button.svg';
 import { api_get_block } from 'src/utils/Utlity';
 import { Link } from "react-router-dom";
+import io from 'socket.io-client';
 function TableData() {
     const [Loader, setLoader] = React.useState(false);
     const [Blocks, setBlocks] = React.useState([]);
@@ -43,12 +44,12 @@ function TableData() {
                 if (paginationTotals % 1 != 0) {
                     paginationTotals = Math.floor(paginationTotals) + 1;
                 }
-                
+
                 setpaginationCountTotals(Math.floor(paginationTotals));
                 setError(false);
             })
             .catch(function (error) {
-               // console.log(error.message);
+                // console.log(error.message);
                 setLoader(true);
                 setError(true);
                 setErrorMsg(error.response.data.data.additional['0'].msg);
@@ -80,6 +81,29 @@ function TableData() {
         setcurrentPage(currentPage + 19);
         setcurrentPages(currentPages + 1);
     }
+        //client = io.connect("http://localhost:4600/new/blocks");
+    //    const client = io.connect("http://3.136.216.35:4600/new/blocks"); 
+    //     client.on('connect', () => {
+    //         console.log('Connected to server');
+    //         client.emit('subscribe');
+    //     }); client.on("message", (msg) => {
+    //         try {
+    //             msg = JSON.parse(msg);
+    //             if (msg.event === 'newBlock') {
+    //                 console.log(msg);
+    //             }
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     }); 
+    //     client.on("errorEvent", (msg) => {
+    //         try {
+    //             msg = JSON.parse(msg);
+    //             console.log(msg);
+    //         } catch (err) {
+    //             console.log(err);
+    //         }
+    //     });
     return (
         <div>
             <Container>
@@ -111,143 +135,143 @@ function TableData() {
                     </div>
                     <Row>
                         <Col>
-                            {  Error ? (
+                            {Error ? (
                                 <div>
                                     <div className="alert alert-primary">
-                                       Error! {ErrorMsg}
+                                        Error! {ErrorMsg}
                                     </div>
                                 </div>
                             )
-                                 :
+                                :
                                 Loader ?
-                                (
-                                    <div>
-                                        <div className="table-responsive">
-                                            <table className="data-tables">
-                                                <thead>
-                                                    <tr>
+                                    (
+                                        <div>
+                                            <div className="table-responsive">
+                                                <table className="data-tables">
+                                                    <thead>
+                                                        <tr>
 
-                                                        <th>Block</th>
-                                                        <th>Time</th>
-                                                        <th>Age</th>
-                                                        <th>Txns</th>
-                                                        <th>Fees</th>
+                                                            <th>Block</th>
+                                                            <th>Time</th>
+                                                            <th>Age</th>
+                                                            <th>Txns</th>
+                                                            <th>Fees</th>
 
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {Blocks.map(Block => {
-                                                        const {
-                                                            number,
-                                                            timestamp,
-                                                            transactions,
-                                                            hash
-                                                        } = Block;
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {Blocks.map(Block => {
+                                                            const {
+                                                                number,
+                                                                timestamp,
+                                                                transactions,
+                                                                hash
+                                                            } = Block;
 
-                                                        let d = new Date(timestamp * 1000);
-                                                        let precision = 18;
-                                                        let dateString = new Date(d).toUTCString();
-                                                        dateString = dateString.split(' ').slice(0, 4).join(' ');
-                                                        let dates = ' ' + d
-                                                        //console.log(url);
-                                                        return (
-                                                            <tr key={timestamp + number + hash }>
-                                                                <td> <Link to={`/blocks/${number}`}>{number}</Link></td>
-                                                                <td>{dateString}</td>
-                                                                <td><TimeAgo date={d} /></td>
-                                                                <td> <Link to={`/blocks/${number}`}>{transactions}</Link></td>
-                                                                <td>0.0000001 FTM</td>
-                                                            </tr>
-                                                        )
-                                                    })}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div className="mobile-show">
-                                            {Blocks.map(Block => {
-                                                const {
-                                                    number,
-                                                    timestamp,
-                                                    transactions,
-                                                    hash
-                                                } = Block;
+                                                            let d = new Date(timestamp * 1000);
+                                                            let precision = 18;
+                                                            let dateString = new Date(d).toUTCString();
+                                                            dateString = dateString.split(' ').slice(0, 4).join(' ');
+                                                            let dates = ' ' + d
+                                                            //console.log(url);
+                                                            return (
+                                                                <tr key={timestamp + number + hash}>
+                                                                    <td> <Link to={`/blocks/${number}`}>{number}</Link></td>
+                                                                    <td>{dateString}</td>
+                                                                    <td><TimeAgo date={d} /></td>
+                                                                    <td> <Link to={`/blocks/${number}`}>{transactions}</Link></td>
+                                                                    <td>0.0000001 FTM</td>
+                                                                </tr>
+                                                            )
+                                                        })}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div className="mobile-show">
+                                                {Blocks.map(Block => {
+                                                    const {
+                                                        number,
+                                                        timestamp,
+                                                        transactions,
+                                                        hash
+                                                    } = Block;
 
-                                                let d = new Date(timestamp * 1000);
-                                                let precision = 18;
-                                                let dateString = new Date(d).toUTCString();
-                                                dateString = dateString.split(' ').slice(0, 4).join(' ');
-                                                let dates = ' ' + d;
-                                                return (
-                                                    <div className="row mobile-data-row" key={timestamp + number}>
-                                                        <div className="col-4">
-                                                            <span> Block</span>
-                                                        </div>
-                                                        <div className="col-8">
-                                                            <span>
-                                                                <Link to={`/blocks/${number}`}>{number}</Link>
-                                                            </span>
-                                                        </div>
-                                                        <div className="col-4">
-                                                            <span>  Time</span>
-                                                        </div>
-                                                        <div className="col-8">
-                                                            <span>
-                                                                {dateString}
-                                                            </span>
-                                                        </div>
-                                                        <div className="col-4">
-                                                            <span>Age</span>
-                                                        </div>
-                                                        <div className="col-8">
-                                                            <span>
-                                                                <TimeAgo date={d} />
-                                                            </span>
-                                                        </div>
-                                                        <div className="col-4">
-                                                            <span>Txns</span>
-                                                        </div>
-                                                        <div className="col-8">
-                                                            <span>
-                                                                <Link to={`/blocks/${number}`}>{transactions}</Link>
-                                                            </span>
-                                                        </div>
-                                                        <div className="col-4">
-                                                            <span> Fees</span>
-                                                        </div>
-                                                        <div className="col-8">
-                                                            <span>
-                                                                0.0000001 FTM
+                                                    let d = new Date(timestamp * 1000);
+                                                    let precision = 18;
+                                                    let dateString = new Date(d).toUTCString();
+                                                    dateString = dateString.split(' ').slice(0, 4).join(' ');
+                                                    let dates = ' ' + d;
+                                                    return (
+                                                        <div className="row mobile-data-row" key={timestamp + number}>
+                                                            <div className="col-4">
+                                                                <span> Block</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    <Link to={`/blocks/${number}`}>{number}</Link>
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span>  Time</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    {dateString}
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span>Age</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    <TimeAgo date={d} />
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span>Txns</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    <Link to={`/blocks/${number}`}>{transactions}</Link>
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span> Fees</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    0.0000001 FTM
                                                         </span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                            })}
-                                        </div>
-                                        <div className="d-flex justify-content-end">
-                                            <div className="pagination-section">
-                                                <ul className="d-flex">
-                                                    {currentPages === 1 ? <li><img alt="Search" src={first} className="icon disabled" /></li>
-                                                        : <li><img alt="Search" onClick={firstPage} src={first} className="icon" /></li>
-                                                    }
-                                                    {currentPages === 1 ? <li><img alt="Search" src={prev} className="icon disabled" /></li>
-                                                        : <li><img alt="Search" onClick={prevPage} src={prev} className="icon" /></li>
-                                                    }
+                                                    )
+                                                })}
+                                            </div>
+                                            <div className="d-flex justify-content-end">
+                                                <div className="pagination-section">
+                                                    <ul className="d-flex">
+                                                        {currentPages === 1 ? <li><img alt="Search" src={first} className="icon disabled" /></li>
+                                                            : <li><img alt="Search" onClick={firstPage} src={first} className="icon" /></li>
+                                                        }
+                                                        {currentPages === 1 ? <li><img alt="Search" src={prev} className="icon disabled" /></li>
+                                                            : <li><img alt="Search" onClick={prevPage} src={prev} className="icon" /></li>
+                                                        }
 
-                                                    <li><div className="pages">{currentPages} of {paginationCountTotals}</div></li>
-                                                    {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={next} className="icon disabled" /></li>
-                                                        : <li><img alt="Search" onClick={nextPage} src={next} className="icon" /></li>
-                                                    }
-                                                    {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={last} className="icon disabled" /></li>
-                                                        : <li><img alt="Search" onClick={lastPage} src={last} className="icon" /></li>
-                                                    }
+                                                        <li><div className="pages">{currentPages} of {paginationCountTotals}</div></li>
+                                                        {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={next} className="icon disabled" /></li>
+                                                            : <li><img alt="Search" onClick={nextPage} src={next} className="icon" /></li>
+                                                        }
+                                                        {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={last} className="icon disabled" /></li>
+                                                            : <li><img alt="Search" onClick={lastPage} src={last} className="icon" /></li>
+                                                        }
 
-                                                </ul>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                )
-                                : (<div className="text-center loader-img"><img alt="Search" src={Loading} className="icon" /></div>)
+                                    )
+                                    : (<div className="text-center loader-img"><img alt="Search" src={Loading} className="icon" /></div>)
                             }
 
                         </Col>

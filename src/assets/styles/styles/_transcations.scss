@@ -12,8 +12,8 @@
     }
     .justify-content-end {
         justify-content: flex-end !important;
-        margin-bottom: 30px;
-        margin-top: 30px;
+        margin-bottom: 50px;
+        margin-top: 0px;
     }
     @media(max-width: 991px){
         .pagination-section ul{
@@ -144,8 +144,9 @@
 }
 @media(max-width: 767px){
 
-    .breacrumb .container{
-        display: none
+    .breacrumb .container ul,
+    .address-wrapper .breacrumb ul{
+        display: none !important
     }
     .transaction-wrapper-details {
         margin-top: 0;
@@ -158,8 +159,11 @@
     }
  }
  .container, .container-sm {
-    max-width: 100%;
-}
+        max-width: 100%;
+    }
+   .transaction-wrapper .d-flex + .row{
+       margin: 0
+   }
 }
 @media(max-width: 414px){
     .transaction-wrapper-details .details-wrapper .col {
@@ -213,4 +217,13 @@
 }
 .copied-icon{
     cursor: pointer;
+}
+h3.font-weight-bold{
+    position: relative;
+    bottom: -3px
+}
+@media(max-width: 767px){
+    .transaction-wrapper.hide-mobile.transactio-listing{
+       padding: 0 15px;
+    }
 }

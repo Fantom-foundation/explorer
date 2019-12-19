@@ -14,10 +14,16 @@
           padding: 0 20px;
           font-size: 18px;
           font-weight: bold;
+          display: inline-flex;
+          align-items: center;
+          img{
+            position: relative;
+          }
           .far{
             color:#939ba8;
             font-size: 22px;
         }
+       
       }
   }
   .breacrumb{ 
@@ -49,9 +55,44 @@
  }
     .tab-content{
         margin-top: 30px;
+        margin-bottom: 50px;
+        @media(max-width: 767px){
+          margin-bottom: 10px;
+        }
     }
     .transaction-wrapper .title-section span{
         font-size: 14px;
         font-size: 600
     }
+}
+@media(max-width: 1199px){
+  .address-wrapper .title-section.d-flex.align-items-center{
+    display: block !important;
+  }
+  .address-wrapper .title-section span {
+      padding: 0 20px 0 0;
+      font-size: 14px;
+  }
+}
+@media(max-width: 767px){
+  .address-wrapper .top-row .col-12 {
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+  .address-wrapper h2{
+    margin-bottom: 10px;
+  }
+  
+}
+@media(max-width: 567px){
+.address-wrapper .title-section span:nth-last-of-type(2){
+  position: absolute;
+  top: 0;
+  right: 40px
+}
+.address-wrapper .title-section span:last-of-type{
+  position: absolute;
+  top: 0;
+  right: 0px
+}
 }

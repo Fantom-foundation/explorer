@@ -65,7 +65,7 @@ export default withRouter(({ location }) => {
           </Col>
           <Col lg={6}>
             <Card className="detail-card contact h-100">
-              <h3 className="text-grey">Overview</h3>
+              <h3 className="text-grey">Profile summary</h3>
               <table>
                 <tr>
                   <td className="title-col">
