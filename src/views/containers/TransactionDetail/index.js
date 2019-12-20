@@ -262,7 +262,7 @@ function fnreceiverCopied(){
                                                     </Col>
                                                     <Col className="col-8 col-sm-9">
                                                         <span className="column-data">
-                                                            <TimeAgo date={Timestamp} /> <small>({dates})</small>
+                                                            <TimeAgo date={Timestamp} /> ({dates})
                                                         </span>
                                                     </Col>
                                                     <Col className="col-4 col-sm-3">

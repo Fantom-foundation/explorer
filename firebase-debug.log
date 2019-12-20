@@ -1,0 +1,119 @@
+[debug] [2019-12-20T13:05:47.603Z] ----------------------------------------------------------------------
+[debug] [2019-12-20T13:05:47.604Z] Command:       /home/rocket3b/.nvm/versions/node/v10.14.1/bin/node /home/rocket3b/.nvm/versions/node/v10.14.1/bin/firebase serve
+[debug] [2019-12-20T13:05:47.604Z] CLI Version:   7.5.0
+[debug] [2019-12-20T13:05:47.604Z] Platform:      linux
+[debug] [2019-12-20T13:05:47.605Z] Node Version:  v10.14.1
+[debug] [2019-12-20T13:05:47.605Z] Time:          Fri Dec 20 2019 18:35:47 GMT+0530 (India Standard Time)
+[debug] [2019-12-20T13:05:47.605Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-12-20T13:05:47.609Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-12-20T13:05:47.609Z] > authorizing via signed-in user
+[debug] [2019-12-20T13:05:47.609Z] [iam] checking project fantom-explorer for permissions ["firebase.projects.get"]
+[debug] [2019-12-20T13:05:47.610Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-12-20T13:05:47.610Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-12-20T13:05:47.900Z] <<< HTTP RESPONSE 200
+[debug] [2019-12-20T13:05:47.909Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/fantom-explorer:testIamPermissions  
+
+[debug] [2019-12-20T13:05:49.672Z] <<< HTTP RESPONSE 200
+[debug] [2019-12-20T13:05:49.675Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/fantom-explorer  
+ 
+[debug] [2019-12-20T13:05:50.219Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer'...
+[info] 
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "10"
+[info] ✔  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions" for Cloud Functions...
+[debug] [2019-12-20T13:05:50.700Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[debug] [2019-12-20T13:05:50.700Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:05:50.702Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:05:50.703Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:05:50.703Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[info] ✔  functions[getDataFromApi]: http function initialized (http://localhost:5000/fantom-explorer/us-central1/getDataFromApi).
+[debug] [2019-12-20T13:06:02.590Z] Accepted request GET /fantom-explorer/us-central1/getDataFromApi --> getDataFromApi
+[debug] [2019-12-20T13:06:02.795Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[info] i  functions: Beginning execution of "getDataFromApi"
+[debug] [2019-12-20T13:06:02.796Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:06:02.798Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:06:02.799Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:02.800Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:02.923Z] [runtime-status] Trigger "getDataFromApi" has been found, beginning invocation! {}
+[debug] [2019-12-20T13:06:02.923Z] [runtime-status]  {"httpsTrigger":{},"name":"getDataFromApi","entryPoint":"getDataFromApi"}
+[debug] [2019-12-20T13:06:02.923Z] [runtime-status] Running getDataFromApi in mode HTTPS {}
+[debug] [2019-12-20T13:06:02.932Z] {"socketPath":"/tmp/firebase_emulator_invocation_24728.sock"}
+[debug] [2019-12-20T13:06:02.934Z] [functions] Runtime ready! Sending request! {"socketPath":"/tmp/firebase_emulator_invocation_24728.sock"}
+[debug] [2019-12-20T13:06:02.940Z] [runtime-status] Ephemeral server used! {}
+[debug] [2019-12-20T13:06:02.944Z] [runtime-status] Ephemeral server survived. {}
+[info] >  { symbol: 'FTMUSDT', price: '0.01053000' }
+[info] i  functions: Finished "getDataFromApi" in ~1s
+[debug] [2019-12-20T13:06:24.958Z] Accepted request GET /fantom-explorer/us-central1/getDataFromApi --> getDataFromApi
+[debug] [2019-12-20T13:06:25.155Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[info] i  functions: Beginning execution of "getDataFromApi"
+[debug] [2019-12-20T13:06:25.156Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:06:25.158Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:06:25.159Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:25.160Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:25.284Z] [runtime-status] Trigger "getDataFromApi" has been found, beginning invocation! {}
+[debug] [2019-12-20T13:06:25.285Z] [runtime-status]  {"httpsTrigger":{},"name":"getDataFromApi","entryPoint":"getDataFromApi"}
+[debug] [2019-12-20T13:06:25.285Z] [runtime-status] Running getDataFromApi in mode HTTPS {}
+[debug] [2019-12-20T13:06:25.294Z] {"socketPath":"/tmp/firebase_emulator_invocation_24763.sock"}
+[debug] [2019-12-20T13:06:25.294Z] [functions] Runtime ready! Sending request! {"socketPath":"/tmp/firebase_emulator_invocation_24763.sock"}
+[debug] [2019-12-20T13:06:25.299Z] [runtime-status] Ephemeral server used! {}
+[debug] [2019-12-20T13:06:25.304Z] [runtime-status] Ephemeral server survived. {}
+[debug] [2019-12-20T13:06:25.490Z] Accepted request GET /fantom-explorer/us-central1/getDataFromApi --> getDataFromApi
+[info] >  { symbol: 'FTMUSDT', price: '0.01053000' }
+[info] i  functions: Finished "getDataFromApi" in ~1s
+[debug] [2019-12-20T13:06:25.711Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[info] i  functions: Beginning execution of "getDataFromApi"
+[debug] [2019-12-20T13:06:25.712Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:06:25.717Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:06:25.717Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:25.717Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:25.840Z] [runtime-status] Trigger "getDataFromApi" has been found, beginning invocation! {}
+[debug] [2019-12-20T13:06:25.840Z] [runtime-status]  {"httpsTrigger":{},"name":"getDataFromApi","entryPoint":"getDataFromApi"}
+[debug] [2019-12-20T13:06:25.840Z] [runtime-status] Running getDataFromApi in mode HTTPS {}
+[debug] [2019-12-20T13:06:25.851Z] {"socketPath":"/tmp/firebase_emulator_invocation_24774.sock"}
+[debug] [2019-12-20T13:06:25.851Z] [functions] Runtime ready! Sending request! {"socketPath":"/tmp/firebase_emulator_invocation_24774.sock"}
+[debug] [2019-12-20T13:06:25.856Z] [runtime-status] Ephemeral server used! {}
+[debug] [2019-12-20T13:06:25.861Z] [runtime-status] Ephemeral server survived. {}
+[info] >  { symbol: 'FTMUSDT', price: '0.01053000' }
+[info] i  functions: Finished "getDataFromApi" in ~1s
+[debug] [2019-12-20T13:06:31.627Z] Accepted request GET /fantom-explorer/us-central1/getDataFromApi --> getDataFromApi
+[debug] [2019-12-20T13:06:31.828Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[info] i  functions: Beginning execution of "getDataFromApi"
+[debug] [2019-12-20T13:06:31.830Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:06:31.831Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:06:31.832Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:31.833Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:31.895Z] Accepted request GET /fantom-explorer/us-central1/getDataFromApi --> getDataFromApi
+[debug] [2019-12-20T13:06:31.975Z] [runtime-status] Trigger "getDataFromApi" has been found, beginning invocation! {}
+[debug] [2019-12-20T13:06:31.975Z] [runtime-status]  {"httpsTrigger":{},"name":"getDataFromApi","entryPoint":"getDataFromApi"}
+[debug] [2019-12-20T13:06:31.976Z] [runtime-status] Running getDataFromApi in mode HTTPS {}
+[debug] [2019-12-20T13:06:31.983Z] {"socketPath":"/tmp/firebase_emulator_invocation_24789.sock"}
+[debug] [2019-12-20T13:06:31.984Z] [functions] Runtime ready! Sending request! {"socketPath":"/tmp/firebase_emulator_invocation_24789.sock"}
+[debug] [2019-12-20T13:06:31.993Z] [runtime-status] Ephemeral server used! {}
+[debug] [2019-12-20T13:06:31.997Z] [runtime-status] Ephemeral server survived. {}
+[debug] [2019-12-20T13:06:32.099Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[info] i  functions: Beginning execution of "getDataFromApi"
+[debug] [2019-12-20T13:06:32.101Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:06:32.102Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:06:32.103Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:06:32.104Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[info] >  { symbol: 'FTMUSDT', price: '0.01053000' }
+[info] i  functions: Finished "getDataFromApi" in ~1s
+[debug] [2019-12-20T13:06:32.246Z] [runtime-status] Trigger "getDataFromApi" has been found, beginning invocation! {}
+[debug] [2019-12-20T13:06:32.246Z] [runtime-status]  {"httpsTrigger":{},"name":"getDataFromApi","entryPoint":"getDataFromApi"}
+[debug] [2019-12-20T13:06:32.246Z] [runtime-status] Running getDataFromApi in mode HTTPS {}
+[debug] [2019-12-20T13:06:32.253Z] {"socketPath":"/tmp/firebase_emulator_invocation_24796.sock"}
+[debug] [2019-12-20T13:06:32.253Z] [functions] Runtime ready! Sending request! {"socketPath":"/tmp/firebase_emulator_invocation_24796.sock"}
+[debug] [2019-12-20T13:06:32.263Z] [runtime-status] Ephemeral server used! {}
+[debug] [2019-12-20T13:06:32.265Z] [runtime-status] Ephemeral server survived. {}
+[info] >  { symbol: 'FTMUSDT', price: '0.01053000' }
+[info] i  functions: Finished "getDataFromApi" in ~1s
+[debug] [2019-12-20T13:15:39.559Z] File /home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/index.js changed, reloading triggers
+[debug] [2019-12-20T13:15:40.751Z] [runtime-status] Functions runtime initialized. {"cwd":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions","node_version":"10.14.1"}
+[debug] [2019-12-20T13:15:40.752Z] [runtime-status] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"admin_stubs":true} {}
+[debug] [2019-12-20T13:15:40.754Z] [runtime-status] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.9.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-admin/lib/index.js"}
+[debug] [2019-12-20T13:15:40.754Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
+[debug] [2019-12-20T13:15:40.755Z] [runtime-status] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"/home/rocket3b/1 Data/ctSol/fantom-explorer/code/explorer/functions/node_modules/firebase-functions/lib/index.js"}
