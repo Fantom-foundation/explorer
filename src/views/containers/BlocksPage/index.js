@@ -6,7 +6,6 @@ import moment from 'moment';
 import {Link} from "react-router-dom";
 import { useDataProvider } from 'src/utils/DataProvider';
 import { usePagination } from 'src/utils/hooks';
-
 import Wrapper from 'src/views/wrapper/wrapper';
 import { DataTable } from 'src/views/components/DataTable';
 import Loader from 'src/views/components/Loader';
@@ -60,7 +59,7 @@ function BlocksPage() {
         }
 
         fetchData();
-    }, [currentPage, setMaxPages, provider]);
+		}, [currentPage, setMaxPages, provider]);
 
     const historyCallback = React.useCallback((history, data) => history.push(`/blocks/${data.number}`), []);
 

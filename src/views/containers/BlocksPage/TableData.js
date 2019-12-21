@@ -11,6 +11,8 @@ import next from 'src/assets/images/icons/forward-button.svg';
 import { api_get_block } from 'src/utils/Utlity';
 import { Link } from "react-router-dom";
 import io from 'socket.io-client';
+import {connectSocketConnection,disconnectSocket} from '../../../utils/socketProvider';
+
 function TableData() {
     const [Loader, setLoader] = React.useState(false);
     const [Blocks, setBlocks] = React.useState([]);
@@ -22,7 +24,41 @@ function TableData() {
     const [Error, setError] = React.useState(false);
     const [ErrorMsg, setErrorMsg] = React.useState('');
     const [FirstBlocks, setFirstBlocks] = React.useState(0);
-    const [LastBlocks, setLastBlocks] = React.useState(0);
+		const [LastBlocks, setLastBlocks] = React.useState(0);
+
+				/** Fetch Data using Socket.io  */
+				React.useEffect(()=>{
+					connectSocketConnection().then((socketClient)=>{
+					socketClient.on('message',(data)=>{
+						const eventData=JSON.parse(data);
+						if(eventData.event==='newBlock'){
+						setBlocks(prevBlocks=>{
+							let newBlocks=JSON.parse(JSON.stringify(prevBlocks));
+							newBlocks.pop();
+							newBlocks.unshift(eventData.block);
+							return newBlocks;
+						});
+						setTotalBlocks(previousCount=>previousCount+1);
+						setFirstBlocks(prevNum=>prevNum+1);
+						setLastBlocks(prevNum=>prevNum+1);
+						setpaginationCount(prevCount=>{
+							let newTotal=prevCount+1;
+							let paginationTotals = newTotal / 20;
+							if (paginationTotals % 1 != 0) {
+								paginationTotals = Math.floor(paginationTotals) + 1;
+						}
+						setpaginationCountTotals(Math.floor(paginationTotals+1));
+						return newTotal;
+						});
+						}
+					});
+					});
+					return ()=>{
+						console.log("Will unmount");
+						disconnectSocket()
+					};
+				},[]);
+
     React.useEffect(() => {
         axios({
             method: 'get',
@@ -30,11 +66,11 @@ function TableData() {
         })
             .then(function (response) {
                 //console.log(response.data)
-                setBlocks([]);
+                //setBlocks([]);
                 setBlocks(response.data.data.blocks);
                 setTotalBlocks(response.data.data.maxBlockHeight);
                 setFirstBlocks(response.data.data.blocks['0'].number);
-                setLastBlocks(response.data.data.blocks['19'].number)
+                setLastBlocks(response.data.data.blocks['19'].number);
                 //console.log(setFirstBlocks(response.data.data.blocks['0'].number))
                 setLoader(true);
                 let total = response.data.data.maxBlockHeight;
@@ -76,6 +112,7 @@ function TableData() {
         setcurrentPages(currentPages - 1);
     }
     function nextPage() {
+			console.log("next page");
         setBlocks([]);
         setLoader(false);
         setcurrentPage(currentPage + 19);
@@ -103,7 +140,7 @@ function TableData() {
     //         } catch (err) {
     //             console.log(err);
     //         }
-    //     });
+		//     });
     return (
         <div>
             <Container>
