@@ -7,6 +7,7 @@ import {api_get_block, api_get_price} from 'src/utils/Utlity';
 
 function ExplorerDetails() {
     const [TotalBlocks, setTotalBlocks] = React.useState(0);
+    const [currentPrice, setcurrentPrice] = React.useState(0);
     React.useEffect(() => {
         axios({
             method: 'get',
@@ -19,11 +20,14 @@ function ExplorerDetails() {
             });
             axios({
                 method: 'get',
-                url: `http://localhost:8080/products/`,
+                url: `${api_get_price}`,
             })
                 .then(function (response) {
-                    console.log(response.data.data)
-     
+                    const priceParsed = JSON.parse(response.data.body);
+                    if (priceParsed && priceParsed.price) {
+                      const price3d = parseFloat(priceParsed.price).toFixed(3);
+                      setcurrentPrice(price3d);
+                    }
                 });
     }, [TotalBlocks]);
     return (
@@ -46,7 +50,7 @@ function ExplorerDetails() {
                             </li>
                             <li>
                                 <label>FTM Price</label>
-                                <span>$0.24</span>
+                                <span>${currentPrice}</span>
                             </li>
                         </ul>
                     </Col>
