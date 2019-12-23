@@ -11,67 +11,64 @@ import next from 'src/assets/images/icons/forward-button.svg';
 import { api_get_block } from 'src/utils/Utlity';
 import { Link } from "react-router-dom";
 import io from 'socket.io-client';
-import {connectSocketConnection,disconnectSocket} from '../../../utils/socketProvider';
+import { connectSocketConnection, disconnectSocket } from '../../../utils/socketProvider';
 
 function TableData() {
     const [Loader, setLoader] = React.useState(false);
     const [Blocks, setBlocks] = React.useState([]);
     const [TotalBlocks, setTotalBlocks] = React.useState(0);
-    const [currentPage, setcurrentPage] = React.useState(0);
+    const [CurrentPage, setCurrentPage] = React.useState(0);
     const [paginationCount, setpaginationCount] = React.useState(1);
     const [paginationCountTotals, setpaginationCountTotals] = React.useState(1);
-    const [currentPages, setcurrentPages] = React.useState(1);
+    const [CurrentPages, setCurrentPages] = React.useState(1);
     const [Error, setError] = React.useState(false);
     const [ErrorMsg, setErrorMsg] = React.useState('');
     const [FirstBlocks, setFirstBlocks] = React.useState(0);
-		const [LastBlocks, setLastBlocks] = React.useState(0);
+    const [LastBlocks, setLastBlocks] = React.useState(0);
 
-				/** Fetch Data using Socket.io  */
-				React.useEffect(()=>{
-					connectSocketConnection().then((socketClient)=>{
-					socketClient.on('message',(data)=>{
-						const eventData=JSON.parse(data);
-						if(eventData.event==='newBlock'){
-						setBlocks(prevBlocks=>{
-							let newBlocks=JSON.parse(JSON.stringify(prevBlocks));
-							newBlocks.pop();
-							newBlocks.unshift(eventData.block);
-							return newBlocks;
-						});
-						setTotalBlocks(previousCount=>previousCount+1);
-						setFirstBlocks(prevNum=>prevNum+1);
-						setLastBlocks(prevNum=>prevNum+1);
-						setpaginationCount(prevCount=>{
-							let newTotal=prevCount+1;
-							let paginationTotals = newTotal / 20;
-							if (paginationTotals % 1 != 0) {
-								paginationTotals = Math.floor(paginationTotals) + 1;
-						}
-						setpaginationCountTotals(Math.floor(paginationTotals+1));
-						return newTotal;
-						});
-						}
-					});
-					});
-					return ()=>{
-						console.log("Will unmount");
-						disconnectSocket()
-					};
-				},[]);
+    /** Fetch Data using Socket.io  */
+    React.useEffect(() => {
+        connectSocketConnection().then((socketClient) => {
+            socketClient.on('message', (data) => {
+                const eventData = JSON.parse(data);
+                if (eventData.event === 'newBlock') {
+                    setBlocks(prevBlocks => {
+                        let newBlocks = JSON.parse(JSON.stringify(prevBlocks));
+                        newBlocks.pop();
+                        newBlocks.unshift(eventData.block);
+                        return newBlocks;
+                    });
+                    setTotalBlocks(previousCount => previousCount + 1);
+                    setFirstBlocks(prevNum => prevNum + 1);
+                    setLastBlocks(prevNum => prevNum + 1);
+                    setpaginationCount(prevCount => {
+                        let newTotal = prevCount + 1;
+                        let paginationTotals = newTotal / 20;
+                        if (paginationTotals % 1 != 0) {
+                            paginationTotals = Math.floor(paginationTotals) + 1;
+                        }
+                        setpaginationCountTotals(Math.floor(paginationTotals + 1));
+                        return newTotal;
+                    });
+                }
+            });
+        });
+        return () => {
+            console.log("Will unmount");
+            disconnectSocket()
+        };
+    }, []);
 
     React.useEffect(() => {
         axios({
             method: 'get',
-            url: `${api_get_block}?count=20&order=-1&offset=${currentPage}`,
+            url: `${api_get_block}?count=20&order=-1&offset=${CurrentPage}`,
         })
             .then(function (response) {
-                //console.log(response.data)
-                //setBlocks([]);
                 setBlocks(response.data.data.blocks);
                 setTotalBlocks(response.data.data.maxBlockHeight);
                 setFirstBlocks(response.data.data.blocks['0'].number);
                 setLastBlocks(response.data.data.blocks['19'].number);
-                //console.log(setFirstBlocks(response.data.data.blocks['0'].number))
                 setLoader(true);
                 let total = response.data.data.maxBlockHeight;
                 let paginationTotal = total - 20;
@@ -90,57 +87,34 @@ function TableData() {
                 setError(true);
                 setErrorMsg(error.response.data.data.additional['0'].msg);
             });
-    }, [currentPage]);
+    }, [CurrentPage]);
     function lastPage() {
         setLoader(false);
         if (paginationCountTotals != 1) {
-            setcurrentPage(TotalBlocks - 19);
+            setCurrentPage(TotalBlocks - 19);
         } else {
-            setcurrentPage(TotalBlocks - 19);
+            setCurrentPage(TotalBlocks - 19);
         }
 
-        setcurrentPages(paginationCountTotals);
+        setCurrentPages(paginationCountTotals);
     }
     function firstPage() {
         setLoader(false);
-        setcurrentPage(1);
-        setcurrentPages(1);
+        setCurrentPage(1);
+        setCurrentPages(1);
     }
     function prevPage() {
         setLoader(false);
-        setcurrentPage(currentPage - 19);
-        setcurrentPages(currentPages - 1);
+        setCurrentPage(CurrentPage - 19);
+        setCurrentPages(CurrentPages - 1);
     }
     function nextPage() {
-			console.log("next page");
+        console.log("next page");
         setBlocks([]);
         setLoader(false);
-        setcurrentPage(currentPage + 19);
-        setcurrentPages(currentPages + 1);
+        setCurrentPage(CurrentPage + 19);
+        setCurrentPages(CurrentPages + 1);
     }
-        //client = io.connect("http://localhost:4600/new/blocks");
-    //    const client = io.connect("http://3.136.216.35:4600/new/blocks"); 
-    //     client.on('connect', () => {
-    //         console.log('Connected to server');
-    //         client.emit('subscribe');
-    //     }); client.on("message", (msg) => {
-    //         try {
-    //             msg = JSON.parse(msg);
-    //             if (msg.event === 'newBlock') {
-    //                 console.log(msg);
-    //             }
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-    //     }); 
-    //     client.on("errorEvent", (msg) => {
-    //         try {
-    //             msg = JSON.parse(msg);
-    //             console.log(msg);
-    //         } catch (err) {
-    //             console.log(err);
-    //         }
-		//     });
     return (
         <div>
             <Container>
@@ -152,18 +126,18 @@ function TableData() {
                         </div>
                         <div className="pagination-section">
                             <ul className="d-flex">
-                                {currentPages === 1 ? <li><img alt="Search" src={first} className="icon disabled" /></li>
+                                {CurrentPages === 1 ? <li><img alt="Search" src={first} className="icon disabled" /></li>
                                     : <li><img alt="Search" onClick={firstPage} src={first} className="icon" /></li>
                                 }
-                                {currentPages === 1 ? <li><img alt="Search" src={prev} className="icon disabled" /></li>
+                                {CurrentPages === 1 ? <li><img alt="Search" src={prev} className="icon disabled" /></li>
                                     : <li><img alt="Search" onClick={prevPage} src={prev} className="icon" /></li>
                                 }
 
-                                <li><div className="pages">{currentPages} of {paginationCountTotals}</div></li>
-                                {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={next} className="icon disabled" /></li>
+                                <li><div className="pages">{CurrentPages} of {paginationCountTotals}</div></li>
+                                {CurrentPages === (paginationCountTotals) ? <li><img alt="Search" src={next} className="icon disabled" /></li>
                                     : <li><img alt="Search" onClick={nextPage} src={next} className="icon" /></li>
                                 }
-                                {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={last} className="icon disabled" /></li>
+                                {CurrentPages === (paginationCountTotals) ? <li><img alt="Search" src={last} className="icon disabled" /></li>
                                     : <li><img alt="Search" onClick={lastPage} src={last} className="icon" /></li>
                                 }
 
@@ -287,18 +261,18 @@ function TableData() {
                                             <div className="d-flex justify-content-end">
                                                 <div className="pagination-section">
                                                     <ul className="d-flex">
-                                                        {currentPages === 1 ? <li><img alt="Search" src={first} className="icon disabled" /></li>
+                                                        {CurrentPages === 1 ? <li><img alt="Search" src={first} className="icon disabled" /></li>
                                                             : <li><img alt="Search" onClick={firstPage} src={first} className="icon" /></li>
                                                         }
-                                                        {currentPages === 1 ? <li><img alt="Search" src={prev} className="icon disabled" /></li>
+                                                        {CurrentPages === 1 ? <li><img alt="Search" src={prev} className="icon disabled" /></li>
                                                             : <li><img alt="Search" onClick={prevPage} src={prev} className="icon" /></li>
                                                         }
 
-                                                        <li><div className="pages">{currentPages} of {paginationCountTotals}</div></li>
-                                                        {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={next} className="icon disabled" /></li>
+                                                        <li><div className="pages">{CurrentPages} of {paginationCountTotals}</div></li>
+                                                        {CurrentPages === (paginationCountTotals) ? <li><img alt="Search" src={next} className="icon disabled" /></li>
                                                             : <li><img alt="Search" onClick={nextPage} src={next} className="icon" /></li>
                                                         }
-                                                        {currentPages === (paginationCountTotals) ? <li><img alt="Search" src={last} className="icon disabled" /></li>
+                                                        {CurrentPages === (paginationCountTotals) ? <li><img alt="Search" src={last} className="icon disabled" /></li>
                                                             : <li><img alt="Search" onClick={lastPage} src={last} className="icon" /></li>
                                                         }
 

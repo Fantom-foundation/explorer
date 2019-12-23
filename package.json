@@ -12,7 +12,7 @@
     "build": "GENERATE_SOURCEMAP=false craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy:dev": " aws s3 sync build/ s3://block-explorer.fantom.foundation/ --region us-east-2 --delete"
+    "deploy:dev": "aws s3 sync build/ s3://block-explorer.fantom.foundation/ --region us-east-2 --delete"
   },
   "browserslist": {
     "production": [
@@ -35,10 +35,12 @@
     "firebase-tools": "^7.11.0",
     "history": "^4.10.1",
     "immutable": "^4.0.0-rc.12",
+    "jquery": "^3.4.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-copy-to-clipboard": "^5.0.2",
+    "react-data-table-component": "^6.0.3",
     "react-dom": "^16.12.0",
     "react-redux": "^7.1.1",
     "react-router": "^5.1.2",
@@ -55,6 +57,7 @@
     "reselect": "^4.0.0",
     "sanitize.css": "^11.0.0",
     "socket.io-client": "^2.3.0",
+    "styled-components": "^4.4.1",
     "web3": "^1.2.4"
   },
   "devDependencies": {

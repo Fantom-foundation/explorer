@@ -37,7 +37,7 @@ function BlockDetails() {
           .join(" ");
         setNumber(response.data.data.block.number);
         settimestamp(dates);
-        setdate(dateString);
+        setdate(' ' +dates);
         settransactions(response.data.data.block.transactions);
         setblockHash(response.data.data.block.hash);
         setparentHash(response.data.data.block.parentHash);
@@ -79,7 +79,7 @@ function BlockDetails() {
                       </Col>
                       <Col className="col-8 col-sm-9">
                         <span className="column-data">
-                          <TimeAgo date={timestamp} />: {date}
+                          <TimeAgo date={timestamp} /> ({date})
                         </span>
                       </Col>
                       <Col className="col-4 col-sm-3">
@@ -109,7 +109,7 @@ function BlockDetails() {
                         <span>ParentHash:</span>
                       </Col>
                       <Col className="col-8 col-sm-9">
-                        <span className="column-data blue">{parentHash}</span>
+                        <span className="column-data ">{parentHash}</span>
                       </Col>
                       <Col className="col-4 col-sm-3">
                         <span>Calculation Time:</span>

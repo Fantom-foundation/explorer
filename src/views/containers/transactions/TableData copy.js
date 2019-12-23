@@ -11,7 +11,6 @@ import first from 'src/assets/images/icons/gotoendbutton.svg';
 import last from 'src/assets/images/icons/gotoendbutton.svg';
 import prev from 'src/assets/images/icons/back-button-active.svg';
 import next from 'src/assets/images/icons/forward-button.svg';
-import {connectSocketConnection,disconnectSocket} from "../../../utils/socketProvider";
 
 function TransactionsPageData() {
     const [transactions, setTransactions] = React.useState([]);
@@ -21,50 +20,13 @@ function TransactionsPageData() {
     const [paginationCount, setpaginationCount] = React.useState(1);
     const [paginationCountTotals, setpaginationCountTotals] = React.useState(1);
     const [currentPages, setcurrentPages] = React.useState(1);
-		const [Error, setError] = React.useState(false);
-		
-		/** Fetch Data using Socket.io  */
-		React.useEffect(()=>{
-			connectSocketConnection().then((socketClient)=>{
-			socketClient.on('message',(data)=>{
-				const eventData=JSON.parse(data);
-				if(eventData.event==='newBlock'){
-					setTransactions(prevTrans=>{
-					let newTrans=JSON.parse(JSON.stringify(prevTrans));
-					if(eventData.lastTrxs.length>0){
-						eventData.lastTrxs.forEach((tx)=>{
-							newTrans.pop();
-							newTrans.unshift(tx);
-						})
-					}
-					return newTrans;
-				});
-				setTotaltransactions(previousCount=>previousCount+1);
-				setpaginationCount(prevCount=>{
-					let newTotal=prevCount+1;
-					let paginationTotals = newTotal / 20;
-					if (paginationTotals % 1 != 0) {
-						paginationTotals = Math.floor(paginationTotals) + 1;
-				}
-				setpaginationCountTotals(Math.floor(paginationTotals+1));
-				return newTotal;
-				});
-				}
-			});
-			});
-			return ()=>{
-				console.log("Will unmount");
-				disconnectSocket()
-			};
-		},[]);
-
+    const [Error, setError] = React.useState(false);
     React.useEffect(() => {
         axios({
             method: 'get',
             url: `${api_get_transactions}?count=10&order=-1&offset=${currentPage}`,
         })
             .then(function (response) {
-                console.log(response.data.data.transactions);
                 setTransactions(response.data.data.transactions);
                 setTotaltransactions(response.data.data.total);
                 let total = response.data.data.total;
@@ -74,11 +36,9 @@ function TransactionsPageData() {
                 if (paginationTotals % 1 != 0) {
                     paginationTotals = Math.floor(paginationTotals) + 1;
                 }
-                console.log(paginationCount);
                 setpaginationCountTotals(Math.floor(paginationTotals));
                 setLoader(true);
             }).catch(function (error) {
-                console.log(error.message);
                 setLoader(true);
                 setError(true);
             });
@@ -86,7 +46,6 @@ function TransactionsPageData() {
     }, [setTransactions, setTotaltransactions, currentPage]);
     function lastPage() {
         setLoader(false);
-        //console.log(paginationCount);
         if (paginationCountTotals != 1) {
             setcurrentPage(Totaltransactions - paginationCountTotals);
         } else {
@@ -245,7 +204,7 @@ function TransactionsPageData() {
                                         let url = "/transactions/:" + hash
                                         //console.log(url);
                                         return (
-                                            <div key={blockHash} className="row listing-row  mobile-data-row">
+                                            <div className="row listing-row  mobile-data-row">
                                                 <div className="col-12">
                                                     {dates}
                                                 </div>

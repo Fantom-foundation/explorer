@@ -1,15 +1,90 @@
 import React from "react";
 import { Container, Row, Col, Card, Table } from "reactstrap";
-import { Link, Route, withRouter } from "react-router-dom";
-import { card, tableMockData } from "./mokeData";
+import { tableMockData } from "./mokeData";
 import qrInon from "src/assets/images/icons/qr.svg";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
 import { callbackify } from "util";
+import axios from "axios";
+import { api_get_singleValidators, api_get_singleValidatorsDelegator } from 'src/utils/Utlity';
+import { useRouteMatch, useHistory, Link } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+function durationToDisplay(millisec) {
+  var seconds = (millisec / 1000).toFixed(0);
+  var minutes = Math.floor(seconds / 60);
+  var hours = "";
+  if (minutes > 59) {
+    hours = Math.floor(minutes / 60);
+    hours = (hours >= 10) ? hours : "0" + hours;
+    minutes = minutes - (hours * 60);
+    minutes = (minutes >= 10) ? minutes : "0" + minutes;
+  }
 
-const base = "validators/single";
-
-export default withRouter(({ location }) => {
-  const currentPath = location.pathname;
+  seconds = Math.floor(seconds % 60);
+  seconds = (seconds >= 10) ? seconds : "0" + seconds;
+  if (hours != "") {
+    return hours + " Hour " + minutes + " mins " + seconds + " sec ";
+  }
+  return minutes + " mins " + seconds + " sec";
+}
+function ValidatorDetail() {
+  const match = useRouteMatch('/validator/:stakeId');
+  const { params: { stakeId } } = match;
+  const [card, setCard] = React.useState([]);
+  const [txCopied, setTxCopied] = React.useState(false);
+  React.useEffect(() => {
+    axios({
+      method: 'get',
+      url: `${api_get_singleValidators}${stakeId}?verbosity=2`,
+    })
+      .then(function (response) {
+        //console.log(response.data.data);
+        const card = [
+          {
+            title: "Delegate address:",
+            value: response.data.data.address,
+            valueClass: "text-ellipsis validator-hash"
+          },
+          {
+            title: "Staking start time:",
+            value: durationToDisplay(response.data.data.createdTime)
+          },
+          {
+            title: "Validating power:",
+            value: response.data.data.validationScore
+          },
+          {
+            title: "Amount staked:",
+            value: `${response.data.data.stake} FTM`
+          },
+          {
+            title: "Amount delegated:",
+            value: `${response.data.data.delegatedMe} FTM`
+          },
+          {
+            title: "Staking total:",
+            value: `${response.data.data.totalStake} FTM`
+          }
+        ];
+        setCard(card);
+      }).catch(function (error) {
+        console.log(error.message);
+      });
+    axios({
+      method: 'get',
+      url: `${api_get_singleValidatorsDelegator}${stakeId}?verbosity=2`,
+    })
+      .then(function (response) {
+        console.log(response.data.data);
+      }).catch(function (error) {
+        console.log(error.message);
+      });
+  }, []);
+  function fntxCopied() {
+    setTxCopied(true)
+    setTimeout(() => {
+        setTxCopied(false)
+    }, 2000);
+}
   return (
     <section className="page-section">
       <Container>
@@ -20,17 +95,17 @@ export default withRouter(({ location }) => {
                 <h2 className="text-grey mb-0 title-top">Validator</h2>
                 <h3 className="font-weight-bold text-navy ml-1 ml-lg-0 mb-0 pl-3 pl-lg-5">
                   Fantom Validator{" "}
-                  <span className="d-none d-lg-inline">123</span>
+                  <span className="d-none d-lg-inline">{stakeId}</span>
                 </h3>
               </div>
               <div className="d-none d-lg-block">
-              <div className="breacrumb">
+                <div className="breacrumb">
                   <ul className="d-flex justify-content-end">
                     <li><Link to={`/`}>Home</Link></li>
                     <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
                     <li ><Link to={`/validators`}>Validators</Link></li>
                     <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
-                    <li className="active">Fantom Validator 123</li>
+                    <li className="active">Fantom Validator {stakeId}</li>
                   </ul>
                 </div>
               </div>
@@ -42,28 +117,37 @@ export default withRouter(({ location }) => {
             <Card className="detail-card validator-card h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
-                {card.map(({ title, value, valueClass = "" }, index) => (
-                  <tr key={index}>
-                    <td className="title-col">
-                      <h4>{title}</h4>
-                    </td>
-                    <td className="info-col pl-2 pl-lg-5">
-                      <div className="d-flex align-items-center">
-                        <h4 className={valueClass}>{value}</h4>
-                        {index === 0 && (
-                          <div className="hashBtnWrapper">
-                            <button className="ml-0 ml-lg-4">
-                              <i className="far fa-copy" />
-                            </button>
-                            <button className="d-none d-lg-block">
-                              <img src={qrInon} alt="QR" />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                <tbody>
+                  {card.map(({ title, value, valueClass = "" }, index) => (
+                    <tr key={index}>
+                      <td className="title-col">
+                        <h4>{title}</h4>
+                      </td>
+                      <td className="info-col pl-2 pl-lg-5">
+                        <div className="d-flex align-items-center">
+                          <h4 className={valueClass}>{value}</h4>
+                          {index === 0 && (
+                            <div className="hashBtnWrapper">
+                               <CopyToClipboard
+                                text={value}
+                                onCopy={fntxCopied}
+                              >
+                                <button className="ml-0 ml-lg-4">
+                                  <i className="far fa-copy" />
+                                </button>
+                              </CopyToClipboard>
+                               
+                              <button className="d-none d-lg-block">
+                                <img src={qrInon} alt="QR" />
+                              </button>
+                              {txCopied ? ( <span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) :null}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </Card>
           </Col>
@@ -106,4 +190,5 @@ export default withRouter(({ location }) => {
       </Container>
     </section>
   );
-});
+}
+export default ValidatorDetail

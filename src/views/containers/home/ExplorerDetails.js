@@ -24,6 +24,7 @@ function ExplorerDetails() {
             })
                 .then(function (response) {
                     const priceParsed = JSON.parse(response.data.body);
+                    console.log(priceParsed);
                     if (priceParsed && priceParsed.price) {
                       const price3d = parseFloat(priceParsed.price).toFixed(3);
                       setcurrentPrice(price3d);
