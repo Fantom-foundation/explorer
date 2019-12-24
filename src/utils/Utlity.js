@@ -6,4 +6,4 @@ export const api_get_epoch = `http://3.136.216.35:3100/api/v1/epoch/latest`;
 export const api_get_singleTransaction = `http://3.136.216.35:3100/api/v1/get-transaction?transactionHash=`;
 export const api_get_singleValidators = `http://3.136.216.35:3100/api/v1/staker/id/`;
 export const api_get_singleValidatorsDelegator = `http://3.136.216.35:3100/api/v1/delegator/staker/`;
-
+export const api_get_address = `http://3.136.216.35:3100/api/v1/get-account?address=`;

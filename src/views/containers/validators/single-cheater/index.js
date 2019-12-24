@@ -1,13 +1,111 @@
 import React from "react";
 import { Container, Row, Col, Card, Table } from "reactstrap";
-import { Link, Route, withRouter } from "react-router-dom";
 import { card, tableMockData, cheaterData } from "./mokeData";
 import qrInon from "src/assets/images/icons/qr.svg";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
-const base = "validators/single";
+import axios from "axios";
+import { api_get_singleValidators, api_get_singleValidatorsDelegator } from 'src/utils/Utlity';
+import { useRouteMatch, useHistory, Link } from 'react-router-dom';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+function durationToDisplay(millisec) {
+  var seconds = (millisec / 1000000000).toFixed(0);
+  var minutes = Math.floor(seconds / 60);
+  var hours = "";
+  if (minutes > 59) {
+    hours = Math.floor(minutes / 60);
+    hours = (hours >= 10) ? hours : "0" + hours;
+    minutes = minutes - (hours * 60);
+    minutes = (minutes >= 10) ? minutes : "0" + minutes;
+  }
 
-export default withRouter(({ location }) => {
-  const currentPath = location.pathname;
+  seconds = Math.floor(seconds % 60);
+  seconds = (seconds >= 10) ? seconds : "0" + seconds;
+  if (hours != "") {
+    return hours + " Hours " + minutes + " mins " + seconds + " sec ";
+  }
+  return minutes + " mins " + seconds + " sec";
+}
+function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+  try {
+    decimalCount = Math.abs(decimalCount);
+    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+    const negativeSign = amount < 0 ? "-" : "";
+
+    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+    let j = (i.length > 3) ? i.length % 3 : 0;
+
+    return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+  } catch (e) {
+    console.log(e)
+  }
+};
+function CheaterDetail() {
+  const match = useRouteMatch('/cheater/:stakeId');
+  const { params: { stakeId } } = match;
+  const [card, setCard] = React.useState([]);
+  const [deligatorData, setDeligatorData] = React.useState([]);
+  const [deligatorDataCount, setdeligatorDataCount] = React.useState(0);
+  const [txCopied, setTxCopied] = React.useState(false);
+  React.useEffect(() => {
+    axios({
+      method: 'get',
+      url: `${api_get_singleValidators}${stakeId}?verbosity=2`,
+    })
+      .then(function (response) {
+        //console.log(response.data.data);
+        let validatingPower = response.data.data.validationScore;
+        let validatingPowerCal = validatingPower / 10000000;
+        let validatingPowerCalResult = formatMoney(validatingPowerCal);
+        const card = [
+          {
+            title: "Delegate address:",
+            value: response.data.data.address,
+            valueClass: "text-ellipsis validator-hash"
+          },
+          {
+            title: "Staking start time:",
+            value: durationToDisplay(response.data.data.createdTime)
+          },
+          {
+            title: "Validating power:",
+            value: validatingPowerCalResult
+          },
+          {
+            title: "Amount staked:",
+            value: `${response.data.data.stake} FTM`
+          },
+          {
+            title: "Amount delegated:",
+            value: `${response.data.data.delegatedMe} FTM`
+          },
+          {
+            title: "Staking total:",
+            value: `${response.data.data.totalStake} FTM`
+          }
+        ];
+        setCard(card);
+      }).catch(function (error) {
+        console.log(error.message);
+      });
+    axios({
+      method: 'get',
+      url: `${api_get_singleValidatorsDelegator}${stakeId}?verbosity=2`,
+    })
+      .then(function (response) {
+        //console.log(response.data.data.delegators);
+        setdeligatorDataCount(response.data.data.delegators.length)
+        setDeligatorData(response.data.data.delegators);
+      }).catch(function (error) {
+        console.log(error.message);
+      });
+  }, []);
+  function fntxCopied() {
+    setTxCopied(true)
+    setTimeout(() => {
+      setTxCopied(false)
+    }, 2000);
+  }
   return (
     <section className="page-section">
       <Container>
@@ -18,17 +116,17 @@ export default withRouter(({ location }) => {
                 <h2 className="text-grey mb-0 title-top">Validator</h2>
                 <h3 className="font-weight-bold text-navy ml-1 ml-lg-0 mb-0 pl-3 pl-lg-5">
                   Fantom Validator{" "}
-                  <span className="d-none d-lg-inline">123</span>
+                  <span className="d-none d-lg-inline">{stakeId}</span>
                 </h3>
               </div>
               <div className="d-none d-lg-block">
-              <div className="breacrumb">
+                <div className="breacrumb">
                   <ul className="d-flex justify-content-end">
                     <li><Link to={`/`}>Home</Link></li>
                     <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
                     <li ><Link to={`/validators`}>Validators</Link></li>
                     <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>
-                    <li className="active">Fantom Validator 123</li>
+                    <li className="active">Fantom Validator {stakeId}</li>
                   </ul>
                 </div>
               </div>
@@ -45,17 +143,20 @@ export default withRouter(({ location }) => {
                     <td className="title-col">
                       <h4>{title}</h4>
                     </td>
-                    <td className="info-col  pl-2 pl-lg-5">
+                    <td className="info-col pl-2 pl-lg-5">
                       <div className="d-flex align-items-center">
                         <h4 className={valueClass}>{value}</h4>
                         {index === 0 && (
                           <div className="hashBtnWrapper">
-                            <button className="ml-0 ml-lg-4">
-                              <i className="far fa-copy" />
-                            </button>
-                            <button className="d-none d-lg-block">
-                              <img src={qrInon} alt="QR" />
-                            </button>
+                            <CopyToClipboard
+                              text={value}
+                              onCopy={fntxCopied}
+                            >
+                              <button className="ml-0 ml-lg-4">
+                                <i className="far fa-copy" />
+                              </button>
+                            </CopyToClipboard>
+                            {txCopied ? (<span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : null}
                           </div>
                         )}
                       </div>
@@ -87,8 +188,7 @@ export default withRouter(({ location }) => {
         <Row>
           <Col>
             <h3 className="font-weight-bold text-navy mb-4">Delegations</h3>
-            <p className="total-tranactions mb-3 mb-lg-4">10 delegates</p>
-
+            <p className="total-tranactions mb-3 mb-lg-4">{deligatorDataCount} delegates</p>
             <div>
               <Table className="ftm-table responsive single-validator">
                 <thead>
@@ -98,21 +198,30 @@ export default withRouter(({ location }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableMockData.map(data => (
+                  {deligatorDataCount > 0 ? deligatorData.map(data => (
                     <tr>
                       <td className="title">
                         <p className="text-ellipsis">
-                          <a className="text-primary">
-                            ftm1mt9ye3g0u72dlvyf6j68f2u78s0zaurjftpe28
-                          </a>
+                        <Link to={`/address/${data.address}`} className="text-primary">
+                            {data.address}
+                          </Link>
                         </p>
                       </td>
 
                       <td className="value" heading="Delegated">
-                        306,460 FTM
+                        {data.amount} FTM
+                      </td>
+
+                    </tr>
+                  )) :
+
+                    <tr>
+
+                      <td className="title text-center" colSpan="2">
+                        <p>No data found.</p>
                       </td>
                     </tr>
-                  ))}
+                  }
                 </tbody>
               </Table>
             </div>
@@ -122,4 +231,6 @@ export default withRouter(({ location }) => {
       </Container>
     </section>
   );
-});
+}
+
+export default CheaterDetail

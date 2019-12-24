@@ -75,20 +75,20 @@ function TransactionsPageData() {
                                                     let precision = 18;
                                                     let result = 10 ** precision;
                                                     let amount = value / result;
-                                                    let FTMamount = amount.toFixed(18);
+                                                    let FTMamount = amount.toString();
                                                     let fees = fee / result;
-                                                    let Feeamount = fees.toFixed(18);
+                                                    let Feeamount = fees.toString();
                                                     if (amount == Math.floor(amount)) {
                                                         FTMamount = amount.toFixed(2);
                                                     } else {
 
-                                                        FTMamount = amount.toFixed(18);
+                                                        FTMamount = amount.toString();
                                                     }
                                                     if (fees == Math.floor(fees)) {
                                                         Feeamount = fees.toFixed(2);
                                                     } else {
 
-                                                        Feeamount = fees.toFixed(18);
+                                                        Feeamount = fees.toString();
                                                     }
                                                     //console.log(url);
                                                     return (
@@ -126,20 +126,20 @@ function TransactionsPageData() {
                                             let precision = 18;
                                             let result = 10 ** precision;
                                             let amount = value / result;
-                                            let FTMamount = amount.toFixed(18);
+                                            let FTMamount = amount.toString();
                                             let fees = fee / result;
-                                            let Feeamount = fees.toFixed(18);
+                                            let Feeamount = fees.toString();
                                             if (amount == Math.floor(amount)) {
                                                 FTMamount = amount.toFixed(2);
                                             } else {
 
-                                                FTMamount = amount.toFixed(18);
+                                                FTMamount = amount.toString();
                                             }
                                             if (fees == Math.floor(fees)) {
                                                 Feeamount = fees.toFixed(2);
                                             } else {
 
-                                                Feeamount = fees.toFixed(18);
+                                                Feeamount = fees.toString();
                                             }
                                             let url = "/transactions/:" + hash
                                             //console.log(url);

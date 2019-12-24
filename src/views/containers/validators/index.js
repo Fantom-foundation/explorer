@@ -8,7 +8,8 @@ import { api_get_epoch } from 'src/utils/Utlity';
 import TimeAgo from 'react-timeago';
 import DataTable from 'react-data-table-component';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
-
+import CurrencyFormat from 'react-currency-format';
+import { ArrowUp, ArrowDown } from "src/views/components/IconsSvg";
 function durationToDisplay(millisec) {
   var seconds = (millisec / 1000).toFixed(0);
   var minutes = Math.floor(seconds / 60);
@@ -36,12 +37,14 @@ function ValidatorPage() {
   const [card2, setCard2] = React.useState([]);
   const [TableData, setTableData] = React.useState([]);
   const [CheatersTableData, setCheatersTableData] = React.useState([]);
+  const [ActiveData, setActiveData] = React.useState([]);
   var jsonArr = [];
   const columns = [
     {
       name: 'Rank',
       selector: 'title',
       sortable: true,
+      defaultSortAsc : false
     },
     {
       name: 'Name',
@@ -52,7 +55,7 @@ function ValidatorPage() {
       cell: row => (
         <Link
           to={`/validator/${row.id}`}>
-        {row.validatorname}
+          {row.validatorname}
         </Link>
       ),
 
@@ -87,8 +90,8 @@ function ValidatorPage() {
       ignoreRowClick: true,
       cell: row => (
         <Link
-          to={`/validator/${row.id}`}>
-        {row.validatorname}
+          to={`/cheater/${row.id}`}>
+          {row.validatorname}
         </Link>
       ),
 
@@ -100,7 +103,21 @@ function ValidatorPage() {
       right: false,
     },
   ];
-
+  function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+    try {
+      decimalCount = Math.abs(decimalCount);
+      decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+  
+      const negativeSign = amount < 0 ? "-" : "";
+  
+      let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+      let j = (i.length > 3) ? i.length % 3 : 0;
+  
+      return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+    } catch (e) {
+      console.log(e)
+    }
+  };
 
   React.useEffect(() => {
     axios({
@@ -110,15 +127,20 @@ function ValidatorPage() {
       .then(function (response) {
         let StakedSum = 0;
         let arrayCount = response.data.data.stakers.length;
+        console.log(response.data.data.stakers);
+        setActiveData(response.data.data.stakers);
         for (let i = 0; i < arrayCount; i++) {
           StakedSum = parseFloat(StakedSum) + parseFloat(response.data.data.stakers[i].totalStake);
           if (response.data.data.stakers[i].isCheater === false) {
+            let validatingPower = response.data.data.stakers[i].validationScore;
+            let validatingPowerCal= validatingPower / 10000000;
+            let validatingPowerCalResult =formatMoney(validatingPowerCal);
             jsonArr.push({
               id: response.data.data.stakers[i].id,
               title: i + 1,
               validatorname: response.data.data.stakers[i].address,
               poi: `${response.data.data.stakers[i].poi}`,
-              validatingpower: response.data.data.stakers[i].validationScore,
+              validatingpower: validatingPowerCalResult,
               downtime: response.data.data.stakers[i].downtime
             });
           }
@@ -130,9 +152,10 @@ function ValidatorPage() {
             });
           }
         }
+        StakedSum = StakedSum / 1000000000000000000;
         setTableData(jsonArr);
         setCheatersTableData(jsonArrCheaters);
-       
+
         setCard1([
           {
             title: "Validators:",
@@ -140,15 +163,11 @@ function ValidatorPage() {
           },
           {
             title: "FTM staked:",
-            value: `${StakedSum} (69.58%)`
-          },
-          {
-            title: "Inflation:",
-            value: "6.55%"
+            value: `${StakedSum}`
           },
           {
             title: "Average rewards:",
-            value: "9%"
+            value: "712,108.30 FTM"
           }
         ]);
 
@@ -161,11 +180,12 @@ function ValidatorPage() {
     })
       .then(function (response) {
         let duration = durationToDisplay(response.data.data.duration)
-
+        console.log(response.data.data);
         let ValidatingPower = response.data.data.validatingPower;
         if (ValidatingPower === null || ValidatingPower === undefined) {
           ValidatingPower = 0;
         }
+        let totalTXFeee = parseFloat(response.data.data.totalTxFee / 1000000000000000000);
         setCard2([
           {
             title: "Epoch number:",
@@ -181,19 +201,15 @@ function ValidatorPage() {
           },
           {
             title: "Fee:",
-            value: `${response.data.data.totalTxFee} FTM`
+            value: `${totalTXFeee.toString()} FTM`
           },
-          {
-            title: "Validating power:",
-            value: `${ValidatingPower}`
-          }
         ]);
 
       }).catch(function (error) {
         console.log(error.message);
       });
 
-  }, [Error]);  
+  }, [Error]);
   return (
     <section className="page-section ">
       <Container>
@@ -225,7 +241,7 @@ function ValidatorPage() {
                         <h4>{title}</h4>
                       </td>
                       <td className="info-col">
-                        <h4>{value}</h4>
+                        <h4>{title === 'FTM staked:' ? (<span> <CurrencyFormat value={value} displayType={'text'} thousandSeparator={true} /></span>) : value}</h4>
                       </td>
                     </tr>
                   ))}
@@ -235,7 +251,7 @@ function ValidatorPage() {
           </Col>
           <Col lg={6}>
             <Card className="detail-card validator-card h-100">
-              <h3 className="text-grey">Current epoch</h3>
+              <h3 className="text-grey">Last epoch</h3>
               <table>
                 <tbody>
                   {card2.map(({ title, value }, index) => (
@@ -271,23 +287,82 @@ function ValidatorPage() {
                 <TabPane tabId="1">
                   <Row>
                     <Col sm="12">
-                      <DataTable
-                        title=""
-                        columns={columns}
-                        data={TableData}
-                      />
+                      <div className="hide-mobile">
+                        <DataTable
+                          title=""
+                          columns={columns}
+                          data={TableData}
+                          sortIcon={<span><ArrowDown /><ArrowUp /></span>}
+                        />
+                      </div>
                     </Col>
+                    <table className="ftm-table responsive validator-active mobile-show">
+                      <tbody>
+                        {ActiveData.map(ActiveData => {
+                          const {
+                            address,
+                            poi,
+                            downtime,
+                            validationScore,
+                            isCheater,
+                            id
+                          } = ActiveData;
+                          return isCheater === false  ?    
+                            <tr>
+                              <td className="no-mobile"></td>
+                              <td className="title">
+                                <Link className="" to={`/validator/${id}`}>{address}</Link>
+                              </td>
+                              <td className="value" heading="Proof of Importance">
+                                {poi}
+                              </td>
+                              <td className="value" heading="Validating power">
+                                {validationScore}
+                              </td>
+                              <td className="value" heading="Downtime">
+                                {downtime}
+                              </td>
+                            </tr>
+                            : null
+                        })}
+                      </tbody>
+                    </table>
                   </Row>
                 </TabPane>
                 <TabPane tabId="2">
                   <Row>
                     <Col sm="12">
+                    <div className="hide-mobile">
                       <DataTable
                         title=""
                         columns={columnsCheaters}
                         data={CheatersTableData}
                       />
+                      </div>
                     </Col>
+                    <table className="ftm-table responsive validator-cheater mobile-show">
+                      <tbody>
+                      {ActiveData.map(ActiveData => {
+                          const {
+                            address,
+                            isCheater,
+                            id
+                          } = ActiveData;
+                          return isCheater === true  ?  
+                          <tr>
+                            <td className="title">
+                            <Link className="" to={`/cheater/${id}`}>{address}</Link>
+                            </td>
+                            <td className="value" heading="Tokens slashed">
+                             0
+                            </td>
+                          </tr>
+                          : <tr className="no-data text-center"  >
+                            <td colSpan="2"> There are no records to display</td>
+                          </tr>
+                        })}
+                      </tbody>
+                    </table>
                   </Row>
                 </TabPane>
               </TabContent>

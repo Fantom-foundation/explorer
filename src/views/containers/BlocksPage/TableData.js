@@ -32,6 +32,7 @@ function TableData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
+                   
                     setBlocks(prevBlocks => {
                         let newBlocks = JSON.parse(JSON.stringify(prevBlocks));
                         newBlocks.pop();
@@ -65,6 +66,7 @@ function TableData() {
             url: `${api_get_block}?count=20&order=-1&offset=${CurrentPage}`,
         })
             .then(function (response) {
+                console.log(response.data.data.blocks);
                 setBlocks(response.data.data.blocks);
                 setTotalBlocks(response.data.data.maxBlockHeight);
                 setFirstBlocks(response.data.data.blocks['0'].number);
@@ -166,7 +168,7 @@ function TableData() {
                                                             <th>Time</th>
                                                             <th>Age</th>
                                                             <th>Txns</th>
-                                                            <th>Fees</th>
+                                                            {/* <th>Fees</th> */}
 
                                                         </tr>
                                                     </thead>
@@ -185,15 +187,22 @@ function TableData() {
                                                             dateString = dateString.split(' ').slice(0, 4).join(' ');
                                                             let dates = ' ' + d
                                                             //console.log(url);
-                                                            return (
+                                                            return transactions > 0 ?
                                                                 <tr key={timestamp + number + hash}>
                                                                     <td> <Link to={`/blocks/${number}`}>{number}</Link></td>
                                                                     <td>{dateString}</td>
                                                                     <td><TimeAgo date={d} /></td>
-                                                                    <td> <Link to={`/blocks/${number}`}>{transactions}</Link></td>
-                                                                    <td>0.0000001 FTM</td>
+                                                                    <td> <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link></td>
+                                                                    {/* <td>0.0000001 FTM</td> */}
                                                                 </tr>
-                                                            )
+                                                                :
+                                                                <tr key={timestamp + number + hash}>
+                                                                    <td> <Link to={`/blocks/${number}`}>{number}</Link></td>
+                                                                    <td>{dateString}</td>
+                                                                    <td><TimeAgo date={d} /></td>
+                                                                    <td> {transactions}</td>
+                                                                    {/* <td>0.0000001 FTM</td> */}
+                                                                </tr>
                                                         })}
                                                     </tbody>
                                                 </table>
@@ -212,7 +221,7 @@ function TableData() {
                                                     let dateString = new Date(d).toUTCString();
                                                     dateString = dateString.split(' ').slice(0, 4).join(' ');
                                                     let dates = ' ' + d;
-                                                    return (
+                                                    return  transactions > 0 ?
                                                         <div className="row mobile-data-row" key={timestamp + number}>
                                                             <div className="col-4">
                                                                 <span> Block</span>
@@ -243,7 +252,50 @@ function TableData() {
                                                             </div>
                                                             <div className="col-8">
                                                                 <span>
-                                                                    <Link to={`/blocks/${number}`}>{transactions}</Link>
+                                                                <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link>
+                                                                </span>
+                                                            </div>
+                                                            {/* <div className="col-4">
+                                                                <span> Fees</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    0.0000001 FTM
+                                                        </span>
+                                                            </div> */}
+                                                        </div>
+                                                    : 
+                                                    <div className="row mobile-data-row" key={timestamp + number}>
+                                                            <div className="col-4">
+                                                                <span> Block</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    <Link to={`/blocks/${number}`}>{number}</Link>
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span>  Time</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    {dateString}
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span>Age</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    <TimeAgo date={d} />
+                                                                </span>
+                                                            </div>
+                                                            <div className="col-4">
+                                                                <span>Txns</span>
+                                                            </div>
+                                                            <div className="col-8">
+                                                                <span>
+                                                                    {transactions}
                                                                 </span>
                                                             </div>
                                                             <div className="col-4">
@@ -255,7 +307,6 @@ function TableData() {
                                                         </span>
                                                             </div>
                                                         </div>
-                                                    )
                                                 })}
                                             </div>
                                             <div className="d-flex justify-content-end">

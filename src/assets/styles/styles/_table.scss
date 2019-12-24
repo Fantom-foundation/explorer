@@ -662,7 +662,7 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
     .text-ellipsis {
       @media (min-width: $desktop) {
         width: 100%;
-        max-width: 334px;
+        max-width: 360px;
       }
     }
     @media (max-width: $desktop) {
@@ -694,4 +694,72 @@ $icon-transaction:'~src/assets/images/icons/tx.svg';
 }
 .copied-text{
   margin-left: 10px;
+  font-size: 12px;
+  font-weight: normal;
+  margin-bottom: 0;
+  span{
+    font-size: 12px !important;
+    font-weight: normal !important;
+    margin-left: 10px;
+    padding: 0 !important
+  }
+  i{
+    padding-right: 5px;
+  }
+}
+.breacrumb.address-wrapper {
+ h2{
+   font-size: 20px;
+ }
+}
+body .tab-pane .row .hide-mobile .rdt_Table .rdt_TableHeadRow .rdt_TableCol_Sortable svg {
+  margin: 2px 5px;
+  width: 6px !important;
+  height: 4px !important;
+  display: block;
+  opacity: 1;
+  transition: none;
+transform: rotate(180deg) !important;
+}
+.rdt_TableHeader {
+  display: none;
+}
+.fantom-tabs-wrapper{
+  .hide-mobile{
+    display: block;
+    @media (max-width: 767px) {
+       display: none;
+    }
+  }
+  .mobile-show{
+    display: none;
+    @media (max-width: 767px) {
+      display: block;
+      margin-bottom: 30px;
+      width: 100%;
+   }
+   .no-data{
+     display: none;
+   }
+   .no-data:first-of-type{
+    display: block;
+  }
+  }
+}
+@media (max-width: 567px) {
+  .info-col .copied-text {
+    position: absolute;
+    top: 30px;
+    width: 120px;
+    right: -10px;
+  }
+  label.copied-text {
+      position: absolute;
+      right: 10px;
+      width: 180px;
+      top: 70px;
+      i{
+        font-size: 15px !important
+      }
+  }
 }

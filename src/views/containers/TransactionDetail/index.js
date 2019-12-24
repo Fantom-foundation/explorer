@@ -17,11 +17,8 @@ import type { DetailTransaction } from 'src/utils/types';
 import { Link } from "react-router-dom";
 import { api_get_singleTransaction } from 'src/utils/Utlity';
 function TransactionDetail() {
-
-
     const match = useRouteMatch('/transactions/:txHash');
     const { params: { txHash } } = match;
-
     const [Loader, setLoader] = React.useState(false);
     const hash = txHash.replace(':', '');
     let [showDetails, setShowDetails] = React.useState(false);
@@ -48,58 +45,57 @@ function TransactionDetail() {
         axios({
             method: 'get',
             url: `${api_get_singleTransaction}${hash}`,
-        })
-            .then(function (response) {
-                console.log(response.data.data.transaction);
-                let dates = new Date(response.data.data.transaction.timestamp * 1000);
-                let precision = 18;
-                let result = 10 ** precision;
-                let amount = response.data.data.transaction.value / result;
-                let FTMamount = amount.toFixed(18);
-                let fees = response.data.data.transaction.fee / result;
-                let Feeamount = fees.toFixed(18);
-                if (amount == Math.floor(amount)) {
-                    FTMamount = amount.toFixed(2);
-                } else {
+        }).then(function (response) {
+            //console.log(response.data.data.transaction);
+            let dates = new Date(response.data.data.transaction.timestamp * 1000);
+            let precision = 18;
+            let result = 10 ** precision;
+            let amount = response.data.data.transaction.value / result;
+            let FTMamount = amount.toString();
+            let fees = response.data.data.transaction.fee / result;
+            let Feeamount = fees.toString();
+            if (amount == Math.floor(amount)) {
+                FTMamount = amount.toFixed(2);
+            } else {
 
-                    FTMamount = amount.toFixed(18);
-                }
-                if (fees == Math.floor(fees)) {
-                    Feeamount = fees.toFixed(2);
-                } else {
+                FTMamount = amount.toString();
+            }
+            if (fees == Math.floor(fees)) {
+                Feeamount = fees.toFixed(2);
+            } else {
 
-                    Feeamount = fees.toFixed(18);
-                }
-                let gasPrice = response.data.data.transaction.gasPrice / result;
-                let gasamount = fees.toFixed(18);
-                if (gasPrice == Math.floor(fees)) {
-                    gasamount = gasPrice.toFixed(2);
-                } else {
+                Feeamount = fees.toString();
+            }
+            let gasPrice = response.data.data.transaction.gasPrice / result;
+            let gasamount = fees.toString();
+            if (gasPrice == Math.floor(fees)) {
+                gasamount = gasPrice.toFixed(2);
+            } else {
 
-                    gasamount = gasPrice.toFixed(18);
-                }
-                setHash(response.data.data.transaction.hash);
-                setSender(response.data.data.transaction.from);
-                setrecepient(response.data.data.transaction.to);
-                setAmount(FTMamount);
-                setBlock(response.data.data.transaction.blockNumber);
-                setTransactionFee(Feeamount);
-                setTimestamp(dates);
-                setdates(' ' + dates);
-                setGasLimit(response.data.data.transaction.gas);
-                setGasUsed(response.data.data.transaction.gasUsed);
-                setGasPrice(gasamount);
-                setNonce(response.data.data.transaction.nonce);
-                setstatus(response.data.data.transaction.status);
-                setstatus(response.data.data.transaction.status);
-                setinputField(response.data.data.transaction.input);
-                setLoader(true);
-            }).catch(function (error) {
-                setLoader(true);
-                setError(true);
-                setErrorMsg(error.response.data.data.additional['0'].msg);
-            });
-    });
+                gasamount = gasPrice.toString();
+            }
+            setHash(response.data.data.transaction.hash);
+            setSender(response.data.data.transaction.from);
+            setrecepient(response.data.data.transaction.to);
+            setAmount(FTMamount);
+            setBlock(response.data.data.transaction.blockNumber);
+            setTransactionFee(Feeamount);
+            setTimestamp(dates);
+            setdates(' ' + dates);
+            setGasLimit(response.data.data.transaction.gas);
+            setGasUsed(response.data.data.transaction.gasUsed);
+            setGasPrice(gasamount);
+            setNonce(response.data.data.transaction.nonce);
+            setstatus(response.data.data.transaction.status);
+            setstatus(response.data.data.transaction.status);
+            setinputField(response.data.data.transaction.input);
+            setLoader(true);
+        }).catch(function (error) {
+            setLoader(true);
+            setError(true);
+            setErrorMsg(error.response.data.data.additional['0'].msg);
+        });
+    },[]);
     function fntxCopied() {
         setReceiverCopied(false)
         setSenderCopied(false)
@@ -148,7 +144,7 @@ function TransactionDetail() {
                 <div className="transaction-wrapper-details transaction-wrapper">
                     <div className="d-flex">
                         <div className="title-section">
-                            <h2>Transactions Detail</h2>
+                            <h2>Transaction Detail</h2>
                         </div>
                     </div>
                     <Row>
@@ -208,7 +204,7 @@ function TransactionDetail() {
                                                         </Col>
                                                         <Col className="col-8 col-sm-9">
                                                             <span className="column-data blue">
-                                                                {sender}
+                                                                <Link to={`/address/${sender}`} >  {sender}</Link>
                                                             </span>
 
                                                             {senderCopied ? <span style={{ color: '#777' }}> <i class="far fa-check-circle" aria-hidden="true"></i> Copied.</span> : <CopyToClipboard
@@ -225,7 +221,8 @@ function TransactionDetail() {
                                                         </Col>
                                                         <Col className="col-8 col-sm-9">
                                                             <span className="column-data blue">
-                                                                {recepient}
+                                                                <Link to={`/address/${sender}`} >  {recepient}</Link>
+
                                                             </span>
 
                                                             {receiverCopied ? <span style={{ color: '#777' }}> <i class="far fa-check-circle" aria-hidden="true"></i> Copied.</span> : <CopyToClipboard
@@ -313,8 +310,7 @@ function TransactionDetail() {
                                             </span>
                                                                 </Col>
                                                                 <Col className="col-4 col-sm-3">
-                                                                    <span> Nonce
-                                                 <span className="message-btn gray-btn">position</span>
+                                                                    <span> Nonce:
                                                                     </span>
                                                                 </Col>
                                                                 <Col className="col-8 col-sm-9">
@@ -328,7 +324,7 @@ function TransactionDetail() {
                                             </span>
                                                                 </Col>
                                                                 <Col className="col-8 col-sm-9">
-                                                                    <input type="text" value={inputField} readOnly className="input-wrapper" />
+                                                                    <textArea readOnly className="input-wrapper"> {inputField}</textArea>
                                                                 </Col>
                                                             </div>
                                                         )

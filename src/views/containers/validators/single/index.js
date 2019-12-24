@@ -9,7 +9,7 @@ import { api_get_singleValidators, api_get_singleValidatorsDelegator } from 'src
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 function durationToDisplay(millisec) {
-  var seconds = (millisec / 1000).toFixed(0);
+  var seconds = (millisec / 100000000000).toFixed(0);
   var minutes = Math.floor(seconds / 60);
   var hours = "";
   if (minutes > 59) {
@@ -22,14 +22,32 @@ function durationToDisplay(millisec) {
   seconds = Math.floor(seconds % 60);
   seconds = (seconds >= 10) ? seconds : "0" + seconds;
   if (hours != "") {
-    return hours + " Hour " + minutes + " mins " + seconds + " sec ";
+    return hours + " Hours " + minutes + " mins " + seconds + " sec ";
   }
   return minutes + " mins " + seconds + " sec";
 }
+function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
+  try {
+    decimalCount = Math.abs(decimalCount);
+    decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+    const negativeSign = amount < 0 ? "-" : "";
+
+    let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
+    let j = (i.length > 3) ? i.length % 3 : 0;
+
+    return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+  } catch (e) {
+    console.log(e)
+  }
+};
+
 function ValidatorDetail() {
   const match = useRouteMatch('/validator/:stakeId');
   const { params: { stakeId } } = match;
   const [card, setCard] = React.useState([]);
+  const [deligatorData, setDeligatorData] = React.useState([]);
+  const [deligatorDataCount, setdeligatorDataCount] = React.useState(0);
   const [txCopied, setTxCopied] = React.useState(false);
   React.useEffect(() => {
     axios({
@@ -37,7 +55,18 @@ function ValidatorDetail() {
       url: `${api_get_singleValidators}${stakeId}?verbosity=2`,
     })
       .then(function (response) {
-        //console.log(response.data.data);
+        console.log(response.data.data);
+        let validatingPower = response.data.data.validationScore;
+        let validatingPowerCal = validatingPower / 10000000;
+        let validatingPowerCalResult = formatMoney(validatingPowerCal);
+        let precision = 18;
+        let result = 10 ** precision;
+        let amountStaked = response.data.data.stake / result;
+        let delegatedme = response.data.data.delegatedMe / result;
+        let totalStake = response.data.data.totalStake /result;
+        let timestamp = response.data.data.createdTime;
+        let date = new Date((timestamp/ 1000000000) * 1000);
+ 
         const card = [
           {
             title: "Delegate address:",
@@ -46,23 +75,23 @@ function ValidatorDetail() {
           },
           {
             title: "Staking start time:",
-            value: durationToDisplay(response.data.data.createdTime)
+            value: '' +date
           },
           {
             title: "Validating power:",
-            value: response.data.data.validationScore
+            value: validatingPowerCalResult
           },
           {
             title: "Amount staked:",
-            value: `${response.data.data.stake} FTM`
+            value: `${formatMoney(amountStaked.toString())} FTM`
           },
           {
             title: "Amount delegated:",
-            value: `${response.data.data.delegatedMe} FTM`
+            value: `${formatMoney(delegatedme.toString())} FTM`
           },
           {
             title: "Staking total:",
-            value: `${response.data.data.totalStake} FTM`
+            value: `${formatMoney(totalStake.toString())} FTM`
           }
         ];
         setCard(card);
@@ -74,7 +103,9 @@ function ValidatorDetail() {
       url: `${api_get_singleValidatorsDelegator}${stakeId}?verbosity=2`,
     })
       .then(function (response) {
-        console.log(response.data.data);
+        //console.log(response.data.data.delegators);
+        setdeligatorDataCount(response.data.data.delegators.length)
+        setDeligatorData(response.data.data.delegators);
       }).catch(function (error) {
         console.log(error.message);
       });
@@ -82,9 +113,9 @@ function ValidatorDetail() {
   function fntxCopied() {
     setTxCopied(true)
     setTimeout(() => {
-        setTxCopied(false)
+      setTxCopied(false)
     }, 2000);
-}
+  }
   return (
     <section className="page-section">
       <Container>
@@ -119,6 +150,7 @@ function ValidatorDetail() {
               <table>
                 <tbody>
                   {card.map(({ title, value, valueClass = "" }, index) => (
+                    
                     <tr key={index}>
                       <td className="title-col">
                         <h4>{title}</h4>
@@ -128,7 +160,7 @@ function ValidatorDetail() {
                           <h4 className={valueClass}>{value}</h4>
                           {index === 0 && (
                             <div className="hashBtnWrapper">
-                               <CopyToClipboard
+                              <CopyToClipboard
                                 text={value}
                                 onCopy={fntxCopied}
                               >
@@ -136,11 +168,7 @@ function ValidatorDetail() {
                                   <i className="far fa-copy" />
                                 </button>
                               </CopyToClipboard>
-                               
-                              <button className="d-none d-lg-block">
-                                <img src={qrInon} alt="QR" />
-                              </button>
-                              {txCopied ? ( <span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) :null}
+                              {txCopied ? (<span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : null}
                             </div>
                           )}
                         </div>
@@ -156,7 +184,7 @@ function ValidatorDetail() {
         <Row>
           <Col>
             <h3 className="font-weight-bold text-navy mb-4">Delegations</h3>
-            <p className="total-tranactions  mb-3 mb-lg-4">10 delegates</p>
+            <p className="total-tranactions  mb-3 mb-lg-4">{deligatorDataCount} delegates</p>
             <div>
               <Table className="ftm-table responsive single-validator">
                 <thead>
@@ -166,21 +194,35 @@ function ValidatorDetail() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tableMockData.map(data => (
+                  {deligatorDataCount > 0 ? deligatorData.map(data => {
+                  let precision = 18;
+                  let result = 10 ** precision;
+                  let amountStaked = data.amount/ result;
+                  //console.log(data.amount);
+                 return (
                     <tr>
                       <td className="title">
                         <p className="text-ellipsis">
-                          <a className="text-primary">
-                            ftm1mt9ye3g0u72dlvyf6j68f2u78s0zaurjftpe28
-                          </a>
+                          <Link to={`/address/${data.address}`} className="text-primary">
+                            {data.address}
+                          </Link>
                         </p>
                       </td>
 
                       <td className="value" heading="Delegated">
-                        306,460 FTM
+                        {formatMoney(amountStaked)} FTM
+                      </td>
+
+                    </tr>
+                  )}) :
+
+                    <tr>
+
+                      <td className="title text-center" colSpan="2">
+                        <p>No data found.</p>
                       </td>
                     </tr>
-                  ))}
+                  }
                 </tbody>
               </Table>
             </div>

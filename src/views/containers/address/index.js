@@ -10,37 +10,55 @@ import { toFixed } from 'src/common/utility'; import { DataTable } from 'src/vie
 import Wrapper from 'src/views/wrapper/wrapper';
 import Loader from 'src/views/components/Loader';
 import TableData from 'src/views/containers/address/TableData';
-import type { RouterHistory } from 'react-router-dom';
 import type { Transaction } from 'src/utils/types';
-import { Link } from "react-router-dom";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
 import qrIcon from 'src/assets/images/icons/qr.svg';
 import classnames from 'classnames';
+import axios from "axios";
 import AssetsPage from 'src/views/containers/address/Assets';
 import TransactionsassetsPageData from 'src/views/containers/address/TableData';
-
+import { useRouteMatch, useHistory, Link } from 'react-router-dom';
+import { api_get_address } from 'src/utils/Utlity';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 function AddressPage() {
     const [activeTab, setActiveTab] = React.useState('1');
 
     const toggle = tab => {
         if (activeTab !== tab) setActiveTab(tab);
     }
+    const [txCopied, setTxCopied] = React.useState(false);
+    const match = useRouteMatch('/address/:addressid');
+    const { params: { addressid } } = match;
+    function fntxCopied() {
+        setTxCopied(true)
+        setTimeout(() => {
+            setTxCopied(false)
+        }, 20000);
+    }
     return (
         <div className=" address-wrapper ">
             <div className="breacrumb address-wrapper ">
                 <Container>
                     <Row className=" d-flex align-items-center top-row">
-                        <Col className=" col-12 col-sm-8">
+                        <Col className=" col-12 col-sm-9">
                             <div className="title-section d-flex align-items-center">
                                 <h2>Address</h2>
-                                <span>0x490b16d0d98d5a43300fd1ca916741a2557dfc4b</span>
-                                <span><i className="far fa-copy"></i></span>
+                                <span>{addressid}</span>
+                                <span> <CopyToClipboard
+                                    text={addressid}
+                                    onCopy={fntxCopied} ><i className="far fa-copy"></i>
+                                </CopyToClipboard>
+                                </span>
                                 <span>
                                     <img src={qrIcon} alt="qr-icon" />
                                 </span>
+
+                                <label className="copied-text">
+                                {txCopied ? (<span style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>   Copied.</span>) : null}
+                                </label>
                             </div>
                         </Col>
-                        <Col className="col-12 col-sm-4">
+                        <Col className="col-12 col-sm-3">
                             <ul className="d-flex justify-content-end">
                                 <li><Link to={`/`}>Home</Link></li>
                                 <li><span><img alt="Search" src={separaterIcon} className="icon" /></span> </li>

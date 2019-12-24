@@ -2,42 +2,49 @@
 
 import * as React from 'react';
 import axios from "axios";
-import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import TimeAgo from 'react-timeago';
 import Loading from 'src/assets/images/icons/Loading.gif';
-import { api_get_transactions } from 'src/utils/Utlity';
 import first from 'src/assets/images/icons/gotoendbutton.svg';
 import last from 'src/assets/images/icons/gotoendbutton.svg';
 import prev from 'src/assets/images/icons/back-button-active.svg';
 import next from 'src/assets/images/icons/forward-button.svg';
-
+import { useRouteMatch, useHistory, Link } from 'react-router-dom';
+import { api_get_address } from 'src/utils/Utlity';
 function TransactionsassetsPageData() {
     const [transactions, setTransactions] = React.useState([]);
     const [Totaltransactions, setTotaltransactions] = React.useState(0);
     const [Loader, setLoader] = React.useState(false);
     const [currentPage, setcurrentPage] = React.useState(0);
-    const [paginationCount, setpaginationCount] = React.useState(1);
+    const [paginationCountExtras, setPaginationCountExtras] = React.useState(1);
     const [paginationCountTotals, setpaginationCountTotals] = React.useState(1);
     const [currentPages, setcurrentPages] = React.useState(1);
     const [Error, setError] = React.useState(false);
+    const [currentAddress, setcurrentAddress] = React.useState(1);
+    const match = useRouteMatch('/address/:addressid');
+    const { params: { addressid } } = match;
     React.useEffect(() => {
+        setcurrentAddress(addressid);
         axios({
             method: 'get',
-            url: `${api_get_transactions}?count=10&order=-1&offset=${currentPage}`,
+            url: `${api_get_address}${addressid}&count=10&order=-1&offset=${currentPage}`,
         })
             .then(function (response) {
-                console.log(response.data.data.transactions);
-                setTransactions(response.data.data.transactions);
-                setTotaltransactions(response.data.data.total);
-                let total = response.data.data.total;
+
+                setTransactions(response.data.data.account.transactions);
+                setTotaltransactions(response.data.data.account.totalTrxs);
+                let total = response.data.data.account.totalTrxs;
                 let paginationTotal = total - 10;
-                setpaginationCount(Math.floor(paginationTotal));
+
                 let paginationTotals = total / 10;
+                let paginationExtras;
                 if (paginationTotals % 1 != 0) {
+                    paginationExtras = parseFloat(paginationTotals % 1);
                     paginationTotals = Math.floor(paginationTotals) + 1;
+                    //console.log(paginationExtras * 10);
+                    setPaginationCountExtras(paginationExtras * 10);
                 }
-                console.log(paginationCount);
+
                 setpaginationCountTotals(Math.floor(paginationTotals));
                 setLoader(true);
             }).catch(function (error) {
@@ -46,14 +53,15 @@ function TransactionsassetsPageData() {
                 setError(true);
             });
 
-    }, [setTransactions, setTotaltransactions, currentPage]);
+    }, [setTransactions, setTotaltransactions, currentPage, currentAddress]);
+
     function lastPage() {
         setLoader(false);
-        //console.log(paginationCount);
-        if (paginationCountTotals != 1) {
-            setcurrentPage(Totaltransactions - paginationCountTotals);
+        //console.log(paginationCountTotals);
+        if (paginationCountExtras == 0) {
+            setcurrentPage(Totaltransactions - 10);
         } else {
-            setcurrentPage(Totaltransactions - 9);
+            setcurrentPage(Totaltransactions - paginationCountExtras);
         }
 
         setcurrentPages(paginationCountTotals);
@@ -61,7 +69,7 @@ function TransactionsassetsPageData() {
     function firstPage() {
         setLoader(false);
         setcurrentPage(1);
-        setcurrentPages(1);
+        setcurrentPages(0);
     }
     function prevPage() {
         setLoader(false);
@@ -75,7 +83,38 @@ function TransactionsassetsPageData() {
         setcurrentPages(currentPages + 1);
     }
 
+    function getData(address) {
+       // console.log(acdd);
+       setcurrentPages(1);
+       setcurrentPage(0);
+        axios({
+            method: 'get',
+            url: `${api_get_address}${address}&count=10&order=-1&offset=${currentPage}`,
+        })
+            .then(function (response) {
 
+                setTransactions(response.data.data.account.transactions);
+                setTotaltransactions(response.data.data.account.totalTrxs);
+                let total = response.data.data.account.totalTrxs;
+                let paginationTotal = total - 10;
+
+                let paginationTotals = total / 10;
+                let paginationExtras;
+                if (paginationTotals % 1 != 0) {
+                    paginationExtras = parseFloat(paginationTotals % 1);
+                    paginationTotals = Math.floor(paginationTotals) + 1;
+                    //console.log(paginationExtras * 10);
+                    setPaginationCountExtras(paginationExtras * 10);
+                }
+
+                setpaginationCountTotals(Math.floor(paginationTotals));
+                setLoader(true);
+            }).catch(function (error) {
+                console.log(error.message);
+                setLoader(true);
+                setError(true);
+            });
+    }
     return (
 
         <div className="row">
@@ -114,7 +153,6 @@ function TransactionsassetsPageData() {
                                         <thead>
                                             <tr>
                                                 <th>Tx Hash</th>
-                                                <th>Block</th>
                                                 <th>Age</th>
                                                 <th>From</th>
                                                 <th>To</th>
@@ -138,30 +176,30 @@ function TransactionsassetsPageData() {
                                                 let precision = 18;
                                                 let result = 10 ** precision;
                                                 let amount = value / result;
-                                                let FTMamount = amount.toFixed(18);
+                                                let FTMamount = amount.toString();
                                                 let fees = fee / result;
-                                                let Feeamount = fees.toFixed(18);
+                                                let Feeamount = fees.toString();
                                                 if (amount == Math.floor(amount)) {
-                                                    FTMamount = amount.toFixed(2);
+                                                    FTMamount = amount.toString();
                                                 } else {
 
-                                                    FTMamount = amount.toFixed(18);
+                                                    FTMamount = amount.toString();
                                                 }
                                                 if (fees == Math.floor(fees)) {
-                                                    Feeamount = fees.toFixed(2);
+                                                    Feeamount = fees.toString();
                                                 } else {
 
-                                                    Feeamount = fees.toFixed(18);
+                                                    Feeamount = fees.toString();
                                                 }
                                                 //console.log(url);
                                                 return (
                                                     <tr key={blockHash}>
                                                         <td><Link className="text-ellipse" to={`/transactions/${hash}`}>{hash}</Link></td>
-                                                        <td><Link to={`/blocks/${blockNumber}`}>{blockNumber}</Link></td>
+
                                                         <td>
                                                             <TimeAgo date={d} /></td>
-                                                        <td ><Link className="text-ellipse" to={`/transactions/${hash}`} >{from}</Link></td>
-                                                        <td > <Link className="text-ellipse" to={`/transactions/${hash}`} >{to}</Link></td>
+                                                        <td ><Link className="text-ellipse" onClick={() => getData(from)} to={`/address/${from}`} >{from}</Link></td>
+                                                        <td > <Link className="text-ellipse" onClick={() => getData(to)} to={`/address/${to}`} >{to}</Link></td>
                                                         <td>{FTMamount} FTM</td>
                                                         <td>{Feeamount} FTM</td>
                                                     </tr>

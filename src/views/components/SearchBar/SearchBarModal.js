@@ -25,7 +25,7 @@ function SearchBarModal(props: SearchBarModalProps) {
                 <div className="content">
                     <h2 className="title">Error</h2>
                     <p className="error">
-                         Invalid Address, Block Number, or Transaction Hash. Please enter a valid Address, Block Number or, Transaction Hash.
+                        Invalid address, block number, or transaction hash. Please enter a valid address, block number, or transaction hash.
                     </p>
                 </div>
                 <Button

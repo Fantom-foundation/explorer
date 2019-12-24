@@ -22,6 +22,7 @@
           .far{
             color:#939ba8;
             font-size: 22px;
+            cursor: pointer;
         }
        
       }
@@ -85,12 +86,12 @@
   
 }
 @media(max-width: 567px){
-.address-wrapper .title-section span:nth-last-of-type(2){
+.address-wrapper.breacrumb .title-section span:nth-last-of-type(2){
   position: absolute;
   top: 0;
   right: 40px
 }
-.address-wrapper .title-section span:last-of-type{
+.address-wrapper.breacrumb  .title-section span:last-of-type{
   position: absolute;
   top: 0;
   right: 0px

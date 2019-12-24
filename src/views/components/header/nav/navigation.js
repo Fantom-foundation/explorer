@@ -38,7 +38,17 @@ function Navigation() {
         isShow,
         closing,
     } = state;
-
+function closemenu(){
+    setState((prevState) => ({ ...prevState, closing: true }));
+        setTimeout(
+            () => setState((prevState) => ({
+                ...prevState,
+                isShow: !prevState.isShow,
+                closing: false,
+            })),
+            400,
+        )
+}
     return (
         <Navbar dark expand="md">
             {isShow && (
@@ -64,17 +74,17 @@ function Navigation() {
                     onClick={toggleNavbar}
                 />
             )}
-            {windowWidth >= 768 || isShow ? (
+            {windowWidth >= 768 ? (
                 <Collapse className={closing ? 'closing' : ''} navbar >
                     <div className="overlay" onClick={toggleNavbar} />
                     <Nav className="ml-auto" navbar >
                         <NavItem>
-                            <NavLink exact tag={RouterNavLink} to="/">
+                            <NavLink  exact tag={RouterNavLink} to="/">
                                 Home
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RouterNavLink} to="/transactions">
+                            <NavLink  tag={RouterNavLink} to="/transactions">
                                 Transactions
                             </NavLink>
                         </NavItem>
@@ -84,14 +94,43 @@ function Navigation() {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RouterNavLink} to="/validators">
+                            <NavLink  tag={RouterNavLink} to="/validators">
                                 Validators
                             </NavLink>
                         </NavItem>
                     </Nav>
 
                 </Collapse>
-            ) : null}
+            ) : 
+            isShow ?
+             <Collapse className={closing ? 'closing' : ''} navbar >
+            <div className="overlay" onClick={toggleNavbar} />
+            <Nav className="ml-auto" navbar >
+                <NavItem>
+                    <NavLink onClick={() => closemenu()}  exact tag={RouterNavLink} to="/">
+                        Home
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink onClick={() => closemenu()}  tag={RouterNavLink} to="/transactions">
+                        Transactions
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink onClick={() => closemenu()} tag={RouterNavLink} to="/blocks">
+                        Blocks
+                    </NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink onClick={() => closemenu()}  tag={RouterNavLink} to="/validators">
+                        Validators
+                    </NavLink>
+                </NavItem>
+            </Nav>
+
+        </Collapse>
+        : null
+    }
         </Navbar>
     );
 }

@@ -39,7 +39,7 @@ export default function Dashboard() {
                 <Route path="/blocks-tranasctions/:id" component={BlockTransPage} />
                 <Route path="/address/:id" component={AddressPage} />
                 <Route path="/validator/:id" component={SingleValidators} />
-                <Route path="/validators-single-cheater" component={SingleValidatorCheater} />
+                <Route path="/cheater/:id" component={SingleValidatorCheater} />
 
             </Switch>
         </>

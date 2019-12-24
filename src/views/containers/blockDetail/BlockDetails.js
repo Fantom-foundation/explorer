@@ -111,12 +111,6 @@ function BlockDetails() {
                       <Col className="col-8 col-sm-9">
                         <span className="column-data ">{parentHash}</span>
                       </Col>
-                      <Col className="col-4 col-sm-3">
-                        <span>Calculation Time:</span>
-                      </Col>
-                      <Col className="col-8 col-sm-9">
-                        <span className="column-data">500 ms</span>
-                      </Col>
                     </Row>
                   </div>
                 </div>
