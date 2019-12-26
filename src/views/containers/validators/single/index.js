@@ -1,9 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Card, Table } from "reactstrap";
-import { tableMockData } from "./mokeData";
-import qrInon from "src/assets/images/icons/qr.svg";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
-import { callbackify } from "util";
 import axios from "axios";
 import { api_get_singleValidators, api_get_singleValidatorsDelegator } from 'src/utils/Utlity';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
@@ -55,7 +52,7 @@ function ValidatorDetail() {
       url: `${api_get_singleValidators}${stakeId}?verbosity=2`,
     })
       .then(function (response) {
-        console.log(response.data.data);
+        //console.log(response.data.data);
         let validatingPower = response.data.data.validationScore;
         let validatingPowerCal = validatingPower / 10000000;
         let validatingPowerCalResult = formatMoney(validatingPowerCal);
@@ -168,7 +165,7 @@ function ValidatorDetail() {
                                   <i className="far fa-copy" />
                                 </button>
                               </CopyToClipboard>
-                              {txCopied ? (<span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : null}
+                              {txCopied ? (<span className="copied-text" style={{ color: '#777' }}>  <i className="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : null}
                             </div>
                           )}
                         </div>

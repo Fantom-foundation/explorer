@@ -1,14 +1,12 @@
 import React from "react";
 import { Container, Row, Col, Card, Table } from "reactstrap";
-import { card, tableMockData, cheaterData } from "./mokeData";
-import qrInon from "src/assets/images/icons/qr.svg";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
 import axios from "axios";
 import { api_get_singleValidators, api_get_singleValidatorsDelegator } from 'src/utils/Utlity';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 function durationToDisplay(millisec) {
-  var seconds = (millisec / 1000000000).toFixed(0);
+  var seconds = (millisec / 100000000000).toFixed(0);
   var minutes = Math.floor(seconds / 60);
   var hours = "";
   if (minutes > 59) {
@@ -40,6 +38,7 @@ function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
     console.log(e)
   }
 };
+
 function CheaterDetail() {
   const match = useRouteMatch('/cheater/:stakeId');
   const { params: { stakeId } } = match;
@@ -57,6 +56,14 @@ function CheaterDetail() {
         let validatingPower = response.data.data.validationScore;
         let validatingPowerCal = validatingPower / 10000000;
         let validatingPowerCalResult = formatMoney(validatingPowerCal);
+        let precision = 18;
+        let result = 10 ** precision;
+        let amountStaked = response.data.data.stake / result;
+        let delegatedme = response.data.data.delegatedMe / result;
+        let totalStake = response.data.data.totalStake / result;
+        let timestamp = response.data.data.createdTime;
+        let date = new Date((timestamp / 1000000000) * 1000);
+
         const card = [
           {
             title: "Delegate address:",
@@ -65,7 +72,7 @@ function CheaterDetail() {
           },
           {
             title: "Staking start time:",
-            value: durationToDisplay(response.data.data.createdTime)
+            value: '' + date
           },
           {
             title: "Validating power:",
@@ -73,15 +80,15 @@ function CheaterDetail() {
           },
           {
             title: "Amount staked:",
-            value: `${response.data.data.stake} FTM`
+            value: `${formatMoney(amountStaked.toString())} FTM`
           },
           {
             title: "Amount delegated:",
-            value: `${response.data.data.delegatedMe} FTM`
+            value: `${formatMoney(delegatedme.toString())} FTM`
           },
           {
             title: "Staking total:",
-            value: `${response.data.data.totalStake} FTM`
+            value: `${formatMoney(totalStake.toString())} FTM`
           }
         ];
         setCard(card);
@@ -138,33 +145,36 @@ function CheaterDetail() {
             <Card className="detail-card validator-card danger h-100">
               <h3 className="text-grey">Overview</h3>
               <table>
-                {card.map(({ title, value, valueClass = "" }, index) => (
-                  <tr key={index}>
-                    <td className="title-col">
-                      <h4>{title}</h4>
-                    </td>
-                    <td className="info-col pl-2 pl-lg-5">
-                      <div className="d-flex align-items-center">
-                        <h4 className={valueClass}>{value}</h4>
-                        {index === 0 && (
-                          <div className="hashBtnWrapper">
-                            <CopyToClipboard
-                              text={value}
-                              onCopy={fntxCopied}
-                            >
-                              <button className="ml-0 ml-lg-4">
-                                <i className="far fa-copy" />
-                              </button>
-                            </CopyToClipboard>
-                            {txCopied ? (<span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : null}
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                <tbody>
+                  {card.map(({ title, value, valueClass = "" }, index) => (
+
+                    <tr key={index}>
+                      <td className="title-col">
+                        <h4>{title}</h4>
+                      </td>
+                      <td className="info-col pl-2 pl-lg-5">
+                        <div className="d-flex align-items-center">
+                          <h4 className={valueClass}>{value}</h4>
+                          {index === 0 && (
+                            <div className="hashBtnWrapper">
+                              <CopyToClipboard
+                                text={value}
+                                onCopy={fntxCopied}
+                              >
+                                <button className="ml-0 ml-lg-4">
+                                  <i className="far fa-copy" />
+                                </button>
+                              </CopyToClipboard>
+                              {txCopied ? (<span className="copied-text" style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : null}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
-              <div className="mt-3 pt-4">
+              {/* <div className="mt-3 pt-4">
                 <h3 className="text-danger">Cheater</h3>
                 <table className="cheater">
                   {cheaterData.map(({ title, value }, index) => (
@@ -180,7 +190,7 @@ function CheaterDetail() {
                     </tr>
                   ))}
                 </table>
-              </div>
+              </div> */}
             </Card>
           </Col>
         </Row>
@@ -198,22 +208,28 @@ function CheaterDetail() {
                   </tr>
                 </thead>
                 <tbody>
-                  {deligatorDataCount > 0 ? deligatorData.map(data => (
-                    <tr>
-                      <td className="title">
-                        <p className="text-ellipsis">
-                        <Link to={`/address/${data.address}`} className="text-primary">
-                            {data.address}
-                          </Link>
-                        </p>
+                  {deligatorDataCount > 0 ? deligatorData.map(data => {
+                    let precision = 18;
+                    let result = 10 ** precision;
+                    let amountStaked = data.amount / result;
+                    //console.log(data.amount);
+                    return (
+                      <tr>
+                        <td className="title">
+                          <p className="text-ellipsis">
+                            <Link to={`/address/${data.address}`} className="text-primary">
+                              {data.address}
+                            </Link>
+                          </p>
+                        </td>
+
+                        <td className="value" heading="Delegated">
+                          {formatMoney(amountStaked)} FTM
                       </td>
 
-                      <td className="value" heading="Delegated">
-                        {data.amount} FTM
-                      </td>
-
-                    </tr>
-                  )) :
+                      </tr>
+                    )
+                  }) :
 
                     <tr>
 

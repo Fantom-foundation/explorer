@@ -91,17 +91,11 @@ function ValidatorPage() {
       cell: row => (
         <Link
           to={`/cheater/${row.id}`}>
-          {row.validatorname}
+          {row.title}
         </Link>
       ),
 
-    },
-    {
-      name: 'Tokens slashed',
-      selector: 'tokensslashed',
-      sortable: true,
-      right: false,
-    },
+    }
   ];
   function formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
     try {
@@ -127,7 +121,7 @@ function ValidatorPage() {
       .then(function (response) {
         let StakedSum = 0;
         let arrayCount = response.data.data.stakers.length;
-        console.log(response.data.data.stakers);
+       // console.log(response.data.data.stakers);
         setActiveData(response.data.data.stakers);
         for (let i = 0; i < arrayCount; i++) {
           StakedSum = parseFloat(StakedSum) + parseFloat(response.data.data.stakers[i].totalStake);
@@ -135,27 +129,28 @@ function ValidatorPage() {
             let validatingPower = response.data.data.stakers[i].validationScore;
             let validatingPowerCal= validatingPower / 10000000;
             let validatingPowerCalResult =formatMoney(validatingPowerCal);
+            let downtime = response.data.data.stakers[i].downtime / 1000000000;
             jsonArr.push({
               id: response.data.data.stakers[i].id,
               title: i + 1,
               validatorname: response.data.data.stakers[i].address,
               poi: `${response.data.data.stakers[i].poi}`,
               validatingpower: validatingPowerCalResult,
-              downtime: response.data.data.stakers[i].downtime
+              downtime: downtime.toFixed(2)
             });
           }
           else {
+           
             jsonArrCheaters.push({
               id: response.data.data.stakers[i].id,
               title: response.data.data.stakers[i].address,
-              tokensslashed: '',
             });
           }
         }
         StakedSum = StakedSum / 1000000000000000000;
         setTableData(jsonArr);
         setCheatersTableData(jsonArrCheaters);
-
+        //console.log(jsonArrCheaters);
         setCard1([
           {
             title: "Validators:",
@@ -172,7 +167,7 @@ function ValidatorPage() {
         ]);
 
       }).catch(function (error) {
-        console.log(error.message);
+       // console.log(error.message);
       });
     axios({
       method: 'get',
@@ -180,7 +175,7 @@ function ValidatorPage() {
     })
       .then(function (response) {
         let duration = durationToDisplay(response.data.data.duration)
-        console.log(response.data.data);
+       // console.log(response.data.data);
         let ValidatingPower = response.data.data.validatingPower;
         if (ValidatingPower === null || ValidatingPower === undefined) {
           ValidatingPower = 0;
@@ -284,7 +279,7 @@ function ValidatorPage() {
                 </NavItem>
               </Nav>
               <TabContent activeTab={activeTab}>
-                <TabPane tabId="1">
+                <TabPane tabId="1" className="active-tab">
                   <Row>
                     <Col sm="12">
                       <div className="hide-mobile">
@@ -307,8 +302,11 @@ function ValidatorPage() {
                             isCheater,
                             id
                           } = ActiveData;
+                          let validatingPowerCal= validationScore / 10000000;
+                          let downtimes = downtime / 1000000000;
+                          let validatingPowerCalResult =formatMoney(validatingPowerCal);
                           return isCheater === false  ?    
-                            <tr>
+                            <tr key={id}>
                               <td className="no-mobile"></td>
                               <td className="title">
                                 <Link className="" to={`/validator/${id}`}>{address}</Link>
@@ -317,10 +315,10 @@ function ValidatorPage() {
                                 {poi}
                               </td>
                               <td className="value" heading="Validating power">
-                                {validationScore}
+                                {validatingPowerCalResult}
                               </td>
                               <td className="value" heading="Downtime">
-                                {downtime}
+                                {downtimes.toFixed(2)}
                               </td>
                             </tr>
                             : null
@@ -337,24 +335,21 @@ function ValidatorPage() {
                         title=""
                         columns={columnsCheaters}
                         data={CheatersTableData}
+                        sortIcon={<span><ArrowDown /><ArrowUp /></span>}
                       />
                       </div>
                     </Col>
                     <table className="ftm-table responsive validator-cheater mobile-show">
                       <tbody>
-                      {ActiveData.map(ActiveData => {
+                      {CheatersTableData.map(ActiveData => {
                           const {
-                            address,
-                            isCheater,
+                            title,
                             id
                           } = ActiveData;
-                          return isCheater === true  ?  
-                          <tr>
+                          return id ?  
+                          <tr key={id}>
                             <td className="title">
-                            <Link className="" to={`/cheater/${id}`}>{address}</Link>
-                            </td>
-                            <td className="value" heading="Tokens slashed">
-                             0
+                            <Link className="" to={`/cheater/${id}`}>{title}</Link>
                             </td>
                           </tr>
                           : <tr className="no-data text-center"  >

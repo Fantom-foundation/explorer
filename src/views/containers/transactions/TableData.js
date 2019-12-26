@@ -30,7 +30,7 @@ function TransactionsPageData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
-                    console.log(eventData);
+                    //console.log(eventData);
                     if (eventData.block.transactions > 0) {
                         setTransactions(prevTrans => {
                             let newTrans = JSON.parse(JSON.stringify(prevTrans));
@@ -72,7 +72,7 @@ function TransactionsPageData() {
             url: `${api_get_transactions}?count=10&order=-1&offset=${currentPage}`,
         })
             .then(function (response) {
-                console.log(response.data.data.transactions);
+                //console.log(response.data.data.transactions);
                 setTransactions(response.data.data.transactions);
                 setTotaltransactions(response.data.data.total);
                 let total = response.data.data.total;
@@ -86,11 +86,11 @@ function TransactionsPageData() {
                     //console.log(paginationExtras * 10);
                     setPaginationCountExtras(paginationExtras * 10);
                 }
-                console.log(paginationCount);
+                //console.log(paginationCount);
                 setpaginationCountTotals(Math.floor(paginationTotals));
                 setLoader(true);
             }).catch(function (error) {
-                console.log(error.message);
+               // console.log(error.message);
                 setLoader(true);
                 setError(true);
             });
@@ -189,18 +189,17 @@ function TransactionsPageData() {
                                                 let result = 10 ** precision;
                                                 let amount = value / result;
                                                 let FTMamount =  amount;
-                                                console.log(FTMamount);
+                                                
                                                 let fees = fee / result;
                                                 let Feeamount = fees.toString();
                                                 let FTMamounts = parseFloat(FTMamount.toString());
-                                                console.log(">>> "+ FTMamounts);
                                                 if (fees == Math.floor(fees)) {
                                                     Feeamount = fees.toFixed(2);
                                                 } else {
 
                                                     Feeamount = fees.toString();
                                                 }
-                                                //console.log(url);
+                                                
                                                 return (
                                                     <tr key={blockHash}>
                                                         <td><Link className="text-ellipse" to={`/transactions/${hash}`}>{hash}</Link></td>
