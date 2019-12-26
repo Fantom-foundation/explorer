@@ -74,7 +74,7 @@ function ValidatorPage() {
       right: false,
     },
     {
-      name: 'Downtime',
+      name: 'Downtime (seconds)',
       selector: 'downtime',
       sortable: true,
       right: false,
@@ -317,7 +317,7 @@ function ValidatorPage() {
                               <td className="value" heading="Validating power">
                                 {validatingPowerCalResult}
                               </td>
-                              <td className="value" heading="Downtime">
+                              <td className="value" heading="Downtime (seconds)">
                                 {downtimes.toFixed(2)}
                               </td>
                             </tr>

@@ -143,7 +143,7 @@ function CheaterDetail() {
         <Row className="card-row mb-3 mb-lg-4 pb-3">
           <Col>
             <Card className="detail-card validator-card danger h-100">
-              <h3 className="text-grey">Overview</h3>
+              <h3 className="text-grey red">Cheater</h3>
               <table>
                 <tbody>
                   {card.map(({ title, value, valueClass = "" }, index) => (
