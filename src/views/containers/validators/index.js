@@ -101,12 +101,12 @@ function ValidatorPage() {
     try {
       decimalCount = Math.abs(decimalCount);
       decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-  
+
       const negativeSign = amount < 0 ? "-" : "";
-  
+
       let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
       let j = (i.length > 3) ? i.length % 3 : 0;
-  
+
       return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
     } catch (e) {
       console.log(e)
@@ -140,7 +140,7 @@ function ValidatorPage() {
             });
           }
           else {
-           
+
             jsonArrCheaters.push({
               id: response.data.data.stakers[i].id,
               title: response.data.data.stakers[i].address,
@@ -161,8 +161,8 @@ function ValidatorPage() {
             value: `${StakedSum}`
           },
           {
-            title: "Average rewards:",
-            value: "712,108.30 FTM"
+            title: "Average daily rewards:",
+            value: "1,423,872.00 FTM"
           }
         ]);
 
@@ -305,7 +305,7 @@ function ValidatorPage() {
                           let validatingPowerCal= validationScore / 10000000;
                           let downtimes = downtime / 1000000000;
                           let validatingPowerCalResult =formatMoney(validatingPowerCal);
-                          return isCheater === false  ?    
+                          return isCheater === false  ?
                             <tr key={id}>
                               <td className="no-mobile"></td>
                               <td className="title">
@@ -346,7 +346,7 @@ function ValidatorPage() {
                             title,
                             id
                           } = ActiveData;
-                          return id ?  
+                          return id ?
                           <tr key={id}>
                             <td className="title">
                             <Link className="" to={`/cheater/${id}`}>{title}</Link>
