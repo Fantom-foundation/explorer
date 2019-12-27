@@ -72,7 +72,7 @@ function TransactionsPageData() {
             url: `${api_get_transactions}?count=10&order=-1&offset=${currentPage}`,
         })
             .then(function (response) {
-                //console.log(response.data.data.transactions);
+                console.log(response.data.data.transactions.length);
                 setTransactions(response.data.data.transactions);
                 setTotaltransactions(response.data.data.total);
                 let total = response.data.data.total;

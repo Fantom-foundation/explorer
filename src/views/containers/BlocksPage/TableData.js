@@ -32,7 +32,7 @@ function TableData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
-                   
+
                     setBlocks(prevBlocks => {
                         let newBlocks = JSON.parse(JSON.stringify(prevBlocks));
                         newBlocks.pop();
@@ -66,11 +66,12 @@ function TableData() {
             url: `${api_get_block}?count=20&order=-1&offset=${CurrentPage}`,
         })
             .then(function (response) {
-                console.log(response.data.data.blocks);
+                //console.log(response.data.data.blocks.length);
                 setBlocks(response.data.data.blocks);
                 setTotalBlocks(response.data.data.maxBlockHeight);
                 setFirstBlocks(response.data.data.blocks['0'].number);
-                setLastBlocks(response.data.data.blocks['19'].number);
+                let lastblock = response.data.data.blocks.length - 1;
+                setLastBlocks(`${response.data.data.blocks[lastblock].number}`);
                 setLoader(true);
                 let total = response.data.data.maxBlockHeight;
                 let paginationTotal = total - 20;
@@ -221,7 +222,7 @@ function TableData() {
                                                     let dateString = new Date(d).toUTCString();
                                                     dateString = dateString.split(' ').slice(0, 4).join(' ');
                                                     let dates = ' ' + d;
-                                                    return  transactions > 0 ?
+                                                    return transactions > 0 ?
                                                         <div className="row mobile-data-row" key={timestamp + number}>
                                                             <div className="col-4">
                                                                 <span> Block</span>
@@ -252,7 +253,7 @@ function TableData() {
                                                             </div>
                                                             <div className="col-8">
                                                                 <span>
-                                                                <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link>
+                                                                    <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link>
                                                                 </span>
                                                             </div>
                                                             {/* <div className="col-4">
@@ -264,8 +265,8 @@ function TableData() {
                                                         </span>
                                                             </div> */}
                                                         </div>
-                                                    : 
-                                                    <div className="row mobile-data-row" key={timestamp + number}>
+                                                        :
+                                                        <div className="row mobile-data-row" key={timestamp + number}>
                                                             <div className="col-4">
                                                                 <span> Block</span>
                                                             </div>
