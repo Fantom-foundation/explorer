@@ -25,7 +25,7 @@ function BlockDetails() {
   React.useEffect(() => {
     axios({
       method: "get",
-      url: "http://3.136.216.35:3100/api/v1/get-block?blockNumber=" + hash
+      url: "http://api.fantom.network/api/v1/get-block?blockNumber=" + hash
     })
       .then(function(response) {
         let dates = new Date(response.data.data.block.timestamp * 1000);
