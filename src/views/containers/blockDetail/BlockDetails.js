@@ -87,8 +87,8 @@ function BlockDetails() {
                       </Col>
                       <Col className="col-8 col-sm-9">
                         <span className="column-data ">
-                          {transactions === 0 ? (
-                            <div>{transactions} transaction in this block</div>
+                          {transactions !== 1 ? (
+                            <div>{transactions} transactions in this block</div>
                           ) : (
                             <div>
                               <Link to={`/blocks-tranasctions/${number}`}>
