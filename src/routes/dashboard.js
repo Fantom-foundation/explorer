@@ -36,7 +36,7 @@ export default function Dashboard() {
                 <Route path="/details" component={Details} />
                 <Route path="/block/:id?" component={BlockTransactionDetail} />
                 <Route path="/validators" component={Validators} />
-                <Route path="/blocks-tranasctions/:id" component={BlockTransPage} />
+                <Route path="/blocks-transactions/:id" component={BlockTransPage} />
                 <Route path="/address/:id" component={AddressPage} />
                 <Route path="/validator/:id" component={SingleValidators} />
                 <Route path="/cheater/:id" component={SingleValidatorCheater} />

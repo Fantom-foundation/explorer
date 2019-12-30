@@ -14,7 +14,7 @@ import separaterIcon from 'src/assets/images/icons/chevron.svg';
 
 function BlockTransPage() {
 
-    const match = useRouteMatch('/blocks-tranasctions/:blockNumber');
+    const match = useRouteMatch('/blocks-transactions/:blockNumber');
     const { params: { blockNumber } } = match;
     const hash = blockNumber.replace('', '');
     console.log(hash);

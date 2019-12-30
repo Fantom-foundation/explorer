@@ -24,7 +24,7 @@ function TransactionDetail() {
     let [showDetails, setShowDetails] = React.useState(false);
     const [txhash, setHash] = React.useState(0);
     const [sender, setSender] = React.useState(0);
-    const [recepient, setrecepient] = React.useState(0);
+    const [recipient, setrecipient] = React.useState(0);
     const [amount, setAmount] = React.useState(0);
     const [transactionFee, setTransactionFee] = React.useState(0);
     const [Timestamp, setTimestamp] = React.useState(0);
@@ -76,7 +76,7 @@ function TransactionDetail() {
             }
             setHash(response.data.data.transaction.hash);
             setSender(response.data.data.transaction.from);
-            setrecepient(response.data.data.transaction.to);
+            setrecipient(response.data.data.transaction.to);
             setAmount(FTMamount);
             setBlock(response.data.data.transaction.blockNumber);
             setTransactionFee(Feeamount);
@@ -221,12 +221,12 @@ function TransactionDetail() {
                                                         </Col>
                                                         <Col className="col-8 col-sm-9">
                                                             <span className="column-data blue">
-                                                                <Link to={`/address/${sender}`} >  {recepient}</Link>
+                                                                <Link to={`/address/${recipient}`} >  {recipient}</Link>
 
                                                             </span>
 
                                                             {receiverCopied ? <span style={{ color: '#777' }}> <i class="far fa-check-circle" aria-hidden="true"></i> Copied.</span> : <CopyToClipboard
-                                                                text={recepient}
+                                                                text={recipient}
                                                                 onCopy={fnreceiverCopied}
                                                             >
                                                                 <img alt="Search" src={copyIcon} className="icon copied-icon" />

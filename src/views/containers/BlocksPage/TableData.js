@@ -193,7 +193,7 @@ function TableData() {
                                                                     <td> <Link to={`/blocks/${number}`}>{number}</Link></td>
                                                                     <td>{dateString}</td>
                                                                     <td><TimeAgo date={d} /></td>
-                                                                    <td> <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link></td>
+                                                                    <td> <Link to={`/blocks-transactions/${number}`}>{transactions}</Link></td>
                                                                     {/* <td>0.0000001 FTM</td> */}
                                                                 </tr>
                                                                 :
@@ -253,7 +253,7 @@ function TableData() {
                                                             </div>
                                                             <div className="col-8">
                                                                 <span>
-                                                                    <Link to={`/blocks-tranasctions/${number}`}>{transactions}</Link>
+                                                                    <Link to={`/blocks-transactions/${number}`}>{transactions}</Link>
                                                                 </span>
                                                             </div>
                                                             {/* <div className="col-4">

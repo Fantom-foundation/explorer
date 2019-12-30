@@ -10,7 +10,7 @@ import {api_get_transactions} from 'src/utils/Utlity';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 
 function TransactionsPageData() {
-    const match = useRouteMatch('/blocks-tranasctions/:blockNumber');
+    const match = useRouteMatch('/blocks-transactions/:blockNumber');
     const { params: { blockNumber } } = match;
     const hash = blockNumber.replace('', '');
     const [transactions, setTransactions] = React.useState([]);
