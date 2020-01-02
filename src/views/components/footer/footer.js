@@ -6,14 +6,15 @@ import { Container, Row, Col } from 'reactstrap';
 import GithubIcon from 'src/assets/images/social/github.svg';
 import TelegramIcon from 'src/assets/images/social/telegram.svg';
 import TwitterIcon from 'src/assets/images/social/twitter.svg';
-
+const currentYear = new Date();
+const year = currentYear.getFullYear();
 const Footer = () => (
     <footer>
         <Container  className="footer-container">
             <Row className="menus justify-content-between align-items-center">
                 <Col md={5} lg={5} className="bordred">
                     <span >
-                    ©2019 Fantom Foundation. All rights reserved.
+                    ©{year} Fantom Foundation. All rights reserved.
               </span>
                 </Col>
                 <Col md={5} lg={5} className="bordred">

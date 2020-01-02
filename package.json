@@ -12,7 +12,7 @@
     "build": "GENERATE_SOURCEMAP=false craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "deploy:dev": "aws s3 sync build/ s3://block-explorer.fantom.foundation/ --region us-east-2 --delete"
+    "deploy:dev": " aws s3 sync build/ s3://block-explorer.fantom.foundation/ --region us-east-2 --delete"
   },
   "browserslist": {
     "production": [

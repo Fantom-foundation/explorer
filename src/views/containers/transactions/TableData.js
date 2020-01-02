@@ -30,8 +30,9 @@ function TransactionsPageData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
-                    //console.log(eventData);
-                    if (eventData.block.transactions > 0) {
+                    console.log(eventData);
+                    console.log(eventData.block.number);
+                    //if (eventData.block.transactions > 0) {
                         setTransactions(prevTrans => {
                             let newTrans = JSON.parse(JSON.stringify(prevTrans));
                             if (eventData.lastTrxs.length > 0) {
@@ -56,7 +57,7 @@ function TransactionsPageData() {
                             setpaginationCountTotals(Math.floor(paginationTotals + 1));
                             return newTotal;
                         });
-                    }
+                   // }
                 }
             });
         });
@@ -251,7 +252,7 @@ function TransactionsPageData() {
                                             Feeamount = fees.toString();
                                         }
                                         let url = "/transactions/:" + hash
-                                        //console.log(url);
+                                        //console.log(FTMamount);
                                         return (
                                             <div key={blockHash} className="row listing-row  mobile-data-row">
                                                 <div className="col-12">
