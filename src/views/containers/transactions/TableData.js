@@ -5,7 +5,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { Container, Row, Col } from 'reactstrap';
 import TimeAgo from 'react-timeago';
-import BigNumber from 'big-number'; 
 import Loading from 'src/assets/images/icons/Loading.gif';
 import { api_get_transactions } from 'src/utils/Utlity';
 import first from 'src/assets/images/icons/gotoendbutton.svg';
@@ -30,8 +29,8 @@ function TransactionsPageData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
-                    console.log(eventData);
-                    console.log(eventData.block.number);
+                   // console.log(eventData);
+                  //  console.log(eventData.block.number);
                     //if (eventData.block.transactions > 0) {
                         setTransactions(prevTrans => {
                             let newTrans = JSON.parse(JSON.stringify(prevTrans));
