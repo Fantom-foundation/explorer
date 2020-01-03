@@ -29,15 +29,17 @@ function TransactionsPageData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
-                   // console.log(eventData);
-                  //  console.log(eventData.block.number);
-                    //if (eventData.block.transactions > 0) {
-                        setTransactions(prevTrans => {
-                            let newTrans = JSON.parse(JSON.stringify(prevTrans));
-                            if (eventData.lastTrxs.length > 0) {
-                                eventData.lastTrxs.forEach((tx) => {
+                  //  console.log(eventData);
+                  //console.log(eventData.block.number);
+                    if (eventData.block.transactions > 0) {
+                        setTransactions(prevTrans=>{
+                            let newTrans=JSON.parse(JSON.stringify(prevTrans));
+                            let blockNumber=eventData.block.number;
+                            if(eventData.lastTrxs.length>0){
+                                eventData.lastTrxs.forEach((tx)=>{
                                     newTrans.pop();
-                                    newTrans.unshift(tx);
+                                    let newtx={...tx,blockNumber}
+                                    newTrans.unshift(newtx);
                                 })
                             }
                             return newTrans;
@@ -56,7 +58,7 @@ function TransactionsPageData() {
                             setpaginationCountTotals(Math.floor(paginationTotals + 1));
                             return newTotal;
                         });
-                   // }
+                    }
                 }
             });
         });

@@ -32,7 +32,7 @@ function TableData() {
             socketClient.on('message', (data) => {
                 const eventData = JSON.parse(data);
                 if (eventData.event === 'newBlock') {
-
+                    //console.log(eventData);
                     setBlocks(prevBlocks => {
                         let newBlocks = JSON.parse(JSON.stringify(prevBlocks));
                         newBlocks.pop();
