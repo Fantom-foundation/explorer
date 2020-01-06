@@ -18,9 +18,9 @@ import { Link } from "react-router-dom";
 import { api_get_singleTransaction } from 'src/utils/Utlity';
 function TransactionDetail() {
     const match = useRouteMatch('/transactions/:txHash');
-    const { params: { txHash } } = match;
+    let { params: { txHash } } = match;
     const [Loader, setLoader] = React.useState(false);
-    const hash = txHash.replace(':', '');
+    let hash = txHash.replace(':', '');
     let [showDetails, setShowDetails] = React.useState(false);
     const [txhash, setHash] = React.useState(0);
     const [sender, setSender] = React.useState(0);
@@ -95,7 +95,7 @@ function TransactionDetail() {
             setError(true);
             setErrorMsg(error.response.data.data.additional['0'].msg);
         });
-    },[]);
+    },[txhash]);
     function fntxCopied() {
         setReceiverCopied(false)
         setSenderCopied(false)
@@ -126,6 +126,7 @@ function TransactionDetail() {
             setTxCopied(false)
         }, 2000);
     }
+   // console.log(txhash);
     return (
         <section className="bg-theme full-height-conatainer">
 
@@ -171,7 +172,7 @@ function TransactionDetail() {
                                                             <span className="column-data">
                                                                 {txhash}
                                                             </span>
-                                                            {txCopied ? (<span style={{ color: '#777' }}>  <i class="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : <CopyToClipboard
+                                                            {txCopied ? (<span style={{ color: '#777' }}>  <i className="far fa-check-circle" aria-hidden="true"></i>  Copied.</span>) : <CopyToClipboard
                                                                 text={txhash}
                                                                 onCopy={fntxCopied}
                                                             ><img alt="Search" src={copyIcon} className="icon copied-icon" />

@@ -26,7 +26,7 @@ function SearchBar(props) {
         e.preventDefault();
         
 
-        console.log(e,"event",searchText,"searchText");
+     //   console.log(e,"event",searchText,"searchText");
         if (searchText && searchText !== '') {
             const checkResponse = checkSearchString(searchText);
 
@@ -47,6 +47,7 @@ function SearchBar(props) {
                         pathname: `/address/${searchText}`,
                     });
                 }
+                window.location.reload();
             } else {
                 toggleModalOpen();
             }
