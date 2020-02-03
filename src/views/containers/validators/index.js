@@ -79,7 +79,12 @@ function ValidatorPage() {
       sortable: true,
       right: false,
     },
-
+    {
+      name: 'Staked',
+      selector: 'totalStaked',
+      sortable: true,
+      right: false,
+    }
   ];
   var jsonArrCheaters = [];
   const columnsCheaters = [
@@ -128,15 +133,17 @@ function ValidatorPage() {
           if (response.data.data.stakers[i].isCheater === false) {
             let validatingPower = response.data.data.stakers[i].validationScore;
             let validatingPowerCal= validatingPower / 10000000;
-            let validatingPowerCalResult =formatMoney(validatingPowerCal);
+            let validatingPowerCalResult = formatMoney(validatingPowerCal);
             let downtime = response.data.data.stakers[i].downtime / 1000000000;
+            let totalStaked = formatMoney(response.data.data.stakers[i].totalStake / 1000000000000000000);
             jsonArr.push({
               id: response.data.data.stakers[i].id,
               title: i + 1,
               validatorname: response.data.data.stakers[i].address,
               poi: `${response.data.data.stakers[i].poi}`,
               validatingpower: validatingPowerCalResult,
-              downtime: downtime.toFixed(2)
+              downtime: downtime.toFixed(2),
+              totalStaked: totalStaked
             });
           }
           else {
@@ -299,11 +306,15 @@ function ValidatorPage() {
                             poi,
                             downtime,
                             validationScore,
+                            totalStake,
                             isCheater,
                             id
                           } = ActiveData;
                           let validatingPowerCal= validationScore / 10000000;
                           let downtimes = downtime / 1000000000;
+                          let totalStaked = totalStake / 1000000000000000000;
+                          console.log("totalStaked")
+                          console.log(totalStaked)
                           let validatingPowerCalResult =formatMoney(validatingPowerCal);
                           return isCheater === false  ?
                             <tr key={id}>
@@ -319,6 +330,9 @@ function ValidatorPage() {
                               </td>
                               <td className="value" heading="Downtime (seconds)">
                                 {downtimes.toFixed(2)}
+                              </td>
+                              <td className="value" heading="Staked">
+                                <CurrencyFormat value={totalStaked.toFixed(2)} displayType={'text'} thousandSeparator={true} />
                               </td>
                             </tr>
                             : null
