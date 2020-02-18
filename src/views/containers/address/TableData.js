@@ -109,11 +109,13 @@ function TransactionsassetsPageData() {
 
                 setpaginationCountTotals(Math.floor(paginationTotals));
                 setLoader(true);
+                window.location.reload();
             }).catch(function (error) {
                 console.log(error.message);
                 setLoader(true);
                 setError(true);
             });
+           
     }
     return (
 
