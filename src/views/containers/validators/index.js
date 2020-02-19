@@ -140,7 +140,7 @@ function ValidatorPage() {
               id: response.data.data.stakers[i].id,
               title: i + 1,
               validatorname: response.data.data.stakers[i].address,
-              poi: `${response.data.data.stakers[i].poi}`,
+              poi: parseFloat(response.data.data.stakers[i].poi),
               validatingpower: validatingPowerCalResult,
               downtime: downtime.toFixed(2),
               totalStaked: totalStaked
