@@ -10,6 +10,10 @@ import DataTable from 'react-data-table-component';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import CurrencyFormat from 'react-currency-format';
 import { ArrowUp, ArrowDown } from "src/views/components/IconsSvg";
+import $ from 'jquery';
+
+import 'datatables.net';
+import 'datatables.net-dt/css/jquery.dataTables.css';
 function durationToDisplay(millisec) {
   var seconds = (millisec / 1000).toFixed(0);
   var minutes = Math.floor(seconds / 60);
@@ -53,8 +57,7 @@ function ValidatorPage() {
       right: false,
       ignoreRowClick: true,
       cell: row => (
-        <Link
-          to={`/validator/${row.id}`}>
+        <Link to={`/validator/${row.id}`}>
           {row.validatorname}
         </Link>
       ),
@@ -140,7 +143,7 @@ function ValidatorPage() {
               id: response.data.data.stakers[i].id,
               title: i + 1,
               validatorname: response.data.data.stakers[i].address,
-              poi: parseFloat(response.data.data.stakers[i].poi),
+              poi: formatMoney(response.data.data.stakers[i].poi),
               validatingpower: validatingPowerCalResult,
               downtime: downtime.toFixed(2),
               totalStaked: totalStaked
@@ -172,6 +175,14 @@ function ValidatorPage() {
             value: "1,423,872.00 FTM"
           }
         ]);
+	      $('#datatables1').dataTable({
+			"searching": false,
+			"bPaginate": false,
+			"bLengthChange": false,
+			"bFilter": true,
+			"bInfo": false,
+			"bAutoWidth": false
+		});
 
       }).catch(function (error) {
        // console.log(error.message);
@@ -290,12 +301,47 @@ function ValidatorPage() {
                   <Row>
                     <Col sm="12">
                       <div className="hide-mobile">
-                        <DataTable
+                        {/*<DataTable
                           title=""
                           columns={columns}
                           data={TableData}
                           sortIcon={<span><ArrowDown /><ArrowUp /></span>}
                         />
+                        */ }
+                        <table id ="datatables1"class = "display">
+			<thead>
+				<tr> {
+				columns.map(headingData => {
+				const {
+				name
+				} = headingData;
+				return ( <th> { name } </th>
+				)
+				})
+				} </tr> </thead> <tbody> {
+				TableData.map(tableData => {
+				const {
+				title,
+				validatorname,
+				poi,
+				validatingpower,
+				downtime,
+				totalStaked
+				} = tableData;
+				return ( <tr >
+				<td> { title }</td> 
+				<td> <Link className="" to={`/validator/${title}`}>{ validatorname } </Link> </td>
+				<td> { poi } </td> 
+				<td> { validatingpower } </td>
+				<td> { downtime } </td> 
+				<td> { totalStaked } </td>
+				</tr >
+				)
+				})
+			}
+
+			</tbody>
+		</table> 
                       </div>
                     </Col>
                     <table className="ftm-table responsive validator-active mobile-show">
@@ -378,6 +424,7 @@ function ValidatorPage() {
             </div>
           </Col>
         </Row>
+        
       </Container>
     </section>
   );

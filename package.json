@@ -31,6 +31,8 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "cors": "^2.8.5",
+    "datatables.net": "^1.10.20",
+    "datatables.net-dt": "^1.10.20",
     "express": "^4.17.1",
     "firebase-tools": "^7.11.0",
     "history": "^4.10.1",
