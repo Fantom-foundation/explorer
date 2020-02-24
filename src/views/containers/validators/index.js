@@ -48,7 +48,7 @@ function ValidatorPage() {
       name: 'Rank',
       selector: 'title',
       sortable: true,
-      defaultSortAsc : false
+      defaultSortAsc: false
     },
     {
       name: 'Name',
@@ -129,13 +129,13 @@ function ValidatorPage() {
       .then(function (response) {
         let StakedSum = 0;
         let arrayCount = response.data.data.stakers.length;
-       // console.log(response.data.data.stakers);
+        // console.log(response.data.data.stakers);
         setActiveData(response.data.data.stakers);
         for (let i = 0; i < arrayCount; i++) {
           StakedSum = parseFloat(StakedSum) + parseFloat(response.data.data.stakers[i].totalStake);
           if (response.data.data.stakers[i].isCheater === false) {
             let validatingPower = response.data.data.stakers[i].validationScore;
-            let validatingPowerCal= validatingPower / 10000000;
+            let validatingPowerCal = validatingPower / 10000000;
             let validatingPowerCalResult = formatMoney(validatingPowerCal);
             let downtime = response.data.data.stakers[i].downtime / 1000000000;
             let totalStaked = formatMoney(response.data.data.stakers[i].totalStake / 1000000000000000000);
@@ -175,17 +175,17 @@ function ValidatorPage() {
             value: "1,423,872.00 FTM"
           }
         ]);
-	      $('#datatables1').dataTable({
-			"searching": false,
-			"bPaginate": false,
-			"bLengthChange": false,
-			"bFilter": true,
-			"bInfo": false,
-			"bAutoWidth": false
-		});
+        $('#datatables1').dataTable({
+          "searching": false,
+          "bPaginate": false,
+          "bLengthChange": false,
+          "bFilter": true,
+          "bInfo": false,
+          "bAutoWidth": false
+        });
 
       }).catch(function (error) {
-       // console.log(error.message);
+        // console.log(error.message);
       });
     axios({
       method: 'get',
@@ -193,7 +193,7 @@ function ValidatorPage() {
     })
       .then(function (response) {
         let duration = durationToDisplay(response.data.data.duration)
-       // console.log(response.data.data);
+        // console.log(response.data.data);
         let ValidatingPower = response.data.data.validatingPower;
         if (ValidatingPower === null || ValidatingPower === undefined) {
           ValidatingPower = 0;
@@ -301,47 +301,49 @@ function ValidatorPage() {
                   <Row>
                     <Col sm="12">
                       <div className="hide-mobile">
-                        {/*<DataTable
+                        <div className="table-responsive">
+                          {/*<DataTable
                           title=""
                           columns={columns}
                           data={TableData}
                           sortIcon={<span><ArrowDown /><ArrowUp /></span>}
                         />
                         */ }
-                        <table id ="datatables1"class = "display">
-			<thead>
-				<tr> {
-				columns.map(headingData => {
-				const {
-				name
-				} = headingData;
-				return ( <th> { name } </th>
-				)
-				})
-				} </tr> </thead> <tbody> {
-				TableData.map(tableData => {
-				const {
-				title,
-				validatorname,
-				poi,
-				validatingpower,
-				downtime,
-				totalStaked
-				} = tableData;
-				return ( <tr >
-				<td> { title }</td> 
-				<td> <Link className="" to={`/validator/${title}`}>{ validatorname } </Link> </td>
-				<td> { poi } </td> 
-				<td> { validatingpower } </td>
-				<td> { downtime } </td> 
-				<td> { totalStaked } </td>
-				</tr >
-				)
-				})
-			}
+                          <table id="datatables1" class="display">
+                            <thead>
+                              <tr> {
+                                columns.map(headingData => {
+                                  const {
+                                    name
+                                  } = headingData;
+                                  return (<th> {name} </th>
+                                  )
+                                })
+                              } </tr> </thead> <tbody> {
+                                TableData.map(tableData => {
+                                  const {
+                                    title,
+                                    validatorname,
+                                    poi,
+                                    validatingpower,
+                                    downtime,
+                                    totalStaked
+                                  } = tableData;
+                                  return (<tr >
+                                    <td> {title}</td>
+                                    <td> <Link className="" to={`/validator/${title}`}>{validatorname} </Link> </td>
+                                    <td> {poi} </td>
+                                    <td> {validatingpower} </td>
+                                    <td> {downtime} </td>
+                                    <td> {totalStaked} </td>
+                                  </tr >
+                                  )
+                                })
+                              }
 
-			</tbody>
-		</table> 
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </Col>
                     <table className="ftm-table responsive validator-active mobile-show">
@@ -356,13 +358,13 @@ function ValidatorPage() {
                             isCheater,
                             id
                           } = ActiveData;
-                          let validatingPowerCal= validationScore / 10000000;
+                          let validatingPowerCal = validationScore / 10000000;
                           let downtimes = downtime / 1000000000;
                           let totalStaked = totalStake / 1000000000000000000;
                           console.log("totalStaked")
                           console.log(totalStaked)
-                          let validatingPowerCalResult =formatMoney(validatingPowerCal);
-                          return isCheater === false  ?
+                          let validatingPowerCalResult = formatMoney(validatingPowerCal);
+                          return isCheater === false ?
                             <tr key={id}>
                               <td className="no-mobile"></td>
                               <td className="title">
@@ -390,31 +392,31 @@ function ValidatorPage() {
                 <TabPane tabId="2">
                   <Row>
                     <Col sm="12">
-                    <div className="hide-mobile">
-                      <DataTable
-                        title=""
-                        columns={columnsCheaters}
-                        data={CheatersTableData}
-                        sortIcon={<span><ArrowDown /><ArrowUp /></span>}
-                      />
+                      <div className="hide-mobile">
+                        <DataTable
+                          title=""
+                          columns={columnsCheaters}
+                          data={CheatersTableData}
+                          sortIcon={<span><ArrowDown /><ArrowUp /></span>}
+                        />
                       </div>
                     </Col>
                     <table className="ftm-table responsive validator-cheater mobile-show">
                       <tbody>
-                      {CheatersTableData.map(ActiveData => {
+                        {CheatersTableData.map(ActiveData => {
                           const {
                             title,
                             id
                           } = ActiveData;
                           return id ?
-                          <tr key={id}>
-                            <td className="title">
-                            <Link className="" to={`/cheater/${id}`}>{title}</Link>
-                            </td>
-                          </tr>
-                          : <tr className="no-data text-center"  >
-                            <td colSpan="2"> There are no records to display</td>
-                          </tr>
+                            <tr key={id}>
+                              <td className="title">
+                                <Link className="" to={`/cheater/${id}`}>{title}</Link>
+                              </td>
+                            </tr>
+                            : <tr className="no-data text-center"  >
+                              <td colSpan="2"> There are no records to display</td>
+                            </tr>
                         })}
                       </tbody>
                     </table>
@@ -424,7 +426,7 @@ function ValidatorPage() {
             </div>
           </Col>
         </Row>
-        
+
       </Container>
     </section>
   );
