@@ -39,9 +39,11 @@ function TableData() {
                         newBlocks.unshift(eventData.block);
                         return newBlocks;
                     });
+                    let  initNumber = eventData.block.number;
                     setTotalBlocks(previousCount => previousCount + 1);
-                    setFirstBlocks(prevNum => prevNum + 1);
-                    setLastBlocks(prevNum => prevNum + 1);
+                    setFirstBlocks(prevNum => initNumber);
+                    //setFirstBlocks(prevNum => parseFloat(prevNum) + parseFloat(1));
+                    //setLastBlocks(prevNum => prevNum + 1);
                     setpaginationCount(prevCount => {
                         let newTotal = prevCount + 1;
                         let paginationTotals = newTotal / 20;

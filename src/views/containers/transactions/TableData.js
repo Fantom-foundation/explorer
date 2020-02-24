@@ -44,7 +44,7 @@ function TransactionsPageData() {
                             }
                             return newTrans;
                         });
-                        setTotaltransactions(previousCount => previousCount + 1);
+                        setTotaltransactions(previousCount => parseFloat(previousCount) + parseFloat(1));
                         setpaginationCount(prevCount => {
                             let newTotal = prevCount + 1;
                             let paginationTotals = newTotal / 20;
