@@ -5,14 +5,17 @@ import Loading from 'src/assets/images/icons/Loading.gif';
 import searchIcon from "src/assets/images/icons/search-icon.svg";
 import { Row, Col, Card, Table, Input } from 'reactstrap';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
-import { api_get_address, api_get_price } from 'src/utils/Utlity';
+import { api_get_address, api_get_delegator, api_get_price } from 'src/utils/Utlity';
 import axios from "axios";
 function AssetsPage() {
     const match = useRouteMatch('/address/:addressid');
     const { params: { addressid } } = match;
     const [addressBalance, setaddressBalance] = React.useState(0);
     const [currentPrice, setcurrentPrice] = React.useState(0);
+    const [delegatedAmount, setDelegatedAmount] = React.useState(0);
+    const [claimedRewards, setClaimedRewards] = React.useState(0);
     const [Loader, setLoader] = React.useState(false);
+    const e18 = Math.pow(10, 18);
     React.useEffect(() => {
         axios({
             method: 'get',
@@ -20,6 +23,8 @@ function AssetsPage() {
         })
             .then(function (response) {
                 // console.log(response.data.data.account);
+                console.log("setaddressBalance");
+                console.log(response.data.data.account.balance)
                 setaddressBalance(response.data.data.account.balance)
                 setLoader(true);
             }).catch(function (error) {
@@ -27,16 +32,25 @@ function AssetsPage() {
             });
         axios({
             method: 'get',
-            url: `${api_get_price}`,
+            url: `${api_get_delegator}${addressid}?verbosity=2`,
         })
             .then(function (response) {
-                const priceParsed = JSON.parse(response.data.body);
-                //console.log(priceParsed);
-                if (priceParsed && priceParsed.price) {
-                    const price3d = parseFloat(priceParsed.price).toFixed(3);
-                    setcurrentPrice(price3d);
-                }
+              // console.log(response.data.data.account);
+              setDelegatedAmount(parseInt(response.data.data.amount)/e18)
+              setClaimedRewards(parseInt(response.data.data.claimedRewards)/e18)
             });
+            axios({
+                method: 'get',
+                url: `${api_get_price}`,
+            })
+                .then(function (response) {
+                    const priceParsed = JSON.parse(response.data.body);
+                    //console.log(priceParsed);
+                    if (priceParsed && priceParsed.price) {
+                        const price3d = parseFloat(priceParsed.price).toFixed(3);
+                        setcurrentPrice(price3d);
+                    }
+                });
     }, []);
     return (
         <div>
@@ -108,6 +122,50 @@ function AssetsPage() {
                                     </td>
                                                 <td className="value" heading="Value in USD">
                                                     ${(parseFloat(addressBalance) * parseFloat(currentPrice)).toFixed(3)} USD
+                                    </td>
+                                                <td className="value" heading="Token price">
+                                                    ${currentPrice}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="title">
+                                                    <p className="assetName text-primary mb-0 d-inline">
+                                                        FTM
+                                        </p>
+                                                    <p className="assetFullName mb-0 ml-1 d-inline">
+                                                        Delegated
+                                        </p>
+                                                </td>
+                                                <td className="value" heading="Balance">
+                                                    {delegatedAmount.toFixed(2)}
+                                                </td>
+                                                <td className="value" heading="Value in FTM">
+                                                    {delegatedAmount.toFixed(2)} FTM
+                                    </td>
+                                                <td className="value" heading="Value in USD">
+                                                    ${(parseFloat(delegatedAmount) * parseFloat(currentPrice)).toFixed(3)} USD
+                                    </td>
+                                                <td className="value" heading="Token price">
+                                                    ${currentPrice}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className="title">
+                                                    <p className="assetName text-primary mb-0 d-inline">
+                                                        FTM
+                                        </p>
+                                                    <p className="assetFullName mb-0 ml-1 d-inline">
+                                                        Rewards
+                                        </p>
+                                                </td>
+                                                <td className="value" heading="Balance">
+                                                    {claimedRewards.toFixed(2)}
+                                                </td>
+                                                <td className="value" heading="Value in FTM">
+                                                    {claimedRewards.toFixed(2)} FTM
+                                    </td>
+                                                <td className="value" heading="Value in USD">
+                                                    ${(parseFloat(claimedRewards) * parseFloat(currentPrice)).toFixed(3)} USD
                                     </td>
                                                 <td className="value" heading="Token price">
                                                     ${currentPrice}
