@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card, Table } from "reactstrap";
 import separaterIcon from 'src/assets/images/icons/chevron.svg';
 import axios from "axios";
-import { api_get_singleValidators, api_get_singleValidatorsDelegator } from 'src/utils/Utlity';
+import { api_get_singleValidators, api_get_singleValidatorsDelegator} from 'src/utils/Utlity';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 function durationToDisplay(millisec) {
@@ -63,7 +63,7 @@ function ValidatorDetail() {
         let totalStake = response.data.data.totalStake /result;
         let timestamp = response.data.data.createdTime;
         let date = new Date((timestamp/ 1000000000) * 1000);
- 
+
         const card = [
           {
             title: "Delegate address:",
@@ -147,7 +147,7 @@ function ValidatorDetail() {
               <table>
                 <tbody>
                   {card.map(({ title, value, valueClass = "" }, index) => (
-                    
+
                     <tr key={index}>
                       <td className="title-col">
                         <h4>{title}</h4>
