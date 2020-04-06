@@ -45,7 +45,7 @@
     "react-currency-format": "^1.0.0",
     "react-data-table-component": "^6.0.3",
     "react-dom": "^16.12.0",
-    "react-redux": "^7.1.1",
+    "react-redux": "^7.2.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-s-alert": "^1.4.1",
