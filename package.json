@@ -53,7 +53,7 @@
     "react-timeago": "^4.4.0",
     "react-toggle-button": "^2.2.0",
     "reactstrap": "^8.1.1",
-    "redux": "^4.0.4",
+    "redux": "^4.0.5",
     "redux-immutable": "^4.0.0",
     "redux-saga": "^1.1.1",
     "remotedev-serialize": "^0.1.8",
