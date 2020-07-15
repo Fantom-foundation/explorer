@@ -38,7 +38,7 @@
     "history": "^4.10.1",
     "immutable": "^4.0.0-rc.12",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-copy-to-clipboard": "^5.0.2",
