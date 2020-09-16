@@ -10860,10 +10860,10 @@ react-currency-format@^1.0.0:
   dependencies:
     prop-types "^15.6.0"
 
-react-data-table-component@^6.0.3:
-  version "6.3.1"
-  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-6.3.1.tgz#acbde0a34652b39ad9dcee9526d6d18d66acd6b6"
-  integrity sha512-olrZG4BcyFHR6+qemKDmwMCfaI7Jb55AFFlm7FWPFQM/qp/BC7wBzEj776eIzLozlUwwIuW3JNtTpRgJgLd7iQ==
+react-data-table-component@^6.11.4:
+  version "6.11.4"
+  resolved "https://registry.yarnpkg.com/react-data-table-component/-/react-data-table-component-6.11.4.tgz#9dc6ab87a36cb29a71738c0443ddc14a7f18780d"
+  integrity sha512-MlK/6im8ChNsoX5Eo9iwLGAQN501W5bSJpV29K+wHCDo1F8BYS3wbDmby7OZMWj+ebSJicnxLaMhSm7vBsSvRQ==
   dependencies:
     deepmerge "^4.2.2"
     lodash.orderby "^4.6.0"
