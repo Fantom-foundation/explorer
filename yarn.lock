@@ -3652,10 +3652,10 @@ cosmiconfig@^5.0.0, cosmiconfig@^5.2.0, cosmiconfig@^5.2.1:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-craco-alias@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/craco-alias/-/craco-alias-1.0.4.tgz#275e5d1f9dfe8b0ecb2bcdade590e99d2e0e8571"
-  integrity sha512-a5QB3CAOObjCfegSqRJ3IwN67n0fWOCqiHqYgH+1YRv3NWHr70p6qSVbDNVUnlP+F8nasn5eNkAwrJ19/ES2Tw==
+craco-alias@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/craco-alias/-/craco-alias-3.0.0.tgz#5bedf6671cbe6a6028df429ec98376928fa8c44f"
+  integrity sha512-lF5OEZuVzh7llBMqLUgtaMPkM/Ki4b86OKDvlIYvN/4PjGuxbyUXwWCK0XP1odls8JjCqPxLlG2MurdnM1U/Jg==
 
 crc32-stream@^3.0.1:
   version "3.0.1"
