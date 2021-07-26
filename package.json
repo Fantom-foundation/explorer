@@ -69,6 +69,6 @@
     "flow-bin": "^0.112.0",
     "react-scripts": "3.2.0",
     "redux-saga-test-plan": "^4.0.0-rc.3",
-    "sass": "^1.23.7"
+    "sass": "^1.36.0"
   }
 }
